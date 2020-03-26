@@ -1,1 +1,7 @@
-<p>search-freetext works!</p>
+<div>
+    <form (ngSubmit)="search()" #simpleSearchForm="ngForm">
+        <label for="query">Søg i fritekst</label>
+        <input type="text" id="query" required [(ngModel)]="query" name="query">
+        <button type="submit">Søg</button>
+    </form>
+</div>

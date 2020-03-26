@@ -86,6 +86,6 @@ export class SearchService {
         }
       }
     };
-    return this.http.post<SearchResult>(`{environment.apiUrl}/pas,lifecourses/_search`, body);
+    return this.http.post<SearchResult>(`${environment.apiUrl}/pas,lifecourses/_search`, body);
   }
 }
