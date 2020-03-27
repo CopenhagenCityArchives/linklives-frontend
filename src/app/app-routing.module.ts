@@ -10,6 +10,7 @@ const routes: Routes = [
   {
     path: 'results',
     component: SearchResultListComponent,
+    runGuardsAndResolvers: 'paramsOrQueryParamsChange',
     resolve: {
       searchResult: SearchResultResolverService
     }

@@ -5,51 +5,51 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 
 export interface PersonalAppearance {
-  life_course_id: Number,
-  link_id: Number,
-  method_id: Number,
-  pa_id: Number,
-  score: Number,
-  source_id: Number,
-  name: String,
-  sex: String,
-  age: Number,
-  birthplace: String,
-  parish: String,
-  county: String,
-  district: String,
-  name_clean: String,
-  age_clean: Number,
-  sex_clean: String,
-  name_std: String,
-  firstnames_std: String,
-  surnames_std: String,
-  county_std: String,
-  parish_std: String,
-  district_std: String
+  life_course_id: number,
+  link_id: number,
+  method_id: number,
+  pa_id: number,
+  score: number,
+  source_id: number,
+  name: string,
+  sex: string,
+  age: number,
+  birthplace: string,
+  parish: string,
+  county: string,
+  district: string,
+  name_clean: string,
+  age_clean: number,
+  sex_clean: string,
+  name_std: string,
+  firstnames_std: string,
+  surnames_std: string,
+  county_std: string,
+  parish_std: string,
+  district_std: string
 }
 
 export interface SearchResult {
-  took: Number,
-  timed_out: Boolean,
+  took: number,
+  timed_out: boolean,
   _shards: {
-    total: Number,
-    successful: Number,
-    skipped: Number,
-    failed: Number
+    total: number,
+    successful: number,
+    skipped: number,
+    failed: number
   },
   hits: {
     total: {
-      value: Number,
-      relation: String
+      value: number,
+      relation: string
     },
-    max_score: Number,
+    max_score: number,
     hits: [
       {
-        _index: String,
-        _type: String,
-        _id: Number,
-        _score: Number,
+        _index: string,
+        _type: string,
+        _id: number,
+        _score: number,
         _source: {
           personal_appearance: PersonalAppearance | [PersonalAppearance]
         }
@@ -65,7 +65,7 @@ export class SearchService {
 
   constructor(private http: HttpClient) { }
 
-  simpleSearch(query: String, from: Number, size: Number): Observable<SearchResult> {
+  simpleSearch(query: string, index: string, from: number, size: number): Observable<SearchResult> {
     let body = {
       from: from,
       size: size,
@@ -82,6 +82,6 @@ export class SearchService {
         }
       }
     };
-    return this.http.post<SearchResult>(`${environment.apiUrl}/pas,lifecourses/_search`, body);
+    return this.http.post<SearchResult>(`${environment.apiUrl}/${index}/_search`, body);
   }
 }
