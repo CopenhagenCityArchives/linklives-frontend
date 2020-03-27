@@ -10,14 +10,14 @@
     <div class="row">
         <div class="col-md-2 m-2">
             <div class="row border p-2">
-                {{ searchResult.hits.total.value }} resultater
+                {{ searchResult.totalHits }} resultater
             </div>
         </div>
 
         <div class="col-md container-fluid m-2 ml-0">
             <div class="row mb-2">
                 <nav class="nav nav-pills nav-fill col-12">
-                    <a class="nav-item nav-link" routerLink="./" routerLinkActive="active" [queryParams]="{query: this.query, start: start, index: 'pas,lifecourses'}">Alle</a>
+                    <a class="nav-item nav-link" routerLink="./" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [queryParams]="{query: this.query, start: start }">Alle</a>
                     <a class="nav-item nav-link" routerLink="./" routerLinkActive="active" [queryParams]="{query: this.query, start: start, index: 'lifecourses'}">Livsforløb</a>
                     <a class="nav-item nav-link" routerLink="./" routerLinkActive="active" [queryParams]="{query: this.query, start: start, index: 'pas'}">Indtastede kilder</a>
                 </nav>
@@ -34,31 +34,31 @@
                             <a class="page-link" routerLink="./" [queryParams]="{query: this.query, start: pageItem.start, index: this.index}">{{ pageItem.page }}</a>
                         </li>
 
-                        <li class="page-item" [ngClass]="{ disabled: page * size >= searchResult.hits.total.value}">
-                            <a class="page-link" [tabindex]="page * size >= searchResult.hits.total.value ? -1 : 0" routerLink="./" [queryParams]="{query: query, start: start + size, index: index}">Næste</a>
+                        <li class="page-item" [ngClass]="{ disabled: page * size >= searchResult.totalHits}">
+                            <a class="page-link" [tabindex]="page * size >= searchResult.totalHits ? -1 : 0" routerLink="./" [queryParams]="{query: query, start: start + size, index: index}">Næste</a>
                         </li>
                       </ul>
                 </nav>
             </div>
 
-            <div *ngFor="let hit of searchResult.hits.hits" class="row border p-2 mb-2">
-                <ng-container [ngSwitch]="hit._index">
+            <div *ngFor="let hit of searchResult.hits" class="row border p-2 mb-2">
+                <ng-container [ngSwitch]="hit.type">
                     <ng-container *ngSwitchCase="'pas'">
                         <div class="col-md-4">
                             <span>🕮</span>
                         </div>
                         <div class="col-md-4">
                             <div>
-                                {{ hit._source.personal_appearance.name}}
+                                {{ hit.pa.name}}
                             </div>
-                            <div class="text-capitalize" *ngIf="hit._source.personal_appearance.parish">
-                                <strong>Sogn:</strong> {{ hit._source.personal_appearance.parish}}
+                            <div class="text-capitalize" *ngIf="hit.pa.parish">
+                                <strong>Sogn:</strong> {{ hit.pa.parish}}
                             </div>
-                            <div class="text-capitalize" *ngIf="hit._source.personal_appearance.district">
-                                <strong>Herred:</strong> {{ hit._source.personal_appearance.district}}
+                            <div class="text-capitalize" *ngIf="hit.pa.district">
+                                <strong>Herred:</strong> {{ hit.pa.district}}
                             </div>
-                            <div class="text-capitalize" *ngIf="hit._source.personal_appearance.county">
-                                <strong>Amt:</strong> {{ hit._source.personal_appearance.county}}
+                            <div class="text-capitalize" *ngIf="hit.pa.county">
+                                <strong>Amt:</strong> {{ hit.pa.county}}
                             </div>
                         </div>
                         <div class="col-md-4">
@@ -67,20 +67,20 @@
                     </ng-container>
                     <ng-container *ngSwitchCase="'lifecourses'">
                         <div class="col-md-4">
-                            🔗 {{ hit._source.personal_appearance.length }} kilder
+                            🔗 {{ hit.pas.length }} kilder
                         </div>
                         <div class="col-md-4">
                             <div class="text-capitalize">
-                                {{ hit._source.personal_appearance[0].name_std}}
+                                {{ hit.pas[0].name_std}}
                             </div>
-                            <div class="text-capitalize" *ngIf="hit._source.personal_appearance[0].parish_std">
-                                <strong>Sogn:</strong> {{ hit._source.personal_appearance[0].parish_std}}
+                            <div class="text-capitalize" *ngIf="hit.pas[0].parish_std">
+                                <strong>Sogn:</strong> {{ hit.pas[0].parish_std}}
                             </div>
-                            <div class="text-capitalize" *ngIf="hit._source.personal_appearance[0].district_std">
-                                <strong>Herred:</strong> {{ hit._source.personal_appearance[0].district_std}}
+                            <div class="text-capitalize" *ngIf="hit.pas[0].district_std">
+                                <strong>Herred:</strong> {{ hit.pas[0].district_std}}
                             </div>
-                            <div class="text-capitalize" *ngIf="hit._source.personal_appearance[0].county_std">
-                                <strong>Amt:</strong> {{ hit._source.personal_appearance[0].county_std}}
+                            <div class="text-capitalize" *ngIf="hit.pas[0].county_std">
+                                <strong>Amt:</strong> {{ hit.pas[0].county_std}}
                             </div>
                         </div>
                         <div class="col-md-4">

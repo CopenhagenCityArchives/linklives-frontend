@@ -42,14 +42,24 @@ export class SearchResultListComponent implements OnInit {
         }
 
         this.pages = new Array();
+        
         let pageStart = this.page - 2;
         if (pageStart < 1) {
           pageStart = 1;
         }
+
         let pageEnd = pageStart + 4;
-        if (pageEnd * this.size > this.searchResult.hits.total.value) {
-          pageEnd = Math.ceil(this.searchResult.hits.total.value / this.size);
+        if (pageEnd * this.size > this.searchResult.totalHits) {
+          pageEnd = Math.ceil(this.searchResult.totalHits / this.size);
+          let pageDiff = pageEnd - pageStart;
+          if (pageDiff < 4) {
+            pageStart = pageEnd - 4;
+            if (pageStart < 1) {
+              pageStart = 1;
+            }
+          }
         }
+
         for (let page = pageStart; page <= pageEnd; page ++) {
           this.pages.push({ start: (page - 1) * this.size, page: page });
         }

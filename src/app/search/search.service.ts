@@ -1,8 +1,18 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 
 import { environment } from '../../environments/environment';
+
+export interface SearchResult {
+  took: number,
+  totalHits: number,
+  hits: {
+    type: string,
+    pa?: PersonalAppearance,
+    pas?: PersonalAppearance[]
+  }[]
+}
 
 export interface PersonalAppearance {
   life_course_id: number,
@@ -29,7 +39,7 @@ export interface PersonalAppearance {
   district_std: string
 }
 
-export interface SearchResult {
+export interface ElasticSearchResult {
   took: number,
   timed_out: boolean,
   _shards: {
@@ -82,6 +92,31 @@ export class SearchService {
         }
       }
     };
-    return this.http.post<SearchResult>(`${environment.apiUrl}/${index}/_search`, body);
+
+    var result = new Observable<SearchResult>(subscriber => {
+      this.http.post<ElasticSearchResult>(`${environment.apiUrl}/${index}/_search`, body)
+      .subscribe(next => {
+        let result: SearchResult = {
+          took: next.took,
+          totalHits: next.hits.total.value,
+          hits: []
+        };
+        next.hits.hits.forEach(value => {
+          let hit = {
+            type: value._index,
+            pa: value._index == "pas" ? (value._source.personal_appearance as PersonalAppearance) : undefined,
+            pas: value._index == "lifecourses" ? (value._source.personal_appearance as PersonalAppearance[]) : undefined
+          }
+          result.hits.push(hit)
+        });
+        subscriber.next(result);
+      }, error => {
+        subscriber.error(error);
+      }, () => {
+        subscriber.complete();
+      });
+    });
+    
+    return result;
   }
 }
