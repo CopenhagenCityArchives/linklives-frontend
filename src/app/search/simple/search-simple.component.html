@@ -1,5 +1,5 @@
 <div>
-    <form (ngSubmit)="search()" #simpleSearchForm="ngForm">
+    <form class="row col-md-12" (ngSubmit)="search()" #simpleSearchForm="ngForm">
         <label for="query">Søg i fritekst</label>
         <div class="input-group mb-3">
             <input type="text" id="query" [(ngModel)]="query" name="query" class="form-control" placeholder="Indtast navn, sted og/eller år" required>
@@ -8,4 +8,25 @@
             </div>
         </div>
     </form>
+
+    <div>
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#searchFields" aria-expanded="false" aria-controls="searchFields">
+            Eller foretag en specifik søgning
+        </button>
+
+        <div class="collapse" id="searchFields">
+           <p>Søgefelter...</p>
+        </div>
+    </div>
+
+    <div class="card bg-light my-3" style="width: 18rem;">
+        <div class="card-header">
+            Du søger i...
+        </div>
+        <div class="card-body">
+            <p>Folketælling 18xx, 18xx og 18xx</p>
+            <p>Kirkebog x og x</p>
+            <p>&mdash; er pt. forbundne i livsforløb. Der kommer løbende flere kilder til.</p>
+        </div>
+    </div>
 </div>
