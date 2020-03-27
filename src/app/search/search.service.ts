@@ -7,6 +7,11 @@ import { environment } from '../../environments/environment';
 export interface SearchResult {
   took: number,
   totalHits: number,
+  indexHits: {
+    lifeCourses?: number,
+    pas?: number,
+    links?: number
+  },
   hits: {
     type: string,
     pa?: PersonalAppearance,
@@ -65,6 +70,16 @@ export interface ElasticSearchResult {
         }
       }
     ]
+  },
+  aggregations: {
+    count: {
+      doc_count_error_upper_bound: number,
+      sum_other_doc_count: number,
+      buckets: {
+        key: string,
+        doc_count: number
+      }[]
+    }
   }
 }
 
@@ -84,10 +99,17 @@ export class SearchService {
           path: "personal_appearance",
           query: {
             simple_query_string: {
-             query: query,
-             fields: ["*"],
-             default_operator: "and"
+              query: query,
+              fields: ["*"],
+              default_operator: "and"
             }
+          }
+        }
+      },
+      aggs: {
+        count: {
+          terms: {
+            field: "_index"
           }
         }
       }
@@ -95,28 +117,37 @@ export class SearchService {
 
     var result = new Observable<SearchResult>(subscriber => {
       this.http.post<ElasticSearchResult>(`${environment.apiUrl}/${index}/_search`, body)
-      .subscribe(next => {
-        let result: SearchResult = {
-          took: next.took,
-          totalHits: next.hits.total.value,
-          hits: []
-        };
-        next.hits.hits.forEach(value => {
-          let hit = {
-            type: value._index,
-            pa: value._index == "pas" ? (value._source.personal_appearance as PersonalAppearance) : undefined,
-            pas: value._index == "lifecourses" ? (value._source.personal_appearance as PersonalAppearance[]) : undefined
-          }
-          result.hits.push(hit)
+        .subscribe(next => {
+          let result: SearchResult = {
+            took: next.took,
+            totalHits: next.hits.total.value,
+            indexHits: {},
+            hits: []
+          };
+          next.hits.hits.forEach(value => {
+            let hit = {
+              type: value._index,
+              pa: value._index == "pas" ? (value._source.personal_appearance as PersonalAppearance) : undefined,
+              pas: value._index == "lifecourses" ? (value._source.personal_appearance as PersonalAppearance[]) : undefined
+            }
+            result.hits.push(hit)
+          });
+          next.aggregations.count.buckets.forEach(value => {
+            if (value.key == "pas") {
+              result.indexHits.pas = value.doc_count;
+            }
+            if (value.key == "lifecourses") {
+              result.indexHits.lifeCourses = value.doc_count;
+            }
+          });
+          subscriber.next(result);
+        }, error => {
+          subscriber.error(error);
+        }, () => {
+          subscriber.complete();
         });
-        subscriber.next(result);
-      }, error => {
-        subscriber.error(error);
-      }, () => {
-        subscriber.complete();
-      });
     });
-    
+
     return result;
   }
 }

@@ -17,9 +17,15 @@
         <div class="col-md container-fluid m-2 ml-0">
             <div class="row mb-2">
                 <nav class="nav nav-pills nav-fill col-12">
-                    <a class="nav-item nav-link" [routerLink]="['./', { 'start': start } ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [queryParams]="{query: this.query }">Alle</a>
-                    <a class="nav-item nav-link" [routerLink]="['./', { 'start': start } ]" routerLinkActive="active" [queryParams]="{query: this.query, index: 'lifecourses'}">Livsforløb</a>
-                    <a class="nav-item nav-link" [routerLink]="['./', { 'start': start } ]" routerLinkActive="active" [queryParams]="{query: this.query, index: 'pas'}">Indtastede kilder</a>
+                    <a class="nav-item nav-link" [routerLink]="['./', { 'start': start } ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [queryParams]="{query: this.query }">
+                        Alle
+                    </a>
+                    <a class="nav-item nav-link" [routerLink]="['./', { 'start': start } ]" routerLinkActive="active" [queryParams]="{query: this.query, index: 'lifecourses'}">
+                        Livsforløb <span *ngIf="searchResult.indexHits.lifeCourses">({{ searchResult.indexHits.lifeCourses}})</span>
+                    </a>
+                    <a class="nav-item nav-link" [routerLink]="['./', { 'start': start } ]" routerLinkActive="active" [queryParams]="{query: this.query, index: 'pas'}">
+                        Indtastede kilder <span *ngIf="searchResult.indexHits.pas">({{ searchResult.indexHits.pas}})</span>
+                    </a>
                 </nav>
             </div>
 
