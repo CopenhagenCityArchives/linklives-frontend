@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { SearchService, SearchResult } from '../search.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-search-simple',
@@ -14,11 +13,17 @@ export class SimpleSearchComponent implements OnInit {
   searching = false;
 
   constructor(
-    private service: SearchService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
+    this.route.queryParamMap.subscribe((queryParamMap: ParamMap) => {
+      if (queryParamMap.has("query")) {
+        this.query = queryParamMap.get("query");
+        console.log("setting query to " + this.query);
+      }
+    });
   }
 
   search(): void {

@@ -3,7 +3,7 @@
         <div class="col-md-auto">
             <span>
                 <strong>Søgning:</strong> {{ query }}
-                <a routerLink="/search/simple" class="ml-2">Redigér søgning</a>
+                <a routerLink="/search/simple" [queryParams]="{query: this.query}" class="ml-2">Redigér søgning</a>
             </span>
         </div>
     </div>
@@ -26,10 +26,10 @@
             <div *ngFor="let hit of searchResult.hits.hits" class="row border p-2 mb-2">
                 <ng-container [ngSwitch]="hit._index">
                     <ng-container *ngSwitchCase="'pas'">
-                        <div class="col-md-auto">
+                        <div class="col-md-4">
                             🕮
                         </div>
-                        <div class="col-md-auto">
+                        <div class="col-md-4">
                             <div>
                                 {{ hit._source.personal_appearance.name }}
                             </div>
@@ -43,8 +43,8 @@
                                 Amt: {{ hit._source.personal_appearance.county}}
                             </div>
                         </div>
-                        <div class="col-md-auto">
-                            <button routerLink="pa" class="btn btn-info">Vælg kilde</button>
+                        <div class="col-md-4">
+                            <button routerLink="pa" class="btn btn-info" style="position: absolute; bottom: 0; right: 0;">Vælg kilde</button>
                         </div>
                     </ng-container>
                     <ng-container *ngSwitchCase="'lifecourses'">
