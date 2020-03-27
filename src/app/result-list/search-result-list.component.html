@@ -1,0 +1,38 @@
+<div>
+    <strong>Søgning:</strong>
+    {{ query }}
+    <a routerLink="/search/simple" routerLinkActive="active">Redigér søgning</a>
+</div>
+
+<div>
+    {{ searchResult.hits.total.value }} resultater
+</div>
+
+<ul>
+    <li *ngFor="let hit of searchResult.hits.hits">
+        <div [ngSwitch]="hit._index">
+            <div *ngSwitchCase="'pas'">
+                <div>
+                    🕮
+                </div>
+                <div>
+                    <strong>Navn:</strong> {{ hit._source.personal_appearance.name }}
+                </div>
+                <div>
+                    <button>Vælg kilde</button>
+                </div>
+            </div>
+            <div *ngSwitchCase="'lifecourses'">
+                <div>
+                    🔗
+                </div>
+                <div *ngFor="let pa of hit._source.personal_appearance">
+                    <strong>Navn:</strong> {{ pa.name }}
+                </div>
+                <div>
+                    <button>Vælg livsforløb</button>
+                </div>
+            </div>
+        </div>
+    </li>
+</ul>
