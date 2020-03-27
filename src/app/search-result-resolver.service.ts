@@ -13,8 +13,8 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot) : Observable<SearchResult> | Observable<never> {
     let start: number = 0;
-    if (route.queryParamMap.has("start")) {
-      start = Number(route.queryParamMap.get("start"));
+    if (route.paramMap.has("start")) {
+      start = Number(route.paramMap.get("start"));
     }
 
     let index: string = "lifecourses,pas";

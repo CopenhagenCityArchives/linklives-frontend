@@ -9,8 +9,6 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 export class SimpleSearchComponent implements OnInit {
 
   query = "";
-  error = false;
-  searching = false;
 
   constructor(
     private router: Router,
@@ -27,8 +25,6 @@ export class SimpleSearchComponent implements OnInit {
   }
 
   search(): void {
-    this.searching = true;
-
     let navigationExtras = {
       queryParams: { 'query': this.query }
     };

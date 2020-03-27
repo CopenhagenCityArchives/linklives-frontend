@@ -2,7 +2,7 @@
     <form (ngSubmit)="search()" #simpleSearchForm="ngForm">
         <label for="query">Søg i fritekst</label>
         <div class="input-group mb-3">
-            <input type="text" id="query" required [(ngModel)]="query" name="query" class="form-control" placeholder="Indtast navn, sted og/eller år">
+            <input type="text" id="query" [(ngModel)]="query" name="query" class="form-control" placeholder="Indtast navn, sted og/eller år" required>
             <div class="input-group-append">
                 <button type="submit" class="btn btn-outline-primary">Søg</button>
             </div>

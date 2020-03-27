@@ -23,22 +23,24 @@ export class SearchResultListComponent implements OnInit {
   ngOnInit(): void {
     this.start = 0;
     this.size = 10;
-    this.index = "pas,lifecourses";
     this.page = Math.floor(this.start / this.size) + 1;
+
+    this.route.queryParamMap.subscribe(queryParamMap => {
+      if (queryParamMap.has("query")) {
+        this.query = queryParamMap.get("query");
+      }
+      if (queryParamMap.has("index")) {
+        this.index = queryParamMap.get("index");
+      }
+    });
 
     this.route.data.subscribe((data: { searchResult: SearchResult }) => {
       this.searchResult = data.searchResult;
 
-      this.route.queryParamMap.subscribe(queryParamMap => {
-        if (queryParamMap.has("query")) {
-          this.query = queryParamMap.get("query");
-        }
-        if (queryParamMap.has("start")) {
-          this.start = Number(queryParamMap.get("start"));
+      this.route.paramMap.subscribe(paramMap => {
+        if (paramMap.has("start")) {
+          this.start = Number(paramMap.get("start"));
           this.page = Math.floor(this.start / this.size) + 1;
-        }
-        if (queryParamMap.has("index")) {
-          this.index = queryParamMap.get("index");
         }
 
         this.pages = new Array();
