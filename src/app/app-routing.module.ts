@@ -15,7 +15,7 @@ const routes: Routes = [
       searchResult: SearchResultResolverService
     }
   },
-  { path: '', redirectTo: '/search', pathMatch: 'full' },
+  { path: '', redirectTo: 'search', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
 ];
 
