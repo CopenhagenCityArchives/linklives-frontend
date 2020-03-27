@@ -73,14 +73,10 @@ export class SearchService {
         nested: {
           path: "personal_appearance",
           query: {
-            bool: {
-              must: [
-                {
-                  match: {
-                    "personal_appearance.firstnames_std": query
-                  }
-                }
-              ]
+            simple_query_string: {
+             query: query,
+             fields: ["*"],
+             default_operator: "and"
             }
           }
         }
