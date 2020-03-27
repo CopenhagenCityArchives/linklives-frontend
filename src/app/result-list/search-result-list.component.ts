@@ -31,6 +31,8 @@ export class SearchResultListComponent implements OnInit {
       }
       if (queryParamMap.has("index")) {
         this.index = queryParamMap.get("index");
+      } else {
+        this.index = undefined;
       }
     });
 
