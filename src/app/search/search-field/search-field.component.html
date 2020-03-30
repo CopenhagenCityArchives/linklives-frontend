@@ -1,0 +1,8 @@
+<div class="input-group form-group">
+    <input class="form-control col-md-8" type="text" [(ngModel)]="model.value">
+    <select class="form-control col-md-4" (change)="setType($event)" [(ngModel)]="model.type.id">
+        <option *ngFor="let type of types" [value]="type.id">
+            {{ type.name }}
+        </option>
+    </select>
+</div>

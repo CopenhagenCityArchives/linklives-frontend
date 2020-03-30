@@ -10,12 +10,23 @@
     </form>
 
     <div>
-        <button class="btn btn-link panel-title" type="button" data-toggle="collapse" data-target="#searchFields" aria-expanded="false" aria-controls="searchFields">
+        <a class="panel-title" type="button" data-toggle="collapse" data-target="#searchFields" aria-expanded="false" aria-controls="searchFields">
             Eller foretag en specifik søgning
-        </button>
+        </a>
 
-        <div class="collapse" id="searchFields">
-           <p>Søgefelter...</p>
+        <div class="collapse card mt-2" id="searchFields">
+            <div class="card-header">Søg i et eller flere felter</div>
+
+            <form class="card-body">
+                <app-search-field *ngFor="let field of fields" [field]="field"></app-search-field>
+
+                <button class="btn btn-outline-info mr-2" (click)="addField()">
+                    Tilføj felt
+                    <i class="fa fa-plus"></i>
+                </button>
+
+                <button type="submit" class="btn btn-outline-primary">Søg</button>
+            </form>
         </div>
     </div>
 

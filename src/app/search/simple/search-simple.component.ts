@@ -9,6 +9,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 export class SimpleSearchComponent implements OnInit {
 
   query = "";
+  fields = [];
 
   constructor(
     private router: Router,
@@ -22,6 +23,13 @@ export class SimpleSearchComponent implements OnInit {
         console.log("setting query to " + this.query);
       }
     });
+
+    this.addField();
+    this.addField();
+  }
+
+  addField(): void {
+    this.fields.push({ type: { id: 1, name: 'Navn' }, value: null});
   }
 
   search(): void {

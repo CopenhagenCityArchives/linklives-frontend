@@ -7,12 +7,14 @@ import { SearchRoutingModule } from './search-routing.module';
 import { SearchComponent } from './search.component';
 import { SimpleSearchComponent } from './simple/search-simple.component';
 import { AdvancedSearchComponent } from './advanced/search-advanced.component';
+import { SearchFieldComponent } from './search-field/search-field.component';
 
 @NgModule({
   declarations: [
     SearchComponent,
     SimpleSearchComponent,
-    AdvancedSearchComponent
+    AdvancedSearchComponent,
+    SearchFieldComponent
   ],
   imports: [
     CommonModule,

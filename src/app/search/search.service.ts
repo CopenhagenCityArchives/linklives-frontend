@@ -90,6 +90,17 @@ export class SearchService {
 
   constructor(private http: HttpClient) { }
 
+  getTypes() : Observable<{ id: number, name: string }> {
+    var observable = new Observable<{ id: number, name: string }>(subscriber => {
+      subscriber.next({ id: 1, name: "Navn" });
+      subscriber.next({ id: 2, name: "Sted" });
+      subscriber.next({ id: 3, name: "År" });
+      subscriber.complete();
+    });
+
+    return observable;
+  }
+
   simpleSearch(query: string, indices: string[], from: number, size: number): Observable<SearchResult> {
     let body = {
       from: from,
