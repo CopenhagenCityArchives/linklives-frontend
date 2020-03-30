@@ -17,9 +17,9 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       start = Number(route.paramMap.get("start"));
     }
 
-    let index: string = "lifecourses,pas";
+    let index: string[] = ["lifecourses", "pas"];
     if (route.queryParamMap.has("index")) {
-      index = route.queryParamMap.get("index");
+      index = route.queryParamMap.get("index").split(",");
     }
 
     if (route.queryParamMap.has("query")) {

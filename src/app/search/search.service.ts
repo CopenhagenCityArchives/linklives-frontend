@@ -90,20 +90,26 @@ export class SearchService {
 
   constructor(private http: HttpClient) { }
 
-  simpleSearch(query: string, index: string, from: number, size: number): Observable<SearchResult> {
+  simpleSearch(query: string, indices: string[], from: number, size: number): Observable<SearchResult> {
     let body = {
       from: from,
       size: size,
       query: {
-        nested: {
-          path: "personal_appearance",
-          query: {
-            simple_query_string: {
-              query: query,
-              fields: ["*"],
-              default_operator: "and"
+        bool: {
+          must: [
+            {
+              nested: {
+                path: "personal_appearance",
+                query: {
+                  simple_query_string: {
+                    query: query,
+                    fields: ["*"],
+                    default_operator: "and"
+                  }
+                }
+              }
             }
-          }
+          ]
         }
       },
       aggs: {
@@ -112,15 +118,21 @@ export class SearchService {
             field: "_index"
           }
         }
+      },
+      post_filter: {
+        terms: {
+          _index: indices
+        }
       }
     };
 
+
     var result = new Observable<SearchResult>(subscriber => {
-      this.http.post<ElasticSearchResult>(`${environment.apiUrl}/${index}/_search`, body)
+      this.http.post<ElasticSearchResult>(`${environment.apiUrl}/pas,lifecourses/_search`, body)
         .subscribe(next => {
           let result: SearchResult = {
             took: next.took,
-            totalHits: next.hits.total.value,
+            totalHits: 0,
             indexHits: {},
             hits: []
           };
@@ -133,6 +145,7 @@ export class SearchService {
             result.hits.push(hit)
           });
           next.aggregations.count.buckets.forEach(value => {
+            result.totalHits += value.doc_count;
             if (value.key == "pas") {
               result.indexHits.pas = value.doc_count;
             }
