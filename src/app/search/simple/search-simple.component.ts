@@ -25,11 +25,16 @@ export class SimpleSearchComponent implements OnInit {
     });
 
     this.addField();
-    this.addField();
+    this.addField({ id: 2, name: "Sted", description: "Sted for person" });
+    this.addField({ id: 3, name: "År", description: "År for person" });
   }
 
-  addField(): void {
-    this.fields.push({ type: { id: 1, name: 'Navn' }, value: null});
+  addField(type? : { id: number, name: string, description: string }): void {
+    if (type) {
+      this.fields.push({ type: type, value: null });
+    } else {
+      this.fields.push({ type: { id: 1, name: 'Navn', description: 'Navn på person' }, value: null});
+    }
   }
 
   search(): void {

@@ -7,93 +7,146 @@
             </span>
         </div>
     </div>
+
+    <a routerLink="/user/search-history">Min søgehistorik</a>
+
+    <h4>Søgeresultater</h4>
+
+    <div class="row">
+        <div class="col-md-2">
+            <div><a [routerLink]="">Gem søgning</a></div>
+            <div><a [routerLink]="">Download</a></div>
+        </div>
+        <div class="col"></div>
+        <div class="col-md-auto text-center">
+            <label>Visning</label>
+
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="view" value="list">
+                <label class="form-check-label">Liste</label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="view" value="block">
+                <label class="form-check-label">Blok</label>
+            </div>
+        </div>
+        <div class="col-md-auto text-center">
+            <label>Sorter efter</label>
+            <select class="form-control">
+                <option>Sikkerhed</option>
+            </select>
+        </div>
+    </div>
     <div class="row">
         <div class="col-md-2 m-2">
-            <div class="row border p-2">
+            <div class="border p-2">
                 {{ searchResult.totalHits }} resultater
             </div>
         </div>
 
-        <div class="col-md container-fluid m-2 ml-0">
-            <div class="row mb-2">
-                <nav class="nav nav-pills nav-fill col-12">
-                    <a class="nav-item nav-link" [routerLink]="['./', { 'start': start } ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [queryParams]="{query: this.query }">
-                        Alle
+        <div class="col-md">
+            <ul class="row nav nav-tabs nav-fill">
+                <li class="nav-item d-flex col-4">
+                    <a class="nav-link flex-fill" [routerLink]="['./', { 'start': 0 } ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [queryParams]="{query: this.query }">
+                        <p>
+                            <strong class="align-middle">Alle</strong>
+                        </p>
+                        <p>
+                            <small>Både livsforløb, og indtastede kilder.</small>
+                        </p>
                     </a>
-                    <a class="nav-item nav-link" [routerLink]="['./', { 'start': start } ]" routerLinkActive="active" [queryParams]="{query: this.query, index: 'lifecourses'}">
-                        Livsforløb <span *ngIf="searchResult.indexHits.lifeCourses">({{ searchResult.indexHits.lifeCourses}})</span>
+                </li>
+                <li class="nav-item d-flex col-4">
+                    <a class="nav-link flex-fill d-inline align-middle" [routerLink]="['./', { 'start': 0 } ]" routerLinkActive="active" [queryParams]="{query: this.query, index: 'lifecourses'}">
+                        <span class="align-middle">
+                            <p>
+                                <strong>Livsforløb</strong><span *ngIf="searchResult.indexHits.lifeCourses"> ({{ searchResult.indexHits.lifeCourses}})</span>
+                            </p>
+                            <p>
+                                <small>Mulige livsforløb sammensat af indtastede kilder.</small>
+                            </p>
+                        </span>
                     </a>
-                    <a class="nav-item nav-link" [routerLink]="['./', { 'start': start } ]" routerLinkActive="active" [queryParams]="{query: this.query, index: 'pas'}">
-                        Indtastede kilder <span *ngIf="searchResult.indexHits.pas">({{ searchResult.indexHits.pas}})</span>
+                </li>
+                <li class="nav-item d-flex col-4">
+                    <a class="nav-link flex-fill d-inline align-middle" [routerLink]="['./', { 'start': 0 } ]" routerLinkActive="active" [queryParams]="{query: this.query, index: 'pas'}">
+                        <p>
+                            <strong>Indtastede kilder</strong><span *ngIf="searchResult.indexHits.pas"> ({{ searchResult.indexHits.pas}})</span>
+                        </p>
+                        <p>
+                            <small>Personregistreringer fra f.eks. folketællinger og kirkebøger.</small>
+                        </p>
                     </a>
-                </nav>
-            </div>
+                </li>
+            </ul>
 
             <div class="row">
-                <nav class="col-md-12">
-                    <ul class="pagination justify-content-center">
-                        <li class="page-item" [ngClass]="{ disabled: page === 1}">
-                            <a class="page-link" [tabindex]="page === 1 ? -1 : 0" [routerLink]="['./', { 'start': start - size } ]" [queryParams]="{query: query, index: index}">Forrige</a>
-                        </li>
-                        
-                        <li *ngFor="let pageItem of pages" class="page-item" [ngClass]="{ disabled: page === pageItem.page }">
-                            <a class="page-link" [routerLink]="['./', { 'start': pageItem.start } ]" [queryParams]="{query: this.query, index: index}">{{ pageItem.page }}</a>
-                        </li>
+                <div class="container-fluid border border-top-0">
+                    <div class="row my-2">
+                        <nav class="col-md-12">
+                            <ul class="pagination justify-content-center mb-0">
+                                <li class="page-item" [ngClass]="{ disabled: page === 1}">
+                                    <a class="page-link" [tabindex]="page === 1 ? -1 : 0" [routerLink]="['./', { 'start': start - size } ]" [queryParams]="{query: query, index: index}">Forrige</a>
+                                </li>
+                                
+                                <li *ngFor="let pageItem of pages" class="page-item" [ngClass]="{ disabled: page === pageItem.page }">
+                                    <a class="page-link" [routerLink]="['./', { 'start': pageItem.start } ]" [queryParams]="{query: this.query, index: index}">{{ pageItem.page }}</a>
+                                </li>
 
-                        <li class="page-item" [ngClass]="{ disabled: page * size >= searchResult.totalHits}">
-                            <a class="page-link" [tabindex]="page * size >= searchResult.totalHits ? -1 : 0"  [routerLink]="['./', { 'start': start + size } ]" [queryParams]="{query: query, index: index}">Næste</a>
-                        </li>
-                      </ul>
-                </nav>
-            </div>
+                                <li class="page-item" [ngClass]="{ disabled: page * size >= searchResult.totalHits}">
+                                    <a class="page-link" [tabindex]="page * size >= searchResult.totalHits ? -1 : 0"  [routerLink]="['./', { 'start': start + size } ]" [queryParams]="{query: query, index: index}">Næste</a>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
 
-            <div *ngFor="let hit of searchResult.hits" class="row border p-2 mb-2">
-                <ng-container [ngSwitch]="hit.type">
-                    <ng-container *ngSwitchCase="'pas'">
-                        <div class="col-md-4">
-                            <span>🕮</span>
-                        </div>
-                        <div class="col-md-4">
-                            <div>
-                                {{ hit.pa.name}}
+                    <div *ngFor="let hit of searchResult.hits" class="row border p-2 mx-2 mb-2" [ngSwitch]="hit.type">
+                        <ng-container *ngSwitchCase="'pas'">
+                            <div class="col-md-4">
+                                <span>🕮</span>
                             </div>
-                            <div class="text-capitalize" *ngIf="hit.pa.parish">
-                                <strong>Sogn:</strong> {{ hit.pa.parish}}
+                            <div class="col-md-4">
+                                <div>
+                                    {{ hit.pa.name}}
+                                </div>
+                                <div class="text-capitalize" *ngIf="hit.pa.parish">
+                                    <strong>Sogn:</strong> {{ hit.pa.parish}}
+                                </div>
+                                <div class="text-capitalize" *ngIf="hit.pa.district">
+                                    <strong>Herred:</strong> {{ hit.pa.district}}
+                                </div>
+                                <div class="text-capitalize" *ngIf="hit.pa.county">
+                                    <strong>Amt:</strong> {{ hit.pa.county}}
+                                </div>
                             </div>
-                            <div class="text-capitalize" *ngIf="hit.pa.district">
-                                <strong>Herred:</strong> {{ hit.pa.district}}
+                            <div class="col-md-4 d-flex justify-content-end">
+                                <button [routerLink]="['/pa', hit.pa.pa_id]" class="btn btn-info align-self-end">Vælg kilde</button>
                             </div>
-                            <div class="text-capitalize" *ngIf="hit.pa.county">
-                                <strong>Amt:</strong> {{ hit.pa.county}}
+                        </ng-container>
+                        <ng-container *ngSwitchCase="'lifecourses'">
+                            <div class="col-md-4">
+                                🔗 {{ hit.pas.length }} kilder
                             </div>
-                        </div>
-                        <div class="col-md-4 d-flex justify-content-end">
-                            <button [routerLink]="['/pa', hit.pa.pa_id]" class="btn btn-info align-self-end">Vælg kilde</button>
-                        </div>
-                    </ng-container>
-                    <ng-container *ngSwitchCase="'lifecourses'">
-                        <div class="col-md-4">
-                            🔗 {{ hit.pas.length }} kilder
-                        </div>
-                        <div class="col-md-4">
-                            <div class="text-capitalize">
-                                {{ hit.pas[0].name_std}}
+                            <div class="col-md-4">
+                                <div class="text-capitalize">
+                                    {{ hit.pas[0].name_std}}
+                                </div>
+                                <div class="text-capitalize" *ngIf="hit.pas[0].parish_std">
+                                    <strong>Sogn:</strong> {{ hit.pas[0].parish_std}}
+                                </div>
+                                <div class="text-capitalize" *ngIf="hit.pas[0].district_std">
+                                    <strong>Herred:</strong> {{ hit.pas[0].district_std}}
+                                </div>
+                                <div class="text-capitalize" *ngIf="hit.pas[0].county_std">
+                                    <strong>Amt:</strong> {{ hit.pas[0].county_std}}
+                                </div>
                             </div>
-                            <div class="text-capitalize" *ngIf="hit.pas[0].parish_std">
-                                <strong>Sogn:</strong> {{ hit.pas[0].parish_std}}
+                            <div class="col-md-4 d-flex justify-content-end">
+                                <button [routerLink]="['/life-course', hit.pas[0].life_course_id]" class="btn btn-info align-self-end">Vælg livsforløb</button>
                             </div>
-                            <div class="text-capitalize" *ngIf="hit.pas[0].district_std">
-                                <strong>Herred:</strong> {{ hit.pas[0].district_std}}
-                            </div>
-                            <div class="text-capitalize" *ngIf="hit.pas[0].county_std">
-                                <strong>Amt:</strong> {{ hit.pas[0].county_std}}
-                            </div>
-                        </div>
-                        <div class="col-md-4 d-flex justify-content-end">
-                            <button [routerLink]="['/life-course', hit.pas[0].life_course_id]" class="btn btn-info align-self-end">Vælg livsforløb</button>
-                        </div>
-                    </ng-container>
-                </ng-container>
+                        </ng-container>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

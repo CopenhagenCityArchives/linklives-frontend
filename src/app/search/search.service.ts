@@ -90,11 +90,11 @@ export class SearchService {
 
   constructor(private http: HttpClient) { }
 
-  getTypes() : Observable<{ id: number, name: string }> {
-    var observable = new Observable<{ id: number, name: string }>(subscriber => {
-      subscriber.next({ id: 1, name: "Navn" });
-      subscriber.next({ id: 2, name: "Sted" });
-      subscriber.next({ id: 3, name: "År" });
+  getTypes() : Observable<{ id: number, name: string, description: string }> {
+    var observable = new Observable<{ id: number, name: string, description: string }>(subscriber => {
+      subscriber.next({ id: 1, name: "Navn", description: "En persons navn" });
+      subscriber.next({ id: 2, name: "Sted", description: "En persons sted" });
+      subscriber.next({ id: 3, name: "År", description: "En persons år" });
       subscriber.complete();
     });
 
