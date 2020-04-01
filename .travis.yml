@@ -1,17 +1,20 @@
 language: node_js
 node_js:
-- 7
+- 12
+
 branches: 
 only:
 - master
-before_script:
-- npm install -g @angular/cli
+
 script:
 - ng build --prod
+
 deploy:
   provider: s3
   access_key_id: AKIAUDN3ZT2NARONFGYI
   bucket: linklives-static
+  local_dir: dist
+
 env:
   global:
     secure: PL0iTAVT6n4kP8SuLVo3b+RtcI8trw2c6vPImbPzN8wRJMKbanBpNSIs6Lys+2etcVVVGeI68CDIdWNEWon/VRthFCO18nOTQ6p2BAuS+bLle1PeYkLnjgPOyijzgVdfX1pNMZ94BoeKj60eHooMJFoTYUftI2wx0+Z+bVv6EBIVkuhZ0y+s+K/Hk4L0ecVmk6g4KdnOzy3XCAtb6ZRRRhNJvuYHAS3tXuxPJCuT9ANoAFZBcrvMBkQD6kYRp5AkmWsi6qBWkCk+tk7qmbbCA/LrQeeGAEWM3LBgVzgG0YxPb7svY5d2t7NTxNIJDndM2J0sWGcFx46HTvACChzGtmlhnCnT/gdbrWU5eKYZ9r8OqehTmWRiHWNa5SJW7vg/Bh/k6VQJO/R5nigPUxVdlQPgMSvRSJBCeirX0EYa+V0VHy2ZUCo3NQ7jDkQDG/7un3BxcqYZiVvX2s22rfGlcrbOpDBfhSPsqkjeqRARxCNiK7S1mbWl99To0y6eXYdgNqNULKUKt8noYaTJ19I1klYqOF+lICUbtd6z/Sa8LMubFQI3gcsGPCOkvlZKt06KisNBscyWbAvWTAbmdoSm/ZHlOs5emeVT3G1CyznGbQrkJBLTpLMtVfVRLM5cuKKYinaQ3PF66472aSs5PI29Y6fmAzEQ9nhFk0KgKN0c1As=
