@@ -102,6 +102,7 @@ export class SearchService {
   }
 
   simpleSearch(query: string, indices: string[], from: number, size: number): Observable<SearchResult> {
+    console.log("performing simple search", query, indices,from, size);
     let body = {
       from: from,
       size: size,
@@ -137,7 +138,7 @@ export class SearchService {
       }
     };
 
-
+    console.log("body", body);
     var result = new Observable<SearchResult>(subscriber => {
       this.http.post<ElasticSearchResult>(`${environment.apiUrl}/pas,lifecourses/_search`, body)
         .subscribe(next => {
@@ -174,6 +175,8 @@ export class SearchService {
           subscriber.complete();
         });
     });
+
+    console.log("returning", result);
 
     return result;
   }
