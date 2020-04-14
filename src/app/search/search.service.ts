@@ -141,6 +141,7 @@ export class SearchService {
     var result = new Observable<SearchResult>(subscriber => {
       this.http.post<ElasticSearchResult>(`${environment.apiUrl}/pas,lifecourses/_search`, body)
         .subscribe(next => {
+          console.log("next", next);
           let result: SearchResult = {
             took: next.took,
             totalHits: 0,
@@ -164,7 +165,6 @@ export class SearchService {
               result.indexHits.lifeCourses = value.doc_count;
             }
           });
-          console.log("next result");
           subscriber.next(result);
         }, error => {
           console.log("error", error);
