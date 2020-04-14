@@ -6,8 +6,15 @@ branches:
 only:
 - master
 
+cache:
+  directories:
+    - ./node_modules
+
+install:
+  - npm install
+
 script:
-- ng build --prod
+  - ng build --prod --output-hashing none
 
 deploy:
   provider: s3
