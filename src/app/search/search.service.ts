@@ -164,10 +164,13 @@ export class SearchService {
               result.indexHits.lifeCourses = value.doc_count;
             }
           });
+          console.log("next result");
           subscriber.next(result);
         }, error => {
+          console.log("error", error);
           subscriber.error(error);
         }, () => {
+          console.log("complete");
           subscriber.complete();
         });
     });
