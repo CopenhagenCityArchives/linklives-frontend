@@ -14,7 +14,7 @@ install:
   - npm install
 
 script:
-  - ng build --prod --output-hashing none
+  - ng build --output-hashing none
 
 deploy:
   provider: s3
