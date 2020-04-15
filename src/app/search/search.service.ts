@@ -139,40 +139,45 @@ export class SearchService {
     };
 
     console.log("simpleSearch body", body);
-    var result = new Observable<SearchResult>(subscriber => {
+    var result = new Observable<SearchResult>(observer => {
+      console.log("simpleSearch sending post request");
       this.http.post<ElasticSearchResult>(`${environment.apiUrl}/pas,lifecourses/_search`, body)
         .subscribe(next => {
-          console.log("simpleSearch observable next", next);
-          let result: SearchResult = {
-            took: next.took,
-            totalHits: 0,
-            indexHits: {},
-            hits: []
-          };
-          next.hits.hits.forEach(value => {
-            let hit = {
-              type: value._index,
-              pa: value._index == "pas" ? (value._source.personal_appearance as PersonalAppearance) : undefined,
-              pas: value._index == "lifecourses" ? (value._source.personal_appearance as PersonalAppearance[]) : undefined
-            }
-            result.hits.push(hit)
-          });
-          next.aggregations.count.buckets.forEach(value => {
-            result.totalHits += value.doc_count;
-            if (value.key == "pas") {
-              result.indexHits.pas = value.doc_count;
-            }
-            if (value.key == "lifecourses") {
-              result.indexHits.lifeCourses = value.doc_count;
-            }
-          });
-          subscriber.next(result);
+          try {
+            console.log("simpleSearch observable next", next);
+            let result: SearchResult = {
+              took: next.took,
+              totalHits: 0,
+              indexHits: {},
+              hits: []
+            };
+            next.hits.hits.forEach(value => {
+              let hit = {
+                type: value._index,
+                pa: value._index == "pas" ? (value._source.personal_appearance as PersonalAppearance) : undefined,
+                pas: value._index == "lifecourses" ? (value._source.personal_appearance as PersonalAppearance[]) : undefined
+              }
+              result.hits.push(hit)
+            });
+            next.aggregations.count.buckets.forEach(value => {
+              result.totalHits += value.doc_count;
+              if (value.key == "pas") {
+                result.indexHits.pas = value.doc_count;
+              }
+              if (value.key == "lifecourses") {
+                result.indexHits.lifeCourses = value.doc_count;
+              }
+            });
+            observer.next(result);
+          } catch (error) {
+            observer.error(error);
+          }
         }, error => {
           console.log("simpleSearch observable error", error);
-          subscriber.error(error);
+          observer.error(error);
         }, () => {
           console.log("simpleSearch observable complete");
-          subscriber.complete();
+          observer.complete();
         });
     });
 
