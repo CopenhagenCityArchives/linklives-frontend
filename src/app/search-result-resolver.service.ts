@@ -27,6 +27,7 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       console.log(`resolve simple search - query=${query}, index=${index}, start=${start}`);
       return this.service.simpleSearch(query, index, start, 10);
     } else {
+      console.log("resolve empty");
       return EMPTY;
     }
   }
