@@ -7,14 +7,16 @@ only:
 - master
 
 cache:
-  directories:
+  - pip
+  - directories:
     - ./node_modules
 
 install:
+  - pip install --user awscli
   - npm install
 
 script:
-  - ng build --output-hashing none
+  - ng build --output-hashing none --prod
 
 deploy:
   provider: s3
@@ -26,3 +28,7 @@ deploy:
   upload-dir: frontend
   skip_cleanup: true
   region: eu-west-1
+
+after_deploy:
+  - aws configure set preview.cloudfront true
+  - test $TRAVIS_BRANCH = "master" && aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
