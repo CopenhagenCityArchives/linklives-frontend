@@ -6,6 +6,9 @@ branches:
 only:
 - master
 
+addons:
+  chrome: stable
+
 cache:
   - pip
   - directories:
@@ -16,6 +19,8 @@ install:
   - npm install
 
 script:
+  - ng test --no-watch --no-progress --browsers=ChromeHeadlessCI
+  - ng e2e
   - ng build --output-hashing none --prod
 
 deploy:
