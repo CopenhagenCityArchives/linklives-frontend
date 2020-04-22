@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute  } from '@angular/router';
 import { SearchResult } from '../search/search.service';
-import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-search-result-list',

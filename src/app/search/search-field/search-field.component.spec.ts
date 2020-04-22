@@ -1,14 +1,23 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { of } from 'rxjs';
+
 import { SearchFieldComponent } from './search-field.component';
+import { SearchService } from '../search.service';
 
 describe('SearchFieldComponent', () => {
   let component: SearchFieldComponent;
   let fixture: ComponentFixture<SearchFieldComponent>;
+  let searchMock = {
+    getTypes: function() {
+      return of({id: 1, name: "name", description: "description"});
+    }
+  }
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SearchFieldComponent ]
+      declarations: [ SearchFieldComponent ],
+      providers: [ { provide: SearchService, useValue: searchMock } ]
     })
     .compileComponents();
   }));
@@ -16,10 +25,11 @@ describe('SearchFieldComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchFieldComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
+    component.model = { type: component.types[0], value: null };
     expect(component).toBeTruthy();
   });
 });
