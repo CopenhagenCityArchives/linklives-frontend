@@ -59,17 +59,15 @@ export interface ElasticSearchResult {
       relation: string
     },
     max_score: number,
-    hits: [
-      {
-        _index: string,
-        _type: string,
-        _id: number,
-        _score: number,
-        _source: {
-          personal_appearance: PersonalAppearance | [PersonalAppearance]
-        }
+    hits:  {
+      _index: string,
+      _type: string,
+      _id: number,
+      _score: number,
+      _source: {
+        personal_appearance: PersonalAppearance | [PersonalAppearance]
       }
-    ]
+    }[]
   },
   aggregations: {
     count: {
