@@ -24,14 +24,8 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
 
     if (route.queryParamMap.has("query")) {
       let query = route.queryParamMap.get("query");
-      console.log(`resolve simple search - query=${query}, index=${index}, start=${start}`);
-      let example = this.service.simpleSearch(query, index, start, 10);
-      example.subscribe(next => {
-        console.log(next);
-      })
       return this.service.simpleSearch(query, index, start, 10);
     } else {
-      console.log("resolve empty");
       return EMPTY;
     }
   }
