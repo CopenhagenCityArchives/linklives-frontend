@@ -100,7 +100,6 @@ export class SearchService {
   }
 
   simpleSearch(query: string, indices: string[], from: number, size: number): Observable<SearchResult> {
-    console.log("simpleSearch", query, indices,from, size);
     let body = {
       from: from,
       size: size,
@@ -136,13 +135,10 @@ export class SearchService {
       }
     };
 
-    console.log("simpleSearch body", body);
     var result = new Observable<SearchResult>(observer => {
-      console.log("simpleSearch sending post request");
       this.http.post<ElasticSearchResult>(`${environment.apiUrl}/pas,lifecourses/_search`, body)
         .subscribe(next => {
           try {
-            console.log("simpleSearch observable next", next);
             let result: SearchResult = {
               took: next.took,
               totalHits: 0,
@@ -171,15 +167,11 @@ export class SearchService {
             observer.error(error);
           }
         }, error => {
-          console.log("simpleSearch observable error", error);
           observer.error(error);
         }, () => {
-          console.log("simpleSearch observable complete");
           observer.complete();
         });
     });
-
-    console.log("simpleSearch returning", result);
 
     return result;
   }

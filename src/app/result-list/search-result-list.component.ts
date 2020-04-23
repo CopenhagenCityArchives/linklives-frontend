@@ -35,13 +35,10 @@ export class SearchResultListComponent implements OnInit {
       }
     });
 
-    console.log("search result list subscribing");
     this.route.data.subscribe((data: { searchResult: SearchResult }) => {
-      console.log("search result list got next", data);
       this.searchResult = data.searchResult;
 
       this.route.paramMap.subscribe(paramMap => {
-        console.log("search result list next paramMap");
         if (paramMap.has("start")) {
           this.start = Number(paramMap.get("start"));
           this.page = Math.floor(this.start / this.size) + 1;
@@ -70,14 +67,10 @@ export class SearchResultListComponent implements OnInit {
           this.pages.push({ start: (page - 1) * this.size, page: page });
         }
       }, error => {
-        console.log("search result list error paramMap", error);
       }, () => {
-        console.log("search result list paramMap complete");
       })
     }, error => {
-      console.log("search result list got error", error);
     }, () => {
-      console.log("search result list got complete");
     });
   }
 
