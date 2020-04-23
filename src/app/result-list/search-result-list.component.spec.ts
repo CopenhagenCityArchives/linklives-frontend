@@ -3,6 +3,9 @@ import { ActivatedRoute, convertToParamMap } from '@angular/router';
 import { of } from 'rxjs';
 
 import { SearchResultListComponent } from './search-result-list.component';
+import { RouterLinkActiveOptionsStubDirective } from 'src/testing/router-link-active-options-stub.directive';
+import { QueryParamsStubDirective } from 'src/testing/query-params-stub.directive';
+import { RouterLinkStubDirective } from 'src/testing/router-link-stub.directive';
 
 describe('SearchResultListComponent', () => {
   let component: SearchResultListComponent;
@@ -12,7 +15,7 @@ describe('SearchResultListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SearchResultListComponent ],
+      declarations: [ SearchResultListComponent, RouterLinkStubDirective, QueryParamsStubDirective, RouterLinkActiveOptionsStubDirective ],
       providers: [ { provide: ActivatedRoute, useValue: routeStub } ]
     })
     .compileComponents();
