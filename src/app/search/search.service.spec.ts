@@ -20,7 +20,7 @@ describe('SearchService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('#simpleSearch', () => {
+  describe('simpleSearch()', () => {
     it('should return an error observable, when the underlying http request fails', done => {
       service.simpleSearch("query", ["pas", "lifecourses"], 0, 10).subscribe(_ => {
         done.fail("observable next callback should not be called"); 
