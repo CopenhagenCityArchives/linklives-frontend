@@ -28,6 +28,7 @@ describe('SearchService', () => {
         expect(error).toBeDefined();
         expect(error.status).toBe(500);
         expect(error.statusText).toBe("status text");
+        done();
       }, () => {
         done.fail("observable complete callback should not be called");
       });
