@@ -33,6 +33,7 @@ describe('SimpleSearchComponent', () => {
     fixture = TestBed.createComponent(SimpleSearchComponent);
     component = fixture.componentInstance;
     compiled = fixture.debugElement.nativeElement;
+    routerStub.navigate.calls.reset();
   });
 
   it('should create', () => {
