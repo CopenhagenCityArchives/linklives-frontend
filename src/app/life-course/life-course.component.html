@@ -1,1 +1,51 @@
-<p>life-course works!</p>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md">
+            <h3>Livsforløb <span class="small-text">({{ pas.length }} kilder)</span></h3>
+
+            <div>
+                <strong>Standardiseret navn:</strong> {{ pas[0].name_std }}
+            </div>
+
+            <div>
+                <strong>Fødested:</strong> {{ pas[0].birthplace }}
+            </div>
+
+            <div>
+                <strong>Fødselsår:</strong> n/a
+            </div>
+        </div>
+
+        <div class="col-md-3">
+
+        </div>
+    </div>
+
+    <ul class="row nav nav-pills">
+        <li class="nav-item active">Livsforløb</li>
+        <li class="nav-item">Familierelationer</li>
+    </ul>
+
+    <div class="row border p-2 mb-2" *ngFor="let pa of pas">
+        <div class="col-md-4">
+            <span>🕮</span>
+        </div>
+        <div class="col-md-4">
+            <div>
+                {{ pa.name}}
+            </div>
+            <div class="text-capitalize" *ngIf="pa.parish">
+                <strong>Sogn:</strong> {{ pa.parish}}
+            </div>
+            <div class="text-capitalize" *ngIf="pa.district">
+                <strong>Herred:</strong> {{ pa.district}}
+            </div>
+            <div class="text-capitalize" *ngIf="pa.county">
+                <strong>Amt:</strong> {{ pa.county}}
+            </div>
+        </div>
+        <div class="col-md-4 d-flex justify-content-end">
+            <button [routerLink]="['/pa', pa.pa_id]" [state]="{ data: pa }" class="btn btn-info align-self-end">Se kilde</button>
+        </div>
+    </div>
+</div>

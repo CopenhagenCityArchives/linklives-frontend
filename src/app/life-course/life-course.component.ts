@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { PersonalAppearance } from '../search/search.service';
 
 @Component({
   selector: 'app-life-course',
@@ -7,9 +9,14 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LifeCourseComponent implements OnInit {
 
-  constructor() { }
+  pas: PersonalAppearance[] = [];
+
+  constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.data.subscribe(next => {
+      this.pas = next as PersonalAppearance[];
+    });
   }
 
 }

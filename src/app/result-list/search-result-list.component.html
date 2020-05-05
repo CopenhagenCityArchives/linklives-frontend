@@ -118,7 +118,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4 d-flex justify-content-end">
-                                <button [routerLink]="['/pa', hit.pa.pa_id]" class="btn btn-info align-self-end">Vælg kilde</button>
+                                <button [routerLink]="['/pa', hit.pa.pa_id]" [state]="{ data: hit.pa }" class="btn btn-info align-self-end">Vælg kilde</button>
                             </div>
                         </ng-container>
                         <ng-container *ngSwitchCase="'lifecourses'">
@@ -140,7 +140,7 @@
                                 </div>
                             </div>
                             <div class="col-md-4 d-flex justify-content-end">
-                                <button [routerLink]="['/life-course', hit.pas[0].life_course_id]" class="btn btn-info align-self-end">Vælg livsforløb</button>
+                                <button [routerLink]="['/life-course', hit.pas[0].life_course_id]" [state]="{ data: hit.pas }"  class="btn btn-info align-self-end">Vælg livsforløb</button>
                             </div>
                         </ng-container>
                     </div>
