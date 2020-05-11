@@ -26,7 +26,7 @@ const routes: Routes = [
       pa: ItemResolverService
     },
     data: {
-      index: 'pa'
+      index: 'pas',
     }
   },
   {

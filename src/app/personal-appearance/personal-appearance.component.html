@@ -1,1 +1,63 @@
-<p>personal-appearance works!</p>
+
+<div class="container-fluid">
+    <div class="row">
+        <a routerLink="/user/search-history">Min søgehistorik</a>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <h3>INDTASTET KILDE</h3>
+            <br>
+
+            <h3>{{pa.name}} </h3>
+            <br>
+            <span style="font-weight:bold">Kildetype: </span>
+            <br>
+            <p><span style="font-weight:bold">Fødested: </span>{{pa.birthplace}}</p>
+        </div>
+    </div>
+    <div class="row">
+        <ul class="col-sm nav nav-pills nav-fill border p-2">
+            <li class="nav-item">
+                <a class="nav-link active" href="#">Kildeinformation</a>
+            </li>
+            <li class="nav-item" >
+                <a class="nav-link" href="#">Personer i husstanden</a>
+            </li>
+        </ul>
+    </div>
+
+    
+
+    <br>
+    <div class ="row">
+        <div class="col-sm">
+            <p>Alder: {{pa.age}}</p>
+            <p>Stilling: %%</p>
+            <p>Handicaps: %%</p>
+        </div>
+        <div class="col-sm">
+            <p>Køn: {{pa.sex}}</p>
+            <p>Civilstand: %%</p>
+            <p>Trossamfund: %%</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <p>Kildehenvisning: %%</p>
+            <p>Kilde: %%</p>
+            <p>Matnr/Adresse: %%</p>
+            <p>Sogn: {{pa.parish}}</p>
+            <p>Amt: {{pa.county}}</p>
+        </div>
+        <div class="col-sm">
+            <p>Hustands-/Familie nr: </p>
+            <p>Herred: {{pa.district}}</p>
+            <p>Stednavn: </p>
+        </div>
+    </div>
+
+    <div class="row">
+        <p class="col-sm">Værtsarkiv: %%</p>
+    </div>
+    <button class="row btn btn-outline-primary">Se original kilde</button>
+</div>
