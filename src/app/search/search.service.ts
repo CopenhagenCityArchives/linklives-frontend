@@ -2,7 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
-import { environment } from '../../environments/environment';
+import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
+
+export interface SearchHit {
+  type: string,
+  pa?: PersonAppearance,
+  pas?: PersonAppearance[]
+}
+
+export interface PersonAppearanceHit {
+  pa: PersonAppearance
+}
 
 export interface SearchResult {
   took: number,
@@ -12,73 +22,53 @@ export interface SearchResult {
     pas?: number,
     links?: number
   },
-  hits: {
-    type: string,
-    pa?: PersonalAppearance,
-    pas?: PersonalAppearance[]
-  }[]
+  hits: SearchHit[]
 }
 
-export interface PersonalAppearance {
-  life_course_id: number,
-  link_id: number,
-  method_id: number,
+export interface PersonAppearance {
   pa_id: number,
-  score: number,
   source_id: number,
-  name: string,
-  sex: string,
-  age: number,
-  birthplace: string,
-  parish: string,
-  county: string,
-  district: string,
-  name_clean: string,
-  age_clean: number,
-  sex_clean: string,
-  name_std: string,
-  firstnames_std: string,
-  surnames_std: string,
-  county_std: string,
-  parish_std: string,
-  district_std: string
-}
-
-export interface ElasticSearchResult {
-  took: number,
-  timed_out: boolean,
-  _shards: {
-    total: number,
-    successful: number,
-    skipped: number,
-    failed: number
-  },
-  hits: {
-    total: {
-      value: number,
-      relation: string
-    },
-    max_score: number,
-    hits:  {
-      _index: string,
-      _type: string,
-      _id: number,
-      _score: number,
-      _source: {
-        personal_appearance: PersonalAppearance | [PersonalAppearance]
-      }
-    }[]
-  },
-  aggregations: {
-    count: {
-      doc_count_error_upper_bound: number,
-      sum_other_doc_count: number,
-      buckets: {
-        key: string,
-        doc_count: number
-      }[]
-    }
-  }
+  løbenr_i_indtastning: number, 
+  Stednavn: string, 
+  name: string, 
+  age: number, 
+  Erhverv: string, 
+  Stilling_i_husstanden: string, 
+  birth_place: string, 
+  gender: string, 
+  Sogn: string, 
+  Amt: string, 
+  Herred: string, 
+  gender_clean: string, 
+  name_clean: string, 
+  age_clean: number, 
+  hh_id: number, 
+  hh_pos_std: string, 
+  is_husband: boolean, 
+  has_husband: boolean, 
+  name_std: string, 
+  maiden_family_names: string, 
+  maiden_patronyms: string, 
+  first_names: string, 
+  patronyms: string, 
+  family_names: string, 
+  uncat_names: string, 
+  husband_first_names: string, 
+  husband_name_match: boolean, 
+  true_patronym: string, 
+  all_possible_patronyms: string, 
+  all_possible_family_names: string, 
+  b_place_cl: string, 
+  other_cl: string, 
+  parish_cl: string, 
+  district_cl: string, 
+  county_cl: string, 
+  koebstad_cl: string, 
+  island_cl: string, 
+  town_cl: string, 
+  place_cl: string, 
+  county_std: string, 
+  parish_std: string, 
 }
 
 @Injectable({
@@ -86,7 +76,7 @@ export interface ElasticSearchResult {
 })
 export class SearchService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private elasticsearch: ElasticsearchService) { }
 
   getTypes() : Observable<{ id: number, name: string, description: string }> {
     var observable = new Observable<{ id: number, name: string, description: string }>(subscriber => {
@@ -100,79 +90,6 @@ export class SearchService {
   }
 
   simpleSearch(query: string, indices: string[], from: number, size: number): Observable<SearchResult> {
-    let body = {
-      from: from,
-      size: size,
-      query: {
-        bool: {
-          must: [
-            {
-              nested: {
-                path: "personal_appearance",
-                query: {
-                  simple_query_string: {
-                    query: query,
-                    fields: ["*"],
-                    default_operator: "and"
-                  }
-                }
-              }
-            }
-          ]
-        }
-      },
-      aggs: {
-        count: {
-          terms: {
-            field: "_index"
-          }
-        }
-      },
-      post_filter: {
-        terms: {
-          _index: indices
-        }
-      }
-    };
-
-    var result = new Observable<SearchResult>(observer => {
-      this.http.post<ElasticSearchResult>(`${environment.apiUrl}/pas,lifecourses/_search`, body)
-        .subscribe(next => {
-          try {
-            let result: SearchResult = {
-              took: next.took,
-              totalHits: 0,
-              indexHits: {},
-              hits: []
-            };
-            next.hits.hits.forEach(value => {
-              let hit = {
-                type: value._index,
-                pa: value._index == "pas" ? (value._source.personal_appearance as PersonalAppearance) : undefined,
-                pas: value._index == "lifecourses" ? (value._source.personal_appearance as PersonalAppearance[]) : undefined
-              }
-              result.hits.push(hit)
-            });
-            next.aggregations.count.buckets.forEach(value => {
-              result.totalHits += value.doc_count;
-              if (value.key == "pas") {
-                result.indexHits.pas = value.doc_count;
-              }
-              if (value.key == "lifecourses") {
-                result.indexHits.lifeCourses = value.doc_count;
-              }
-            });
-            observer.next(result);
-          } catch (error) {
-            observer.error(error);
-          }
-        }, error => {
-          observer.error(error);
-        }, () => {
-          observer.complete();
-        });
-    });
-
-    return result;
+    return this.elasticsearch.searchSimple(query, indices, from, size);
   }
 }
