@@ -33,7 +33,7 @@ const routes: Routes = [
     path: 'life-course/:id',
     component: LifeCourseComponent,
     resolve: {
-      pa: ItemResolverService
+      pas: ItemResolverService
     },
     data: {
       index: 'lifecourses'

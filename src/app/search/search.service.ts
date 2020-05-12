@@ -3,15 +3,26 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
+import { PersonalAppearanceComponent } from '../personal-appearance/personal-appearance.component';
 
-export interface SearchHit {
-  type: string,
-  pa?: PersonAppearance,
-  pas?: PersonAppearance[]
-}
+export type SearchHit = PersonAppearanceHit | LinkHit | LifecourseHit;
 
 export interface PersonAppearanceHit {
+  type: "pas",
   pa: PersonAppearance
+}
+
+export interface LinkHit {
+  type: "links",
+  link_id: number,
+  life_course_ids: number[],
+  pas: [PersonAppearance, PersonAppearance]
+}
+
+export interface LifecourseHit {
+  type: "lifecourses",
+  life_course_id: number,
+  pas: PersonAppearance[]
 }
 
 export interface SearchResult {

@@ -3,9 +3,10 @@ import { PersonAppearance, SearchResult, SearchHit } from '../search/search.serv
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { PersonalAppearanceComponent } from '../personal-appearance/personal-appearance.component';
 
 export interface ElasticDocResult {
-  _index: string,
+  _index: "lifecourses" | "pas" | "links",
   _type: string,
   _id: number|string,
   _version: number,
@@ -17,11 +18,12 @@ export interface ElasticDocResult {
 }
 
 export interface ElasticSearchHit {
-  _index: string,
+  _index: "lifecourses" | "pas" | "links",
   _type: string,
   _id: number,
   _score: number,
   _source: {
+    life_course_ids?: number[],
     person_appearance: PersonAppearance | PersonAppearance[]
   }
 }
@@ -63,10 +65,25 @@ export class ElasticsearchService {
   constructor(private http: HttpClient) { }
 
   private handleHit(elasticHit: ElasticSearchHit): SearchHit {
-    return {
-      type: elasticHit._index,
-      pa: elasticHit._index == "pas" ? (elasticHit._source.person_appearance as PersonAppearance) : undefined,
-      pas: elasticHit._index == "lifecourses" ? (elasticHit._source.person_appearance as PersonAppearance[]) : undefined
+    switch (elasticHit._index) {
+      case "lifecourses":
+        return {
+          type: "lifecourses",
+          life_course_id: elasticHit._id,
+          pas: elasticHit._source.person_appearance as PersonAppearance[]
+        };
+      case "pas":
+        return {
+          type: "pas",
+          pa: elasticHit._source.person_appearance as PersonAppearance
+        };
+      case "links":
+        return {
+          type: "links",
+          link_id: elasticHit._id,
+          life_course_ids: elasticHit._source.life_course_ids,
+          pas: elasticHit._source.person_appearance as [PersonAppearance, PersonAppearance]
+        }
     }
   }
 

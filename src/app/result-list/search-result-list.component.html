@@ -107,14 +107,14 @@
                                 <div>
                                     {{ hit.pa.name}}
                                 </div>
-                                <div class="text-capitalize" *ngIf="hit.pa.parish">
-                                    <strong>Sogn:</strong> {{ hit.pa.parish}}
+                                <div class="text-capitalize" *ngIf="hit.pa.Sogn">
+                                    <strong>Sogn:</strong> {{ hit.pa.Sogn}}
                                 </div>
-                                <div class="text-capitalize" *ngIf="hit.pa.district">
-                                    <strong>Herred:</strong> {{ hit.pa.district}}
+                                <div class="text-capitalize" *ngIf="hit.pa.Herred">
+                                    <strong>Herred:</strong> {{ hit.pa.Herred}}
                                 </div>
-                                <div class="text-capitalize" *ngIf="hit.pa.county">
-                                    <strong>Amt:</strong> {{ hit.pa.county}}
+                                <div class="text-capitalize" *ngIf="hit.pa.Amt">
+                                    <strong>Amt:</strong> {{ hit.pa.Amt}}
                                 </div>
                             </div>
                             <div class="col-md-4 d-flex justify-content-end">
@@ -132,15 +132,15 @@
                                 <div class="text-capitalize" *ngIf="hit.pas[0].parish_std">
                                     <strong>Sogn:</strong> {{ hit.pas[0].parish_std}}
                                 </div>
-                                <div class="text-capitalize" *ngIf="hit.pas[0].district_std">
-                                    <strong>Herred:</strong> {{ hit.pas[0].district_std}}
+                                <div class="text-capitalize" *ngIf="hit.pas[0].district_cl">
+                                    <strong>Herred:</strong> {{ hit.pas[0].district_cl}}
                                 </div>
                                 <div class="text-capitalize" *ngIf="hit.pas[0].county_std">
                                     <strong>Amt:</strong> {{ hit.pas[0].county_std}}
                                 </div>
                             </div>
                             <div class="col-md-4 d-flex justify-content-end">
-                                <button [routerLink]="['/life-course', hit.pas[0].life_course_id]" [state]="{ data: hit.pas }"  class="btn btn-info align-self-end">Vælg livsforløb</button>
+                                <button [routerLink]="['/life-course', hit.life_course_id]" [state]="{ data: hit.pas }"  class="btn btn-info align-self-end">Vælg livsforløb</button>
                             </div>
                         </ng-container>
                     </div>
