@@ -151,7 +151,7 @@ export class ElasticsearchService {
     return this.search(body);
   }
 
-  doc(index: string, id: string|number): Observable<PersonAppearance|PersonAppearance[]> {
+  getDocument(index: string, id: string|number): Observable<PersonAppearance|PersonAppearance[]> {
     return new Observable<PersonAppearance|PersonAppearance[]>(
       observer => {
         this.http.get<ElasticDocResult>(`${environment.apiUrl}/${index}/_doc/${id}`)
@@ -165,5 +165,24 @@ export class ElasticsearchService {
         )
       }
     );
+  }
+  
+  getDocuments(documents: {index: string, id: string|number}[]) {
+    let body = {
+      docs: documents.map(doc => { return { _index: doc.index, _id: doc.id } })
+    };
+
+    return new Observable<PersonAppearance[]>(
+      observer => {
+        this.http.post<{ docs: ElasticDocResult[] }>(`${environment.apiUrl}/mget`, body)
+        .subscribe(next => {
+          observer.next(next.docs.map(doc => doc._source.person_appearance as PersonAppearance));
+        }, error => {
+          observer.error(error);
+        }, () => {
+          observer.complete();
+        })
+      }
+    )
   }
 }

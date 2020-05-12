@@ -15,7 +15,7 @@ export class ItemResolverService implements Resolve<PersonAppearance | PersonApp
     if (history.state.data) {
       return of(history.state.data);
     } else {
-      return this.elasticsearch.doc(route.data['index'], route.params['id']);
+      return this.elasticsearch.getDocument(route.data['index'], route.params['id']);
     }
   }
   
