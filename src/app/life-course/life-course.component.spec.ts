@@ -9,7 +9,7 @@ describe('LifeCourseComponent', () => {
   let component: LifeCourseComponent;
   let fixture: ComponentFixture<LifeCourseComponent>;
   let compiled: Element;
-  let routeStub: { data: Observable<PersonAppearance[]> } = { data: undefined };
+  let routeStub: { data: Observable<{pas: PersonAppearance[]}> } = { data: undefined };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -71,7 +71,7 @@ describe('LifeCourseComponent', () => {
       county_std: 'county_std', 
       parish_std: 'parish_std', 
     }]
-    routeStub.data = of(pas);
+    routeStub.data = of({pas: pas});
     fixture.detectChanges();
 
     expect(component.pas).toEqual(pas);
