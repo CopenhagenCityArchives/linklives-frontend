@@ -15,7 +15,7 @@ export class LifeCourseComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe(next => {
-      this.pas = next as PersonAppearance[];
+      this.pas = next.pas as PersonAppearance[];
     });
   }
 
