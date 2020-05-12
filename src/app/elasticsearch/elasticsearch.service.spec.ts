@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { ElasticsearchService, ElasticSearchResult } from './elasticsearch.service';
 import { environment } from 'src/environments/environment';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
-import { PersonAppearance } from '../search/search.service';
+import { PersonAppearance, PersonAppearanceHit } from '../search/search.service';
 
 describe('ElasticsearchService', () => {
   let service: ElasticsearchService;
@@ -129,8 +129,8 @@ describe('ElasticsearchService', () => {
         expect(searchResult.indexHits.pas).toBe(1);
         expect(searchResult.took).toBe(2);
         expect(searchResult.hits[0].type).toBe("pas");
-        expect(searchResult.hits[0].pa).toBeDefined();
-        expect(searchResult.hits[0].pa).toEqual(pa);
+        expect((searchResult.hits[0] as PersonAppearanceHit).pa).toBeDefined();
+        expect((searchResult.hits[0] as PersonAppearanceHit).pa).toEqual(pa);
       });
 
       let request = httpMock.expectOne(`${environment.apiUrl}/pas,lifecourses/_search`);
