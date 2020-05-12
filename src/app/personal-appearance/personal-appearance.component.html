@@ -8,7 +8,7 @@
             <h3>INDTASTET KILDE</h3>
             <br>
 
-            <h3>{{pa.name}} </h3>
+            <h3>{{pa.name}}</h3>
             <br>
             <span style="font-weight:bold">Kildetype: </span>
             <br>
@@ -27,37 +27,36 @@
     </div>
 
 
-
     <br>
     <div class ="row">
         <div class="col-sm">
             <p>Alder: {{pa.age}}</p>
-            <p>Stilling: %%</p>
-            <p>Handicaps: %%</p>
+            <p>Stilling: {{pa.Erhverv}}<p>
+            <p>Handicaps: -</p>
         </div>
         <div class="col-sm">
             <p>Køn: {{pa.gender}}</p>
-            <p>Civilstand: %%</p>
-            <p>Trossamfund: %%</p>
+            <p>Civilstand: -</p>
+            <p>Trossamfund: -</p>
         </div>
     </div>
     <div class="row">
         <div class="col-sm">
-            <p>Kildehenvisning: %%</p>
-            <p>Kilde: %%</p>
-            <p>Matnr/Adresse: %%</p>
+            <p>Kildehenvisning: -</p>
+            <p>Kilde: -</p>
+            <p>Matnr/Adresse: -</p>
             <p>Sogn: {{pa.Sogn}}</p>
             <p>Amt: {{pa.Amt}}</p>
         </div>
         <div class="col-sm">
-            <p>Hustands-/Familie nr: </p>
+            <p>Hustands-/Familie nr: {{pa.hh_id}}</p>
             <p>Herred: {{pa.Herred}}</p>
             <p>Stednavn: {{pa.Stednavn}}</p>
         </div>
     </div>
 
     <div class="row">
-        <p class="col-sm">Værtsarkiv: %%</p>
+        <p class="col-sm">Værtsarkiv: -</p>
     </div>
     <button class="row btn btn-outline-primary">Se original kilde</button>
 </div>

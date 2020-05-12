@@ -17,9 +17,6 @@ export class PersonalAppearanceComponent implements OnInit {
 
     this.route.data.subscribe((resolve) => {
       this.pa = resolve.pa as PersonAppearance;
-
-      console.log("FROM PA COMPONENT");
-      console.log(this.pa);
     });
   }
 
