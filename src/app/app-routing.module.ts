@@ -4,7 +4,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { SearchResultListComponent } from './result-list/search-result-list.component';
 
 import { SearchResultResolverService } from './search-result-resolver.service';
-import { PersonalAppearanceComponent } from './personal-appearance/personal-appearance.component';
+import { PersonAppearanceComponent } from './person-appearance/person-appearance.component';
 import { LifeCourseComponent } from './life-course/life-course.component';
 import { ItemResolverService } from './item-resolver.service';
 
@@ -21,7 +21,7 @@ const routes: Routes = [
   },
   {
     path: 'pa/:id',
-    component: PersonalAppearanceComponent,
+    component: PersonAppearanceComponent,
     resolve: {
       pa: ItemResolverService
     },

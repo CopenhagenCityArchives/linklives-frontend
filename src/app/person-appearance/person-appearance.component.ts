@@ -3,11 +3,11 @@ import { ActivatedRoute } from '@angular/router';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({
-  selector: 'app-personal-appearance',
-  templateUrl: './personal-appearance.component.html',
-  styleUrls: ['./personal-appearance.component.scss']
+  selector: 'app-person-appearance',
+  templateUrl: './person-appearance.component.html',
+  styleUrls: ['./person-appearance.component.scss']
 })
-export class PersonalAppearanceComponent implements OnInit {
+export class PersonAppearanceComponent implements OnInit {
 
   constructor(private route: ActivatedRoute) { }
   pa: PersonAppearance 

@@ -1,25 +1,25 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PersonalAppearanceComponent } from './personal-appearance.component';
+import { PersonAppearanceComponent } from './person-appearance.component';
 import { ActivatedRoute } from '@angular/router';
 import { PersonAppearance } from '../search/search.service';
 import { of } from 'rxjs';
 
-describe('PersonalAppearanceComponent', () => {
-  let component: PersonalAppearanceComponent;
-  let fixture: ComponentFixture<PersonalAppearanceComponent>;
+describe('PersonAppearanceComponent', () => {
+  let component: PersonAppearanceComponent;
+  let fixture: ComponentFixture<PersonAppearanceComponent>;
   let routeStub = { data: undefined };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PersonalAppearanceComponent ],
+      declarations: [ PersonAppearanceComponent ],
       providers: [ { provide: ActivatedRoute, useValue: routeStub } ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(PersonalAppearanceComponent);
+    fixture = TestBed.createComponent(PersonAppearanceComponent);
     component = fixture.componentInstance;
   });
 

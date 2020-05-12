@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
-import { PersonalAppearanceComponent } from '../personal-appearance/personal-appearance.component';
+import { PersonAppearanceComponent } from '../person-appearance/person-appearance.component';
 
 export type SearchHit = PersonAppearanceHit | LinkHit | LifecourseHit;
 

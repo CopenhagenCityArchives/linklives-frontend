@@ -3,7 +3,6 @@ import { PersonAppearance, SearchResult, SearchHit } from '../search/search.serv
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { PersonalAppearanceComponent } from '../personal-appearance/personal-appearance.component';
 
 export interface ElasticDocResult {
   _index: "lifecourses" | "pas" | "links",
