@@ -3,13 +3,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { LifeCourseComponent } from './life-course.component';
 import { PersonAppearance } from '../search/search.service';
 import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 describe('LifeCourseComponent', () => {
   let component: LifeCourseComponent;
   let fixture: ComponentFixture<LifeCourseComponent>;
   let compiled: Element;
-  let routeStub = { data: undefined };
+  let routeStub: { data: Observable<PersonAppearance[]> } = { data: undefined };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,7 +25,7 @@ describe('LifeCourseComponent', () => {
     compiled = fixture.debugElement.nativeElement;
   });
 
-  it('should get data from the navigation state, when it exists', async () => {
+  it('should store the resolved data', () => {
     let pas: PersonAppearance[] = [{
       pa_id: 1,
       source_id: 1,
