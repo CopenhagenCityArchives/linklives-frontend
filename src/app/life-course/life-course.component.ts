@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PersonalAppearance } from '../search/search.service';
+import { PersonAppearance } from '../search/search.service';
 
 @Component({
   selector: 'app-life-course',
@@ -9,13 +9,13 @@ import { PersonalAppearance } from '../search/search.service';
 })
 export class LifeCourseComponent implements OnInit {
 
-  pas: PersonalAppearance[] = [];
+  pas: PersonAppearance[] = [];
 
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(next => {
-      this.pas = next as PersonalAppearance[];
+      this.pas = next as PersonAppearance[];
     });
   }
 
