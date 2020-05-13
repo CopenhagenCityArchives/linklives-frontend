@@ -14,7 +14,7 @@ export class ItemResolverService implements Resolve<PersonAppearance | PersonApp
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
     let personAppearances: Observable<PersonAppearance | PersonAppearance[]>;
-    if (history.state.data) {
+    if (history.state?.data) {
       personAppearances = of(history.state.data);
     } else {
       personAppearances = this.elasticsearch.getDocument(route.data['index'], route.params['id']);
