@@ -69,7 +69,7 @@ describe('PersonAppearanceComponent', () => {
       county_std: 'county_std', 
       parish_std: 'parish_std', 
     };
-    routeStub.data = of({pa: pa});
+    routeStub.data = of({item:{pa: pa, hh: [pa]}});
     fixture.detectChanges();
     
     expect(component).toBeTruthy();
