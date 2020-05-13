@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 
 import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
-import { PersonAppearanceComponent } from '../person-appearance/person-appearance.component';
 
 export type SearchHit = PersonAppearanceHit | LinkHit | LifecourseHit;
 

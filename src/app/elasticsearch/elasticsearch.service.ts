@@ -44,7 +44,7 @@ export interface ElasticSearchResult {
     max_score: number,
     hits: ElasticSearchHit[]
   },
-  aggregations: {
+  aggregations?: {
     count: {
       doc_count_error_upper_bound: number,
       sum_other_doc_count: number,
@@ -96,7 +96,7 @@ export class ElasticsearchService {
 
     result.hits = elasticResult.hits.hits.map<SearchHit>(this.handleHit);
 
-    elasticResult.aggregations.count.buckets.forEach(value => {
+    elasticResult.aggregations?.count.buckets.forEach(value => {
       result.totalHits += value.doc_count;
       if (value.key == "pas") {
         result.indexHits.pas = value.doc_count;
@@ -109,9 +109,9 @@ export class ElasticsearchService {
     return result;
   }
 
-  search(body: any): Observable<SearchResult> {
+  search(indices: string[], body: any): Observable<SearchResult> {
     var result = new Observable<SearchResult>(observer => {
-      this.http.post<ElasticSearchResult>(`${environment.apiUrl}/pas,lifecourses/_search`, body)
+      this.http.post<ElasticSearchResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, body)
         .subscribe(next => {
           try {
             observer.next(this.handleResult(next));
@@ -164,7 +164,7 @@ export class ElasticsearchService {
       }
     };
 
-    return this.search(body);
+    return this.search(indices, body);
   }
 
   getDocument(index: string, id: string|number): Observable<PersonAppearance|PersonAppearance[]> {

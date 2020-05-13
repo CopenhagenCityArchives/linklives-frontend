@@ -3,32 +3,130 @@
     <div class="row">
         <a routerLink="/user/search-history">Min søgehistorik</a>
     </div>
+
     <div class="row">
         <div class="col-sm">
             <h3>INDTASTET KILDE</h3>
-            <br>
+
 
             <h3>{{pa.name}}</h3>
-            <br>
-            <span style="font-weight:bold">Kildetype: </span>
-            <br>
+
+            <p><span style="font-weight:bold">Kildetype: </span></p>
+
             <p><span style="font-weight:bold">Fødested: </span>{{pa.birth_place}}</p>
         </div>
     </div>
+
     <div class="row">
         <ul class="col-sm nav nav-pills nav-fill border p-2">
             <li class="nav-item">
-                <a class="nav-link active" href="#">Kildeinformation</a>
+                <a class="nav-link" [ngClass]="{active: show == 'source'}" [routerLink]="" (click)="show = 'source'">Kildeinformation</a>
             </li>
             <li class="nav-item" >
-                <a class="nav-link" href="#">Personer i husstanden</a>
+                <a class="nav-link" [ngClass]="{active: show == 'household', 'disabled': hh.length <= 1}" [routerLink]="" (click)="show = 'household'">Personer i husstanden</a>
             </li>
         </ul>
     </div>
 
+    <div class="row" *ngIf="show == 'source'">
+        <div class="col border">
+            <p><strong>pa_id:</strong> {{ pa.pa_id }}</p>
+            <p><strong>source_id:</strong> {{ pa.source_id }}</p>
+            <p><strong>løbenr_i_indtastning:</strong> {{ pa['løbenr_i_indtastning'] }}</p>
+            <p><strong>Stednavn:</strong> {{ pa.Stednavn }}</p>
+            <p><strong>name:</strong> {{ pa.name }}</p>
+            <p><strong>age:</strong> {{ pa.age }}</p>
+            <p><strong>Erhverv:</strong> {{ pa.Erhverv }}</p>
+            <p><strong>Stilling_i_husstanden:</strong> {{ pa.Stilling_i_husstanden }}</p>
+            <p><strong>birth_place:</strong> {{ pa.birth_place }}</p>
+            <p><strong>gender:</strong> {{ pa.gender }}</p>
+            <p><strong>Sogn:</strong> {{ pa.Sogn }}</p>
+            <p><strong>Amt:</strong> {{ pa.Amt }}</p>
+            <p><strong>Herred:</strong> {{ pa.Herred }}</p>
+            <p><strong>gender_clean:</strong> {{ pa.gender_clean }}</p>
+            <p><strong>name_clean:</strong> {{ pa.name_clean }}</p>
+            <p><strong>age_clean:</strong> {{ pa.age_clean }}</p>
+            <p><strong>hh_id:</strong> {{ pa.hh_id }}</p>
+            <p><strong>hh_pos_std:</strong> {{ pa.hh_pos_std }}</p>
+            <p><strong>is_husband:</strong> {{ pa.is_husband }}</p>
+            <p><strong>has_husband:</strong> {{ pa.has_husband }}</p>
+            <p><strong>name_std:</strong> {{ pa.name_std }}</p>
+            <p><strong>maiden_family_names:</strong> {{ pa.maiden_family_names }}</p>
+            <p><strong>maiden_patronyms:</strong> {{ pa.maiden_patronyms }}</p>
+            <p><strong>first_names:</strong> {{ pa.first_names }}</p>
+            <p><strong>patronyms:</strong> {{ pa.patronyms }}</p>
+            <p><strong>family_names:</strong> {{ pa.family_names }}</p>
+            <p><strong>uncat_names:</strong> {{ pa.uncat_names }}</p>
+            <p><strong>husband_first_names:</strong> {{ pa.husband_first_names }}</p>
+            <p><strong>husband_name_match:</strong> {{ pa.husband_name_match }}</p>
+            <p><strong>true_patronym:</strong> {{ pa.true_patronym }}</p>
+            <p><strong>all_possible_patronyms:</strong> {{ pa.all_possible_patronyms }}</p>
+            <p><strong>all_possible_family_names:</strong> {{ pa.all_possible_family_names }}</p>
+            <p><strong>b_place_cl:</strong> {{ pa.b_place_cl }}</p>
+            <p><strong>other_cl:</strong> {{ pa.other_cl }}</p>
+            <p><strong>parish_cl:</strong> {{ pa.parish_cl }}</p>
+            <p><strong>district_cl:</strong> {{ pa.district_cl }}</p>
+            <p><strong>county_cl:</strong> {{ pa.county_cl }}</p>
+            <p><strong>koebstad_cl:</strong> {{ pa.koebstad_cl }}</p>
+            <p><strong>island_cl:</strong> {{ pa.island_cl }}</p>
+            <p><strong>town_cl:</strong> {{ pa.town_cl }}</p>
+            <p><strong>place_cl:</strong> {{ pa.place_cl }}</p>
+            <p><strong>county_std:</strong> {{ pa.county_std }}</p>
+            <p><strong>parish_std:</strong> {{ pa.parish_std }}</p>
+        </div>
+    </div>
 
-    <br>
-    <div class ="row">
+    <div *ngIf="show == 'household'">
+        <div class="row" *ngFor="let hh_pa of hh">
+            <div class="col border">
+                <p><strong>pa_id:</strong> {{ hh_pa.pa_id }}</p>
+                <p><strong>source_id:</strong> {{ hh_pa.source_id }}</p>
+                <p><strong>løbenr_i_indtastning:</strong> {{ hh_pa['løbenr_i_indtastning'] }}</p>
+                <p><strong>Stednavn:</strong> {{ hh_pa.Stednavn }}</p>
+                <p><strong>name:</strong> {{ hh_pa.name }}</p>
+                <p><strong>age:</strong> {{ hh_pa.age }}</p>
+                <p><strong>Erhverv:</strong> {{ hh_pa.Erhverv }}</p>
+                <p><strong>Stilling_i_husstanden:</strong> {{ hh_pa.Stilling_i_husstanden }}</p>
+                <p><strong>birth_place:</strong> {{ hh_pa.birth_place }}</p>
+                <p><strong>gender:</strong> {{ hh_pa.gender }}</p>
+                <p><strong>Sogn:</strong> {{ hh_pa.Sogn }}</p>
+                <p><strong>Amt:</strong> {{ hh_pa.Amt }}</p>
+                <p><strong>Herred:</strong> {{ hh_pa.Herred }}</p>
+                <p><strong>gender_clean:</strong> {{ hh_pa.gender_clean }}</p>
+                <p><strong>name_clean:</strong> {{ hh_pa.name_clean }}</p>
+                <p><strong>age_clean:</strong> {{ hh_pa.age_clean }}</p>
+                <p><strong>hh_id:</strong> {{ hh_pa.hh_id }}</p>
+                <p><strong>hh_pos_std:</strong> {{ hh_pa.hh_pos_std }}</p>
+                <p><strong>is_husband:</strong> {{ hh_pa.is_husband }}</p>
+                <p><strong>has_husband:</strong> {{ hh_pa.has_husband }}</p>
+                <p><strong>name_std:</strong> {{ hh_pa.name_std }}</p>
+                <p><strong>maiden_family_names:</strong> {{ hh_pa.maiden_family_names }}</p>
+                <p><strong>maiden_patronyms:</strong> {{ hh_pa.maiden_patronyms }}</p>
+                <p><strong>first_names:</strong> {{ hh_pa.first_names }}</p>
+                <p><strong>patronyms:</strong> {{ hh_pa.patronyms }}</p>
+                <p><strong>family_names:</strong> {{ hh_pa.family_names }}</p>
+                <p><strong>uncat_names:</strong> {{ hh_pa.uncat_names }}</p>
+                <p><strong>husband_first_names:</strong> {{ hh_pa.husband_first_names }}</p>
+                <p><strong>husband_name_match:</strong> {{ hh_pa.husband_name_match }}</p>
+                <p><strong>true_patronym:</strong> {{ hh_pa.true_patronym }}</p>
+                <p><strong>all_possible_patronyms:</strong> {{ hh_pa.all_possible_patronyms }}</p>
+                <p><strong>all_possible_family_names:</strong> {{ hh_pa.all_possible_family_names }}</p>
+                <p><strong>b_place_cl:</strong> {{ hh_pa.b_place_cl }}</p>
+                <p><strong>other_cl:</strong> {{ hh_pa.other_cl }}</p>
+                <p><strong>parish_cl:</strong> {{ hh_pa.parish_cl }}</p>
+                <p><strong>district_cl:</strong> {{ hh_pa.district_cl }}</p>
+                <p><strong>county_cl:</strong> {{ hh_pa.county_cl }}</p>
+                <p><strong>koebstad_cl:</strong> {{ hh_pa.koebstad_cl }}</p>
+                <p><strong>island_cl:</strong> {{ hh_pa.island_cl }}</p>
+                <p><strong>town_cl:</strong> {{ hh_pa.town_cl }}</p>
+                <p><strong>place_cl:</strong> {{ hh_pa.place_cl }}</p>
+                <p><strong>county_std:</strong> {{ hh_pa.county_std }}</p>
+                <p><strong>parish_std:</strong> {{ hh_pa.parish_std }}</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class ="row">
         <div class="col-sm">
             <p>Alder: {{pa.age}}</p>
             <p>Stilling: {{pa.Erhverv}}<p>
@@ -57,6 +155,6 @@
 
     <div class="row">
         <p class="col-sm">Værtsarkiv: -</p>
-    </div>
+    </div> -->
     <button class="row btn btn-outline-primary">Se original kilde</button>
 </div>

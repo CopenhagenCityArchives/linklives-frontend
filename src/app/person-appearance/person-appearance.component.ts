@@ -10,13 +10,16 @@ import { PersonAppearance } from '../search/search.service';
 export class PersonAppearanceComponent implements OnInit {
 
   constructor(private route: ActivatedRoute) { }
-  pa: PersonAppearance 
+  pa: PersonAppearance;
+  hh: PersonAppearance[];
+  show: string;
 
   ngOnInit(): void {
-    console.log("Hi from pa");
+    this.show = 'source';
 
     this.route.data.subscribe((resolve) => {
-      this.pa = resolve.pa as PersonAppearance;
+      this.pa = resolve.item.pa as PersonAppearance;
+      this.hh = resolve.item.hh as PersonAppearance[];
     });
   }
 

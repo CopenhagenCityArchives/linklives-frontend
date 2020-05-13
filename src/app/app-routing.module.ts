@@ -23,7 +23,7 @@ const routes: Routes = [
     path: 'pa/:id',
     component: PersonAppearanceComponent,
     resolve: {
-      pa: ItemResolverService
+      item: ItemResolverService
     },
     data: {
       index: 'pas',
