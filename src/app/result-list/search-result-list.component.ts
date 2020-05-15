@@ -11,66 +11,54 @@ export class SearchResultListComponent implements OnInit {
 
   searchResult: SearchResult;
   query?: string;
-  start: number;
-  size: number;
-  page: number;
   index: string;
-  pages: Array<{ start: number, page: number }>;
+
+  pagination: { current: number, last: number, size: number, navigationPages: number[]; }
 
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.start = 0;
-    this.size = 10;
-    this.page = Math.floor(this.start / this.size) + 1;
-
     this.route.queryParamMap.subscribe(queryParamMap => {
-      if (queryParamMap.has("query")) {
-        this.query = queryParamMap.get("query");
-      }
-      if (queryParamMap.has("index")) {
-        this.index = queryParamMap.get("index");
-      } else {
-        this.index = undefined;
-      }
+      this.query = queryParamMap.get('query');
+      this.index = queryParamMap.get('index');
     });
 
     this.route.data.subscribe((data: { searchResult: SearchResult }) => {
       this.searchResult = data.searchResult;
 
       this.route.paramMap.subscribe(paramMap => {
-        if (paramMap.has("start")) {
-          this.start = Number(paramMap.get("start"));
-          this.page = Math.floor(this.start / this.size) + 1;
+        // page defaults to 1
+        let page = Number(paramMap.get('page'));
+        if (page < 1 || page == NaN) {
+          page = 1;
         }
 
-        this.pages = new Array();
+        let size = Number(paramMap.get('size'));
+        if (size < 1 ||page == NaN) {
+          size = 10;
+        }
         
-        let pageStart = this.page - 2;
-        if (pageStart < 1) {
-          pageStart = 1;
+        let pageStart = Math.max(1, page - 2);
+        let totalPages = Math.ceil(this.searchResult.totalHits / size);
+        let pageEnd = Math.min(pageStart + 4, totalPages);
+
+        // if there are less than two pages after current, expand pagination
+        // in the lower direction
+        if (pageEnd - page < 2) {
+          pageStart = Math.max(1, pageEnd - 4);
         }
 
-        let pageEnd = pageStart + 4;
-        if (pageEnd * this.size > this.searchResult.totalHits) {
-          pageEnd = Math.ceil(this.searchResult.totalHits / this.size);
-          let pageDiff = pageEnd - pageStart;
-          if (pageDiff < 4) {
-            pageStart = pageEnd - 4;
-            if (pageStart < 1) {
-              pageStart = 1;
-            }
-          }
+        this.pagination = {
+          current: page,
+          last: pageEnd,
+          size: size,
+          navigationPages: []
         }
 
         for (let page = pageStart; page <= pageEnd; page ++) {
-          this.pages.push({ start: (page - 1) * this.size, page: page });
+          this.pagination.navigationPages.push(page);
         }
-      }, error => {
-      }, () => {
-      })
-    }, error => {
-    }, () => {
+      });
     });
   }
 

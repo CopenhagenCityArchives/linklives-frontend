@@ -45,7 +45,7 @@
         <div class="col-md">
             <ul class="row nav nav-tabs nav-fill">
                 <li class="nav-item d-flex col-4">
-                    <a class="nav-link flex-fill" [routerLink]="['./', { 'start': 0 } ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [queryParams]="{query: this.query }">
+                    <a class="nav-link flex-fill" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [queryParams]="{query: this.query }">
                         <p>
                             <strong class="align-middle">Alle</strong>
                         </p>
@@ -55,7 +55,7 @@
                     </a>
                 </li>
                 <li class="nav-item d-flex col-4">
-                    <a class="nav-link flex-fill d-inline align-middle" [routerLink]="['./', { 'start': 0 } ]" routerLinkActive="active" [queryParams]="{query: this.query, index: 'lifecourses'}">
+                    <a class="nav-link flex-fill d-inline align-middle" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [queryParams]="{query: this.query, index: 'lifecourses'}">
                         <span class="align-middle">
                             <p>
                                 <strong>Livsforløb</strong><span *ngIf="searchResult.indexHits.lifeCourses"> ({{ searchResult.indexHits.lifeCourses}})</span>
@@ -67,7 +67,7 @@
                     </a>
                 </li>
                 <li class="nav-item d-flex col-4">
-                    <a class="nav-link flex-fill d-inline align-middle" [routerLink]="['./', { 'start': 0 } ]" routerLinkActive="active" [queryParams]="{query: this.query, index: 'pas'}">
+                    <a class="nav-link flex-fill d-inline align-middle" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [queryParams]="{query: this.query, index: 'pas'}">
                         <p>
                             <strong>Indtastede kilder</strong><span *ngIf="searchResult.indexHits.pas"> ({{ searchResult.indexHits.pas}})</span>
                         </p>
@@ -83,16 +83,16 @@
                     <div class="row my-2">
                         <nav class="col-md-12">
                             <ul class="pagination justify-content-center mb-0">
-                                <li class="page-item" [ngClass]="{ disabled: page === 1}">
-                                    <a class="page-link" [tabindex]="page === 1 ? -1 : 0" [routerLink]="['./', { 'start': start - size } ]" [queryParams]="{query: query, index: index}">Forrige</a>
+                                <li class="page-item" [ngClass]="{ disabled: pagination.current === 1}">
+                                    <a class="page-link" [tabindex]=" pagination.current === 1 ? -1 : 0" [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current - 1 } ]" [queryParams]="{query: query, index: index}">Forrige</a>
                                 </li>
                                 
-                                <li *ngFor="let pageItem of pages" class="page-item" [ngClass]="{ disabled: page === pageItem.page }">
-                                    <a class="page-link" [routerLink]="['./', { 'start': pageItem.start } ]" [queryParams]="{query: this.query, index: index}">{{ pageItem.page }}</a>
+                                <li *ngFor="let page of pagination.navigationPages" class="page-item" [ngClass]="{ disabled: pagination.current === page }">
+                                    <a class="page-link" [routerLink]="['./', { 'size': pagination.size, 'page': page } ]" [queryParams]="{query: this.query, index: index}">{{ page }}</a>
                                 </li>
 
-                                <li class="page-item" [ngClass]="{ disabled: page * size >= searchResult.totalHits}">
-                                    <a class="page-link" [tabindex]="page * size >= searchResult.totalHits ? -1 : 0"  [routerLink]="['./', { 'start': start + size } ]" [queryParams]="{query: query, index: index}">Næste</a>
+                                <li class="page-item" [ngClass]="{ disabled: pagination.current >= pagination.last }">
+                                    <a class="page-link" [tabindex]="pagination.current >= pagination.last ? -1 : 0"  [routerLink]="['./', { 'size': pagination.size, 'page': pagination.last } ]" [queryParams]="{query: query, index: index}">Næste</a>
                                 </li>
                             </ul>
                         </nav>
