@@ -11,9 +11,9 @@
 
             <h3>{{pa.name}}</h3>
 
-            <p><span style="font-weight:bold">Kildetype: </span></p>
-
-            <p><span style="font-weight:bold">Fødested: </span>{{pa.birth_place}}</p>
+            <div><span style="font-weight:bold">Kildetype: </span></div>
+            <div><span style="font-weight:bold">Fødested: </span>{{pa.birth_place}}</div>
+            
         </div>
     </div>
 
@@ -30,131 +30,85 @@
 
     <div class="row" *ngIf="show == 'source'">
         <div class="col border">
-            <p><strong>pa_id:</strong> {{ pa.pa_id }}</p>
-            <p><strong>source_id:</strong> {{ pa.source_id }}</p>
-            <p><strong>løbenr_i_indtastning:</strong> {{ pa['løbenr_i_indtastning'] }}</p>
-            <p><strong>Stednavn:</strong> {{ pa.Stednavn }}</p>
-            <p><strong>name:</strong> {{ pa.name }}</p>
-            <p><strong>age:</strong> {{ pa.age }}</p>
-            <p><strong>Erhverv:</strong> {{ pa.Erhverv }}</p>
-            <p><strong>Stilling_i_husstanden:</strong> {{ pa.Stilling_i_husstanden }}</p>
-            <p><strong>birth_place:</strong> {{ pa.birth_place }}</p>
-            <p><strong>gender:</strong> {{ pa.gender }}</p>
-            <p><strong>Sogn:</strong> {{ pa.Sogn }}</p>
-            <p><strong>Amt:</strong> {{ pa.Amt }}</p>
-            <p><strong>Herred:</strong> {{ pa.Herred }}</p>
-            <p><strong>gender_clean:</strong> {{ pa.gender_clean }}</p>
-            <p><strong>name_clean:</strong> {{ pa.name_clean }}</p>
-            <p><strong>age_clean:</strong> {{ pa.age_clean }}</p>
-            <p><strong>hh_id:</strong> {{ pa.hh_id }}</p>
-            <p><strong>hh_pos_std:</strong> {{ pa.hh_pos_std }}</p>
-            <p><strong>is_husband:</strong> {{ pa.is_husband }}</p>
-            <p><strong>has_husband:</strong> {{ pa.has_husband }}</p>
-            <p><strong>name_std:</strong> {{ pa.name_std }}</p>
-            <p><strong>maiden_family_names:</strong> {{ pa.maiden_family_names }}</p>
-            <p><strong>maiden_patronyms:</strong> {{ pa.maiden_patronyms }}</p>
-            <p><strong>first_names:</strong> {{ pa.first_names }}</p>
-            <p><strong>patronyms:</strong> {{ pa.patronyms }}</p>
-            <p><strong>family_names:</strong> {{ pa.family_names }}</p>
-            <p><strong>uncat_names:</strong> {{ pa.uncat_names }}</p>
-            <p><strong>husband_first_names:</strong> {{ pa.husband_first_names }}</p>
-            <p><strong>husband_name_match:</strong> {{ pa.husband_name_match }}</p>
-            <p><strong>true_patronym:</strong> {{ pa.true_patronym }}</p>
-            <p><strong>all_possible_patronyms:</strong> {{ pa.all_possible_patronyms }}</p>
-            <p><strong>all_possible_family_names:</strong> {{ pa.all_possible_family_names }}</p>
-            <p><strong>b_place_cl:</strong> {{ pa.b_place_cl }}</p>
-            <p><strong>other_cl:</strong> {{ pa.other_cl }}</p>
-            <p><strong>parish_cl:</strong> {{ pa.parish_cl }}</p>
-            <p><strong>district_cl:</strong> {{ pa.district_cl }}</p>
-            <p><strong>county_cl:</strong> {{ pa.county_cl }}</p>
-            <p><strong>koebstad_cl:</strong> {{ pa.koebstad_cl }}</p>
-            <p><strong>island_cl:</strong> {{ pa.island_cl }}</p>
-            <p><strong>town_cl:</strong> {{ pa.town_cl }}</p>
-            <p><strong>place_cl:</strong> {{ pa.place_cl }}</p>
-            <p><strong>county_std:</strong> {{ pa.county_std }}</p>
-            <p><strong>parish_std:</strong> {{ pa.parish_std }}</p>
+            <div><strong>pa_id:</strong> {{ pa.pa_id }}</div>
+            <div><strong>source_id:</strong> {{ pa.source_id }}</div>
+            <div><strong>løbenr_i_indtastning:</strong> {{ pa['løbenr_i_indtastning'] }}</div>
+            <div><strong>Stednavn:</strong> {{ pa.Stednavn }}</div>
+            <div><strong>name:</strong> {{ pa.name }}</div>
+            <div><strong>age:</strong> {{ pa.age }}</div>
+            <div><strong>Erhverv:</strong> {{ pa.Erhverv }}</div>
+            <div><strong>Stilling_i_husstanden:</strong> {{ pa.Stilling_i_husstanden }}</div>
+            <div><strong>birth_place:</strong> {{ pa.birth_place }}</div>
+            <div><strong>gender:</strong> {{ pa.gender }}</div>
+            <div><strong>Sogn:</strong> {{ pa.Sogn }}</div>
+            <div><strong>Amt:</strong> {{ pa.Amt }}</div>
+            <div><strong>Herred:</strong> {{ pa.Herred }}</div>
+            <div><strong>gender_clean:</strong> {{ pa.gender_clean }}</div>
+            <div><strong>name_clean:</strong> {{ pa.name_clean }}</div>
+            <div><strong>age_clean:</strong> {{ pa.age_clean }}</div>
+            <div><strong>hh_id:</strong> {{ pa.hh_id }}</div>
+            <div><strong>hh_pos_std:</strong> {{ pa.hh_pos_std }}</div>
+            <div><strong>is_husband:</strong> {{ pa.is_husband }}</div>
+            <div><strong>has_husband:</strong> {{ pa.has_husband }}</div>
+            <div><strong>name_std:</strong> {{ pa.name_std }}</div>
+            <div><strong>maiden_family_names:</strong> {{ pa.maiden_family_names }}</div>
+            <div><strong>maiden_patronyms:</strong> {{ pa.maiden_patronyms }}</div>
+            <div><strong>first_names:</strong> {{ pa.first_names }}</div>
+            <div><strong>patronyms:</strong> {{ pa.patronyms }}</div>
+            <div><strong>family_names:</strong> {{ pa.family_names }}</div>
+            <div><strong>uncat_names:</strong> {{ pa.uncat_names }}</div>
+            <div><strong>husband_first_names:</strong> {{ pa.husband_first_names }}</div>
+            <div><strong>husband_name_match:</strong> {{ pa.husband_name_match }}</div>
+            <div><strong>true_patronym:</strong> {{ pa.true_patronym }}</div>
+            <div><strong>all_possible_patronyms:</strong> {{ pa.all_possible_patronyms }}</div>
+            <div><strong>all_possible_family_names:</strong> {{ pa.all_possible_family_names }}</div>
+            <div><strong>b_place_cl:</strong> {{ pa.b_place_cl }}</div>
+            <div><strong>other_cl:</strong> {{ pa.other_cl }}</div>
+            <div><strong>parish_cl:</strong> {{ pa.parish_cl }}</div>
+            <div><strong>district_cl:</strong> {{ pa.district_cl }}</div>
+            <div><strong>county_cl:</strong> {{ pa.county_cl }}</div>
+            <div><strong>koebstad_cl:</strong> {{ pa.koebstad_cl }}</div>
+            <div><strong>island_cl:</strong> {{ pa.island_cl }}</div>
+            <div><strong>town_cl:</strong> {{ pa.town_cl }}</div>
+            <div><strong>place_cl:</strong> {{ pa.place_cl }}</div>
+            <div><strong>county_std:</strong> {{ pa.county_std }}</div>
+            <div><strong>parish_std:</strong> {{ pa.parish_std }}</div>
         </div>
     </div>
 
     <div *ngIf="show == 'household'">
-        <div class="row" *ngFor="let hh_pa of hh">
-            <div class="col border">
-                <p><strong>pa_id:</strong> {{ hh_pa.pa_id }}</p>
-                <p><strong>source_id:</strong> {{ hh_pa.source_id }}</p>
-                <p><strong>løbenr_i_indtastning:</strong> {{ hh_pa['løbenr_i_indtastning'] }}</p>
-                <p><strong>Stednavn:</strong> {{ hh_pa.Stednavn }}</p>
-                <p><strong>name:</strong> {{ hh_pa.name }}</p>
-                <p><strong>age:</strong> {{ hh_pa.age }}</p>
-                <p><strong>Erhverv:</strong> {{ hh_pa.Erhverv }}</p>
-                <p><strong>Stilling_i_husstanden:</strong> {{ hh_pa.Stilling_i_husstanden }}</p>
-                <p><strong>birth_place:</strong> {{ hh_pa.birth_place }}</p>
-                <p><strong>gender:</strong> {{ hh_pa.gender }}</p>
-                <p><strong>Sogn:</strong> {{ hh_pa.Sogn }}</p>
-                <p><strong>Amt:</strong> {{ hh_pa.Amt }}</p>
-                <p><strong>Herred:</strong> {{ hh_pa.Herred }}</p>
-                <p><strong>gender_clean:</strong> {{ hh_pa.gender_clean }}</p>
-                <p><strong>name_clean:</strong> {{ hh_pa.name_clean }}</p>
-                <p><strong>age_clean:</strong> {{ hh_pa.age_clean }}</p>
-                <p><strong>hh_id:</strong> {{ hh_pa.hh_id }}</p>
-                <p><strong>hh_pos_std:</strong> {{ hh_pa.hh_pos_std }}</p>
-                <p><strong>is_husband:</strong> {{ hh_pa.is_husband }}</p>
-                <p><strong>has_husband:</strong> {{ hh_pa.has_husband }}</p>
-                <p><strong>name_std:</strong> {{ hh_pa.name_std }}</p>
-                <p><strong>maiden_family_names:</strong> {{ hh_pa.maiden_family_names }}</p>
-                <p><strong>maiden_patronyms:</strong> {{ hh_pa.maiden_patronyms }}</p>
-                <p><strong>first_names:</strong> {{ hh_pa.first_names }}</p>
-                <p><strong>patronyms:</strong> {{ hh_pa.patronyms }}</p>
-                <p><strong>family_names:</strong> {{ hh_pa.family_names }}</p>
-                <p><strong>uncat_names:</strong> {{ hh_pa.uncat_names }}</p>
-                <p><strong>husband_first_names:</strong> {{ hh_pa.husband_first_names }}</p>
-                <p><strong>husband_name_match:</strong> {{ hh_pa.husband_name_match }}</p>
-                <p><strong>true_patronym:</strong> {{ hh_pa.true_patronym }}</p>
-                <p><strong>all_possible_patronyms:</strong> {{ hh_pa.all_possible_patronyms }}</p>
-                <p><strong>all_possible_family_names:</strong> {{ hh_pa.all_possible_family_names }}</p>
-                <p><strong>b_place_cl:</strong> {{ hh_pa.b_place_cl }}</p>
-                <p><strong>other_cl:</strong> {{ hh_pa.other_cl }}</p>
-                <p><strong>parish_cl:</strong> {{ hh_pa.parish_cl }}</p>
-                <p><strong>district_cl:</strong> {{ hh_pa.district_cl }}</p>
-                <p><strong>county_cl:</strong> {{ hh_pa.county_cl }}</p>
-                <p><strong>koebstad_cl:</strong> {{ hh_pa.koebstad_cl }}</p>
-                <p><strong>island_cl:</strong> {{ hh_pa.island_cl }}</p>
-                <p><strong>town_cl:</strong> {{ hh_pa.town_cl }}</p>
-                <p><strong>place_cl:</strong> {{ hh_pa.place_cl }}</p>
-                <p><strong>county_std:</strong> {{ hh_pa.county_std }}</p>
-                <p><strong>parish_std:</strong> {{ hh_pa.parish_std }}</p>
-            </div>
-        </div>
+        <app-person-appearance-item *ngFor="let hh_pa of hh" [item]="hh_pa" class="row border mt-2"></app-person-appearance-item>
     </div>
 
     <!-- <div class ="row">
         <div class="col-sm">
-            <p>Alder: {{pa.age}}</p>
-            <p>Stilling: {{pa.Erhverv}}<p>
-            <p>Handicaps: -</p>
+            <div>Alder: {{pa.age}}</div>
+            <div>Stilling: {{pa.Erhverv}}<div>
+            <div>Handicaps: -</div>
         </div>
         <div class="col-sm">
-            <p>Køn: {{pa.gender}}</p>
-            <p>Civilstand: -</p>
-            <p>Trossamfund: -</p>
+            <div>Køn: {{pa.gender}}</div>
+            <div>Civilstand: -</div>
+            <div>Trossamfund: -</div>
         </div>
     </div>
     <div class="row">
         <div class="col-sm">
-            <p>Kildehenvisning: -</p>
-            <p>Kilde: -</p>
-            <p>Matnr/Adresse: -</p>
-            <p>Sogn: {{pa.Sogn}}</p>
-            <p>Amt: {{pa.Amt}}</p>
+            <div>Kildehenvisning: -</div>
+            <div>Kilde: -</div>
+            <div>Matnr/Adresse: -</div>
+            <div>Sogn: {{pa.Sogn}}</div>
+            <div>Amt: {{pa.Amt}}</div>
         </div>
         <div class="col-sm">
-            <p>Hustands-/Familie nr: {{pa.hh_id}}</p>
-            <p>Herred: {{pa.Herred}}</p>
-            <p>Stednavn: {{pa.Stednavn}}</p>
+            <div>Hustands-/Familie nr: {{pa.hh_id}}</div>
+            <div>Herred: {{pa.Herred}}</div>
+            <div>Stednavn: {{pa.Stednavn}}</div>
         </div>
     </div>
 
     <div class="row">
-        <p class="col-sm">Værtsarkiv: -</p>
+        <p class="col-sm">Værtsarkiv: -</div>
     </div> -->
     <button class="row btn btn-outline-primary">Se original kilde</button>
 </div>

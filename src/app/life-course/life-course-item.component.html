@@ -1,0 +1,22 @@
+<div class="col-md-4">
+    🔗 {{ personAppearances.length }} kilder
+</div>
+
+<div class="col-md-4">
+    <div class="text-capitalize">
+        {{ personAppearances[0].name_std}}
+    </div>
+    <div class="text-capitalize" *ngIf="personAppearances[0].parish_std">
+        <strong>Sogn:</strong> {{ personAppearances[0].parish_std}}
+    </div>
+    <div class="text-capitalize" *ngIf="personAppearances[0].district_cl">
+        <strong>Herred:</strong> {{ personAppearances[0].district_cl}}
+    </div>
+    <div class="text-capitalize" *ngIf="personAppearances[0].county_std">
+        <strong>Amt:</strong> {{ personAppearances[0].county_std}}
+    </div>
+</div>
+
+<div class="col-md-4 d-flex justify-content-end">
+    <button [routerLink]="['/life-course', lifecourseId]" [state]="{ data: personAppearances }"  class="btn btn-info align-self-end">Vælg livsforløb</button>
+</div>

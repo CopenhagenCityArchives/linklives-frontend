@@ -98,52 +98,10 @@
                         </nav>
                     </div>
 
-                    <div *ngFor="let hit of searchResult.hits" class="row border p-2 mx-2 mb-2" [ngSwitch]="hit.type">
-                        <ng-container *ngSwitchCase="'pas'">
-                            <div class="col-md-4">
-                                <span>🕮</span>
-                            </div>
-                            <div class="col-md-4">
-                                <div>
-                                    {{ hit.pa.name}}
-                                </div>
-                                <div class="text-capitalize" *ngIf="hit.pa.Sogn">
-                                    <strong>Sogn:</strong> {{ hit.pa.Sogn}}
-                                </div>
-                                <div class="text-capitalize" *ngIf="hit.pa.Herred">
-                                    <strong>Herred:</strong> {{ hit.pa.Herred}}
-                                </div>
-                                <div class="text-capitalize" *ngIf="hit.pa.Amt">
-                                    <strong>Amt:</strong> {{ hit.pa.Amt}}
-                                </div>
-                            </div>
-                            <div class="col-md-4 d-flex justify-content-end">
-                                <button [routerLink]="['/pa', hit.pa.source_id + '-' + hit.pa.pa_id]" [state]="{ data: hit.pa }" class="btn btn-info align-self-end">Vælg kilde</button>
-                            </div>
-                        </ng-container>
-                        <ng-container *ngSwitchCase="'lifecourses'">
-                            <div class="col-md-4">
-                                🔗 {{ hit.pas.length }} kilder
-                            </div>
-                            <div class="col-md-4">
-                                <div class="text-capitalize">
-                                    {{ hit.pas[0].name_std}}
-                                </div>
-                                <div class="text-capitalize" *ngIf="hit.pas[0].parish_std">
-                                    <strong>Sogn:</strong> {{ hit.pas[0].parish_std}}
-                                </div>
-                                <div class="text-capitalize" *ngIf="hit.pas[0].district_cl">
-                                    <strong>Herred:</strong> {{ hit.pas[0].district_cl}}
-                                </div>
-                                <div class="text-capitalize" *ngIf="hit.pas[0].county_std">
-                                    <strong>Amt:</strong> {{ hit.pas[0].county_std}}
-                                </div>
-                            </div>
-                            <div class="col-md-4 d-flex justify-content-end">
-                                <button [routerLink]="['/life-course', hit.life_course_id]" [state]="{ data: hit.pas }"  class="btn btn-info align-self-end">Vælg livsforløb</button>
-                            </div>
-                        </ng-container>
-                    </div>
+                    <ng-container *ngFor="let hit of searchResult.hits" [ngSwitch]="hit.type">
+                        <app-person-appearance-item *ngSwitchCase="'pas'" class="row border p-2 mx-2 mb-2" [item]="hit.pa"></app-person-appearance-item>
+                        <app-life-course-item *ngSwitchCase="'lifecourses'" class="row border p-2 mx-2 mb-2" [item]="hit.pas" [lifecourse-id]="hit.life_course_id"></app-life-course-item>
+                    </ng-container>
                 </div>
             </div>
         </div>

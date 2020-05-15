@@ -26,26 +26,5 @@
         <li class="nav-item">Familierelationer</li>
     </ul>
 
-    <div class="row border p-2 mb-2" *ngFor="let pa of pas">
-        <div class="col-md-4">
-            <span>🕮</span>
-        </div>
-        <div class="col-md-4">
-            <div>
-                {{ pa.name}}
-            </div>
-            <div class="text-capitalize" *ngIf="pa.Sogn">
-                <strong>Sogn:</strong> {{ pa.Sogn}}
-            </div>
-            <div class="text-capitalize" *ngIf="pa.Herred">
-                <strong>Herred:</strong> {{ pa.Herred}}
-            </div>
-            <div class="text-capitalize" *ngIf="pa.Amt">
-                <strong>Amt:</strong> {{ pa.Amt}}
-            </div>
-        </div>
-        <div class="col-md-4 d-flex justify-content-end">
-            <button [routerLink]="['/pa', pa.source_id + '-' + pa.pa_id]" [state]="{ data: pa }" class="btn btn-info align-self-end">Se kilde</button>
-        </div>
-    </div>
+    <app-person-appearance-item [item]="pa" class="row border p-2 mb-2" *ngFor="let pa of pas"></app-person-appearance-item>
 </div>
