@@ -20,7 +20,6 @@ export class SimpleSearchComponent implements OnInit {
     this.route.queryParamMap.subscribe((queryParamMap: ParamMap) => {
       if (queryParamMap.has("query")) {
         this.query = queryParamMap.get("query");
-        console.log("setting query to " + this.query);
       }
     });
 

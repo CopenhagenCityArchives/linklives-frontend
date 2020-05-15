@@ -1,5 +1,4 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { SearchService } from '../search.service';
 
 @Component({
   selector: 'app-search-field',
@@ -8,20 +7,12 @@ import { SearchService } from '../search.service';
 })
 export class SearchFieldComponent implements OnInit {
 
-  types: { id: number, name: string, description: string }[];
+  @Input("types") types: { id: number, name: string, description: string }[];
   @Input("field") model: { type: { id: number, name: string, description: string }, value: any };
 
-  constructor(private service: SearchService) { }
+  constructor() { }
 
-  ngOnInit(): void {
-    let types : { id: number, name: string, description: string }[] = [];
-
-    this.service.getTypes().subscribe(nextType => {
-      types.push(nextType);
-    }, null, () => {
-      this.types = types;
-    });
-  }
+  ngOnInit(): void {}
 
   setType(event: Event) {
     var select = event.target as HTMLSelectElement;

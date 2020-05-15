@@ -87,17 +87,6 @@ export class SearchService {
 
   constructor(private elasticsearch: ElasticsearchService) { }
 
-  getTypes() : Observable<{ id: number, name: string, description: string }> {
-    var observable = new Observable<{ id: number, name: string, description: string }>(subscriber => {
-      subscriber.next({ id: 1, name: "Navn", description: "En persons navn" });
-      subscriber.next({ id: 2, name: "Sted", description: "En persons sted" });
-      subscriber.next({ id: 3, name: "År", description: "En persons år" });
-      subscriber.complete();
-    });
-
-    return observable;
-  }
-
   simpleSearch(query: string, indices: string[], from: number, size: number): Observable<SearchResult> {
     return this.elasticsearch.searchSimple(query, indices, from, size);
   }

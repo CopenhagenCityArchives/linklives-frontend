@@ -1,11 +1,10 @@
-import { RouterTestingModule } from '@angular/router/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
 import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
 
 import { SimpleSearchComponent } from './search-simple.component';
-import { of } from 'rxjs';
 import { SearchFieldComponent } from '../search-field/search-field.component';
+import { of } from 'rxjs';
 
 describe('SimpleSearchComponent', () => {
   let component: SimpleSearchComponent;
