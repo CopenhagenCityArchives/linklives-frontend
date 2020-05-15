@@ -7,6 +7,8 @@ import { RouterLinkActiveOptionsStubDirective } from 'src/testing/router-link-ac
 import { QueryParamsStubDirective } from 'src/testing/query-params-stub.directive';
 import { RouterLinkStubDirective } from 'src/testing/router-link-stub.directive';
 import { SearchResult } from '../search/search.service';
+import { LifeCourseItemComponent } from '../life-course/life-course-item.component';
+import { PersonAppearanceItemComponent } from '../person-appearance/person-appearance-item.component';
 
 describe('SearchResultListComponent', () => {
   let component: SearchResultListComponent;
@@ -21,7 +23,7 @@ describe('SearchResultListComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SearchResultListComponent, RouterLinkStubDirective, QueryParamsStubDirective, RouterLinkActiveOptionsStubDirective ],
+      declarations: [ SearchResultListComponent, LifeCourseItemComponent, PersonAppearanceItemComponent, RouterLinkStubDirective, QueryParamsStubDirective, RouterLinkActiveOptionsStubDirective ],
       providers: [ { provide: ActivatedRoute, useValue: routeStub } ]
     })
     .compileComponents();
@@ -246,24 +248,24 @@ describe('SearchResultListComponent', () => {
   });
 
   it('should display results', () => {
-    let elts = compiled.querySelectorAll("div.row");
-    expect(elts.length).toBe(8);
-    expect(elts[5].querySelector("div.col-md-4:first-child").textContent.trim()).toBe("🕮");
-    expect(elts[5].querySelector("div.col-md-4:nth-child(2) > div:first-child").textContent.trim()).toBe("name 1");
-    expect(elts[5].querySelector("div.col-md-4:nth-child(2) > div:nth-child(2)").textContent.trim()).toBe("Sogn: Sogn 1");
-    expect(elts[5].querySelector("div.col-md-4:nth-child(2) > div:nth-child(3)").textContent.trim()).toBe("Herred: Herred 1");
-    expect(elts[5].querySelector("div.col-md-4:nth-child(2) > div:nth-child(4)").textContent.trim()).toBe("Amt: Amt 1");
-
+    let elts = compiled.querySelectorAll(".row");
+    expect(elts.length).toBe(9);
     expect(elts[6].querySelector("div.col-md-4:first-child").textContent.trim()).toBe("🕮");
-    expect(elts[6].querySelector("div.col-md-4:nth-child(2) > div:first-child").textContent.trim()).toBe("name 2");
-    expect(elts[6].querySelector("div.col-md-4:nth-child(2) > div:nth-child(2)").textContent.trim()).toBe("Sogn: Sogn 2");
-    expect(elts[6].querySelector("div.col-md-4:nth-child(2) > div:nth-child(3)").textContent.trim()).toBe("Herred: Herred 2");
-    expect(elts[6].querySelector("div.col-md-4:nth-child(2) > div:nth-child(4)").textContent.trim()).toBe("Amt: Amt 2");
+    expect(elts[6].querySelector("div.col-md-4:nth-child(2) > div:first-child").textContent.trim()).toBe("name 1");
+    expect(elts[6].querySelector("div.col-md-4:nth-child(2) > div:nth-child(2)").textContent.trim()).toBe("Sogn: Sogn 1");
+    expect(elts[6].querySelector("div.col-md-4:nth-child(2) > div:nth-child(3)").textContent.trim()).toBe("Herred: Herred 1");
+    expect(elts[6].querySelector("div.col-md-4:nth-child(2) > div:nth-child(4)").textContent.trim()).toBe("Amt: Amt 1");
 
-    expect(elts[7].querySelector("div.col-md-4:first-child").textContent.trim()).toBe("🔗 2 kilder");
-    expect(elts[7].querySelector("div.col-md-4:nth-child(2) > div:first-child").textContent.trim()).toBe("name_std 1");
-    expect(elts[7].querySelector("div.col-md-4:nth-child(2) > div:nth-child(2)").textContent.trim()).toBe("Sogn: parish_std 1");
-    expect(elts[7].querySelector("div.col-md-4:nth-child(2) > div:nth-child(3)").textContent.trim()).toBe("Herred: district_cl 1");
-    expect(elts[7].querySelector("div.col-md-4:nth-child(2) > div:nth-child(4)").textContent.trim()).toBe("Amt: county_std 1");
+    expect(elts[7].querySelector("div.col-md-4:first-child").textContent.trim()).toBe("🕮");
+    expect(elts[7].querySelector("div.col-md-4:nth-child(2) > div:first-child").textContent.trim()).toBe("name 2");
+    expect(elts[7].querySelector("div.col-md-4:nth-child(2) > div:nth-child(2)").textContent.trim()).toBe("Sogn: Sogn 2");
+    expect(elts[7].querySelector("div.col-md-4:nth-child(2) > div:nth-child(3)").textContent.trim()).toBe("Herred: Herred 2");
+    expect(elts[7].querySelector("div.col-md-4:nth-child(2) > div:nth-child(4)").textContent.trim()).toBe("Amt: Amt 2");
+
+    expect(elts[8].querySelector("div.col-md-4:first-child").textContent.trim()).toBe("🔗 2 kilder");
+    expect(elts[8].querySelector("div.col-md-4:nth-child(2) > div:first-child").textContent.trim()).toBe("name_std 1");
+    expect(elts[8].querySelector("div.col-md-4:nth-child(2) > div:nth-child(2)").textContent.trim()).toBe("Sogn: parish_std 1");
+    expect(elts[8].querySelector("div.col-md-4:nth-child(2) > div:nth-child(3)").textContent.trim()).toBe("Herred: district_cl 1");
+    expect(elts[8].querySelector("div.col-md-4:nth-child(2) > div:nth-child(4)").textContent.trim()).toBe("Amt: county_std 1");
   });
 });

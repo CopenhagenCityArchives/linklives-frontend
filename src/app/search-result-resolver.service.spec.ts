@@ -32,7 +32,7 @@ describe('SearchResultResolverService', () => {
     it('should call simpleSearch when `query` is set', () => {
       let route = {
         queryParamMap: convertToParamMap({ query: 'query text', index: 'pas,lifecourses' }),
-        paramMap: convertToParamMap({ start: 20 })
+        paramMap: convertToParamMap({ page: 3 })
       } as ActivatedRouteSnapshot;
       service.resolve(route, null);
       expect(searchServiceStub.simpleSearch).toHaveBeenCalledWith('query text', [ 'pas', 'lifecourses' ], 20, 10);
@@ -41,13 +41,13 @@ describe('SearchResultResolverService', () => {
     it('should not call simpleSearch when `query` isn\'t set', () => {
       let route = {
         queryParamMap: convertToParamMap({ index: 'pas,lifecourses' }),
-        paramMap: convertToParamMap({ start: 20 })
+        paramMap: convertToParamMap({ page: 3 })
       } as ActivatedRouteSnapshot;
       service.resolve(route, null);
       expect(searchServiceStub.simpleSearch).not.toHaveBeenCalled();
     });
 
-    it('should default `start` to 0', () => {
+    it('should default to getting 10 results from offset 0', () => {
       let route = {
         queryParamMap: convertToParamMap({ query: 'query text', index: 'pas,lifecourses' }),
         paramMap: convertToParamMap({})
@@ -59,7 +59,7 @@ describe('SearchResultResolverService', () => {
     it('should default `index` to \'lifecourses,pas\'', () => {
       let route = {
         queryParamMap: convertToParamMap({ query: 'query text' }),
-        paramMap: convertToParamMap({ start: 20 })
+        paramMap: convertToParamMap({ page: 3 })
       } as ActivatedRouteSnapshot;
       service.resolve(route, null);
       expect(searchServiceStub.simpleSearch).toHaveBeenCalledWith('query text', [ 'lifecourses', 'pas' ], 20, 10);

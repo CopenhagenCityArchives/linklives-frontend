@@ -5,6 +5,7 @@ import { Router, ActivatedRoute, convertToParamMap } from '@angular/router';
 
 import { SimpleSearchComponent } from './search-simple.component';
 import { of } from 'rxjs';
+import { SearchFieldComponent } from '../search-field/search-field.component';
 
 describe('SimpleSearchComponent', () => {
   let component: SimpleSearchComponent;
@@ -20,7 +21,7 @@ describe('SimpleSearchComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [ FormsModule ],
-      declarations: [ SimpleSearchComponent ],
+      declarations: [ SimpleSearchComponent, SearchFieldComponent ],
       providers: [
         { provide: Router, useValue: routerStub },
         { provide: ActivatedRoute, useValue: activatedRouteStub }

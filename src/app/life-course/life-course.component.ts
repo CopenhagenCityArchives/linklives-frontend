@@ -10,12 +10,15 @@ import { PersonAppearance } from '../search/search.service';
 export class LifeCourseComponent implements OnInit {
 
   pas: PersonAppearance[] = [];
+  lifecourseId: number;
 
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(next => {
-      this.pas = next.pas as PersonAppearance[];
+      console.log(next)
+      this.pas = next.lifecourse.personAppearances as PersonAppearance[];
+      this.lifecourseId = next.lifecourse.lifecourseId;
     });
   }
 

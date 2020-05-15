@@ -4,16 +4,17 @@ import { LifeCourseComponent } from './life-course.component';
 import { PersonAppearance } from '../search/search.service';
 import { ActivatedRoute } from '@angular/router';
 import { of, Observable } from 'rxjs';
+import { PersonAppearanceItemComponent } from '../person-appearance/person-appearance-item.component';
 
 describe('LifeCourseComponent', () => {
   let component: LifeCourseComponent;
   let fixture: ComponentFixture<LifeCourseComponent>;
   let compiled: Element;
-  let routeStub: { data: Observable<{pas: PersonAppearance[]}> } = { data: undefined };
+  let routeStub: { data: Observable<{ lifecourse: { lifecourseId: number, personAppearances: PersonAppearance[] } }> } = { data: undefined };
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LifeCourseComponent ],
+      declarations: [ LifeCourseComponent, PersonAppearanceItemComponent ],
       providers: [ { provide: ActivatedRoute, useValue: routeStub } ]
     })
     .compileComponents();
@@ -71,7 +72,7 @@ describe('LifeCourseComponent', () => {
       county_std: 'county_std', 
       parish_std: 'parish_std', 
     }]
-    routeStub.data = of({pas: pas});
+    routeStub.data = of({ lifecourse: { personAppearances: pas, lifecourseId: 1 } });
     fixture.detectChanges();
 
     expect(component.pas).toEqual(pas);

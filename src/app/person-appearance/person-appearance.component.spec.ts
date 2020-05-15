@@ -1,9 +1,10 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { PersonAppearanceComponent } from './person-appearance.component';
 import { ActivatedRoute } from '@angular/router';
 import { PersonAppearance } from '../search/search.service';
 import { of } from 'rxjs';
+
+import { PersonAppearanceComponent } from './person-appearance.component';
+import { PersonAppearanceItemComponent } from './person-appearance-item.component';
 
 describe('PersonAppearanceComponent', () => {
   let component: PersonAppearanceComponent;
@@ -12,7 +13,7 @@ describe('PersonAppearanceComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PersonAppearanceComponent ],
+      declarations: [ PersonAppearanceComponent, PersonAppearanceItemComponent ],
       providers: [ { provide: ActivatedRoute, useValue: routeStub } ]
     })
     .compileComponents();

@@ -1,11 +1,11 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ItemResolverService } from './item-resolver.service';
-import { ElasticsearchService } from './elasticsearch/elasticsearch.service';
+import { LifeCourseResolverService } from './life-course-resolver.service';
 import { ActivatedRouteSnapshot } from '@angular/router';
+import { ElasticsearchService } from './elasticsearch/elasticsearch.service';
 
-describe('ItemResolverService', () => {
-  let service: ItemResolverService;
+describe('LifeCourseResolverService', () => {
+  let service: LifeCourseResolverService;
   let elasticsearchServiceStub = {
     doc: jasmine.createSpy('doc')
   }
@@ -21,7 +21,7 @@ describe('ItemResolverService', () => {
         { provide: ActivatedRouteSnapshot, useValue: activatedRouteSnapshotStub }
       ]
     });
-    service = TestBed.inject(ItemResolverService);
+    service = TestBed.inject(LifeCourseResolverService);
   });
 
   it('should be created', () => {

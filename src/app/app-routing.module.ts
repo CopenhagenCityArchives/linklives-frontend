@@ -6,7 +6,8 @@ import { SearchResultListComponent } from './result-list/search-result-list.comp
 import { SearchResultResolverService } from './search-result-resolver.service';
 import { PersonAppearanceComponent } from './person-appearance/person-appearance.component';
 import { LifeCourseComponent } from './life-course/life-course.component';
-import { ItemResolverService } from './item-resolver.service';
+import { PersonAppearanceResolverService } from './person-appearance-resolver.service';
+import { LifeCourseResolverService } from './life-course-resolver.service';
 
 
 const routes: Routes = [
@@ -23,21 +24,15 @@ const routes: Routes = [
     path: 'pa/:id',
     component: PersonAppearanceComponent,
     resolve: {
-      item: ItemResolverService
+      item: PersonAppearanceResolverService
     },
-    data: {
-      index: 'pas',
-    }
   },
   {
     path: 'life-course/:id',
     component: LifeCourseComponent,
     resolve: {
-      pas: ItemResolverService
+      lifecourse: LifeCourseResolverService
     },
-    data: {
-      index: 'lifecourses'
-    }
   },
   { path: '', redirectTo: 'search', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
