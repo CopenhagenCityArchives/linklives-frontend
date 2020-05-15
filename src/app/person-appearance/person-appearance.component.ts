@@ -12,17 +12,13 @@ export class PersonAppearanceComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
   pa: PersonAppearance;
   hh: PersonAppearance[];
-  show: string;
+  show: string = 'source';
 
   ngOnInit(): void {
-    this.show = 'source';
-
     this.route.data.subscribe((resolve) => {
       this.pa = resolve.item.pa as PersonAppearance;
       this.hh = resolve.item.hh as PersonAppearance[];
     });
   }
-
-
 
 }

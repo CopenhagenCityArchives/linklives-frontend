@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, ActivatedRoute } from '@angular/router';
+import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { PersonAppearance, PersonAppearanceHit } from '../search/search.service';
-import { of, Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 
@@ -13,15 +12,8 @@ export class PersonAppearanceResolverService implements Resolve<{pa:PersonAppear
   constructor(private elasticsearch: ElasticsearchService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    let personAppearance: Observable<PersonAppearance>;
-    if (history.state?.data) {
-      personAppearance = of(history.state.data);
-    } else {
-      personAppearance = this.elasticsearch.getDocument('pas', route.params['id']).pipe(map(pa => pa as PersonAppearance));
-    }
-
-    // enrich with household if getting pa
-    return personAppearance.pipe(
+    return this.elasticsearch.getDocument('pas', route.params['id']).pipe(map(pa => pa as PersonAppearance))
+    .pipe(
       mergeMap((pa: PersonAppearance, index) => {
         let body = {
           "from": 0,
