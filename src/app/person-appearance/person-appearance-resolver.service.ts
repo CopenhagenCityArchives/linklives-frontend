@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot, ActivatedRoute } from '@angular/router';
-import { PersonAppearance, PersonAppearanceHit } from './search/search.service';
+import { PersonAppearance, PersonAppearanceHit } from '../search/search.service';
 import { of, Observable } from 'rxjs';
-import { flatMap, map, concatAll, mergeMap } from 'rxjs/operators';
-import { ElasticsearchService } from './elasticsearch/elasticsearch.service';
+import { map, mergeMap } from 'rxjs/operators';
+import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 
 @Injectable({
   providedIn: 'root'

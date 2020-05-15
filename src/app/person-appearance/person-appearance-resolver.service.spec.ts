@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { PersonAppearanceResolverService } from './person-appearance-resolver.service';
-import { ElasticsearchService } from './elasticsearch/elasticsearch.service';
+import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 import { ActivatedRouteSnapshot } from '@angular/router';
 
 describe('PersonAppearanceResolverService', () => {

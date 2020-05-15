@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { PersonAppearance } from './search/search.service';
+import { PersonAppearance } from '../search/search.service';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { ElasticsearchService } from './elasticsearch/elasticsearch.service';
+import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 
 @Injectable({
   providedIn: 'root'

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SearchResult, SearchService } from './search/search.service';
+import { SearchResult, SearchService } from '../search/search.service';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable, EMPTY } from 'rxjs';
 

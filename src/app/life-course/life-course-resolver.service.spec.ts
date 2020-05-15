@@ -2,7 +2,7 @@ import { TestBed } from '@angular/core/testing';
 
 import { LifeCourseResolverService } from './life-course-resolver.service';
 import { ActivatedRouteSnapshot } from '@angular/router';
-import { ElasticsearchService } from './elasticsearch/elasticsearch.service';
+import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 
 describe('LifeCourseResolverService', () => {
   let service: LifeCourseResolverService;

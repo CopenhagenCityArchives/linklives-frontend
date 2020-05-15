@@ -3,7 +3,7 @@ import { TestBed } from '@angular/core/testing';
 import { SearchResultResolverService } from './search-result-resolver.service';
 import { HttpTestingController, HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRouteSnapshot, convertToParamMap } from '@angular/router';
-import { SearchService } from './search/search.service';
+import { SearchService } from '../search/search.service';
 
 describe('SearchResultResolverService', () => {
   let service: SearchResultResolverService;
