@@ -1,22 +1,33 @@
-<div class="col-md-4">
-    🔗 {{ personAppearances.length }} kilder
-</div>
+<div class="life-course-item">
+    <div class="life-course-item__color-indicator">
+    </div>
+    <div class="life-course-item__section">
+        <div>🔗 {{ personAppearances.length }} kilder</div>
+        <h3>Livsforløb</h3>
+    </div>
 
-<div class="col-md-4">
-    <div class="text-capitalize">
-        {{ personAppearances[0].name_std}}
+    <div class="life-course-item__section">
+        <div class="text-capitalize">
+            <p class="subtitle">Person</p>
+            <p>{{ personAppearances[0].name_std}}</p>
+        </div>
+        <div>
+            <span class="text-capitalize" *ngIf="personAppearances[0].parish_std">
+                {{ personAppearances[0].parish_std}}
+            </span>
+            <span class="text-capitalize" *ngIf="personAppearances[0].district_cl">
+                , {{ personAppearances[0].district_cl}}
+            </span>
+            <span class="text-capitalize" *ngIf="personAppearances[0].county_std">
+                , {{ personAppearances[0].county_std}}
+            </span>
+        </div>
     </div>
-    <div class="text-capitalize" *ngIf="personAppearances[0].parish_std">
-        <strong>Sogn:</strong> {{ personAppearances[0].parish_std}}
+    <div class="life-course-item__section">
+        <p>Kilder</p>
     </div>
-    <div class="text-capitalize" *ngIf="personAppearances[0].district_cl">
-        <strong>Herred:</strong> {{ personAppearances[0].district_cl}}
-    </div>
-    <div class="text-capitalize" *ngIf="personAppearances[0].county_std">
-        <strong>Amt:</strong> {{ personAppearances[0].county_std}}
-    </div>
-</div>
 
-<div class="col-md-4 d-flex justify-content-end">
-    <a href [routerLink]="['/life-course', lifecourseId]" class="btn btn-info align-self-end">Vælg livsforløb</a>
+    <div class="life-course-item__section">
+        <a href [routerLink]="['/life-course', lifecourseId]" class="btn btn-info align-self-end">Se forløb</a>
+    </div>
 </div>

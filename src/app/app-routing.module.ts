@@ -16,9 +16,9 @@ const routes: Routes = [
     pathMatch: 'full',
     component: SearchResultListComponent,
     runGuardsAndResolvers: 'paramsOrQueryParamsChange',
-    resolve: {
-      searchResult: SearchResultResolverService
-    }
+    // resolve: {
+    //   searchResult: SearchResultResolverService
+    // }
   },
   {
     path: 'pa/:id',
