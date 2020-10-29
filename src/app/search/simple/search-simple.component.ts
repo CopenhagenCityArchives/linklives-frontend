@@ -7,9 +7,10 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
   styleUrls: ['./search-simple.component.scss']
 })
 export class SimpleSearchComponent implements OnInit {
+  //TODO: we need to be able to set this to a different one in prod, based on the concrete url in the wordpress theme?
+  featherSpriteUrl = "/assets/feather-sprite_cbef33d2.svg";
 
   query = "";
-  fields = [];
 
   constructor(
     private router: Router,
@@ -22,18 +23,6 @@ export class SimpleSearchComponent implements OnInit {
         this.query = queryParamMap.get("query");
       }
     });
-
-    this.addField();
-    this.addField({ id: 2, name: "Sted", description: "Sted for person" });
-    this.addField({ id: 3, name: "År", description: "År for person" });
-  }
-
-  addField(type? : { id: number, name: string, description: string }): void {
-    if (type) {
-      this.fields.push({ type: type, value: null });
-    } else {
-      this.fields.push({ type: { id: 1, name: 'Navn', description: 'Navn på person' }, value: null});
-    }
   }
 
   search(): void {
