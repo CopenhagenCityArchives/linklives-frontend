@@ -10,7 +10,14 @@ export class SimpleSearchComponent implements OnInit {
   //TODO: we need to be able to set this to a different one in prod, based on the concrete url in the wordpress theme?
   featherSpriteUrl = "/assets/feather-sprite_cbef33d2.svg";
 
+  // Simple search
   query = "";
+
+  // Advanced search
+  firstName: String = "";
+  lastName: String = "";
+  parish: String = "";
+  birthYear: Number = null;
 
   constructor(
     private router: Router,
@@ -25,12 +32,16 @@ export class SimpleSearchComponent implements OnInit {
     });
   }
 
-  search(): void {
+  searchSimple(): void {
     let navigationExtras = {
       queryParams: { 'query': this.query }
     };
       
     this.router.navigate(['/results'], navigationExtras);
+  }
+
+  searchAdvanced(): void {
+    console.log("firstName", this.firstName);
   }
 
 }

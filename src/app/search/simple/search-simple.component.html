@@ -41,7 +41,7 @@
   text-transform: uppercase;
   font-size: 0.95rem;
   font-weight: 600;
-  padding: 0 1.5rem;
+  padding: 1.15rem 1.5rem;
   font-family: founders, Helvetica, Arial, sans-serif;
   letter-spacing: 0.1rem;
 }
@@ -67,9 +67,7 @@
 }
 .input-group {
   display: flex;
-}
-.card .input-group {
-  width: 66%;
+  margin-top: 1rem;
 }
 .input-field {
   padding: 1rem 1.4rem;
@@ -77,8 +75,44 @@
   border-radius: 3px;
   flex-grow: 1;
 }
+.search-row {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 1rem;
+  width: 100%;
+}
+.search-columns-8 {
+  grid-column: span 8;
+}
+.search-columns-4 {
+  grid-column: span 4;
+}
+.dropdown-select {
+  padding: 1rem 1.4rem;
+  border: 1px solid #bbb;
+  border-radius: 3px;
+  flex-basis: 180px;
+  flex-grow: 0.5;
+  flex-shrink: 0.5;
+}
 .input-field-left {
   border-radius: 3px 0 0 3px;
+}
+.input-field-right {
+  border-radius: 0 3px 3px 0;
+}
+.help-box {
+  padding: 2rem;
+  color: white;
+  background: rgb(6, 40, 81);
+  margin-top: 1rem;
+  font-size: 1rem;
+  flex-basis: 300px;
+  flex-grow: 0;
+  flex-shrink: 1;
+}
+.help-box strong {
+  font-weight: 600;
 }
 </style>
 
@@ -105,8 +139,8 @@
     </div>
   </div>
   <div class="card">
-    <form (ngSubmit)="search()">
     <h3 class="card--title">Fritekstsøgning</h3>
+    <form (ngSubmit)="searchSimple()">
       <div class="input-group">
         <input
           type="text"
@@ -124,6 +158,95 @@
             <use [attr.href]="featherSpriteUrl + '#search'"></use>
           </svg>
         </button>
+      </div>
+    </form>
+  </div>
+
+  <div class="card">
+    <h3 class="card--title">Specifik søgning</h3>
+    <form (ngSubmit)="searchAdvanced()" class="search-row">
+      <div class="search-columns-8">
+        <div class="input-group">
+          <input
+            type="text"
+            placeholder="Jens"
+            class="input-field input-field-left"
+            [(ngModel)]="firstName"
+            name="firstName"
+          />
+          <select
+            class="dropdown-select input-field-right"
+            disabled
+          >
+            <option value="firstName">Fornavn</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <input
+            type="text"
+            placeholder="Larsen"
+            class="input-field input-field-left"
+            [(ngModel)]="lastName"
+            name="lastName"
+          />
+          <select
+            class="dropdown-select input-field-right"
+            disabled
+          >
+            <option value="lastName">Efternavn</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <input
+            type="text"
+            placeholder="Odsherred Sogn"
+            class="input-field input-field-left"
+            [(ngModel)]="parish"
+            name="parish"
+          />
+          <select
+            class="dropdown-select input-field-right"
+            disabled
+          >
+            <option value="parish">Sogn</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <input
+            type="number"
+            placeholder="1850"
+            class="input-field input-field-left"
+            [(ngModel)]="birthYear"
+            name="birthYear"
+          />
+          <select
+            class="dropdown-select input-field-right"
+            disabled
+          >
+            <option value="birthYear">Fødselsår</option>
+          </select>
+        </div>
+
+        <div style="margin-top: 1rem; display: flex; justify-content: end;">
+          <button
+            type="submit"
+            class="btn-black"
+          >
+            <span>Søg</span>
+            <svg class="icon right">
+              <use [attr.href]="featherSpriteUrl + '#search'"></use>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <div class="search-columns-4" style="display: flex; justify-content: end; align-items: start;">
+        <div class="help-box">
+          <p><strong>Du søger livsforløb i kilderne</strong></p>
+          <p>Lorem ipsum dolor sit amet.</p>
+        </div>
       </div>
     </form>
   </div>
