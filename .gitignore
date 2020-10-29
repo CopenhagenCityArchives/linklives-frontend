@@ -44,3 +44,6 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+# fonts we aren't allowed to distribute, but need locally to get an accurate frame to work in
+src/assets/fonts/
