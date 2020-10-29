@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output } from '@angular/core';
 
 @Component({
   selector: 'app-search',
@@ -6,6 +6,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
+  //TODO: we need to be able to set this to a different one in prod, based on the concrete url in the wordpress theme?
+  featherSpriteUrl = "/assets/feather-sprite_cbef33d2.svg";
 
   constructor() { }
 
