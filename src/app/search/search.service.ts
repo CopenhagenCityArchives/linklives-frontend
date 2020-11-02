@@ -90,4 +90,8 @@ export class SearchService {
   simpleSearch(query: string, indices: string[], from: number, size: number): Observable<SearchResult> {
     return this.elasticsearch.searchSimple(query, indices, from, size);
   }
+
+  advancedSearch(query: Object, indices: string[], from: number, size: number): Observable<SearchResult> {
+    return this.elasticsearch.searchAdvanced(query, indices, from, size);
+  }
 }

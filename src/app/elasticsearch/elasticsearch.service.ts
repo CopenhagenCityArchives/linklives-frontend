@@ -167,6 +167,69 @@ export class ElasticsearchService {
     return this.search(indices, body);
   }
 
+  searchAdvanced(query: Object, indices: string[], from: number, size: number) {
+    const must = [];
+
+    const mapQueryMustKey = {
+      firstName: "first_names",
+      lastName: "patronyms",
+      parish: "parish",
+    };
+
+    const mapQueryShouldKey = {
+      birthPlace: ["birth_place", "birth_place_county_std", "birth_place_parish_std", "birth_place_koebstad_std"],
+    };
+
+    Object.keys(query).filter((queryKey) => query[queryKey]).forEach((queryKey) => {
+      const mustKey = mapQueryMustKey[queryKey];
+
+      if(mustKey) {
+        must.push({
+          match: { [`person_appearance.${mustKey}`]: query[queryKey] }
+        });
+      }
+
+      const shouldKeys = mapQueryShouldKey[queryKey];
+
+      if(shouldKeys) {
+        must.push({
+          bool: {
+            should: shouldKeys.map((shouldKey) => {
+              return { match: { [`person_appearance.${shouldKey}`]: query[queryKey] } };
+            }),
+          },
+        });
+      }
+    });
+
+    const body = {
+      from: from,
+      size: size,
+      query: {
+        nested: {
+          path: "person_appearance",
+          query: {
+            bool: { must },
+          },
+        },
+      },
+      aggs: {
+        count: {
+          terms: {
+            field: "_index"
+          }
+        }
+      },
+      post_filter: {
+        terms: {
+          _index: indices
+        }
+      }
+    };
+
+    return this.search(indices, body);
+  }
+
   getDocument(index: string, id: string|number): Observable<PersonAppearance|PersonAppearance[]> {
     return new Observable<PersonAppearance|PersonAppearance[]>(
       observer => {
