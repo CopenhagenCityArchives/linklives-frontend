@@ -11,6 +11,10 @@ export class SearchResultListComponent implements OnInit {
 
   searchResult: SearchResult;
   query?: string;
+  firstName?: string;
+  lastName?: string;
+  parish?: string;
+  birthPlace?: string;
   index: string;
 
   pagination: { current: number, last: number, size: number, navigationPages: number[]; }
@@ -20,6 +24,10 @@ export class SearchResultListComponent implements OnInit {
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(queryParamMap => {
       this.query = queryParamMap.get('query');
+      this.firstName = queryParamMap.get('firstName');
+      this.lastName = queryParamMap.get('lastName');
+      this.parish = queryParamMap.get('parish');
+      this.birthPlace = queryParamMap.get('birthPlace');
       this.index = queryParamMap.get('index');
     });
 
