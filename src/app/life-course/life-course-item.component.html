@@ -1,15 +1,19 @@
-<div class="life-course-item">
-    <div class="life-course-item__color-indicator">
+<div class="life-course">
+    <div class="life-course__color-indicator">
     </div>
-    <div class="life-course-item__section">
-        <div>🔗 {{ personAppearances.length }} kilder</div>
-        <h3>Livsforløb</h3>
+    <div class="life-course__section">
+        <div class="life-course__source-count">
+            <span class="life-course__circle">{{ personAppearances.length }}</span> kilder
+        </div>
+        <h3 class="life-course__title">Livsforløb</h3>
+        <p>1806 - 1856</p>
     </div>
 
-    <div class="life-course-item__section">
+    <div class="life-course__section life-course__section--bordered">
         <div class="text-capitalize">
-            <p class="subtitle">Person</p>
-            <p>{{ personAppearances[0].name_std}}</p>
+            <p class="life-course__subtitle">Person</p>
+            <p class="life-course__name u-margin-0">{{ personAppearances[0].name_std}}</p>
+            <p class="u-margin-0">* 1806 + 1806</p>
         </div>
         <div>
             <span class="text-capitalize" *ngIf="personAppearances[0].parish_std">
@@ -23,11 +27,13 @@
             </span>
         </div>
     </div>
-    <div class="life-course-item__section">
-        <p>Kilder</p>
+    <div class="life-course__section">
+        <p>Kilder i perioden {{ number }}-{{ number }}</p>
     </div>
 
-    <div class="life-course-item__section">
-        <a href [routerLink]="['/life-course', lifecourseId]" class="btn btn-info align-self-end">Se forløb</a>
+    <div class="life-course__section life-course__cta-section">
+        <div>
+            <a href [routerLink]="['/life-course', lifecourseId]" class="btn btn--blue align-self-end">Se forløb</a>
+        </div>
     </div>
 </div>
