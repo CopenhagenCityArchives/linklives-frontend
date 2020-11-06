@@ -47,7 +47,7 @@ describe('SimpleSearchComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    let input: HTMLInputElement = compiled.querySelector('input#query');
+    let input: HTMLInputElement = compiled.querySelector('input[name=query]');
     expect(input.value).toBe('');
   });
 
@@ -56,7 +56,7 @@ describe('SimpleSearchComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    let input: HTMLInputElement = compiled.querySelector('input#query');
+    let input: HTMLInputElement = compiled.querySelector('input[name=query]');
     expect(input.value).toBe('query text');
   });
 
@@ -66,7 +66,7 @@ describe('SimpleSearchComponent', () => {
     fixture.detectChanges();
     await fixture.whenStable();
 
-    let input: HTMLInputElement = compiled.querySelector('input#query');
+    let input: HTMLInputElement = compiled.querySelector('input[name=query]');
     input.value = "query text";
     input.dispatchEvent(new Event('input'));
 
