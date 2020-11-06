@@ -82,7 +82,7 @@ describe('SimpleSearchComponent', () => {
       fixture.detectChanges();
   
       component.query = 'query text';
-      component.search();
+      component.searchSimple();
   
       expect(routerStub.navigate).toHaveBeenCalledWith(['/results'], { queryParams: { query: 'query text' }});
     });
