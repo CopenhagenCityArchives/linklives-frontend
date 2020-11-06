@@ -1,15 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
+interface AdvancedSearchQuery {
+  firstName?: String,
+  lastName?: String,
+  parish?: String,
+  birthPlace?: String,
+}
+
 @Component({
   selector: 'app-search-simple',
   templateUrl: './search-simple.component.html',
   styleUrls: ['./search-simple.component.scss']
 })
 export class SimpleSearchComponent implements OnInit {
+  //TODO: we need to be able to set this to a different one in prod, based on the concrete url in the wordpress theme?
+  featherSpriteUrl = "/assets/feather-sprite_cbef33d2.svg";
 
+  // Simple search
   query = "";
-  fields = [];
+
+  // Advanced search
+  firstName: String = "";
+  lastName: String = "";
+  parish: String = "";
+  birthPlace: String = "";
 
   constructor(
     private router: Router,
@@ -22,26 +37,25 @@ export class SimpleSearchComponent implements OnInit {
         this.query = queryParamMap.get("query");
       }
     });
-
-    this.addField();
-    this.addField({ id: 2, name: "Sted", description: "Sted for person" });
-    this.addField({ id: 3, name: "År", description: "År for person" });
   }
 
-  addField(type? : { id: number, name: string, description: string }): void {
-    if (type) {
-      this.fields.push({ type: type, value: null });
-    } else {
-      this.fields.push({ type: { id: 1, name: 'Navn', description: 'Navn på person' }, value: null});
-    }
+  searchSimple(): void {
+    this.router.navigate(['/results'], {
+      queryParams: { query: this.query },
+    });
   }
 
-  search(): void {
-    let navigationExtras = {
-      queryParams: { 'query': this.query }
-    };
-      
-    this.router.navigate(['/results'], navigationExtras);
+  searchAdvanced(): void {
+    const queryParams: AdvancedSearchQuery = {};
+
+    if(this.firstName) queryParams.firstName = this.firstName;
+    if(this.lastName) queryParams.lastName = this.lastName;
+    if(this.parish) queryParams.parish = this.parish;
+    if(this.birthPlace) queryParams.birthPlace = this.birthPlace;
+
+    this.router.navigate(['/results'], {
+      queryParams,
+    });
   }
 
 }

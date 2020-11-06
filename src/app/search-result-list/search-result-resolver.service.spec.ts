@@ -38,13 +38,13 @@ describe('SearchResultResolverService', () => {
       expect(searchServiceStub.simpleSearch).toHaveBeenCalledWith('query text', [ 'pas', 'lifecourses' ], 20, 10);
     });
 
-    it('should not call simpleSearch when `query` isn\'t set', () => {
+    it('should call simpleSearch with empty string when `query` isn\'t set', () => {
       let route = {
         queryParamMap: convertToParamMap({ index: 'pas,lifecourses' }),
         paramMap: convertToParamMap({ page: 3 })
       } as ActivatedRouteSnapshot;
       service.resolve(route, null);
-      expect(searchServiceStub.simpleSearch).not.toHaveBeenCalled();
+      expect(searchServiceStub.simpleSearch).toHaveBeenCalledWith('', [ 'pas', 'lifecourses' ], 20, 10);
     });
 
     it('should default to getting 10 results from offset 0', () => {

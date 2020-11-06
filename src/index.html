@@ -2,33 +2,85 @@
 <html lang="en">
 <head>
   <meta charset="utf-8">
-  <title>Linklives</title>
+  <title>Søgning - Link-Lives</title>
   <base href="/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" type="image/x-icon" href="favicon.ico">
+  <!-- Link-Lives site styling -->
+    <link rel='stylesheet' id='wp-block-library-css'  href='/assets/block-library_style.min.css' type='text/css' media='all' />
+    <link rel='stylesheet' id='sage/main.css-css'  href='/assets/main_ffd38de9.css' type='text/css' media='all' />
+  <!-- End Link-Lives site styling -->
 </head>
-<body>
-  <div class="container">
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">LinkLives</a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
+<body class="home page-template-default page page-id-67 app-data index-data singular-data page-data page-67-data page-link-lives-a-research-project-data front-page-data">
+  <header class="menu-top">
+    <a href="#indhold" class="skip-menu">
+      <div class="container-fluid d-flex align-items-center">
+        Gå til hovedindhold
+        <svg class="icon ml-2">
+          <use xlink:href="https://link-lives.dk/wp-content/themes/linklives/dist/images/feather-sprite_cbef33d2.svg#arrow-down"></use>
+        </svg>
+      </div>
+    </a>
+    <div class="container-fluid">
+      <a class="brand d-lg-none" height="2.5rem" width="auto" href="https://link-lives.dk/en/link-lives-a-research-project/">
+        <img alt="Link-Lives" src="https://link-lives.dk/wp-content/themes/linklives/dist/images/link-lives_71600ca5.svg">
+      </a>
+      <button type="button" class="nav-toggle float-right d-lg-none" aria-label="Main menu" aria-haspopup="true" aria-expanded="false">
+        <span class="hamburger"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarText">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <a class="nav-link" href="#">Om projektet</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Hjælp os</a>
-          </li>
-          <li class="nav-item active">
-            <a class="nav-link" href="#">Søg i livsforløb og kilder</a>
+      <nav aria-label="Main menu">
+        <ul id="menu-english-top-menu" class="menu-item menu-primary">
+          <li class="level-1 menu-item menu-item-type-post_type menu-item-object-page menu-item-has-children" role="none">
+            <a href="#" role="menuitem" aria-haspopup="true" aria-expanded="false" tabindex="0">
+              About<svg class="icon"><use xlink:href="https://link-lives.dk/wp-content/themes/linklives/dist/images/feather-sprite_cbef33d2.svg#chevron-down"></use></svg>
+            </a>
+  
+          <li class="level-1 menu-item menu-item-type-post_type menu-item-object-page" role="none">
+            <a href="https://link-lives.dk/en/news/" role="menuitem" tabindex="0">News</a>
           </li>
         </ul>
-      </div>
-    </nav>
-    <app-root></app-root>
+        <a class="brand d-none d-lg-block" height="2.5rem" width="auto" href="https://link-lives.dk/en/link-lives-a-research-project/">
+          <img alt="Link-Lives" src="https://link-lives.dk/wp-content/themes/linklives/dist/images/link-lives_71600ca5.svg">
+        </a>
+        <ul id="menu-english-language-switcher" class="menu-item menu-secondary">
+          <li id="menu-item-75-da" class="lang-item lang-item-2 lang-item-da lang-item-first menu-item menu-item-type-custom menu-item-object-custom menu-item-75-da">
+            <a href="https://link-lives.dk/" hreflang="da-DK" tabindex="0" lang="da-DK">Dansk</a>
+          </li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+  <div class="wrap" role="document" id="indhold">
+    <main class="main">
+      <app-root></app-root>
+    </main>
   </div>
+  <footer class="module full-width" style="background-image: url(https://link-lives.dk/wp-content/themes/linklives/dist/images/keyvisual-footer_2e322084.svg)">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-6 col-lg-4 order-lg-2">
+          <h5>Links</h5>
+          <ul class="list-unstyled">
+            <li class="level-1 menu-item menu-item-type-post_type menu-item-object-page" role="none">
+              <a href="https://link-lives.dk/en/about-link-lives/" role="menuitem">About Link-Lives</a>
+            </li>
+            <li class="level-1 menu-item menu-item-type-post_type menu-item-object-page menu-item-privacy-policy" role="none">
+              <a href="https://link-lives.dk/en/privacy-policy/" role="menuitem">Privacy Policy</a>
+            </li>
+            <li class="level-1 menu-item menu-item-type-post_type menu-item-object-page" role="none">
+              <a href="https://link-lives.dk/en/about-cookies-on-link-lives-dk/" role="menuitem">About cookies</a>
+            </li>
+          </ul>
+        </div>
+  
+        <div class="col-lg-4 order-lg-1 text-center text-lg-left">
+          <a class="brand" height="2.5rem" width="auto" href="https://link-lives.dk/en/link-lives-a-research-project/">
+            <img alt="Link-Lives" src="https://link-lives.dk/wp-content/themes/linklives/dist/images/link-lives_71600ca5.svg">
+          </a>
+          <p class="mt-3 text-muted small">Copyright © 2019 Link-Lives. All rights reserved</p>
+        </div>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>
