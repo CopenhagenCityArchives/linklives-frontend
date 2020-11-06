@@ -99,7 +99,7 @@
                     </div>
 
                     <ng-container *ngFor="let hit of searchResult.hits" [ngSwitch]="hit.type">
-                        <app-person-appearance-item *ngSwitchCase="'pas'" class="row border p-2 mx-2 mb-2" [item]="hit.pa"></app-person-appearance-item>
+                        <app-person-appearance-item *ngSwitchCase="'pas'" class="mx-2" [item]="hit.pa"></app-person-appearance-item>
                         <app-life-course-item *ngSwitchCase="'lifecourses'" [item]="hit.pas" [lifecourse-id]="hit.life_course_id"></app-life-course-item>
                     </ng-container>
                 </div>

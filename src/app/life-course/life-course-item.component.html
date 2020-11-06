@@ -1,18 +1,17 @@
-<div class="life-course">
-    <div class="life-course__color-indicator">
-    </div>
-    <div class="life-course__section">
-        <div class="life-course__source-count">
-            <span class="life-course__circle">{{ personAppearances.length }}</span> kilder
+<div class="lls-source lls-source--lifecourse">
+    <div class="lls-source__color-indicator"></div>
+    <div class="lls-source__section">
+        <div class="lls-source__count">
+            <span class="lls-source__count-circle">{{ personAppearances.length }}</span> kilder
         </div>
-        <h3 class="life-course__title">Livsforløb</h3>
+        <h3 class="lls-source__title">Livsforløb</h3>
         <p>1806 - 1856</p>
     </div>
 
-    <div class="life-course__section life-course__section--bordered">
+    <div class="lls-source__section lls-source__section--bordered">
         <div class="text-capitalize">
-            <p class="life-course__subtitle">Person</p>
-            <p class="life-course__name u-margin-0">{{ personAppearances[0].name_std}}</p>
+            <p class="lls-source__subtitle">Person</p>
+            <p class="lls-source__person u-margin-0">{{ personAppearances[0].name_std}}</p>
             <p class="u-margin-0">* 1806 + 1806</p>
         </div>
         <div>
@@ -27,11 +26,11 @@
             </span>
         </div>
     </div>
-    <div class="life-course__section">
-        <p>Kilder i perioden {{ number }}-{{ number }}</p>
+    <div class="lls-source__section">
+        <p>Kilder i perioden XXXX - XXXX</p>
     </div>
 
-    <div class="life-course__section life-course__cta-section">
+    <div class="lls-source__section lls-source__section--cta">
         <div>
             <a href [routerLink]="['/life-course', lifecourseId]" class="btn btn--blue align-self-end">Se forløb</a>
         </div>

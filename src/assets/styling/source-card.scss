@@ -1,0 +1,70 @@
+.lls-source {
+  display: flex;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.lls-source--lifecourse {
+  background-color: #062851;
+  color: white;
+}
+
+.lls-source__section {
+  padding: 24px 20px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.lls-source__section--cta {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.lls-source__section--bordered {
+  border-right: 1px solid;
+  border-left: 1px solid;
+  border-color: #324c6d;
+}
+
+.lls-source__color-indicator {
+  width: 50px;
+  background-color: #010f25;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.lls-source__title {
+  font-size: 1.3rem;
+}
+
+.lls-source__count {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  margin-bottom: 20px;
+}
+
+.lls-source__count-circle {
+  // TODO: Fix vertical alignment on number in circle.
+  display: flex;
+  height: 25px;
+  width: 25px;
+  border: 2px solid white;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+}
+
+.lls-source__subtitle {
+  font-size: 14px;
+  color: #96a3b4;
+  margin-bottom: 0;
+}
+
+.lls-source__person {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 0;
+}
