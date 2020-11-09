@@ -37,12 +37,13 @@ export interface SearchResult {
 export interface PersonAppearance {
   pa_id: number,
   source_id: number,
+  source_year: number, 
   løbenr_i_indtastning: number, 
   Stednavn: string, 
   name: string, 
   age: number, 
   Erhverv: string, 
-  Stilling_i_husstanden: string, 
+  household_position_std: string, 
   birth_place: string, 
   gender: string, 
   Sogn: string, 
@@ -76,8 +77,10 @@ export interface PersonAppearance {
   island_cl: string, 
   town_cl: string, 
   place_cl: string, 
-  county_std: string, 
-  parish_std: string, 
+  county: string, 
+  parish: string, 
+  parish_type: string, 
+  district: string, 
 }
 
 @Injectable({

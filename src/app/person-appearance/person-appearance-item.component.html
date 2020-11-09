@@ -1,29 +1,41 @@
 <div class="lls-source">
-    <div class="lls-source__color-indicator"></div>
+    <div class="lls-source__color-indicator lls-source__color-indicator--yellow"></div>
     <div class="lls-source__section">
         <h3 class="lls-source__title">
-            Titel
+            Folketæling
         </h3>
-        <p>18XX</p>
+        <p *ngIf="personAppearance.source_year">{{ personAppearance.source_year}}</p>
     </div>
     
     <div class="lls-source__section">
         <div>
-            {{ personAppearance.name}}
+            <div class="text-capitalize">
+                <p class="lls-source__subtitle">{{ personAppearance.household_position_std }}</p>
+                <p class="lls-source__person u-margin-0">{{ personAppearance.name}}</p>
+            </div>
         </div>
-        <div class="text-capitalize" *ngIf="personAppearance.Sogn">
-            <strong>Sogn:</strong> {{ personAppearance.Sogn}}
-        </div>
-        <div class="text-capitalize" *ngIf="personAppearance.Herred">
-            <strong>Herred:</strong> {{ personAppearance.Herred}}
-        </div>
-        <div class="text-capitalize" *ngIf="personAppearance.Amt">
-            <strong>Amt:</strong> {{ personAppearance.Amt}}
+        <div>
+            <span class="text-capitalize" *ngIf="personAppearance.parish">
+                {{ personAppearance.parish }}, 
+            </span>
+            <span class="text-capitalize" *ngIf="personAppearance.district">
+                {{ personAppearance.district }}, 
+            </span>
+            <span class="text-capitalize" *ngIf="personAppearance.county">
+                {{ personAppearance.county }}
+            </span>
         </div>
     </div>
 
     <div class="lls-source__section">
-        Kilde
+        <p class="lls-source__subtitle">Kilde</p>
+        <p>Folketæling {{ personAppearance.source_year}}</p>
+        <p>
+            <span *ngIf="personAppearance.parish" class="text-capitalize">{{ personAppearance.parish }} </span>
+            <span *ngIf="personAppearance.parish_type" class="text-capitalize">{{ personAppearance.parish_type }}, </span>
+            <span *ngIf="personAppearance.district" class="text-capitalize">{{ personAppearance.district }}, </span>
+            <span *ngIf="personAppearance.county" class="text-capitalize">{{ personAppearance.county }}</span>
+        </p>
     </div>
     
     <div class="lls-source__section lls-source__section--cta">
