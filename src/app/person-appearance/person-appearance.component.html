@@ -1,114 +1,131 @@
+<style>
+.person-appearance-header h1 {
+    font-size: 3.125rem;
+}
+.person-appearance-header {
+    display: flex;
+    justify-content: space-between;
+}
+.person-appearance-classification__data-summary {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -0.5rem;
+    font-size: 1.25rem;
+    font-weight: 400;
+}
+.person-appearance-classification__data-summary > * {
+    margin: 0 0.5rem;
+}
+.header__utility-links {
+    font-size: 1rem;
+    font-weight: 400;
+}
 
-<div class="container-fluid">
-    <div class="row">
-        <a routerLink="/user/search-history">Min søgehistorik</a>
-    </div>
+.data-section h2 {
+    font-family: founders, Helvetica, Arial, sans-serif;
+    font-size: 1.25em;
+}
 
-    <div class="row">
-        <div class="col-sm">
-            <h3>INDTASTET KILDE</h3>
+.data-section table {
+    border-top: 1px solid rgb(213, 213, 213);
+    font-size: 1.0625rem;
+    margin: 1.25rem 0 5rem;
+}
+.data-section table tr {
+    border-bottom: 1px solid rgb(213, 213, 213);
+}
+.data-section table tr, .data-section table td {
+    padding: 0.75rem 0;
+}
+.data-section table th {
+    font-weight: 400;
+    padding-right: 1rem;
+}
 
+.person-appearance-end-info__entry {
+    font-size: 1rem;
+    font-weight: 400;
+}
+.person-appearance-end-info__entry__label {
+    color: rgb(97, 97, 97);
+    font-size: 0.875rem;
+}
+</style>
 
-            <h3>{{pa.name}}</h3>
-
-            <div><span style="font-weight:bold">Kildetype: </span></div>
-            <div><span style="font-weight:bold">Fødested: </span>{{pa.birth_place}}</div>
-            
+<div class="container-fluid mt-5">
+    <div class="person-appearance-header">
+        <div class="person-appearance-classification">
+            <img src="/assets/kilde-fancy-text.png" alt="Kilde" width="88px" height="33px">
+            <h1>Folketælling</h1>
+            <div class="person-appearance-classification__data-summary">
+                <span>{{ shortSourceLocation }}</span>
+                <span>{{ sourceYear }}</span>
+            </div>
+        </div>
+        <div class="header__utility-links">
+            <a routerLink="/user/search-history">
+                <span>Min søgehistorik</span>
+                <svg class="lls-icon lls-icon--right">
+                    <use [attr.href]="featherSpriteUrl + '#folder'"></use>
+                </svg>
+            </a>
         </div>
     </div>
 
-    <div class="row">
-        <ul class="col-sm nav nav-pills nav-fill border p-2">
-            <li class="nav-item">
-                <a class="nav-link" [ngClass]="{active: show == 'source'}" [routerLink]="" (click)="show = 'source'">Kildeinformation</a>
-            </li>
-            <li class="nav-item" >
-                <a class="nav-link" [ngClass]="{active: show == 'household', 'disabled': hh.length <= 1}" [routerLink]="" (click)="show = 'household'">Personer i husstanden</a>
-            </li>
-        </ul>
-    </div>
-
-    <div class="row" *ngIf="show == 'source'">
-        <div class="col border">
-            <div><strong>pa_id:</strong> {{ pa.pa_id }}</div>
-            <div><strong>source_id:</strong> {{ pa.source_id }}</div>
-            <div><strong>løbenr_i_indtastning:</strong> {{ pa['løbenr_i_indtastning'] }}</div>
-            <div><strong>Stednavn:</strong> {{ pa.Stednavn }}</div>
-            <div><strong>name:</strong> {{ pa.name }}</div>
-            <div><strong>age:</strong> {{ pa.age }}</div>
-            <div><strong>Erhverv:</strong> {{ pa.Erhverv }}</div>
-            <div><strong>Stilling_i_husstanden:</strong> {{ pa.Stilling_i_husstanden }}</div>
-            <div><strong>birth_place:</strong> {{ pa.birth_place }}</div>
-            <div><strong>gender:</strong> {{ pa.gender }}</div>
-            <div><strong>Sogn:</strong> {{ pa.Sogn }}</div>
-            <div><strong>Amt:</strong> {{ pa.Amt }}</div>
-            <div><strong>Herred:</strong> {{ pa.Herred }}</div>
-            <div><strong>gender_clean:</strong> {{ pa.gender_clean }}</div>
-            <div><strong>name_clean:</strong> {{ pa.name_clean }}</div>
-            <div><strong>age_clean:</strong> {{ pa.age_clean }}</div>
-            <div><strong>hh_id:</strong> {{ pa.hh_id }}</div>
-            <div><strong>hh_pos_std:</strong> {{ pa.hh_pos_std }}</div>
-            <div><strong>is_husband:</strong> {{ pa.is_husband }}</div>
-            <div><strong>has_husband:</strong> {{ pa.has_husband }}</div>
-            <div><strong>name_std:</strong> {{ pa.name_std }}</div>
-            <div><strong>maiden_family_names:</strong> {{ pa.maiden_family_names }}</div>
-            <div><strong>maiden_patronyms:</strong> {{ pa.maiden_patronyms }}</div>
-            <div><strong>first_names:</strong> {{ pa.first_names }}</div>
-            <div><strong>patronyms:</strong> {{ pa.patronyms }}</div>
-            <div><strong>family_names:</strong> {{ pa.family_names }}</div>
-            <div><strong>uncat_names:</strong> {{ pa.uncat_names }}</div>
-            <div><strong>husband_first_names:</strong> {{ pa.husband_first_names }}</div>
-            <div><strong>husband_name_match:</strong> {{ pa.husband_name_match }}</div>
-            <div><strong>true_patronym:</strong> {{ pa.true_patronym }}</div>
-            <div><strong>all_possible_patronyms:</strong> {{ pa.all_possible_patronyms }}</div>
-            <div><strong>all_possible_family_names:</strong> {{ pa.all_possible_family_names }}</div>
-            <div><strong>b_place_cl:</strong> {{ pa.b_place_cl }}</div>
-            <div><strong>other_cl:</strong> {{ pa.other_cl }}</div>
-            <div><strong>parish_cl:</strong> {{ pa.parish_cl }}</div>
-            <div><strong>district_cl:</strong> {{ pa.district_cl }}</div>
-            <div><strong>county_cl:</strong> {{ pa.county_cl }}</div>
-            <div><strong>koebstad_cl:</strong> {{ pa.koebstad_cl }}</div>
-            <div><strong>island_cl:</strong> {{ pa.island_cl }}</div>
-            <div><strong>town_cl:</strong> {{ pa.town_cl }}</div>
-            <div><strong>place_cl:</strong> {{ pa.place_cl }}</div>
-            <div><strong>county_std:</strong> {{ pa.county_std }}</div>
-            <div><strong>parish_std:</strong> {{ pa.parish_std }}</div>
+    <div class="lls-card lls-card--census">
+        <div class="data-section">
+            <h2>Original komplet indtastning</h2>
+            <table>
+                <tr *ngFor="let line of originalDataLines">
+                    <th>{{ line.label }}</th>
+                    <td>{{ line.value || '—' }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="data-section">
+            <h2>Standardiseret data brugt til linking</h2>
+            <table>
+                <tr *ngFor="let line of standardizedDataLines">
+                    <th>{{ line.label }}</th>
+                    <td>{{ line.value || '—' }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="data-section">
+            <h2>Om kilden</h2>
+            <table>
+                <tr *ngFor="let line of sourceDataLines">
+                    <th>{{ line.label }}</th>
+                    <td>{{ line.value || '—' }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="data-section">
+            <h2>Anden data (rå)</h2>
+            <table>
+                <tr *ngFor="let line of otherDataLines">
+                    <th>{{ line.label }}</th>
+                    <td>{{ line.value || '—' }}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="lls-card__actions">
+            <a class="lls-btn--black" href="https://google.com">
+                <span>Se original kilde</span>
+                <svg class="lls-icon lls-icon--right">
+                    <use [attr.href]="featherSpriteUrl + '#search'"></use>
+                </svg>
+            </a>
         </div>
     </div>
 
-    <div *ngIf="show == 'household'">
-        <app-person-appearance-item *ngFor="let hh_pa of hh" [item]="hh_pa" class="row border mt-2"></app-person-appearance-item>
+    <div class="person-appearance-end-info">
+        <div class="person-appearance-end-info__entry">
+            <div class="person-appearance-end-info__entry__label">Kilde ID</div>
+            <a href="/pa/{{ this.pa.id }}">{{ this.pa.id }}</a>
+        </div>
+        <!--div class="person-appearance-end-info__entry">
+            <div class="person-appearance-end-info__entry__label">Senest opdateret</div>
+        </div-->
     </div>
-
-    <!-- <div class ="row">
-        <div class="col-sm">
-            <div>Alder: {{pa.age}}</div>
-            <div>Stilling: {{pa.Erhverv}}<div>
-            <div>Handicaps: -</div>
-        </div>
-        <div class="col-sm">
-            <div>Køn: {{pa.gender}}</div>
-            <div>Civilstand: -</div>
-            <div>Trossamfund: -</div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <div>Kildehenvisning: -</div>
-            <div>Kilde: -</div>
-            <div>Matnr/Adresse: -</div>
-            <div>Sogn: {{pa.Sogn}}</div>
-            <div>Amt: {{pa.Amt}}</div>
-        </div>
-        <div class="col-sm">
-            <div>Hustands-/Familie nr: {{pa.hh_id}}</div>
-            <div>Herred: {{pa.Herred}}</div>
-            <div>Stednavn: {{pa.Stednavn}}</div>
-        </div>
-    </div>
-
-    <div class="row">
-        <p class="col-sm">Værtsarkiv: -</div>
-    </div> -->
-    <button class="row btn btn-outline-primary">Se original kilde</button>
 </div>
