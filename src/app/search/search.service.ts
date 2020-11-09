@@ -44,10 +44,12 @@ export interface PersonAppearance {
   name: string, 
   age: number, 
   Erhverv: string, 
-  Stilling_i_husstanden: string, 
-  birth_place: string,
-  birth_place_clean: string,
-  gender: string,
+  household_position_std: string, 
+  birth_place: string, 
+  gender: string, 
+  Sogn: string, 
+  Amt: string, 
+  Herred: string, 
   gender_clean: string, 
   parish: string,
   parish_type: string,
@@ -78,8 +80,8 @@ export interface PersonAppearance {
   island_cl: string, 
   town_cl: string, 
   place_cl: string, 
-  county_std: string, 
-  parish_std: string, 
+  county: string, 
+  district: string, 
 }
 
 @Injectable({

@@ -5,24 +5,24 @@
             <span class="lls-source__count-circle">{{ personAppearances.length }}</span> kilder
         </div>
         <h3 class="lls-source__title">Livsforløb</h3>
-        <p>1806 - 1856</p>
+        <p>18XX - 18XX</p>
     </div>
 
     <div class="lls-source__section lls-source__section--bordered">
         <div class="text-capitalize">
             <p class="lls-source__subtitle">Person</p>
             <p class="lls-source__person u-margin-0">{{ personAppearances[0].name_std}}</p>
-            <p class="u-margin-0">* 1806 + 1806</p>
+            <p class="u-margin-0">* 18XX + 18XX</p>
         </div>
         <div>
-            <span class="text-capitalize" *ngIf="personAppearances[0].parish_std">
-                {{ personAppearances[0].parish_std}}
+            <span class="text-capitalize" *ngIf="personAppearances[0].parish">
+                {{ personAppearances[0].parish}}
             </span>
-            <span class="text-capitalize" *ngIf="personAppearances[0].district_cl">
-                , {{ personAppearances[0].district_cl}}
+            <span class="text-capitalize" *ngIf="personAppearances[0].district">
+                , {{ personAppearances[0].district}}
             </span>
-            <span class="text-capitalize" *ngIf="personAppearances[0].county_std">
-                , {{ personAppearances[0].county_std}}
+            <span class="text-capitalize" *ngIf="personAppearances[0].county">
+                , {{ personAppearances[0].county}}
             </span>
         </div>
     </div>

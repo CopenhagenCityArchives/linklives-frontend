@@ -30,11 +30,11 @@
 
 .lls-btn--blue {
   color: white;
-  background-color: #255da8;
-  border-color: #255da8;
+  background-color: $blue;
+  border-color: $blue;
 
   &:hover {
-    background-color: darken(#255da8, 5%);
+    background-color: darken($blue, 5%);
   }
 }
 
