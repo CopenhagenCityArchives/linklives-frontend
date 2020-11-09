@@ -30,6 +30,7 @@
     border-top: 1px solid rgb(213, 213, 213);
     font-size: 1.0625rem;
     margin: 1.25rem 0 5rem;
+    width: 100%;
 }
 .data-section table tr {
     border-bottom: 1px solid rgb(213, 213, 213);
@@ -40,6 +41,7 @@
 .data-section table th {
     font-weight: 400;
     padding-right: 1rem;
+    width: 33%;
 }
 
 .person-appearance-end-info__entry {
@@ -73,6 +75,8 @@
     </div>
 
     <div class="lls-card lls-card--census">
+        <div class="lls-row lls-row--gap-6">
+            <div class="lls-columns-6">
         <div class="data-section">
             <h2>Original komplet indtastning</h2>
             <table>
@@ -91,6 +95,8 @@
                 </tr>
             </table>
         </div>
+            </div>
+            <div class="lls-columns-6">
         <div class="data-section">
             <h2>Om kilden</h2>
             <table>
@@ -108,6 +114,8 @@
                     <td>{{ line.value || '—' }}</td>
                 </tr>
             </table>
+        </div>
+            </div>
         </div>
         <div class="lls-card__actions">
             <a class="lls-btn--black" href="https://google.com">
