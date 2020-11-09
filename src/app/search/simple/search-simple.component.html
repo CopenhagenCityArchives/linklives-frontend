@@ -41,18 +41,6 @@
   border-radius: 3px;
   flex-grow: 1;
 }
-.search-row {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-gap: 1rem;
-  width: 100%;
-}
-.search-columns-8 {
-  grid-column: span 8;
-}
-.search-columns-4 {
-  grid-column: span 4;
-}
 .dropdown-select {
   padding: 1rem 1.4rem;
   border: 1px solid #bbb;
@@ -116,7 +104,8 @@
   </div>
   <div class="lls-card">
     <h3 class="lls-card__title">Fritekstsøgning</h3>
-    <form (ngSubmit)="searchSimple()">
+    <form (ngSubmit)="searchSimple()" class="lls-row">
+      <div class="lls-columns-8">
       <div class="input-group">
         <input
           type="text"
@@ -135,13 +124,14 @@
           </svg>
         </button>
       </div>
+      </div>
     </form>
   </div>
 
   <div class="lls-card">
     <h3 class="lls-card__title">Specifik søgning</h3>
-    <form (ngSubmit)="searchAdvanced()" class="search-row">
-      <div class="search-columns-8">
+    <form (ngSubmit)="searchAdvanced()" class="lls-row">
+      <div class="lls-columns-8">
         <div class="input-group">
           <input
             type="text"
@@ -218,7 +208,7 @@
           </button>
         </div>
       </div>
-      <div class="search-columns-4 help-box-container">
+      <div class="lls-columns-4 help-box-container">
         <div class="help-box">
           <p><strong>Du søger livsforløb i kilderne</strong></p>
           <p>Lorem ipsum dolor sit amet.</p>

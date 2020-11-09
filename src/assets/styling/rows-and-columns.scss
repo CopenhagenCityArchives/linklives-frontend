@@ -1,0 +1,18 @@
+.lls-row {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-gap: 1rem;
+  width: 100%;
+
+  @for $i from 2 through 6 {
+    &--gap-#{$i} {
+      grid-gap: #{$i}rem;
+    }
+  }
+}
+
+@for $i from 1 through 12 {
+  .lls-columns-#{$i} {
+    grid-column: span $i;
+  }
+}
