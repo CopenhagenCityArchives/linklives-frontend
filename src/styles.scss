@@ -1,16 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 
+@import "./assets/styling/button.scss";
 @import "./assets/styling/source-card.scss";
-
-.btn--blue {
-  color: white;
-  background-color: #255da8;
-  border-color: #255da8;
-
-  &:hover {
-    background-color: darken(#255da8, 5%);
-  }
-}
 
 .u-margin-0 {
   margin: 0 !important;
