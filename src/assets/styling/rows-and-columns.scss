@@ -9,10 +9,30 @@
       grid-gap: #{$i}rem;
     }
   }
+
+  @each $name, $maxWidth in $breakpoints {
+    @media (min-width: $maxWidth) {
+      @for $i from 2 through 6 {
+        &--gap-#{$i}--#{$name} {
+          grid-gap: #{$i}rem;
+        }
+      }
+    }
+  }
 }
 
 @for $i from 1 through 12 {
   .lls-columns-#{$i} {
     grid-column: span $i;
+  }
+}
+
+@each $name, $maxWidth in $breakpoints {
+  @media (min-width: $maxWidth) {
+    @for $i from 1 through 12 {
+      .lls-columns-#{$i}--#{$name} {
+        grid-column: span $i;
+      }
+    }
   }
 }
