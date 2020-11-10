@@ -9,25 +9,30 @@
     </div>
 
     <div class="lls-source__section lls-source__section--bordered">
-        <div class="text-capitalize">
+        <div class="u-text-capitalize">
             <p class="lls-source__subtitle">Person</p>
             <p class="lls-source__person u-margin-0">{{ personAppearances[0].name_std}}</p>
-            <p class="u-margin-0">* 18XX + 18XX</p>
+            <p class="u-margin-0">* {{ personAppearances[0].source_year - personAppearances[0].age }}</p>
         </div>
         <div>
-            <span class="text-capitalize" *ngIf="personAppearances[0].parish">
+            <span class="u-text-capitalize" *ngIf="personAppearances[0].parish">
                 {{ personAppearances[0].parish}}
             </span>
-            <span class="text-capitalize" *ngIf="personAppearances[0].district">
+            <span class="u-text-capitalize" *ngIf="personAppearances[0].district">
                 , {{ personAppearances[0].district}}
             </span>
-            <span class="text-capitalize" *ngIf="personAppearances[0].county">
+            <span class="u-text-capitalize" *ngIf="personAppearances[0].county">
                 , {{ personAppearances[0].county}}
             </span>
         </div>
     </div>
     <div class="lls-source__section">
-        <p>Kilder i perioden XXXX - XXXX</p>
+        <p>{{ personAppearances.length }} kilder i perioden XXXX - XXXX</p>
+        <p>
+            <span *ngFor="let pa of personAppearances; index as i; last as isLast">
+                Folketælling {{ pa.source_year }} <i *ngIf="!isLast">, </i>
+            </span>
+        </p>
     </div>
 
     <div class="lls-source__section lls-source__section--cta">
