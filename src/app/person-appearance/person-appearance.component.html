@@ -6,6 +6,11 @@
     display: flex;
     justify-content: space-between;
 }
+.person-appearance-classification__source-type {
+    font-family: notera;
+    font-size: 2.475rem;
+    margin: 0 0 -0.75rem;
+}
 .person-appearance-classification__data-summary {
     display: flex;
     flex-wrap: wrap;
@@ -62,7 +67,7 @@
 <div class="container-fluid mt-5">
     <div class="person-appearance-header">
         <div class="person-appearance-classification">
-            <img src="/assets/kilde-fancy-text.png" alt="Kilde" width="88px" height="33px">
+            <div class="person-appearance-classification__source-type">Kilde</div>
             <h1>Folketælling</h1>
             <div class="person-appearance-classification__data-summary">
                 <span>{{ shortSourceLocation }}</span>
