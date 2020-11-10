@@ -28,12 +28,8 @@
     </div>
     <div class="lls-source__section">
         <p class="lls-source__subtitle">Kilder</p>
-        <p>{{ personAppearances.length }} kilder i perioden XXXX - XXXX</p>
-        <p>
-            <span *ngFor="let personAppearance of personAppearances; index as i; last as isLast">
-                Folketælling {{ personAppearance.source_year }} <i *ngIf="!isLast">, </i>
-            </span>
-        </p>
+        <p>{{ personAppearances.length }} kilder i perioden {{ sourceYearRange }}</p>
+        <p>{{ sourceList }}</p>
     </div>
 
     <div class="lls-source__section lls-source__section--cta">
