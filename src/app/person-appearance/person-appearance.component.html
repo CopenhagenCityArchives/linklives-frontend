@@ -49,11 +49,11 @@
     width: 33%;
 }
 
-.person-appearance-end-info__entry {
+.person-appearance-footer__entry {
     font-size: 1rem;
     font-weight: 400;
 }
-.person-appearance-end-info__entry__label {
+.person-appearance-footer__entry-label {
     color: rgb(97, 97, 97);
     font-size: 0.875rem;
 }
@@ -87,44 +87,44 @@
     <div class="lls-card lls-card--census">
         <div class="lls-row lls-row--gap-3--md lls-row--gap-5--lg lls-row--gap-6--xl">
             <div class="lls-columns-12 lls-columns-6--md">
-        <div class="data-section">
-            <h2>Original komplet indtastning</h2>
-            <table>
-                <tr *ngFor="let line of originalDataLines">
-                    <th>{{ line.label }}</th>
-                    <td>{{ line.value || '—' }}</td>
-                </tr>
-            </table>
-        </div>
-        <div class="data-section">
-            <h2>Standardiseret data brugt til linking</h2>
-            <table>
-                <tr *ngFor="let line of standardizedDataLines">
-                    <th>{{ line.label }}</th>
-                    <td>{{ line.value || '—' }}</td>
-                </tr>
-            </table>
-        </div>
+                <div class="data-section">
+                    <h2>Original komplet indtastning</h2>
+                    <table>
+                        <tr *ngFor="let line of originalDataLines">
+                            <th>{{ line.label }}</th>
+                            <td>{{ line.value || '—' }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="data-section">
+                    <h2>Standardiseret data brugt til linking</h2>
+                    <table>
+                        <tr *ngFor="let line of standardizedDataLines">
+                            <th>{{ line.label }}</th>
+                            <td>{{ line.value || '—' }}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
             <div class="lls-columns-12 lls-columns-6--md">
-        <div class="data-section">
-            <h2>Om kilden</h2>
-            <table>
-                <tr *ngFor="let line of sourceDataLines">
-                    <th>{{ line.label }}</th>
-                    <td>{{ line.value || '—' }}</td>
-                </tr>
-            </table>
-        </div>
-        <div class="data-section">
-            <h2>Anden data (rå)</h2>
-            <table>
-                <tr *ngFor="let line of otherDataLines">
-                    <th>{{ line.label }}</th>
-                    <td>{{ line.value || '—' }}</td>
-                </tr>
-            </table>
-        </div>
+                <div class="data-section">
+                    <h2>Om kilden</h2>
+                    <table>
+                        <tr *ngFor="let line of sourceDataLines">
+                            <th>{{ line.label }}</th>
+                            <td>{{ line.value || '—' }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="data-section">
+                    <h2>Anden data (rå)</h2>
+                    <table>
+                        <tr *ngFor="let line of otherDataLines">
+                            <th>{{ line.label }}</th>
+                            <td>{{ line.value || '—' }}</td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
         <div class="lls-card__actions">
@@ -140,13 +140,13 @@
         </div>
     </div>
 
-    <div class="person-appearance-end-info">
-        <div class="person-appearance-end-info__entry">
-            <div class="person-appearance-end-info__entry__label">Kilde ID</div>
+    <div class="person-appearance-footer">
+        <div class="person-appearance-footer__entry">
+            <div class="person-appearance-footer__entry-label">Kilde ID</div>
             <a href="/pa/{{ this.pa.id }}">{{ this.pa.id }}</a>
         </div>
-        <!--div class="person-appearance-end-info__entry">
-            <div class="person-appearance-end-info__entry__label">Senest opdateret</div>
+        <!--div class="person-appearance-footer__entry">
+            <div class="person-appearance-footer__entry-label">Senest opdateret</div>
         </div-->
     </div>
 </div>
