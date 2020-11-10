@@ -94,6 +94,15 @@ export interface PersonAppearance {
   uncat_names: string
 }
 
+export interface AdvancedSearchQuery {
+  firstName?: string,
+  lastName?: string,
+  parish?: string,
+  county?: string,
+  birthPlace?: string,
+  maritalStatus?: string,
+}
+
 @Injectable({
   providedIn: 'root'
 })

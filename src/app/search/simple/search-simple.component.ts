@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-
-interface AdvancedSearchQuery {
-  firstName?: String,
-  lastName?: String,
-  parish?: String,
-  birthPlace?: String,
-}
+import { AdvancedSearchQuery } from '../search.service';
 
 @Component({
   selector: 'app-search-simple',
