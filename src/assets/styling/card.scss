@@ -7,23 +7,23 @@
   @media (min-width: $breakpointMd) {
     padding: 4rem;
   }
+}
 
-  &__title {
-    font-size: 1.375rem;
-    margin-bottom: 1.375rem;
+.lls-card--census {
+  position: relative;
+
+  &:before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 1.125rem;
+    background-color: rgb(203, 150, 74);
   }
+}
 
-  &--census {
-    position: relative;
-
-    &:before {
-      position: absolute;
-      content: '';
-      top: 0;
-      left: 0;
-      bottom: 0;
-      width: 1.125rem;
-      background-color: rgb(203, 150, 74);
-    }
-  }
+.lls-card__title {
+  font-size: 1.375rem;
+  margin-bottom: 1.375rem;
 }
