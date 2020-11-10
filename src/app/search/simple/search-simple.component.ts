@@ -15,10 +15,30 @@ export class SimpleSearchComponent implements OnInit {
   query = "";
 
   // Advanced search
-  firstName: String = "";
-  lastName: String = "";
-  parish: String = "";
-  birthPlace: String = "";
+  searchTerms = [
+    { field: "firstName", value: "" },
+    { field: "lastName", value: "" },
+    { field: "parish", value: "" },
+    { field: "birthPlace", value: "" },
+  ];
+
+  fieldOptions = [
+    { key: "firstName", label: "Fornavn" },
+    { key: "lastName", label: "Efternavn" },
+    { key: "parish", label: "Sogn" },
+    { key: "county", label: "Amt" },
+    { key: "birthPlace", label: "Fødested" },
+    { key: "maritalStatus", label: "Civilstand" },
+  ];
+
+  get fieldOptionsBySearchTerms() {
+    return this.searchTerms.map((_, i) => {
+      const alreadyPickedFields = this.searchTerms
+        .filter((_, j) => j != i)
+        .map((term) => term.field);
+      return this.fieldOptions.filter((opt) => !alreadyPickedFields.includes(opt.key));
+    });
+  }
 
   constructor(
     private router: Router,
@@ -42,10 +62,9 @@ export class SimpleSearchComponent implements OnInit {
   searchAdvanced(): void {
     const queryParams: AdvancedSearchQuery = {};
 
-    if(this.firstName) queryParams.firstName = this.firstName;
-    if(this.lastName) queryParams.lastName = this.lastName;
-    if(this.parish) queryParams.parish = this.parish;
-    if(this.birthPlace) queryParams.birthPlace = this.birthPlace;
+    this.searchTerms
+      .filter((term) => term.value !== "")
+      .forEach((term) => queryParams[term.field] = term.value);
 
     this.router.navigate(['/results'], {
       queryParams,

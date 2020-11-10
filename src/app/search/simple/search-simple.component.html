@@ -131,67 +131,20 @@
     <h3 class="lls-card__title">Specifik søgning</h3>
     <form (ngSubmit)="searchAdvanced()" class="lls-row">
       <div class="lls-columns-12 lls-columns-8--md">
-        <div class="input-group">
+        <div class="input-group" *ngFor="let searchTerm of searchTerms; index as i;">
           <input
             type="text"
             placeholder="Jens"
             class="input-field input-field-left"
-            [(ngModel)]="firstName"
-            name="firstName"
+            [(ngModel)]="searchTerm.value"
+            [name]="'searchterm-value-' + i"
           />
           <select
             class="dropdown-select input-field-right"
-            disabled
+            [(ngModel)]="searchTerm.field"
+            [name]="'searchterm-field-' + i"
           >
-            <option value="firstName">Fornavn</option>
-          </select>
-        </div>
-
-        <div class="input-group">
-          <input
-            type="text"
-            placeholder="Larsen"
-            class="input-field input-field-left"
-            [(ngModel)]="lastName"
-            name="lastName"
-          />
-          <select
-            class="dropdown-select input-field-right"
-            disabled
-          >
-            <option value="lastName">Efternavn</option>
-          </select>
-        </div>
-
-        <div class="input-group">
-          <input
-            type="text"
-            placeholder="Odsherred Sogn"
-            class="input-field input-field-left"
-            [(ngModel)]="parish"
-            name="parish"
-          />
-          <select
-            class="dropdown-select input-field-right"
-            disabled
-          >
-            <option value="parish">Sogn</option>
-          </select>
-        </div>
-
-        <div class="input-group">
-          <input
-            type="text"
-            placeholder="Aarhus"
-            class="input-field input-field-left"
-            [(ngModel)]="birthPlace"
-            name="birthPlace"
-          />
-          <select
-            class="dropdown-select input-field-right"
-            disabled
-          >
-            <option value="birthPlace">Fødested</option>
+            <option *ngFor="let option of fieldOptionsBySearchTerms[i]" [value]="option.key">{{ option.label }}</option>
           </select>
         </div>
 
