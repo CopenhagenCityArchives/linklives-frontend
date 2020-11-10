@@ -8,7 +8,7 @@ import { PersonAppearance } from '../search/search.service';
   styleUrls: ['./person-appearance.component.scss']
 })
 export class PersonAppearanceComponent implements OnInit {
-  featherSpriteUrl = "/assets/feather-sprite_cbef33d2.svg";
+  featherSpriteUrl = window["lls"].featherIconPath;
 
   constructor(private route: ActivatedRoute) { }
   pa: PersonAppearance;
