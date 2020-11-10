@@ -1,8 +1,4 @@
 <style>
-.search-intro {
-  display: flex;
-  margin: 0 4rem;
-}
 .search-intro--header {
   flex-shrink: 0;
   flex-grow: 1;
@@ -82,11 +78,12 @@
 
 <div class="container-fluid mt-5">
   <div class="search-intro">
-    <h2 class="search-intro--header">
+    <div class="lls-row">
+    <h2 class="lls-columns-12 lls-columns-4--lg lls-columns-4--xl search-intro--header">
       Find livsforløb<br>
       1787&ndash;1901
     </h2>
-    <div class="search-intro--text">
+    <div class="lls-columns-12 lls-columns-6--lg lls-columns-4--xl search-intro--text">
       <p>
         Et livsforløb er et kvalificeret forslag til hvilke historiske kilder, der omhandler den samme person.
         Vi tilføjer løbende flere livsforløb og der kan komme flere detaljer på et livsforløb.
@@ -98,14 +95,15 @@
         </svg>
       </a>
     </div>
-    <div style="flex-grow: 1; flex-shrink: 0; text-align: right;">
+    <div class="lls-columns-12 lls-columns-2--lg lls-columns-4--xl" style="text-align: right;">
       <h3 style="font-family: notera; font-size: 4rem; font-weight: normal;">Beta</h3>
+    </div>
     </div>
   </div>
   <div class="lls-card">
     <h3 class="lls-card__title">Fritekstsøgning</h3>
     <form (ngSubmit)="searchSimple()" class="lls-row">
-      <div class="lls-columns-8">
+      <div class="lls-columns-12 lls-columns-8--md">
       <div class="input-group">
         <input
           type="text"
@@ -131,7 +129,7 @@
   <div class="lls-card">
     <h3 class="lls-card__title">Specifik søgning</h3>
     <form (ngSubmit)="searchAdvanced()" class="lls-row">
-      <div class="lls-columns-8">
+      <div class="lls-columns-12 lls-columns-8--md">
         <div class="input-group">
           <input
             type="text"
@@ -208,7 +206,7 @@
           </button>
         </div>
       </div>
-      <div class="lls-columns-4 help-box-container">
+      <div class="lls-columns-12 lls-columns-4--md help-box-container">
         <div class="help-box">
           <p><strong>Du søger livsforløb i kilderne</strong></p>
           <p>Lorem ipsum dolor sit amet.</p>
