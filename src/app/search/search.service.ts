@@ -35,9 +35,10 @@ export interface SearchResult {
 }
 
 export interface PersonAppearance {
+  id: number,
   pa_id: number,
   source_id: number,
-  source_year: number, 
+  source_year: number,
   løbenr_i_indtastning: number, 
   Stednavn: string, 
   name: string, 
@@ -50,6 +51,8 @@ export interface PersonAppearance {
   Amt: string, 
   Herred: string, 
   gender_clean: string, 
+  parish: string,
+  parish_type: string,
   name_clean: string, 
   age_clean: number, 
   hh_id: number, 
@@ -78,8 +81,6 @@ export interface PersonAppearance {
   town_cl: string, 
   place_cl: string, 
   county: string, 
-  parish: string, 
-  parish_type: string, 
   district: string, 
 }
 
