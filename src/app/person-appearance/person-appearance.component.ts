@@ -13,14 +13,9 @@ export class PersonAppearanceComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
   pa: PersonAppearance;
   hh: PersonAppearance[];
-  show: string = 'source';
 
-  get sourceYear() {
-    return this.pa.source_year;
-  }
-
-  get shortSourceLocation() {
-    return `${this.pa.parish}`.replace(/\w\S*/g, (text) => text[0].toUpperCase() + text.slice(1));
+  get sourceLocation() {
+    return [ this.pa.parish, this.pa.district, this.pa.county ].filter((x) => x).join(", ");
   }
 
   standardizedDataFields = {
