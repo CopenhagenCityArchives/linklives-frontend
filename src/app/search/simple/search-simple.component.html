@@ -37,20 +37,9 @@
   border-radius: 3px;
   flex-grow: 1;
 }
-.dropdown-select {
-  padding: 1rem 1.4rem;
-  border: 2px solid black;
-  border-radius: 3px;
-  flex-basis: 180px;
-  flex-grow: 0.5;
-  flex-shrink: 0.5;
-}
 .input-field-left {
   border-radius: 3px 0 0 3px;
   border-right: none;
-}
-.input-field-right {
-  border-radius: 0 3px 3px 0;
 }
 .help-box {
   padding: 2rem;
@@ -139,13 +128,13 @@
             [(ngModel)]="searchTerm.value"
             [name]="'searchterm-value-' + i"
           />
-          <select
-            class="dropdown-select input-field-right"
-            [(ngModel)]="searchTerm.field"
+          <lls-dropdown
+            class="lls-input-field--right"
+            [value]="searchTerm.field"
             [name]="'searchterm-field-' + i"
-          >
-            <option *ngFor="let option of fieldOptionsBySearchTerms[i]" [value]="option.key">{{ option.label }}</option>
-          </select>
+            [options]="fieldOptionsBySearchTerms[i]"
+            [featherIconPath]="featherSpriteUrl"
+          ></lls-dropdown>
         </div>
 
         <div class="lls-form-actions">

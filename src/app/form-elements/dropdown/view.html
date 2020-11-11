@@ -1,0 +1,12 @@
+<div class="lls-dropdown__current-item">
+  <div>{{ currentLabel }}</div>
+  <svg class="lls-icon lls-icon--right">
+    <use [attr.href]="featherIconPath + '#chevron-' + (isOpen ? 'up' : 'down')"></use>
+  </svg>
+</div>
+
+<div class="lls-dropdown__option-list" [class]="isOpen ? 'lls-dropdown__option-list--open' : ''">
+  <div class="lls-dropdown__option" [class]="(option.value == currentValue ? 'lls-dropdown__option--selected' : '') + ' ' + (i == tabHovered ? 'lls-dropdown__option--hovered' : '')" *ngFor="let option of options; index as i;" (click)="select(option); $event.stopPropagation();">
+    {{ option.label }}
+  </div>
+</div>

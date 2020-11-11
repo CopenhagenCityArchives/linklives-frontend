@@ -23,12 +23,12 @@ export class SimpleSearchComponent implements OnInit {
   ];
 
   fieldOptions = [
-    { key: "firstName", label: "Fornavn" },
-    { key: "lastName", label: "Efternavn" },
-    { key: "parish", label: "Sogn" },
-    { key: "county", label: "Amt" },
-    { key: "birthPlace", label: "Fødested" },
-    { key: "maritalStatus", label: "Civilstand" },
+    { value: "firstName", label: "Fornavn" },
+    { value: "lastName", label: "Efternavn" },
+    { value: "parish", label: "Sogn" },
+    { value: "county", label: "Amt" },
+    { value: "birthPlace", label: "Fødested" },
+    { value: "maritalStatus", label: "Civilstand" },
   ];
 
   get fieldOptionsBySearchTerms() {
@@ -36,7 +36,7 @@ export class SimpleSearchComponent implements OnInit {
       const alreadyPickedFields = this.searchTerms
         .filter((_, j) => j != i)
         .map((term) => term.field);
-      return this.fieldOptions.filter((opt) => !alreadyPickedFields.includes(opt.key));
+      return this.fieldOptions.filter((opt) => !alreadyPickedFields.includes(opt.value));
     });
   }
 
