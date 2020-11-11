@@ -24,13 +24,39 @@ export class PersonAppearanceComponent implements OnInit {
   }
 
   standardizedDataFields = {
-    name_std: "Navn",
-    marital_status_std: "Civilstand",
-    household_position_std: "Husholdsstilling",
-    gender_std: "Køn",
-    birth_place_parish_std: "Sogn",
-    birth_place_county_std: "Amt",
-    birth_place_koebstad_std: "Købstad",
+    id: "id",
+    event_type: "event_type",
+    role: "role",
+    name_clean: "name_clean",
+    name_std: "name_std",
+    first_names: "first_names",
+    family_names: "family_names",
+    patronyms: "patronyms",
+    uncat_names: "uncat_names",
+    maiden_family_names: "maiden_family_names",
+    maiden_patronyms: "maiden_patronyms",
+    all_possible_family_names: "all_possible_family_names",
+    all_possible_patronyms: "all_possible_patronyms",
+    marital_status_clean: "marital_status_clean",
+    marital_status_std: "marital_status_std",
+    household_position_std: "household_position_std",
+    gender_clean: "gender_clean",
+    gender_std: "gender_std",
+    age_clean: "age_clean",
+    hh_id: "hh_id",
+    full_address: "full_address",
+    birth_place_clean: "birth_place_clean",
+    birth_place_parish: "birth_place_parish",
+    birth_place_district: "birth_place_district",
+    birth_place_county: "birth_place_county",
+    birth_place_koebstad: "birth_place_koebstad",
+    birth_place_town: "birth_place_town",
+    birth_place_place: "birth_place_place",
+    birth_place_island: "birth_place_island",
+    birth_place_other: "birth_place_other",
+    birth_place_parish_std: "birth_place_parish_std",
+    birth_place_county_std: "birth_place_county_std",
+    birth_place_koebstad_std: "birth_place_koebstad_std",
   };
 
   get standardizedDataLines() {
@@ -39,12 +65,12 @@ export class PersonAppearanceComponent implements OnInit {
   }
 
   sourceDataFields = {
-    source_type: "Kildetype",
     source_id: "Kilde ID",
-    source_year: "Årstal",
-    parish: "Sogn",
-    county: "Amt",
-    koebstad: "Købstad",
+    source_year: "Kildeår",
+    source_reference: "source_reference",
+    transcription_code: "transcription_code",
+    transcription_id: "transcription_id",
+    household_family_no: "Husstands nr.",
   };
 
   get sourceDataLines() {
@@ -70,13 +96,22 @@ export class PersonAppearanceComponent implements OnInit {
 
   originalDataFields = {
     name: "Navn",
-    occupation: "Stilling",
+    occupation: "Erhverv",
     age: "Alder",
+    gender: "Køn",
     birth_place: "Fødested",
-    household_position: "Husstandsstilling",
+    household_position: "Stilling i husstanden",
     marital_status: "Civilstand",
-    household_family_no: "Husstandsantal",
-    full_address: "Bopæl",
+    address: "? (address)",
+    place_name: "Stednavn",
+    land_register_address: "? (land_register_address)",
+    land_register: "? (land_register)",
+    parish: "Bopæl sogn",
+    district: "Bopæl herred",
+    county: "Bopæl amt",
+    parish_type: "parish_type",
+    state_region: "Land",
+    transcriber_comments: "Indtasters kommentar",
   };
 
   get originalDataLines() {
