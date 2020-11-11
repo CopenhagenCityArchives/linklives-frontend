@@ -31,6 +31,9 @@
   display: flex;
   margin-top: 1rem;
 }
+.input-group--reverse-order {
+  flex-direction: row-reverse;
+}
 .input-field {
   padding: 1rem 1.4rem;
   border: 2px solid #bbb;
@@ -120,14 +123,7 @@
     <h3 class="lls-card__title">Specifik søgning</h3>
     <form (ngSubmit)="searchAdvanced()" class="lls-row">
       <div class="lls-columns-12 lls-columns-8--md">
-        <div class="input-group" *ngFor="let searchTerm of searchTerms; index as i;">
-          <input
-            type="text"
-            placeholder="Jens"
-            class="input-field input-field-left"
-            [(ngModel)]="searchTerm.value"
-            [name]="'searchterm-value-' + i"
-          />
+        <div class="input-group input-group--reverse-order" *ngFor="let searchTerm of searchTerms; index as i;">
           <lls-dropdown
             class="lls-input-field--right"
             [value]="searchTerm.field"
@@ -135,6 +131,13 @@
             [options]="fieldOptionsBySearchTerms[i]"
             [featherIconPath]="featherSpriteUrl"
           ></lls-dropdown>
+          <input
+            type="text"
+            placeholder="Jens"
+            class="input-field input-field-left"
+            [(ngModel)]="searchTerm.value"
+            [name]="'searchterm-value-' + i"
+          />
         </div>
 
         <div class="lls-form-actions">
