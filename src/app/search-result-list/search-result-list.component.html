@@ -1,24 +1,28 @@
 <div class="lls-container">
-    <div class="row justify-content-center my-4">
-        <div class="col-md-auto">
-            <span>
-                <strong>Søgning:</strong> <span>{{ query }}</span>
-                <a routerLink="/search/simple" [queryParams]="{query: this.query}" class="ml-2">Redigér søgning</a>
-            </span>
-        </div>
+    <div>
+        <strong>Søgning:</strong>
+        <span>
+            {{ searchQueryParams.query }}
+            {{ searchQueryParams.firstName }}
+            {{ searchQueryParams.lastName }}
+            {{ searchQueryParams.parish }}
+            {{ searchQueryParams.county }}
+            {{ searchQueryParams.birthPlace }}
+            {{ searchQueryParams.maritalStatus }}
+        </span>
+        <a routerLink="/search/simple" [queryParams]="searchQueryParams">Redigér søgning</a>
     </div>
 
     <a routerLink="/user/search-history">Min søgehistorik</a>
 
     <h4>Søgeresultater</h4>
 
-    <div class="row">
-        <div class="col-md-2">
+    <div class="options">
+        <div>
             <div><a [routerLink]="">Gem søgning</a></div>
             <div><a [routerLink]="">Download</a></div>
         </div>
-        <div class="col"></div>
-        <div class="col-md-auto text-center">
+        <div>
             <label>Visning</label>
 
             <div class="form-check">
@@ -30,22 +34,22 @@
                 <label class="form-check-label">Blok</label>
             </div>
         </div>
-        <div class="col-md-auto text-center">
+        <div>
             <label>Sorter efter</label>
             <select class="form-control">
                 <option>Sikkerhed</option>
             </select>
         </div>
     </div>
-    <div class="row">
-        <div class="col-md-2 m-2">
+    <div>
+        <div>
             <div class="border p-2">{{ searchResult.totalHits }} resultater</div>
         </div>
 
-        <div class="col-md">
-            <ul class="row nav nav-tabs nav-fill">
-                <li class="nav-item d-flex col-4">
-                    <a class="nav-link flex-fill" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [queryParams]="{query: this.query }">
+        <div>
+            <ul class="nav nav-tabs nav-fill">
+                <li class="nav-item d-flex">
+                    <a class="nav-link flex-fill" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [queryParams]="searchQueryParams">
                         <p>
                             <strong class="align-middle">Alle</strong>
                         </p>
@@ -54,8 +58,8 @@
                         </p>
                     </a>
                 </li>
-                <li class="nav-item d-flex col-4">
-                    <a class="nav-link flex-fill d-inline align-middle" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [queryParams]="{query: this.query, index: 'lifecourses'}">
+                <li class="nav-item d-flex">
+                    <a class="nav-link flex-fill d-inline align-middle" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [queryParams]="lifeCourseQueryParams">
                         <span class="align-middle">
                             <p>
                                 <strong>Livsforløb</strong><span *ngIf="searchResult.indexHits.lifeCourses"> ({{ searchResult.indexHits.lifeCourses}})</span>
@@ -66,8 +70,8 @@
                         </span>
                     </a>
                 </li>
-                <li class="nav-item d-flex col-4">
-                    <a class="nav-link flex-fill d-inline align-middle" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [queryParams]="{query: this.query, index: 'pas'}">
+                <li class="nav-item d-flex">
+                    <a class="nav-link flex-fill d-inline align-middle" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [queryParams]="personAppearanceQueryParams">
                         <p>
                             <strong>Indtastede kilder</strong><span *ngIf="searchResult.indexHits.pas"> ({{ searchResult.indexHits.pas}})</span>
                         </p>
@@ -78,30 +82,30 @@
                 </li>
             </ul>
 
-            <div class="row">
-                <div class="lls-container border border-top-0">
-                    <div class="row my-2">
-                        <nav class="col-md-12">
-                            <ul class="pagination justify-content-center mb-0">
-                                <li class="page-item" [ngClass]="{ disabled: pagination.current === 1}">
-                                    <a class="page-link" [tabindex]=" pagination.current === 1 ? -1 : 0" [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current - 1 } ]" [queryParams]="{query: query, index: index}">Forrige</a>
-                                </li>
-                                
-                                <li *ngFor="let page of pagination.navigationPages" class="page-item" [ngClass]="{ disabled: pagination.current === page }">
-                                    <a class="page-link" [routerLink]="['./', { 'size': pagination.size, 'page': page } ]" [queryParams]="{query: this.query, index: index}">{{ page }}</a>
-                                </li>
-
-                                <li class="page-item" [ngClass]="{ disabled: pagination.current >= pagination.last }">
-                                    <a class="page-link" [tabindex]="pagination.current >= pagination.last ? -1 : 0"  [routerLink]="['./', { 'size': pagination.size, 'page': pagination.last } ]" [queryParams]="{query: query, index: index}">Næste</a>
-                                </li>
-                            </ul>
-                        </nav>
-                    </div>
-
+            <div>
+                <div>
                     <ng-container *ngFor="let hit of searchResult.hits" [ngSwitch]="hit.type">
                         <app-person-appearance-item *ngSwitchCase="'pas'" class="mx-2" [item]="hit.pa"></app-person-appearance-item>
                         <app-life-course-item *ngSwitchCase="'lifecourses'" class="mx-2" [item]="hit.pas" [lifecourse-id]="hit.life_course_id"></app-life-course-item>
                     </ng-container>
+                </div>
+
+                <div>
+                    <nav>
+                        <ul class="pagination justify-content-center mb-0">
+                            <li class="page-item" [ngClass]="{ disabled: pagination.current === 1}">
+                                <a class="page-link" [tabindex]=" pagination.current === 1 ? -1 : 0" [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current - 1 } ]" [queryParams]="queryParams">Forrige</a>
+                            </li>
+                            
+                            <li *ngFor="let page of pagination.navigationPages" class="page-item" [ngClass]="{ disabled: pagination.current === page }">
+                                <a class="page-link" [routerLink]="['./', { 'size': pagination.size, 'page': page } ]" [queryParams]="queryParams">{{ page }}</a>
+                            </li>
+
+                            <li class="page-item" [ngClass]="{ disabled: pagination.current >= pagination.last }">
+                                <a class="page-link" [tabindex]="pagination.current >= pagination.last ? -1 : 0"  [routerLink]="['./', { 'size': pagination.size, 'page': pagination.last } ]" [queryParams]="queryParams">Næste</a>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
