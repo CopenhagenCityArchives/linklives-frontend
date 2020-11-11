@@ -12,7 +12,7 @@
         <div class="u-text-capitalize">
             <p class="lls-source__subtitle">Person</p>
             <p class="lls-source__person u-margin-0">{{ personAppearances[0].name_std}}</p>
-            <p class="u-margin-0">* {{ personAppearances[0].source_year - personAppearances[0].age }}</p>
+            <p class="u-margin-0">* {{ personAppearances[0].source_year - personAppearances[0].age_clean }}</p>
         </div>
         <div>
             <span class="u-text-capitalize" *ngIf="personAppearances[0].parish">
