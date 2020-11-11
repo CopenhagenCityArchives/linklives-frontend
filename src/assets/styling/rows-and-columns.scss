@@ -27,8 +27,8 @@
   }
 }
 
-@each $name, $maxWidth in $breakpoints {
-  @media (min-width: $maxWidth) {
+@each $name, $minWidth in $breakpoints {
+  @media (min-width: $minWidth) {
     @for $i from 1 through 12 {
       .lls-columns-#{$i}--#{$name} {
         grid-column: span $i;
