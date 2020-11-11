@@ -2,17 +2,31 @@
     <div class="container-fluid">
         <form (ngSubmit)="searchSimple()" class="lls-row">
             <div class="lls-columns-8 lls-columns-6--md">
-                <label for="query">Fritekst</label>
-                <div class="input-group">
-                    <input
-                        [(ngModel)]="query"
-                        type="text"
-                        placeholder="Søg i livsforløb eller kilder"
-                        class="input-field input-field-left"
-                        id="query"
-                        name="query"
-                    />
+                <div class="lls-row">
+                    <div class="input-group lls-columns-12 lls-columns-6--md lls-columns-4--lg">
+                        <label for="query">Fritekst</label>
+                        <input
+                            [(ngModel)]="query"
+                            type="text"
+                            placeholder="Søg i livsforløb eller kilder"
+                            class="lls-input-field "
+                            id="query"
+                            name="query"
+                        />
+                    </div>
+                    <div class="input-group lls-columns-12 lls-columns-6--md lls-columns-4--lg">
+                        <label for="query">Fornavn</label>
+                        <input
+                            [(ngModel)]="query"
+                            type="text"
+                            placeholder="Søg i livsforløb eller kilder"
+                            class="lls-input-field "
+                            id="query"
+                            name="query"
+                        />
+                    </div>
                 </div>
+                
             </div>
             <div class="lls-columns-2 lls-columns-3--md">
                 <p>Resultattype</p>
@@ -56,10 +70,6 @@
 <div class="container-fluid">
     <div>
         <div>
-            <div class="p-2">{{ searchResult.totalHits }} resultater</div>
-        </div>
-
-        <div>
             <ul class="nav nav-tabs nav-fill">
                 <li class="nav-item d-flex">
                     <a class="nav-link flex-fill" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [queryParams]="{query: this.query }">
@@ -94,6 +104,8 @@
                     </a>
                 </li>
             </ul>
+
+            <div class="p-2 u-text-right">Viser 10 af {{ searchResult.totalHits }} resultater</div>
 
             <div>
                 <div>
