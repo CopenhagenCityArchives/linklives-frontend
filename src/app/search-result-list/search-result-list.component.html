@@ -1,40 +1,62 @@
+<section class="lls-results-header">
+    <div class="container-fluid">
+        <form (ngSubmit)="searchSimple()" class="lls-row">
+            <div class="lls-columns-8 lls-columns-6--md">
+                <label for="query">Fritekst</label>
+                <div class="input-group">
+                    <input
+                        [(ngModel)]="query"
+                        type="text"
+                        placeholder="Søg i livsforløb eller kilder"
+                        class="input-field input-field-left"
+                        id="query"
+                        name="query"
+                    />
+                </div>
+            </div>
+            <div class="lls-columns-2 lls-columns-3--md">
+                <p>Resultattype</p>
+                <div class="lls-results-header__checkboxes">
+                    <div class="lls-results-header__checkbox-container">
+                        <input
+                            [(ngModel)]="indexSource"
+                            type="checkbox"
+                            class="lls-results-header__checkbox"
+                            id="indexSource-checkbox"
+                            name="indexSource"
+                        >
+                        <label for="indexSource-checkbox">Kilder</label>
+                    </div>
+                    <div class="lls-results-header__checkbox-container">
+                        <input
+                            [(ngModel)]="indexLifecourse"
+                            type="checkbox"
+                            class="lls-results-header__checkbox"
+                            id="indexLifecourse-checkbox"
+                            name="indexLifecourse"
+                        >
+                        <label for="indexLifecourse-checkbox">Livsforløb</label>
+                    </div>
+                </div>
+            </div>
+            <div class="lls-results-header__right-section lls-columns-2 lls-columns-3--md">
+                <a routerLink="/user/search-history" class="lls-results-header__history-link">
+                    <p>Min søgehistorik</p>
+                </a>
+                <button
+                    type="submit"
+                    class="lls-btn lls-btn--blue"
+                >
+                    <span>Søg</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
 <div class="container-fluid">
     <div>
-        <strong>Søgning:</strong> <span>{{ query }}</span>
-        <a routerLink="/search/simple" [queryParams]="{query: this.query}">Redigér søgning</a>
-    </div>
-
-    <a routerLink="/user/search-history">Min søgehistorik</a>
-
-    <h4>Søgeresultater</h4>
-
-    <div class="options">
         <div>
-            <div><a [routerLink]="">Gem søgning</a></div>
-            <div><a [routerLink]="">Download</a></div>
-        </div>
-        <div>
-            <label>Visning</label>
-
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="view" value="list">
-                <label class="form-check-label">Liste</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="view" value="block">
-                <label class="form-check-label">Blok</label>
-            </div>
-        </div>
-        <div>
-            <label>Sorter efter</label>
-            <select class="form-control">
-                <option>Sikkerhed</option>
-            </select>
-        </div>
-    </div>
-    <div>
-        <div>
-            <div class="border p-2">{{ searchResult.totalHits }} resultater</div>
+            <div class="p-2">{{ searchResult.totalHits }} resultater</div>
         </div>
 
         <div>

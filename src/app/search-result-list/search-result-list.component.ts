@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute  } from '@angular/router';
+import { Router, ActivatedRoute  } from '@angular/router';
+
 import { SearchResult } from '../search/search.service';
 
 @Component({
@@ -16,10 +17,21 @@ export class SearchResultListComponent implements OnInit {
   parish?: string;
   birthPlace?: string;
   index: string;
+  indexSource: boolean;
+  indexLifecourse: boolean;
 
   pagination: { current: number, last: number, size: number, navigationPages: number[]; }
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    ) { }
+
+  searchSimple(): void {
+    this.router.navigate(['/results'], {
+      queryParams: { query: this.query },
+    });
+  }
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(queryParamMap => {
@@ -30,6 +42,8 @@ export class SearchResultListComponent implements OnInit {
       this.birthPlace = queryParamMap.get('birthPlace');
       this.index = queryParamMap.get('index');
     });
+
+    console.warn("INDEX", this.indexSource);
 
     this.route.data.subscribe((data: { searchResult: SearchResult }) => {
       this.searchResult = data.searchResult;

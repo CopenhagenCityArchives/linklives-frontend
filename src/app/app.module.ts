@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule }   from '@angular/forms';
 
 import { SearchModule } from './search/search.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -26,6 +27,7 @@ import { LifeCourseItemComponent } from './life-course/life-course-item.componen
     BrowserModule,
     SearchModule,
     AppRoutingModule,
+    FormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
