@@ -61,6 +61,13 @@ export class PersonAppearanceComponent implements OnInit {
 
   get standardizedDataLines() {
     return Object.keys(this.standardizedDataFields)
+      .filter((key) => {
+        const isUndef = typeof this.pa[key] === "undefined";
+        if(isUndef) {
+          console.warn(`Expected field ${key} on person appearance was undefined.`);
+        }
+        return !isUndef;
+      })
       .map((key) => ({ label: this.standardizedDataFields[key], value: this.pa[key] }));
   }
 
@@ -75,6 +82,13 @@ export class PersonAppearanceComponent implements OnInit {
 
   get sourceDataLines() {
     return Object.keys(this.sourceDataFields)
+      .filter((key) => {
+        const isUndef = typeof this.pa[key] === "undefined";
+        if(isUndef) {
+          console.warn(`Expected field ${key} on person appearance was undefined.`);
+        }
+        return !isUndef;
+      })
       .map((key) => ({ label: this.sourceDataFields[key], value: this.pa[key] }));
   }
 
@@ -116,6 +130,13 @@ export class PersonAppearanceComponent implements OnInit {
 
   get originalDataLines() {
     return Object.keys(this.originalDataFields)
+      .filter((key) => {
+        const isUndef = typeof this.pa[key] === "undefined";
+        if(isUndef) {
+          console.warn(`Expected field ${key} on person appearance was undefined.`);
+        }
+        return !isUndef;
+      })
       .map((key) => ({ label: this.originalDataFields[key], value: this.pa[key] }));
   }
 
