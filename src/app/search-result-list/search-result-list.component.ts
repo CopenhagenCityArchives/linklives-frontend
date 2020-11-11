@@ -17,8 +17,8 @@ export class SearchResultListComponent implements OnInit {
   parish?: string;
   birthPlace?: string;
   index: string;
-  indexSource: boolean;
-  indexLifecourse: boolean;
+  indexSource: boolean = true;
+  indexLifecourse: boolean = true;
 
   pagination: { current: number, last: number, size: number, navigationPages: number[]; }
 
@@ -28,8 +28,18 @@ export class SearchResultListComponent implements OnInit {
     ) { }
 
   searchSimple(): void {
+    let query: Object;
+    if((this.indexLifecourse && this.indexSource) || (!this.indexLifecourse && !this.indexSource)) {
+      query = { query: this.query };
+    }
+    else if(this.indexSource) {
+      query = {query: this.query, index: 'pas'}
+    }
+    else if(this.indexLifecourse) {
+      query = {query: this.query, index: 'lifecourses'}
+    }
     this.router.navigate(['/results'], {
-      queryParams: { query: this.query },
+      queryParams: query,
     });
   }
 
@@ -42,8 +52,6 @@ export class SearchResultListComponent implements OnInit {
       this.birthPlace = queryParamMap.get('birthPlace');
       this.index = queryParamMap.get('index');
     });
-
-    console.warn("INDEX", this.indexSource);
 
     this.route.data.subscribe((data: { searchResult: SearchResult }) => {
       this.searchResult = data.searchResult;
