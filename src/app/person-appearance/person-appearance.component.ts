@@ -15,7 +15,11 @@ export class PersonAppearanceComponent implements OnInit {
   hh: PersonAppearance[];
 
   get sourceLocation() {
-    return [ this.pa.parish, this.pa.district, this.pa.county ].filter((x) => x).join(", ");
+    return [
+      ...new Set(
+        [ this.pa.parish, this.pa.district, this.pa.county ].filter((x) => x)
+      )
+    ].join(", ");
   }
 
   standardizedDataFields = {
