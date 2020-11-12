@@ -109,8 +109,8 @@
         <div class="lls-input-group lls-input-group--reverse-order" *ngFor="let searchTerm of searchTerms; index as i;">
           <lls-dropdown
             class="lls-input-group__field--right lls-input-group__field--basis-40"
-            [value]="searchTerm.field"
             [name]="'searchterm-field-' + i"
+            [(ngModel)]="searchTerm.field"
             [options]="fieldOptionsBySearchTerms[i]"
             [featherIconPath]="featherSpriteUrl"
           ></lls-dropdown>
