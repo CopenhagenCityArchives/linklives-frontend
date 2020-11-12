@@ -1,0 +1,12 @@
+// colors
+$blue: #255da8;
+$blue--dark: #062851;
+$blue--darker: #010f25;
+$yellow: #cb964a;
+
+// breakpoints
+$breakpointSm: 600px;
+$breakpointMd: 960px;
+$breakpointLg: 1264px;
+$breakpointXl: 1904px;
+$breakpoints: ("sm": $breakpointSm, "md": $breakpointMd, "lg": $breakpointLg, "xl": $breakpointXl);

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PersonAppearance, SearchResult, SearchHit } from '../search/search.service';
+import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery } from '../search/search.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -167,26 +167,65 @@ export class ElasticsearchService {
     return this.search(indices, body);
   }
 
-  searchAdvanced(query: Object, indices: string[], from: number, size: number) {
+  searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number) {
     const must = [];
 
     const mapQueryMustKey = {
       firstName: "first_names",
-      lastName: "patronyms",
       parish: "parish",
+      county: "county",
     };
 
     const mapQueryShouldKey = {
-      birthPlace: ["birth_place", "birth_place_county_std", "birth_place_parish_std", "birth_place_koebstad_std"],
+      birthPlace: [
+        "birth_place",
+        "birth_place_clean",
+        "birth_place_county",
+        "birth_place_county_std",
+        "birth_place_district",
+        "birth_place_island",
+        "birth_place_koebstad",
+        "birth_place_koebstad_std",
+        "birth_place_other",
+        "birth_place_parish",
+        "birth_place_parish_std",
+        "birth_place_place",
+        "birth_place_town",
+      ],
+      lastName: [
+        "all_possible_family_names",
+        "all_possible_patronyms",
+        "family_names",
+        "maiden_family_names",
+        "maiden_patronyms",
+        "patronyms"
+      ],
+      maritalStatus: [
+        "marital_status",
+        "marital_status_clean",
+        "marital_status_std"
+      ],
     };
 
     Object.keys(query).filter((queryKey) => query[queryKey]).forEach((queryKey) => {
+      if(queryKey === "query") {
+        must.push({
+          simple_query_string: {
+            query: query,
+            fields: ["*"],
+            default_operator: "and",
+          },
+        });
+        return;
+      }
+
       const mustKey = mapQueryMustKey[queryKey];
 
       if(mustKey) {
         must.push({
           match: { [`person_appearance.${mustKey}`]: query[queryKey] }
         });
+        return;
       }
 
       const shouldKeys = mapQueryShouldKey[queryKey];
@@ -199,7 +238,10 @@ export class ElasticsearchService {
             }),
           },
         });
+        return;
       }
+
+      console.warn("[elasticsearch.service] key we don't know how to search on provided", queryKey);
     });
 
     const body = {

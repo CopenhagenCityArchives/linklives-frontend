@@ -1,22 +1,48 @@
-<div class="col-md-4">
-    <span>🕮</span>
-</div>
+<div class="lls-source">
+    <div class="lls-source__color-indicator lls-source__color-indicator--yellow"></div>
+    <div class="lls-source__section">
+        <h3 class="lls-source__title">
+            Folketæling
+        </h3>
+        <p *ngIf="personAppearance.source_year">{{ personAppearance.source_year}}</p>
+    </div>
+    
+    <div class="lls-source__section">
+        <div>
+            <div class="u-text-capitalize">
+                <p class="lls-source__subtitle">{{ personAppearance.household_position_std }}</p>
+                <p class="lls-source__person u-margin-0">
+                    <span class="u-bold">{{ personAppearance.name_clean }}</span> ~{{ personAppearance.source_year - personAppearance.age_clean }}
+                </p>
+            </div>
+        </div>
+        <div>
+            <span class="u-text-capitalize" *ngIf="personAppearance.parish">
+                {{ personAppearance.parish }}, 
+            </span>
+            <span class="u-text-capitalize" *ngIf="personAppearance.district">
+                {{ personAppearance.district }}, 
+            </span>
+            <span class="u-text-capitalize" *ngIf="personAppearance.county">
+                {{ personAppearance.county }}
+            </span>
+        </div>
+    </div>
 
-<div class="col-md-4">
-    <div>
-        {{ personAppearance.name}}
+    <div class="lls-source__section">
+        <p class="lls-source__subtitle">Kilde</p>
+        <p>Folketæling {{ personAppearance.source_year}}</p>
+        <p>
+            <span *ngIf="personAppearance.parish" class="u-text-capitalize">{{ personAppearance.parish }} </span>
+            <span *ngIf="personAppearance.parish_type" class="u-text-capitalize">{{ personAppearance.parish_type }}, </span>
+            <span *ngIf="personAppearance.district" class="u-text-capitalize">{{ personAppearance.district }}, </span>
+            <span *ngIf="personAppearance.county" class="u-text-capitalize">{{ personAppearance.county }}</span>
+        </p>
     </div>
-    <div class="text-capitalize" *ngIf="personAppearance.Sogn">
-        <strong>Sogn:</strong> {{ personAppearance.Sogn}}
+    
+    <div class="lls-source__section lls-source__section--cta">
+        <div>
+            <a [routerLink]="['/pa', personAppearance.source_id + '-' + personAppearance.pa_id]" class="lls-btn">Se kilde</a>
+        </div>
     </div>
-    <div class="text-capitalize" *ngIf="personAppearance.Herred">
-        <strong>Herred:</strong> {{ personAppearance.Herred}}
-    </div>
-    <div class="text-capitalize" *ngIf="personAppearance.Amt">
-        <strong>Amt:</strong> {{ personAppearance.Amt}}
-    </div>
-</div>
-
-<div class="col-md-4 d-flex justify-content-end">
-    <a [routerLink]="['/pa', personAppearance.source_id + '-' + personAppearance.pa_id]" class="btn btn-info align-self-end">Vælg kilde</a>
 </div>

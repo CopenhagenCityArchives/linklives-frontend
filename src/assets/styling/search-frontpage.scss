@@ -1,0 +1,11 @@
+.search-intro {
+  display: flex;
+
+  @media (min-width: $breakpointSm) {
+    margin: 0 2rem;
+  }
+
+  @media (min-width: $breakpointMd) {
+    margin: 0 4rem;
+  }
+}

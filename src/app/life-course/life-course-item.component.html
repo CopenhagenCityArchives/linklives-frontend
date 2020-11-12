@@ -1,22 +1,40 @@
-<div class="col-md-4">
-    🔗 {{ personAppearances.length }} kilder
-</div>
+<div class="lls-source lls-source--lifecourse">
+    <div class="lls-source__color-indicator"></div>
+    <div class="lls-source__section">
+        <div class="lls-source__count">
+            <span class="lls-source__count-circle">{{ personAppearances.length }}</span> kilder
+        </div>
+        <h3 class="lls-source__title">Livsforløb</h3>
+        <p>18XX - 18XX</p>
+    </div>
 
-<div class="col-md-4">
-    <div class="text-capitalize">
-        {{ personAppearances[0].name_std}}
+    <div class="lls-source__section lls-source__section--bordered">
+        <div class="u-text-capitalize">
+            <p class="lls-source__subtitle">Person</p>
+            <p class="lls-source__person u-margin-0">{{ personAppearances[0].name_std}}</p>
+            <p class="u-margin-0">* {{ personAppearances[0].source_year - personAppearances[0].age_clean }}</p>
+        </div>
+        <div>
+            <span class="u-text-capitalize" *ngIf="personAppearances[0].parish">
+                {{ personAppearances[0].parish}}
+            </span>
+            <span class="u-text-capitalize" *ngIf="personAppearances[0].district">
+                , {{ personAppearances[0].district}}
+            </span>
+            <span class="u-text-capitalize" *ngIf="personAppearances[0].county">
+                , {{ personAppearances[0].county}}
+            </span>
+        </div>
     </div>
-    <div class="text-capitalize" *ngIf="personAppearances[0].parish_std">
-        <strong>Sogn:</strong> {{ personAppearances[0].parish_std}}
+    <div class="lls-source__section">
+        <p class="lls-source__subtitle">Kilder</p>
+        <p>{{ personAppearances.length }} kilder i perioden {{ sourceYearRange }}</p>
+        <p>{{ sourceList }}</p>
     </div>
-    <div class="text-capitalize" *ngIf="personAppearances[0].district_cl">
-        <strong>Herred:</strong> {{ personAppearances[0].district_cl}}
-    </div>
-    <div class="text-capitalize" *ngIf="personAppearances[0].county_std">
-        <strong>Amt:</strong> {{ personAppearances[0].county_std}}
-    </div>
-</div>
 
-<div class="col-md-4 d-flex justify-content-end">
-    <a href [routerLink]="['/life-course', lifecourseId]" class="btn btn-info align-self-end">Vælg livsforløb</a>
+    <div class="lls-source__section lls-source__section--cta">
+        <div>
+            <a href [routerLink]="['/life-course', lifecourseId]" class="lls-btn lls-btn--blue align-self-end">Se forløb</a>
+        </div>
+    </div>
 </div>
