@@ -15,8 +15,7 @@ cache:
     - ./node_modules
 
 install:
-  - pip install --user awscli # install aws cli w/o sudo
-  - export PATH=$PATH:$HOME/.local/bin # put aws in the path
+  - pip install --user awscli
   - npm install
 
 script:
