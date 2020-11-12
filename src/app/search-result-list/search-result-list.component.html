@@ -1,53 +1,76 @@
+<section class="lls-results-header">
+    <div class="container-fluid">
+        <form (ngSubmit)="search()" class="lls-row">
+            <div class="lls-columns-8 lls-columns-6--md">
+                <div class="lls-row">
+                    <div class="input-group lls-columns-12 lls-columns-6--md lls-columns-4--lg">
+                        <label for="query">Fritekst</label>
+                        <input
+                            [(ngModel)]="searchParams.query"
+                            type="text"
+                            placeholder="Søg i livsforløb eller kilder"
+                            class="lls-input-field "
+                            id="query"
+                            name="query"
+                        />
+                    </div>
+                    <div class="input-group lls-columns-12 lls-columns-6--md lls-columns-4--lg">
+                        <label for="query">Fornavn</label>
+                        <input
+                            [(ngModel)]="searchParams.query"
+                            type="text"
+                            placeholder="Søg i livsforløb eller kilder"
+                            class="lls-input-field "
+                            id="query"
+                            name="query"
+                        />
+                    </div>
+                </div>
+                
+            </div>
+            <div class="lls-columns-2 lls-columns-3--md">
+                <p>Resultattype</p>
+                <div class="lls-results-header__checkboxes">
+                    <div class="lls-results-header__checkbox-container">
+                        <input
+                            [(ngModel)]="indexSource"
+                            type="checkbox"
+                            class="lls-results-header__checkbox"
+                            id="indexSource-checkbox"
+                            name="indexSource"
+                        >
+                        <label for="indexSource-checkbox">Kilder</label>
+                    </div>
+                    <div class="lls-results-header__checkbox-container">
+                        <input
+                            [(ngModel)]="indexLifecourse"
+                            type="checkbox"
+                            class="lls-results-header__checkbox"
+                            id="indexLifecourse-checkbox"
+                            name="indexLifecourse"
+                        >
+                        <label for="indexLifecourse-checkbox">Livsforløb</label>
+                    </div>
+                </div>
+            </div>
+            <div class="lls-results-header__right-section lls-columns-2 lls-columns-3--md">
+                <a routerLink="/user/search-history" class="lls-results-header__history-link">
+                    <p>Min søgehistorik</p>
+                </a>
+                <button
+                    type="submit"
+                    class="lls-btn lls-btn--blue"
+                >
+                    <span>Søg</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</section>
 <div class="lls-container">
     <div>
-        <strong>Søgning:</strong>
-        <span>
-            {{ searchQueryParams.query }}
-            {{ searchQueryParams.firstName }}
-            {{ searchQueryParams.lastName }}
-            {{ searchQueryParams.parish }}
-            {{ searchQueryParams.county }}
-            {{ searchQueryParams.birthPlace }}
-            {{ searchQueryParams.maritalStatus }}
-        </span>
-        <a routerLink="/search/simple" [queryParams]="searchQueryParams">Redigér søgning</a>
-    </div>
-
-    <a routerLink="/user/search-history">Min søgehistorik</a>
-
-    <h4>Søgeresultater</h4>
-
-    <div class="options">
         <div>
-            <div><a [routerLink]="">Gem søgning</a></div>
-            <div><a [routerLink]="">Download</a></div>
-        </div>
-        <div>
-            <label>Visning</label>
-
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="view" value="list">
-                <label class="form-check-label">Liste</label>
-            </div>
-            <div class="form-check">
-                <input class="form-check-input" type="radio" name="view" value="block">
-                <label class="form-check-label">Blok</label>
-            </div>
-        </div>
-        <div>
-            <label>Sorter efter</label>
-            <select class="form-control">
-                <option>Sikkerhed</option>
-            </select>
-        </div>
-    </div>
-    <div>
-        <div>
-            <div class="border p-2">{{ searchResult.totalHits }} resultater</div>
-        </div>
-
-        <div>
-            <ul class="nav nav-tabs nav-fill">
+            <!-- <ul class="nav nav-tabs nav-fill">
                 <li class="nav-item d-flex">
                     <a class="nav-link flex-fill" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [queryParams]="searchQueryParams">
                         <p>
@@ -58,6 +81,7 @@
                         </p>
                     </a>
                 </li>
+                
                 <li class="nav-item d-flex">
                     <a class="nav-link flex-fill d-inline align-middle" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [queryParams]="lifeCourseQueryParams">
                         <span class="align-middle">
@@ -80,7 +104,9 @@
                         </p>
                     </a>
                 </li>
-            </ul>
+            </ul> -->
+
+            <div class="p-2 u-text-right">Viser 10 af {{ searchResult.totalHits }} resultater</div>
 
             <div>
                 <div>

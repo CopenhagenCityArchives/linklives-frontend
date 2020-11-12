@@ -95,6 +95,7 @@ export interface PersonAppearance {
 }
 
 export interface AdvancedSearchQuery {
+  query?: string,
   firstName?: string,
   lastName?: string,
   parish?: string,
