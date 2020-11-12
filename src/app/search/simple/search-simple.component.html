@@ -116,7 +116,7 @@
           ></lls-dropdown>
           <input
             type="text"
-            [placeholder]="searchFieldPlaceholders[searchTerm.field]"
+            [placeholder]="searchFieldPlaceholders[searchTerm.field] || ''"
             class="lls-input-group__field lls-input-group__field--left lls-input-group__field--basis-60"
             [(ngModel)]="searchTerm.value"
             [name]="'searchterm-value-' + i"
