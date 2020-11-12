@@ -1,8 +1,4 @@
 <style>
-.search-intro {
-  display: flex;
-  margin: 0 4rem;
-}
 .search-intro--header {
   flex-shrink: 0;
   flex-grow: 1;
@@ -37,13 +33,13 @@
 }
 .input-field {
   padding: 1rem 1.4rem;
-  border: 1px solid #bbb;
+  border: 2px solid #bbb;
   border-radius: 3px;
   flex-grow: 1;
 }
 .dropdown-select {
   padding: 1rem 1.4rem;
-  border: 1px solid #bbb;
+  border: 2px solid black;
   border-radius: 3px;
   flex-basis: 180px;
   flex-grow: 0.5;
@@ -51,6 +47,7 @@
 }
 .input-field-left {
   border-radius: 3px 0 0 3px;
+  border-right: none;
 }
 .input-field-right {
   border-radius: 0 3px 3px 0;
@@ -71,22 +68,23 @@
 .lls-form-actions {
   margin-top: 1rem;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
 }
 .help-box-container {
   display: flex;
-  justify-content: end;
-  align-items: start;
+  justify-content: flex-end;
+  align-items: flex-start;
 }
 </style>
 
 <div class="container-fluid mt-5">
   <div class="search-intro">
-    <h2 class="search-intro--header">
+    <div class="lls-row">
+    <h2 class="lls-columns-12 lls-columns-4--lg lls-columns-4--xl search-intro--header">
       Find livsforløb<br>
       1787&ndash;1901
     </h2>
-    <div class="search-intro--text">
+    <div class="lls-columns-12 lls-columns-6--lg lls-columns-4--xl search-intro--text">
       <p>
         Et livsforløb er et kvalificeret forslag til hvilke historiske kilder, der omhandler den samme person.
         Vi tilføjer løbende flere livsforløb og der kan komme flere detaljer på et livsforløb.
@@ -98,14 +96,15 @@
         </svg>
       </a>
     </div>
-    <div style="flex-grow: 1; flex-shrink: 0; text-align: right;">
-      <h3 style="font-size: 4em;">Beta</h3>
+    <div class="lls-columns-12 lls-columns-2--lg lls-columns-4--xl" style="text-align: right;">
+      <h3 style="font-family: notera; font-size: 4rem; font-weight: normal;">Beta</h3>
+    </div>
     </div>
   </div>
   <div class="lls-card">
     <h3 class="lls-card__title">Fritekstsøgning</h3>
     <form (ngSubmit)="searchSimple()" class="lls-row">
-      <div class="lls-columns-8">
+      <div class="lls-columns-12 lls-columns-8--md">
         <div class="input-group">
           <input
             type="text"
@@ -131,68 +130,21 @@
   <div class="lls-card">
     <h3 class="lls-card__title">Specifik søgning</h3>
     <form (ngSubmit)="searchAdvanced()" class="lls-row">
-      <div class="lls-columns-8">
-        <div class="input-group">
+      <div class="lls-columns-12 lls-columns-8--md">
+        <div class="input-group" *ngFor="let searchTerm of searchTerms; index as i;">
           <input
             type="text"
             placeholder="Jens"
             class="input-field input-field-left"
-            [(ngModel)]="firstName"
-            name="firstName"
+            [(ngModel)]="searchTerm.value"
+            [name]="'searchterm-value-' + i"
           />
           <select
             class="dropdown-select input-field-right"
-            disabled
+            [(ngModel)]="searchTerm.field"
+            [name]="'searchterm-field-' + i"
           >
-            <option value="firstName">Fornavn</option>
-          </select>
-        </div>
-
-        <div class="input-group">
-          <input
-            type="text"
-            placeholder="Larsen"
-            class="input-field input-field-left"
-            [(ngModel)]="lastName"
-            name="lastName"
-          />
-          <select
-            class="dropdown-select input-field-right"
-            disabled
-          >
-            <option value="lastName">Efternavn</option>
-          </select>
-        </div>
-
-        <div class="input-group">
-          <input
-            type="text"
-            placeholder="Odsherred Sogn"
-            class="input-field input-field-left"
-            [(ngModel)]="parish"
-            name="parish"
-          />
-          <select
-            class="dropdown-select input-field-right"
-            disabled
-          >
-            <option value="parish">Sogn</option>
-          </select>
-        </div>
-
-        <div class="input-group">
-          <input
-            type="text"
-            placeholder="Aarhus"
-            class="input-field input-field-left"
-            [(ngModel)]="birthPlace"
-            name="birthPlace"
-          />
-          <select
-            class="dropdown-select input-field-right"
-            disabled
-          >
-            <option value="birthPlace">Fødested</option>
+            <option *ngFor="let option of fieldOptionsBySearchTerms[i]" [value]="option.key">{{ option.label }}</option>
           </select>
         </div>
 
@@ -208,7 +160,7 @@
           </button>
         </div>
       </div>
-      <div class="lls-columns-4 help-box-container">
+      <div class="lls-columns-12 lls-columns-4--md help-box-container">
         <div class="help-box">
           <p><strong>Du søger livsforløb i kilderne</strong></p>
           <p>Lorem ipsum dolor sit amet.</p>

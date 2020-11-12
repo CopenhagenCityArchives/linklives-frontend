@@ -3,53 +3,74 @@ import { Router, ActivatedRoute  } from '@angular/router';
 
 import { SearchResult } from '../search/search.service';
 
+interface SearchQueryParams {
+  query?: string,
+  firstName?: string,
+  lastName?: string,
+  parish?: string,
+  county?: string,
+  birthPlace?: string,
+  maritalStatus?: string,
+}
+
 @Component({
   selector: 'app-search-result-list',
   templateUrl: './search-result-list.component.html',
   styleUrls: ['./search-result-list.component.scss']
 })
 export class SearchResultListComponent implements OnInit {
-
   searchResult: SearchResult;
-  query?: string;
-  firstName?: string;
-  lastName?: string;
-  parish?: string;
-  birthPlace?: string;
+  searchQueryParams: SearchQueryParams;
   index: string;
   indexSource: boolean = true;
   indexLifecourse: boolean = true;
 
   pagination: { current: number, last: number, size: number, navigationPages: number[]; }
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router,
-    ) { }
-
-  searchSimple(): void {
-    let query: Object;
+  get computedIndex() {
     if((this.indexLifecourse && this.indexSource) || (!this.indexLifecourse && !this.indexSource)) {
-      query = { query: this.query };
+      return 'pas,lifecourses';
     }
     else if(this.indexSource) {
-      query = {query: this.query, index: 'pas'}
+      return 'pas';
     }
     else if(this.indexLifecourse) {
-      query = {query: this.query, index: 'lifecourses'}
+      return 'lifecourses';
     }
-    this.router.navigate(['/results'], {
-      queryParams: query,
-    });
   }
 
+  get lifeCourseQueryParams() {
+    return {...this.searchQueryParams, index: 'lifecourses'};
+  }
+
+  get personAppearanceQueryParams() {
+    return {...this.searchQueryParams, index: 'pas'};
+  }
+
+  get queryParams() {
+    return {...this.searchQueryParams, index: this.computedIndex};
+  }
+
+  constructor(private route: ActivatedRoute) { }
+
   ngOnInit(): void {
+    const possibleSearchQueryParams = [
+      "query",
+      "firstName",
+      "lastName",
+      "parish",
+      "county",
+      "birthPlace",
+      "maritalStatus",
+    ];
+
     this.route.queryParamMap.subscribe(queryParamMap => {
-      this.query = queryParamMap.get('query');
-      this.firstName = queryParamMap.get('firstName');
-      this.lastName = queryParamMap.get('lastName');
-      this.parish = queryParamMap.get('parish');
-      this.birthPlace = queryParamMap.get('birthPlace');
+      const searchQueryParams = {};
+      queryParamMap.keys
+        .filter((key) => possibleSearchQueryParams.includes(key))
+        .forEach((key) => searchQueryParams[key] = queryParamMap.get(key));
+      this.searchQueryParams = searchQueryParams;
+
       this.index = queryParamMap.get('index');
     });
 
