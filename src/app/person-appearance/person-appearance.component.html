@@ -17,6 +17,7 @@
     margin: 0 -0.5rem;
     font-size: 1.25rem;
     font-weight: 400;
+    text-transform: capitalize;
 }
 .person-appearance-classification__data-summary > * {
     margin: 0 0.5rem;
@@ -70,8 +71,9 @@
             <div class="person-appearance-classification__source-type">Kilde</div>
             <h1>Folketælling</h1>
             <div class="person-appearance-classification__data-summary">
-                <span>{{ shortSourceLocation }}</span>
-                <span>{{ sourceYear }}</span>
+                <span>{{ pa.name_clean }}</span>
+                <span>{{ sourceLocation }}</span>
+                <span>{{ pa.source_year }}</span>
             </div>
         </div>
         <div class="header__utility-links">
@@ -97,7 +99,7 @@
                     </table>
                 </div>
                 <div class="data-section">
-                    <h2>Standardiseret data brugt til linking</h2>
+                    <h2>Processeret data brugt til linking</h2>
                     <table>
                         <tr *ngFor="let line of standardizedDataLines">
                             <th>{{ line.label }}</th>
@@ -116,7 +118,7 @@
                         </tr>
                     </table>
                 </div>
-                <div class="data-section">
+                <!--div class="data-section">
                     <h2>Anden data (rå)</h2>
                     <table>
                         <tr *ngFor="let line of otherDataLines">
@@ -124,7 +126,7 @@
                             <td>{{ line.value || '—' }}</td>
                         </tr>
                     </table>
-                </div>
+                </div-->
             </div>
         </div>
         <div class="lls-card__actions">
