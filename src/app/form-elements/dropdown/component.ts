@@ -1,4 +1,5 @@
-import { Component, ElementRef, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export interface Option {
   label: string;
@@ -14,28 +15,58 @@ export interface Option {
     '(blur)': 'close();',
     '(keydown)': 'onKeyPress($event)',
   },
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => Dropdown),
+      multi: true
+    },
+  ],
 })
-export class Dropdown implements OnInit {
+export class Dropdown implements ControlValueAccessor {
   @Input() featherIconPath: string;
   @Input() name: string;
-  @Input() value: string;
   @Input() options: Array<Option>;
 
-  currentValue: string;
+  @Input()
+  get value() {
+    return this._value;
+  }
+  set value(value: string) {
+    this._value = value;
+    this.onChange(value);
+    this.onTouched();
+  }
+
+  _value: string = "";
   isOpen: boolean = false;
   tabHovered?: number = null;
 
+  onChange: Function = () => {};
+  onTouched: Function = () => {};
+
   get currentLabel() {
-    return this.options.find((opt) => opt.value == this.currentValue).label;
+    const option = this.options.find((opt) => opt.value == this.value);
+    return option ? option.label : '';
   }
 
   @Output() ngModelChange = new EventEmitter<string>();
 
-  constructor(private hostElement: ElementRef) {}
+  constructor() {}
 
-  ngOnInit(): void {
-    this.currentValue = this.value;
+  // Start ControlValueAccessor
+  registerOnChange(fn: Function) {
+    this.onChange = fn;
   }
+
+  writeValue(value: string) {
+    this.value = value;
+  }
+
+  registerOnTouched(fn: Function) {
+    this.onTouched = fn;
+  }
+  // End ControlValueAccessor
 
   toggleOpen() {
     this.isOpen = !this.isOpen;
@@ -51,7 +82,7 @@ export class Dropdown implements OnInit {
   }
 
   select(option: Option) {
-    this.currentValue = option.value;
+    this.value = option.value;
     this.close();
   }
 
@@ -93,7 +124,7 @@ export class Dropdown implements OnInit {
     if(this.tabHovered === null) {
       if(!this.isOpen) {
         this.open();
-        this.tabHovered = this.options.findIndex((opt) => opt.value === this.currentValue);
+        this.tabHovered = this.options.findIndex((opt) => opt.value === this.value);
       }
       else {
         this.close();
