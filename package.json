@@ -1,6 +1,6 @@
 {
-  "name": "linklives",
-  "version": "0.0.0",
+  "name": "linklives-frontend",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
