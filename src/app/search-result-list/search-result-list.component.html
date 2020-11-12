@@ -1,12 +1,12 @@
 <section class="lls-results-header">
     <div class="container-fluid">
-        <form (ngSubmit)="searchSimple()" class="lls-row">
+        <form (ngSubmit)="search()" class="lls-row">
             <div class="lls-columns-8 lls-columns-6--md">
                 <div class="lls-row">
                     <div class="input-group lls-columns-12 lls-columns-6--md lls-columns-4--lg">
                         <label for="query">Fritekst</label>
                         <input
-                            [(ngModel)]="query"
+                            [(ngModel)]="searchParams.query"
                             type="text"
                             placeholder="Søg i livsforløb eller kilder"
                             class="lls-input-field "
@@ -17,7 +17,7 @@
                     <div class="input-group lls-columns-12 lls-columns-6--md lls-columns-4--lg">
                         <label for="query">Fornavn</label>
                         <input
-                            [(ngModel)]="query"
+                            [(ngModel)]="searchParams.query"
                             type="text"
                             placeholder="Søg i livsforløb eller kilder"
                             class="lls-input-field "

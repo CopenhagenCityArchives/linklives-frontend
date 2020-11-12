@@ -208,12 +208,24 @@ export class ElasticsearchService {
     };
 
     Object.keys(query).filter((queryKey) => query[queryKey]).forEach((queryKey) => {
+      if(queryKey === "query") {
+        must.push({
+          simple_query_string: {
+            query: query,
+            fields: ["*"],
+            default_operator: "and",
+          },
+        });
+        return;
+      }
+
       const mustKey = mapQueryMustKey[queryKey];
 
       if(mustKey) {
         must.push({
           match: { [`person_appearance.${mustKey}`]: query[queryKey] }
         });
+        return;
       }
 
       const shouldKeys = mapQueryShouldKey[queryKey];
@@ -226,7 +238,10 @@ export class ElasticsearchService {
             }),
           },
         });
+        return;
       }
+
+      console.warn("[elasticsearch.service] key we don't know how to search on provided", queryKey);
     });
 
     const body = {

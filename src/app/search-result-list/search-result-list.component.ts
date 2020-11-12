@@ -1,7 +1,8 @@
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
 
-import { SearchResult } from '../search/search.service';
+import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
 
 interface SearchQueryParams {
   query?: string,
@@ -27,6 +28,8 @@ export class SearchResultListComponent implements OnInit {
 
   pagination: { current: number, last: number, size: number, navigationPages: number[]; }
 
+  searchParams: AdvancedSearchQuery = {};
+
   get computedIndex() {
     if((this.indexLifecourse && this.indexSource) || (!this.indexLifecourse && !this.indexSource)) {
       return 'pas,lifecourses';
@@ -51,7 +54,7 @@ export class SearchResultListComponent implements OnInit {
     return {...this.searchQueryParams, index: this.computedIndex};
   }
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     const possibleSearchQueryParams = [
@@ -68,7 +71,11 @@ export class SearchResultListComponent implements OnInit {
       const searchQueryParams = {};
       queryParamMap.keys
         .filter((key) => possibleSearchQueryParams.includes(key))
-        .forEach((key) => searchQueryParams[key] = queryParamMap.get(key));
+        .forEach((key) => {
+          const value = queryParamMap.get(key);
+          searchQueryParams[key] = value;
+          this.searchParams[key] = value;
+        });
       this.searchQueryParams = searchQueryParams;
 
       this.index = queryParamMap.get('index');
@@ -110,6 +117,12 @@ export class SearchResultListComponent implements OnInit {
           this.pagination.navigationPages.push(page);
         }
       });
+    });
+  }
+
+  search(): void {
+    this.router.navigate(['/results'], {
+      queryParams: { ...this.searchParams, index: this.computedIndex },
     });
   }
 
