@@ -10,7 +10,6 @@ addons:
   chrome: stable
 
 cache:
-  - pip
   - directories:
     - ./node_modules
 
@@ -36,4 +35,4 @@ deploy:
 
 after_deploy:
   - aws configure set preview.cloudfront true
-  - test $TRAVIS_BRANCH = "master" && aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
+  - aws cloudfront create-invalidation --distribution-id $CLOUDFRONT_DISTRIBUTION_ID --paths "/*"
