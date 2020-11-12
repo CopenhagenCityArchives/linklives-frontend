@@ -9,7 +9,7 @@ import { AdvancedSearchQuery } from '../search.service';
 })
 export class SimpleSearchComponent implements OnInit {
   //TODO: we need to be able to set this to a different one in prod, based on the concrete url in the wordpress theme?
-  featherSpriteUrl = "/assets/feather-sprite_cbef33d2.svg";
+  featherSpriteUrl = window["lls"].featherIconPath;
 
   // Simple search
   query = "";
