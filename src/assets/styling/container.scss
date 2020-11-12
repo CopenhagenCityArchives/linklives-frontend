@@ -1,0 +1,16 @@
+.lls-container {
+  margin-right: auto;
+  margin-left: auto;
+  box-sizing: border-box;
+  padding: 0 1rem;
+  
+  @media(min-width: $breakpointSm) {
+    padding: 0 1.5rem;
+  }
+
+  @each $name, $minWidth in $breakpoints {
+    @media(min-width: $minWidth) {
+      width: $minWidth;
+    }
+  }
+}
