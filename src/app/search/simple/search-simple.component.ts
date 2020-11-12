@@ -22,6 +22,15 @@ export class SimpleSearchComponent implements OnInit {
     { field: "birthPlace", value: "" },
   ];
 
+  searchFieldPlaceholders = {
+    firstName: "Jens",
+    lastName: "Eriksen",
+    parish: "Præstø",
+    county: "Sorø",
+    birthPlace: "Randers",
+    maritalStatus: "Ugift",
+  };
+
   fieldOptions = [
     { value: "firstName", label: "Fornavn" },
     { value: "lastName", label: "Efternavn" },

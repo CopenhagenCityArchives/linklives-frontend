@@ -133,7 +133,7 @@
           ></lls-dropdown>
           <input
             type="text"
-            placeholder="Jens"
+            [placeholder]="searchFieldPlaceholders[searchTerm.field]"
             class="input-field input-field-left"
             [(ngModel)]="searchTerm.value"
             [name]="'searchterm-value-' + i"
