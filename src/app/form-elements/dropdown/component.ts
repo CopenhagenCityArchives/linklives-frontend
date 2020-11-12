@@ -47,10 +47,6 @@ export class Dropdown implements OnInit {
 
   close() {
     this.isOpen = false;
-  }
-
-  blur() {
-    this.hostElement.nativeElement.blur();
     this.tabHovered = null;
   }
 
@@ -61,15 +57,16 @@ export class Dropdown implements OnInit {
 
   onKeyPress($event) {
     const handler = {
-      ArrowDown: this.tabHoverNextItem,
-      ArrowUp: this.tabHoverPreviousItem,
-      Enter: this.selectTabHoveredItemOrToggleOpen,
+      ArrowDown: () => this.tabHoverNextItem(),
+      ArrowUp: () => this.tabHoverPreviousItem(),
+      Enter: () => this.selectTabHoveredItemOrToggleOpen(),
+      Escape: () => this.close(),
     }[$event.code];
 
     if(handler) {
       $event.stopPropagation();
       $event.preventDefault();
-      handler.call(this);
+      handler();
     }
   }
 
