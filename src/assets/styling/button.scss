@@ -57,5 +57,10 @@
 }
 
 .lls-btn--right {
-  border-radius: 0 3px 3px 0;
+  margin-top: 1rem;
+
+  @media (min-width: $breakpointMd) {
+    margin-top: 0;
+    border-radius: 0 3px 3px 0;
+  }
 }

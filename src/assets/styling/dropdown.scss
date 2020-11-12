@@ -2,13 +2,13 @@ $dropdownPaddingY: 1.4rem;
 $dropdownFontSize: 1.125rem;
 
 .lls-dropdown, lls-dropdown {
+  display: inline-block;
   font-size: $dropdownFontSize;
   padding: 1rem $dropdownPaddingY;
   border: 2px solid black;
   border-radius: 3px;
-  flex-basis: 180px;
-  flex-grow: 0.5;
-  flex-shrink: 0.5;
+  width: 100%;
+  margin: 0.125rem 0;
   cursor: pointer;
   position: relative;
 
@@ -16,6 +16,10 @@ $dropdownFontSize: 1.125rem;
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
+  @media (min-width: $breakpointMd) {
+    margin: 0;
+  }
 
   .lls-icon {
     margin-top: 4px;
@@ -61,8 +65,4 @@ $dropdownFontSize: 1.125rem;
 .lls-dropdown__option--selected {
   outline: 1px dotted black;
   outline-offset: -1px;
-}
-
-.lls-input-field--right {
-  border-radius: 0 3px 3px 0;
 }

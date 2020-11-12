@@ -27,23 +27,6 @@
 .text-link .lls-icon--right {
   margin-left: 0.5rem;
 }
-.input-group {
-  display: flex;
-  margin-top: 1rem;
-}
-.input-group--reverse-order {
-  flex-direction: row-reverse;
-}
-.input-field {
-  padding: 1rem 1.4rem;
-  border: 2px solid #bbb;
-  border-radius: 3px;
-  flex-grow: 1;
-}
-.input-field-left {
-  border-radius: 3px 0 0 3px;
-  border-right: none;
-}
 .help-box {
   padding: 2rem;
   color: white;
@@ -97,11 +80,11 @@
     <h3 class="lls-card__title">Fritekstsøgning</h3>
     <form (ngSubmit)="searchSimple()" class="lls-row">
       <div class="lls-columns-12 lls-columns-8--md">
-        <div class="input-group">
+        <div class="lls-input-group">
           <input
             type="text"
             placeholder="Søg i livsforløb eller kilder"
-            class="input-field input-field-left"
+            class="lls-input-group__field lls-input-group__field--left"
             [(ngModel)]="query"
             name="query"
           />
@@ -123,9 +106,9 @@
     <h3 class="lls-card__title">Specifik søgning</h3>
     <form (ngSubmit)="searchAdvanced()" class="lls-row">
       <div class="lls-columns-12 lls-columns-8--md">
-        <div class="input-group input-group--reverse-order" *ngFor="let searchTerm of searchTerms; index as i;">
+        <div class="lls-input-group lls-input-group--reverse-order" *ngFor="let searchTerm of searchTerms; index as i;">
           <lls-dropdown
-            class="lls-input-field--right"
+            class="lls-input-group__field--right lls-input-group__field--basis-40"
             [value]="searchTerm.field"
             [name]="'searchterm-field-' + i"
             [options]="fieldOptionsBySearchTerms[i]"
@@ -134,7 +117,7 @@
           <input
             type="text"
             [placeholder]="searchFieldPlaceholders[searchTerm.field]"
-            class="input-field input-field-left"
+            class="lls-input-group__field lls-input-group__field--left lls-input-group__field--basis-60"
             [(ngModel)]="searchTerm.value"
             [name]="'searchterm-value-' + i"
           />
