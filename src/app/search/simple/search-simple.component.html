@@ -105,24 +105,24 @@
     <h3 class="lls-card__title">Fritekstsøgning</h3>
     <form (ngSubmit)="searchSimple()" class="lls-row">
       <div class="lls-columns-12 lls-columns-8--md">
-      <div class="input-group">
-        <input
-          type="text"
-          placeholder="Søg i livsforløb eller kilder"
-          class="input-field input-field-left"
-          [(ngModel)]="query"
-          name="query"
-        />
-        <button
-          type="submit"
-          class="lls-btn lls-btn--big lls-btn--right"
-        >
-          <span>Søg</span>
-          <svg class="lls-icon lls-icon--right">
-            <use [attr.href]="featherSpriteUrl + '#search'"></use>
-          </svg>
-        </button>
-      </div>
+        <div class="input-group">
+          <input
+            type="text"
+            placeholder="Søg i livsforløb eller kilder"
+            class="input-field input-field-left"
+            [(ngModel)]="query"
+            name="query"
+          />
+          <button
+            type="submit"
+            class="lls-btn lls-btn--big lls-btn--right"
+          >
+            <span>Søg</span>
+            <svg class="lls-icon lls-icon--right">
+              <use [attr.href]="featherSpriteUrl + '#search'"></use>
+            </svg>
+          </button>
+        </div>
       </div>
     </form>
   </div>

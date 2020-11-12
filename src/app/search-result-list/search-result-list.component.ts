@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute  } from '@angular/router';
+import { Router, ActivatedRoute  } from '@angular/router';
+
 import { SearchResult } from '../search/search.service';
 
 interface SearchQueryParams {
@@ -21,8 +22,22 @@ export class SearchResultListComponent implements OnInit {
   searchResult: SearchResult;
   searchQueryParams: SearchQueryParams;
   index: string;
+  indexSource: boolean = true;
+  indexLifecourse: boolean = true;
 
   pagination: { current: number, last: number, size: number, navigationPages: number[]; }
+
+  get computedIndex() {
+    if((this.indexLifecourse && this.indexSource) || (!this.indexLifecourse && !this.indexSource)) {
+      return 'pas,lifecourses';
+    }
+    else if(this.indexSource) {
+      return 'pas';
+    }
+    else if(this.indexLifecourse) {
+      return 'lifecourses';
+    }
+  }
 
   get lifeCourseQueryParams() {
     return {...this.searchQueryParams, index: 'lifecourses'};
@@ -33,7 +48,7 @@ export class SearchResultListComponent implements OnInit {
   }
 
   get queryParams() {
-    return {...this.searchQueryParams, index: this.index};
+    return {...this.searchQueryParams, index: this.computedIndex};
   }
 
   constructor(private route: ActivatedRoute) { }

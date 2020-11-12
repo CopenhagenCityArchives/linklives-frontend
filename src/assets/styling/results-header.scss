@@ -1,0 +1,25 @@
+.lls-results-header {
+  background-color: $blue--darker;
+  color: white;
+  padding: 20px 0;
+}
+
+.lls-results-header__right-section {
+  text-align: right;
+}
+
+.lls-results-header__checkboxes {
+  display: flex;
+}
+
+.lls-results-header__checkbox-container {
+  margin-right: 10px;
+}
+
+.lls-results-header__checkbox {
+  margin-right: 5px;
+}
+
+.lls-results-header__history-link {
+  color: white;
+}

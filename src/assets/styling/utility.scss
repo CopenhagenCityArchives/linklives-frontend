@@ -1,3 +1,4 @@
+// Text classes
 .u-bold {
   font-weight: 600 !important;
 }
@@ -6,6 +7,20 @@
   text-transform: capitalize !important;
 }
 
+.u-text-left {
+  text-align: left !important;
+}
+
+.u-text-right {
+  text-align: center !important;
+}
+
+.u-text-right {
+  text-align: right !important;
+}
+
+
+// Spacing classes
 .u-margin-0 {
   margin: 0 !important;
 }
