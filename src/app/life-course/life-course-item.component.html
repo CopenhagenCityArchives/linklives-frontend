@@ -5,31 +5,23 @@
             <span class="lls-source__count-circle">{{ personAppearances.length }}</span> kilder
         </div>
         <h3 class="lls-source__title">Livsforløb</h3>
-        <p>18XX - 18XX</p>
+        <p>{{ sourceYearRange }}</p>
     </div>
 
     <div class="lls-source__section lls-source__section--bordered">
         <div class="u-text-capitalize">
             <p class="lls-source__subtitle">Person</p>
-            <p class="lls-source__person u-margin-0">{{ personAppearances[0].name_std}}</p>
-            <p class="u-margin-0">* {{ personAppearances[0].source_year - personAppearances[0].age_clean }}</p>
+            <p class="lls-source__person u-margin-0">{{ latestPersonAppearance.name_clean }}</p>
+            <p class="u-margin-0">* {{ latestPersonAppearance.source_year - latestPersonAppearance.age_clean }}</p>
         </div>
-        <div>
-            <span class="u-text-capitalize" *ngIf="personAppearances[0].parish">
-                {{ personAppearances[0].parish}}
-            </span>
-            <span class="u-text-capitalize" *ngIf="personAppearances[0].district">
-                , {{ personAppearances[0].district}}
-            </span>
-            <span class="u-text-capitalize" *ngIf="personAppearances[0].county">
-                , {{ personAppearances[0].county}}
-            </span>
+        <div class="u-text-capitalize">
+            {{ sourceLocation }}
         </div>
     </div>
     <div class="lls-source__section">
         <p class="lls-source__subtitle">Kilder</p>
-        <p>{{ personAppearances.length }} kilder i perioden {{ sourceYearRange }}</p>
-        <p>{{ sourceList }}</p>
+        <p class="u-margin-0">{{ personAppearances.length }} kilder i perioden {{ sourceYearRange }}.</p>
+        <p class="u-margin-0">{{ sourceList }}</p>
     </div>
 
     <div class="lls-source__section lls-source__section--cta">

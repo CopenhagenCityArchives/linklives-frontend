@@ -10,6 +10,30 @@ export class PersonAppearanceItemComponent implements OnInit {
 
   @Input("item") personAppearance: PersonAppearance;
 
+  get personLocation() {
+    return [
+      ...new Set(
+        [
+          this.personAppearance.birth_place_parish,
+          this.personAppearance.birth_place_district,
+          this.personAppearance.birth_place_county
+        ].filter((x) => x)
+      )
+    ].join(", ");
+  }
+
+  get sourceLocation() {
+    return [
+      ...new Set(
+        [
+          this.personAppearance.parish,
+          this.personAppearance.district,
+          this.personAppearance.county
+        ].filter((x) => x)
+      )
+    ].join(", ");
+  }
+
   constructor() { }
 
   ngOnInit(): void {
