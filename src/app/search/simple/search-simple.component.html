@@ -27,31 +27,6 @@
 .text-link .lls-icon--right {
   margin-left: 0.5rem;
 }
-.input-group {
-  display: flex;
-  margin-top: 1rem;
-}
-.input-field {
-  padding: 1rem 1.4rem;
-  border: 2px solid #bbb;
-  border-radius: 3px;
-  flex-grow: 1;
-}
-.dropdown-select {
-  padding: 1rem 1.4rem;
-  border: 2px solid black;
-  border-radius: 3px;
-  flex-basis: 180px;
-  flex-grow: 0.5;
-  flex-shrink: 0.5;
-}
-.input-field-left {
-  border-radius: 3px 0 0 3px;
-  border-right: none;
-}
-.input-field-right {
-  border-radius: 0 3px 3px 0;
-}
 .help-box {
   padding: 2rem;
   color: white;
@@ -77,7 +52,7 @@
 }
 </style>
 
-<div class="container-fluid mt-5">
+<div class="lls-container mt-5">
   <div class="search-intro">
     <div class="lls-row">
     <h2 class="lls-columns-12 lls-columns-4--lg lls-columns-4--xl search-intro--header">
@@ -105,11 +80,11 @@
     <h3 class="lls-card__title">Fritekstsøgning</h3>
     <form (ngSubmit)="searchSimple()" class="lls-row">
       <div class="lls-columns-12 lls-columns-8--md">
-        <div class="input-group">
+        <div class="lls-input-group">
           <input
             type="text"
             placeholder="Søg i livsforløb eller kilder"
-            class="input-field input-field-left"
+            class="lls-input-group__field lls-input-group__field--left"
             [(ngModel)]="query"
             name="query"
           />
@@ -131,21 +106,21 @@
     <h3 class="lls-card__title">Specifik søgning</h3>
     <form (ngSubmit)="searchAdvanced()" class="lls-row">
       <div class="lls-columns-12 lls-columns-8--md">
-        <div class="input-group" *ngFor="let searchTerm of searchTerms; index as i;">
+        <div class="lls-input-group lls-input-group--reverse-order" *ngFor="let searchTerm of searchTerms; index as i;">
+          <lls-dropdown
+            class="lls-input-group__field--right lls-input-group__field--basis-40"
+            [name]="'searchterm-field-' + i"
+            [(ngModel)]="searchTerm.field"
+            [options]="fieldOptionsBySearchTerms[i]"
+            [featherIconPath]="featherSpriteUrl"
+          ></lls-dropdown>
           <input
             type="text"
-            placeholder="Jens"
-            class="input-field input-field-left"
+            [placeholder]="searchFieldPlaceholders[searchTerm.field] || ''"
+            class="lls-input-group__field lls-input-group__field--left lls-input-group__field--basis-60"
             [(ngModel)]="searchTerm.value"
             [name]="'searchterm-value-' + i"
           />
-          <select
-            class="dropdown-select input-field-right"
-            [(ngModel)]="searchTerm.field"
-            [name]="'searchterm-field-' + i"
-          >
-            <option *ngFor="let option of fieldOptionsBySearchTerms[i]" [value]="option.key">{{ option.label }}</option>
-          </select>
         </div>
 
         <div class="lls-form-actions">

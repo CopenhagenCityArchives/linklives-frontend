@@ -1,0 +1,68 @@
+$dropdownPaddingY: 1.4rem;
+$dropdownFontSize: 1.125rem;
+
+.lls-dropdown, lls-dropdown {
+  display: inline-block;
+  font-size: $dropdownFontSize;
+  padding: 1rem $dropdownPaddingY;
+  border: 2px solid black;
+  border-radius: 3px;
+  width: 100%;
+  margin: 0.125rem 0;
+  cursor: pointer;
+  position: relative;
+
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  @media (min-width: $breakpointMd) {
+    margin: 0;
+  }
+
+  .lls-icon {
+    margin-top: 4px;
+    transition: transform 0.2s;
+  }
+
+  &:hover .lls-icon {
+    transform: translateY(0.125rem);
+  }
+}
+
+.lls-dropdown__current-item {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.lls-dropdown__option-list {
+  position: absolute;
+  display: none;
+  background: white;
+  box-shadow: 0 0 2px rgba(0,0,0,0.05);
+  z-index: 1;
+  left: 0;
+  width: calc(100% - 1rem);
+  transform: translateY($dropdownPaddingY - 0.4rem) translateX(-2px);
+  border: 2px solid black;
+  border-top-width: 0;
+}
+
+.lls-dropdown__option-list--open {
+  display: block;
+}
+
+.lls-dropdown__option {
+  padding: 0.5rem 1.4rem;
+}
+
+.lls-dropdown__option:hover, .lls-dropdown__option--hovered {
+  background: #ACCEF7;
+}
+.lls-dropdown__option--selected {
+  outline: 1px dotted black;
+  outline-offset: -1px;
+}
