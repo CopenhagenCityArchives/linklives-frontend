@@ -11,9 +11,18 @@ export class LifeCourseItemComponent implements OnInit {
   @Input('item') personAppearances: PersonAppearance[];
   @Input('lifecourse-id') lifecourseId: number;
 
-  get lastPersonAppearance() {
+  get latestPersonAppearance() {
     // TODO: find the latest PA by sorting
-    return this.personAppearances[this.personAppearances.length - 1];
+    const sortedByYear = this.personAppearances.sort(function(a, b) {
+      if (a.source_year > b.source_year) {
+        return 1;
+      }
+      if (a.source_year < b.source_year) {
+        return -1;
+      }
+      return 0;
+    });
+    return sortedByYear[sortedByYear.length - 1];
   }
 
   get sourceYearRange() {
@@ -28,7 +37,7 @@ export class LifeCourseItemComponent implements OnInit {
   }
 
   get sourceLocation() {
-    return `${this.lastPersonAppearance.parish}, ${this.lastPersonAppearance.district}, ${this.lastPersonAppearance.county}`;
+    return `${this.latestPersonAppearance.parish}, ${this.latestPersonAppearance.district}, ${this.latestPersonAppearance.county}`;
   }
 
   constructor() { }
