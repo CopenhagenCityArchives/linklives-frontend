@@ -3,7 +3,7 @@
         <h3 class="lls-source__title">
             Folketæling
         </h3>
-        <p *ngIf="personAppearance.source_year"  class="u-margin-0">{{ personAppearance.source_year}}</p>
+        <p *ngIf="personAppearance.source_year"  class="u-margin-0">{{ personAppearance.source_year }}</p>
     </div>
     
     <div class="lls-source__section lls-source__section--bordered">
@@ -16,26 +16,15 @@
             </div>
         </div>
         <div>
-            <span class="u-text-capitalize" *ngIf="personAppearance.parish">
-                {{ personAppearance.parish }}, 
-            </span>
-            <span class="u-text-capitalize" *ngIf="personAppearance.district">
-                {{ personAppearance.district }}, 
-            </span>
-            <span class="u-text-capitalize" *ngIf="personAppearance.county">
-                {{ personAppearance.county }}
-            </span>
+            <p class="u-text-capitalize">{{ personLocation }}</p>
         </div>
     </div>
 
     <div class="lls-source__section">
         <p class="lls-source__subtitle">Kilde</p>
-        <p>Folketæling {{ personAppearance.source_year}}</p>
-        <p>
-            <span *ngIf="personAppearance.parish" class="u-text-capitalize">{{ personAppearance.parish }} </span>
-            <span *ngIf="personAppearance.parish_type" class="u-text-capitalize">{{ personAppearance.parish_type }}, </span>
-            <span *ngIf="personAppearance.district" class="u-text-capitalize">{{ personAppearance.district }}, </span>
-            <span *ngIf="personAppearance.county" class="u-text-capitalize">{{ personAppearance.county }}</span>
+        <p class="u-margin-0">Folketæling {{ personAppearance.source_year }}</p>
+        <p class="u-text-capitalize u-margin-0">
+            {{ sourceLocation }}
         </p>
     </div>
     
