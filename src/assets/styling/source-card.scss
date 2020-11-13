@@ -2,11 +2,29 @@
   display: flex;
   background-color: white;
   border-radius: 10px;
+
+  &::before {
+    content: "";
+    width: 75px;
+    background-color: $blue;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+}
+
+.lls-source--census {
+  &::before {
+    background-color: $yellow;
+  }
 }
 
 .lls-source--lifecourse {
   background-color: $blue--dark;
   color: white;
+
+  &::before {
+    background-color: $blue--darker;
+  }
 }
 
 .lls-source__section {
@@ -25,17 +43,6 @@
   border-right: 1px solid;
   border-left: 1px solid;
   border-color: #324c6d;
-}
-
-.lls-source__color-indicator {
-  width: 75px;
-  background-color: $blue--darker;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-}
-
-.lls-source__color-indicator--yellow {
-  background-color: $yellow;
 }
 
 .lls-source__title {
