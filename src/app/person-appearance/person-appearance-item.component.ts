@@ -23,7 +23,6 @@ export class PersonAppearanceItemComponent implements OnInit {
   }
 
   get sourceLocation() {
-    // TODO: Fix parish_type as well.
     return [
       ...new Set(
         [
