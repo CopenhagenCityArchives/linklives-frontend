@@ -12,7 +12,6 @@ export class LifeCourseItemComponent implements OnInit {
   @Input('lifecourse-id') lifecourseId: number;
 
   get latestPersonAppearance() {
-    // TODO: find the latest PA by sorting
     const sortedByYear = this.personAppearances.sort(function(a, b) {
       if (a.source_year > b.source_year) {
         return 1;
@@ -37,7 +36,15 @@ export class LifeCourseItemComponent implements OnInit {
   }
 
   get sourceLocation() {
-    return `${this.latestPersonAppearance.parish}, ${this.latestPersonAppearance.district}, ${this.latestPersonAppearance.county}`;
+    return [
+      ...new Set(
+        [
+          this.latestPersonAppearance.parish,
+          this.latestPersonAppearance.district,
+          this.latestPersonAppearance.county
+        ].filter((x) => x)
+      )
+    ].join(", ");
   }
 
   constructor() { }
