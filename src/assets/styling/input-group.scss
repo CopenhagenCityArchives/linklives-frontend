@@ -48,3 +48,15 @@
     flex-shrink: 1;
   }
 }
+
+.lls-input-field {
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border: 1px solid #bbb;
+  border-radius: 3px;
+  flex-grow: 1;
+}
+
+.lls-input-field--lg {
+  padding: 1rem 1.4rem;
+}
