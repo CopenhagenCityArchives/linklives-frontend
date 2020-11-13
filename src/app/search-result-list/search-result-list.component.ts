@@ -1,4 +1,3 @@
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
 
@@ -27,6 +26,28 @@ export class SearchResultListComponent implements OnInit {
   indexLifecourse: boolean = true;
 
   pagination: { current: number, last: number, size: number, navigationPages: number[]; }
+
+  searchTerms = [];
+
+  searchFieldPlaceholders = {
+    firstName: "Jens",
+    lastName: "Eriksen",
+    parish: "Præstø",
+    county: "Sorø",
+    birthPlace: "Randers",
+    maritalStatus: "Ugift",
+    query: "Vendsyssel ugift"
+  };
+
+  searchFieldLabels = {
+    firstName: "Fornavn",
+    lastName: "Efternavn",
+    parish: "Sogn",
+    county: "Amt",
+    birthPlace: "Fødested",
+    maritalStatus: "Civilstand",
+    query: "Fritekst",
+  };
 
   searchParams: AdvancedSearchQuery = {};
 
@@ -67,14 +88,16 @@ export class SearchResultListComponent implements OnInit {
       "maritalStatus",
     ];
 
-    this.route.queryParamMap.subscribe(queryParamMap => {
+    this.route.queryParamMap.subscribe((queryParamMap) => {
+      this.searchQueryParams = null;
+      this.searchTerms = [];
       const searchQueryParams = {};
       queryParamMap.keys
         .filter((key) => possibleSearchQueryParams.includes(key))
         .forEach((key) => {
           const value = queryParamMap.get(key);
           searchQueryParams[key] = value;
-          this.searchParams[key] = value;
+          this.searchTerms.push({ field: key, value });
         });
       this.searchQueryParams = searchQueryParams;
 
@@ -121,8 +144,13 @@ export class SearchResultListComponent implements OnInit {
   }
 
   search(): void {
+    const searchParams: AdvancedSearchQuery = {};
+    this.searchTerms.forEach((term) => searchParams[term.field] = term.value);
+
+    console.log("st, searchparams", this.searchTerms, searchParams);
+
     this.router.navigate(['/results'], {
-      queryParams: { ...this.searchParams, index: this.computedIndex },
+      queryParams: { ...searchParams, index: this.computedIndex },
     });
   }
 
