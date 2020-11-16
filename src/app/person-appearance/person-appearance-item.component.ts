@@ -10,6 +10,12 @@ export class PersonAppearanceItemComponent implements OnInit {
 
   @Input("item") personAppearance: PersonAppearance;
 
+  get config() {
+    return window["lls"];
+  }
+
+  featherSpriteUrl = this.config.featherIconPath;
+
   get birthLocation() {
     const location = [
       ...new Set(

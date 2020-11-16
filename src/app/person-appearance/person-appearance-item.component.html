@@ -10,14 +10,24 @@
         <div>
             <div class="u-text-capitalize">
                 <p class="lls-source__subtitle">{{ personAppearance.household_position_std }}</p>
-                <p class="lls-source__person u-margin-0">
-                    <span class="u-bold">{{ personAppearance.name_clean }}</span> ~{{ personAppearance.source_year - personAppearance.age_clean }}
-                </p>
+                <div class="lls-source__person">
+                    <p class="lls-source__person-name u-bold">
+                        {{ personAppearance.name_clean }}
+                    </p>
+                    <p class="lls-source__person-age">
+                        <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left">
+                            <use [attr.href]="featherSpriteUrl + '#star'"></use>
+                        </svg>
+                        ~{{ personAppearance.source_year - personAppearance.age_clean }}
+                    </p>
+                </div>
                 <p *ngIf="personAppearance.occupation">{{ personAppearance.occupation }}</p>
             </div>
         </div>
         <div>
-            <p class="u-text-capitalize u-margin-0" *ngIf="birthLocation">{{ birthLocation }}</p>
+            <p class="u-text-capitalize u-margin-0" *ngIf="birthLocation">
+                {{ birthLocation }}
+            </p>
         </div>
     </div>
 

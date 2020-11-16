@@ -106,5 +106,24 @@
 
 .lls-source__person {
   font-size: 18px;
+  display: flex;
+  margin-bottom: 0;
+
+  @media(min-width: $breakpointMd) {
+    display: block;
+  }
+}
+
+.lls-source__person-name {
+  margin-bottom: 0;
+
+  @media(max-width: $breakpointMd) {
+    margin-right: 10px;
+  }
+}
+
+.lls-source__person-age {
+  display: flex;
+  align-items: center;
   margin-bottom: 0;
 }
