@@ -108,32 +108,26 @@
 
             <div class="p-2 u-text-right">Viser 10 af {{ searchResult.totalHits }} resultater</div>
 
-            <div>
-                <div>
-                    <ng-container *ngFor="let hit of searchResult.hits" [ngSwitch]="hit.type">
-                        <app-person-appearance-item *ngSwitchCase="'pas'" class="mx-2" [item]="hit.pa"></app-person-appearance-item>
-                        <app-life-course-item *ngSwitchCase="'lifecourses'" class="mx-2" [item]="hit.pas" [lifecourse-id]="hit.life_course_id"></app-life-course-item>
-                    </ng-container>
-                </div>
+            <ng-container *ngFor="let hit of searchResult.hits" [ngSwitch]="hit.type">
+                <app-person-appearance-item *ngSwitchCase="'pas'" class="mx-2" [item]="hit.pa"></app-person-appearance-item>
+                <app-life-course-item *ngSwitchCase="'lifecourses'" class="mx-2" [item]="hit.pas" [lifecourse-id]="hit.life_course_id"></app-life-course-item>
+            </ng-container>
 
-                <div>
-                    <nav>
-                        <ul class="pagination justify-content-center mb-0">
-                            <li class="page-item" [ngClass]="{ disabled: pagination.current === 1}">
-                                <a class="page-link" [tabindex]=" pagination.current === 1 ? -1 : 0" [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current - 1 } ]" [queryParams]="queryParams">Forrige</a>
-                            </li>
-                            
-                            <li *ngFor="let page of pagination.navigationPages" class="page-item" [ngClass]="{ disabled: pagination.current === page }">
-                                <a class="page-link" [routerLink]="['./', { 'size': pagination.size, 'page': page } ]" [queryParams]="queryParams">{{ page }}</a>
-                            </li>
+            <nav>
+                <ul class="pagination justify-content-center mb-0">
+                    <li class="page-item" [ngClass]="{ disabled: pagination.current === 1}">
+                        <a class="page-link" [tabindex]=" pagination.current === 1 ? -1 : 0" [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current - 1 } ]" [queryParams]="queryParams">Forrige</a>
+                    </li>
+                    
+                    <li *ngFor="let page of pagination.navigationPages" class="page-item" [ngClass]="{ disabled: pagination.current === page }">
+                        <a class="page-link" [routerLink]="['./', { 'size': pagination.size, 'page': page } ]" [queryParams]="queryParams">{{ page }}</a>
+                    </li>
 
-                            <li class="page-item" [ngClass]="{ disabled: pagination.current >= pagination.last }">
-                                <a class="page-link" [tabindex]="pagination.current >= pagination.last ? -1 : 0"  [routerLink]="['./', { 'size': pagination.size, 'page': pagination.last } ]" [queryParams]="queryParams">Næste</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+                    <li class="page-item" [ngClass]="{ disabled: pagination.current >= pagination.last }">
+                        <a class="page-link" [tabindex]="pagination.current >= pagination.last ? -1 : 0"  [routerLink]="['./', { 'size': pagination.size, 'page': pagination.last } ]" [queryParams]="queryParams">Næste</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>
