@@ -10,7 +10,7 @@ export class PersonAppearanceItemComponent implements OnInit {
 
   @Input("item") personAppearance: PersonAppearance;
 
-  get personLocation() {
+  get birthLocation() {
     const location = [
       ...new Set(
         [
