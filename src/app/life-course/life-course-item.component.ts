@@ -35,16 +35,22 @@ export class LifeCourseItemComponent implements OnInit {
     return formattedSources;
   }
 
-  get sourceLocation() {
-    return [
+  get birthLocation() {
+    const location = [
       ...new Set(
         [
           this.latestPersonAppearance.parish,
           this.latestPersonAppearance.district,
-          this.latestPersonAppearance.county
+          this.latestPersonAppearance.county,
+          this.latestPersonAppearance.birth_place_koebstad,
+          this.latestPersonAppearance.birth_place_town,
+          this.latestPersonAppearance.birth_place_place,
+          this.latestPersonAppearance.birth_place_island,
+          this.latestPersonAppearance.birth_place_other,
         ].filter((x) => x)
       )
     ].join(", ");
+    return location || this.latestPersonAppearance.birth_place_clean;
   }
 
   constructor() { }
