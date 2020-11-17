@@ -22,6 +22,25 @@ export class PersonAppearanceComponent implements OnInit {
     ].join(", ");
   }
 
+  get prettyLastUpdatedDate() {
+    const months = [
+      "januar",
+      "februar",
+      "marts",
+      "april",
+      "maj",
+      "juni",
+      "juli",
+      "august",
+      "september",
+      "oktober",
+      "november",
+      "december",
+    ];
+    const date = new Date(this.pa.last_updated);
+    return `${date.getDate()}. ${months[date.getMonth()]} ${date.getFullYear()}`;
+  }
+
   standardizedDataFields = {
     id: "id",
     event_type: "event_type",
