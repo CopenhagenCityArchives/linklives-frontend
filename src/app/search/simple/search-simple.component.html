@@ -62,8 +62,8 @@
       <p>
         {{ config.introText }}
       </p>
-      <a href="https://link-lives.dk/livsforloeb/" class="search-intro--text-link text-link">
-        <span>Læs mere om livsforløb</span>
+      <a href="{{ config.introMoreLinkUrl }}" class="search-intro--text-link text-link">
+        <span>{{ config.introMoreLinkText }}</span>
         <svg class="lls-icon lls-icon--right">
           <use [attr.href]="featherSpriteUrl + '#arrow-right'"></use>
         </svg>
