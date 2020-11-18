@@ -7,10 +7,14 @@ interface SearchQueryParams {
   query?: string,
   firstName?: string,
   lastName?: string,
-  parish?: string,
-  county?: string,
+  birthName?: string,
   birthPlace?: string,
-  maritalStatus?: string,
+  sourcePlace?: string,
+  //deathPlace?: string,
+  //birthYear?: string
+  sourceYear?: string,
+  //deathYear?: string,
+  //maritalStatus?: string,
 }
 
 @Component({
@@ -30,23 +34,31 @@ export class SearchResultListComponent implements OnInit {
   searchTerms = [];
 
   searchFieldPlaceholders = {
+    query: "Vendsyssel ugift",
     firstName: "Jens",
     lastName: "Eriksen",
-    parish: "Præstø",
-    county: "Sorø",
+    birthName: "Jensby",
     birthPlace: "Randers",
-    maritalStatus: "Ugift",
-    query: "Vendsyssel ugift"
+    sourcePlace: "Køge",
+    //deathPlace: "Agersø",
+    //birthYear: "1834",
+    sourceYear: "1845",
+    //deathYear: "1912",
+    //maritalStatus: "Ugift",
   };
 
   searchFieldLabels = {
+    query: "Fritekst",
     firstName: "Fornavn",
     lastName: "Efternavn",
-    parish: "Sogn",
-    county: "Amt",
+    birthName: "Fødenavn",
     birthPlace: "Fødested",
-    maritalStatus: "Civilstand",
-    query: "Fritekst",
+    sourcePlace: "Kildested",
+    //deathPlace: "Dødssted",
+    //birthYear: "Fødselsår",
+    sourceYear: "Kildeår",
+    //deathYear: "Dødsår",
+    //maritalStatus: "Civilstand",
   };
 
   searchParams: AdvancedSearchQuery = {};
@@ -86,9 +98,9 @@ export class SearchResultListComponent implements OnInit {
       "birthPlace",
       "sourcePlace",
       //"deathPlace",
-      "birthYear",
+      //"birthYear",
       "sourceYear",
-      "deathYear",
+      //"deathYear",
       //"maritalStatus",
     ];
 
