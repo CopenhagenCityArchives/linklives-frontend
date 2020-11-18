@@ -1,0 +1,18 @@
+.lls-data-page-footer {
+  display: flex;
+}
+
+.lls-data-page-footer__entry {
+  font-size: 1rem;
+  font-weight: 400;
+
+  &:not(:first-child) {
+    margin-left: 3.5rem;
+  }
+}
+
+.lls-data-page-footer__entry-label {
+  color: $grey--light;
+  font-size: 0.875rem;
+  font-weight: 400;
+}

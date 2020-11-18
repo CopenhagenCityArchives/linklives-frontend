@@ -10,6 +10,7 @@ import { PersonAppearance } from '../search/search.service';
 export class LifeCourseComponent implements OnInit {
 
   pas: PersonAppearance[] = [];
+  // TODO: This ID seems to be just "1" all the time. Fix it.
   lifecourseId: number;
 
   get config() {

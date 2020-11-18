@@ -1,16 +1,16 @@
 <div class="lls-container mt-5">
-    <section class="data-page-header">
-        <div class="data-page-header__classification">
-            <h2 class="data-page-header__source-type">Livsforløb</h2>
-            <h1 class="data-page-header__title u-text-capitalize">{{ latestPersonAppearance.name_clean }}</h1>
-            <div class="data-page-header__data-summary">
+    <section class="lls-data-page-header">
+        <div class="lls-data-page-header__classification">
+            <h2 class="lls-data-page-header__source-type">Livsforløb</h2>
+            <h1 class="lls-data-page-header__title u-text-capitalize">{{ latestPersonAppearance.name_clean }}</h1>
+            <div class="lls-data-page-header__data-summary">
                 <p class="u-text-capitalize u-mr-2">
                     <span class="u-text-grey--light u-mr-2">Fødested</span> {{ sourceLocation }}
                 </p>
                 <p>~{{ latestPersonAppearance.source_year - latestPersonAppearance.age_clean }}</p>
             </div>
         </div>
-        <div class="data-page-header__utility-links">
+        <div class="lls-data-page-header__utility-links">
             <a href="">
                 <span>Min søgehistorik</span>
                 <svg class="lls-icon lls-icon--right">
@@ -20,23 +20,27 @@
         </div>
     </section>
     <app-person-appearance-item [item]="pa" class="mx-2" *ngFor="let pa of pas"></app-person-appearance-item>
-    <section class="lls-lifecourse-footer">
-        <div class="lls-lifecourse-footer__entry">
-            <div class="lls-lifecourse-footer__entry-label">
-                Forløbs ID
+    <section>
+        <div class="lls-data-page-footer">
+            <div class="llls-data-page-footer__entry">
+                <div class="lls-data-page-footer__entry-label">
+                    Forløbs ID
+                </div>
+                <p>{{ lifecourseId }}</p>
             </div>
-            <p>{{ lifecourseId }}</p>
         </div>
-        <div class="lls-lifecourse-footer__entry">
-            <h3 class="lls-lifecourse-footer__entry-label">
-                Om livsforløb
-            </h3>
-            <p>
-                Et Livsforløb er et kvalificeret forslag til hvilke historiske kilder, der handler om den samme person. Der kommer løbende flere livsforløb i søgningen og der kan komme flere detaljer på et livsforløb.
-            </p>
-            <p>
-                Livsforløb består af en række personoplysninger fra kilder som folketællinger og kirkebøger, der er blevet standardiseret for at kunne blive sammenlignet og forbundet digitalt.
-            </p>
+        <div class="lls-data-page-footer">
+            <div class="lls-data-page-footer__entry">
+                <h3 class="lls-data-page-footer__entry-label">
+                    Om livsforløb
+                </h3>
+                <p>
+                    Et Livsforløb er et kvalificeret forslag til hvilke historiske kilder, der handler om den samme person. Der kommer løbende flere livsforløb i søgningen og der kan komme flere detaljer på et livsforløb.
+                </p>
+                <p>
+                    Livsforløb består af en række personoplysninger fra kilder som folketællinger og kirkebøger, der er blevet standardiseret for at kunne blive sammenlignet og forbundet digitalt.
+                </p>
+            </div>
         </div>
     </section>
 </div>
