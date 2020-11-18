@@ -1,17 +1,22 @@
 <div class="lls-container mt-5">
-    <section class="lls-lifecourse-header lls-row">
-        <div class="lls-lifecourse-header__info lls-columns-12 lls-columns-8--md">
-            <h2 class="u-font-handwriting">Livsforløb</h2>
-            <h1 class="u-text-capitalize">{{ latestPersonAppearance.name_clean }}</h1>
-            <div class="lls-lifecourse-header__text">
+    <section class="data-page-header">
+        <div class="data-page-header__classification">
+            <h2 class="data-page-header__source-type">Livsforløb</h2>
+            <h1 class="data-page-header__title u-text-capitalize">{{ latestPersonAppearance.name_clean }}</h1>
+            <div class="data-page-header__data-summary">
                 <p class="u-text-capitalize u-mr-2">
                     <span class="u-text-grey--light u-mr-2">Fødested</span> {{ sourceLocation }}
                 </p>
                 <p>~{{ latestPersonAppearance.source_year - latestPersonAppearance.age_clean }}</p>
             </div>
         </div>
-        <div class="lls-lifecourse-header__links lls-columns-12 lls-columns-4--md">
-            <a href="">Min søgehistorik</a>
+        <div class="data-page-header__utility-links">
+            <a href="">
+                <span>Min søgehistorik</span>
+                <svg class="lls-icon lls-icon--right">
+                    <use [attr.href]="featherSpriteUrl + '#folder'"></use>
+                </svg>
+            </a>
         </div>
     </section>
     <app-person-appearance-item [item]="pa" class="mx-2" *ngFor="let pa of pas"></app-person-appearance-item>

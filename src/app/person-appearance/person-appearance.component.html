@@ -1,32 +1,4 @@
 <style>
-.person-appearance-header h1 {
-    font-size: 3.125rem;
-}
-.person-appearance-header {
-    display: flex;
-    justify-content: space-between;
-}
-.person-appearance-classification__source-type {
-    font-family: notera;
-    font-size: 2.475rem;
-    margin: 0 0 -0.75rem;
-}
-.person-appearance-classification__data-summary {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 -0.5rem;
-    font-size: 1.25rem;
-    font-weight: 400;
-    text-transform: capitalize;
-}
-.person-appearance-classification__data-summary > * {
-    margin: 0 0.5rem;
-}
-.header__utility-links {
-    font-size: 1rem;
-    font-weight: 400;
-}
-
 .data-section h2 {
     font-family: founders, Helvetica, Arial, sans-serif;
     font-size: 1.25em;
@@ -72,16 +44,16 @@
 </style>
 
 <div class="lls-container mt-5">
-    <div class="person-appearance-header">
-        <div class="person-appearance-classification">
-            <div class="person-appearance-classification__source-type">Kilde</div>
-            <h1>Folketælling</h1>
-            <div class="person-appearance-classification__data-summary">
+    <div class="data-page-header">
+        <div class="data-page-header__classification">
+            <div class="data-page-header__source-type">Kilde</div>
+            <h1 class="data-page-header__title">Folketælling</h1>
+            <div class="data-page-header__data-summary">
                 <span>{{ sourceLocation }}</span>
                 <span>{{ pa.source_year }}</span>
             </div>
         </div>
-        <div class="header__utility-links">
+        <div class="data-page-header__utility-links">
             <a routerLink="/user/search-history">
                 <span>Min søgehistorik</span>
                 <svg class="lls-icon lls-icon--right">

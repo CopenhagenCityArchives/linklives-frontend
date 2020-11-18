@@ -12,6 +12,12 @@ export class LifeCourseComponent implements OnInit {
   pas: PersonAppearance[] = [];
   lifecourseId: number;
 
+  get config() {
+    return window["lls"];
+  }
+
+  featherSpriteUrl = this.config.featherIconPath;
+
   get latestPersonAppearance() {
     const sortedByYear = this.pas.sort(function(a, b) {
       if (a.source_year > b.source_year) {
