@@ -8,7 +8,12 @@
 </div>
 
 <div class="lls-dropdown__option-list" [class]="isOpen ? 'lls-dropdown__option-list--open' : ''">
-  <div class="lls-dropdown__option" [class]="(option.value == _value ? 'lls-dropdown__option--selected' : '') + ' ' + (i == tabHovered ? 'lls-dropdown__option--hovered' : '')" *ngFor="let option of options; index as i;" (click)="select(option); $event.stopPropagation();">
-    {{ option.label }}
+  <div
+    [class]="(option.category ? 'lls-dropdown__category' : 'lls-dropdown__option') + ' ' + (option.value == _value ? 'lls-dropdown__option--selected' : '') + ' ' + (option.disabled ? 'lls-dropdown__option--disabled' : '')"
+    *ngFor="let option of options; index as i;"
+    (click)="onOptionClick(option, $event)"
+    tabindex="-1"
+  >
+    {{ option.label || option.category }}
   </div>
 </div>

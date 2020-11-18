@@ -56,16 +56,14 @@
   <div class="search-intro">
     <div class="lls-row">
     <h2 class="lls-columns-12 lls-columns-4--lg lls-columns-4--xl search-intro--header">
-      Find livsforløb<br>
-      1787&ndash;1901
+      {{ config.title }}
     </h2>
     <div class="lls-columns-12 lls-columns-6--lg lls-columns-4--xl search-intro--text">
       <p>
-        Et livsforløb er et kvalificeret forslag til hvilke historiske kilder, der omhandler den samme person.
-        Vi tilføjer løbende flere livsforløb og der kan komme flere detaljer på et livsforløb.
+        {{ config.introText }}
       </p>
-      <a href="#" class="search-intro--text-link text-link">
-        <span>Læs mere om livsforløb</span>
+      <a href="{{ config.introMoreLinkUrl }}" class="search-intro--text-link text-link">
+        <span>{{ config.introMoreLinkText }}</span>
         <svg class="lls-icon lls-icon--right">
           <use [attr.href]="featherSpriteUrl + '#arrow-right'"></use>
         </svg>
@@ -136,10 +134,7 @@
         </div>
       </div>
       <div class="lls-columns-12 lls-columns-4--md help-box-container">
-        <div class="help-box">
-          <p><strong>Du søger livsforløb i kilderne</strong></p>
-          <p>Lorem ipsum dolor sit amet.</p>
-        </div>
+        <div class="help-box" [innerHTML]="config.helpBoxText"></div>
       </div>
     </form>
   </div>

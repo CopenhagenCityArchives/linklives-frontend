@@ -8,8 +8,11 @@ import { AdvancedSearchQuery } from '../search.service';
   styleUrls: ['./search-simple.component.scss']
 })
 export class SimpleSearchComponent implements OnInit {
-  //TODO: we need to be able to set this to a different one in prod, based on the concrete url in the wordpress theme?
-  featherSpriteUrl = window["lls"].featherIconPath;
+  get config() {
+    return window["lls"];
+  }
+
+  featherSpriteUrl = this.config.featherIconPath;
 
   // Simple search
   query = "";
@@ -18,26 +21,39 @@ export class SimpleSearchComponent implements OnInit {
   searchTerms = [
     { field: "firstName", value: "" },
     { field: "lastName", value: "" },
-    { field: "parish", value: "" },
     { field: "birthPlace", value: "" },
   ];
 
   searchFieldPlaceholders = {
     firstName: "Jens",
     lastName: "Eriksen",
+    birthName: "Kristensen",
     parish: "Præstø",
     county: "Sorø",
     birthPlace: "Randers",
+    sourcePlace: "Agersø",
+    deathPlace: "Køge",
     maritalStatus: "Ugift",
+    birthYear: "1832",
+    sourceYear: "1891",
+    deathYear: "1912",
   };
 
   fieldOptions = [
+    { category: "Navn" },
     { value: "firstName", label: "Fornavn" },
     { value: "lastName", label: "Efternavn" },
-    { value: "parish", label: "Sogn" },
-    { value: "county", label: "Amt" },
+    { value: "birthName", label: "Fødenavn" },
+    { category: "Sted" },
     { value: "birthPlace", label: "Fødested" },
-    { value: "maritalStatus", label: "Civilstand" },
+    { value: "sourcePlace", label: "Kildested" },
+    { value: "deathPlace", label: "Dødssted", disabled: true },
+    { category: "År" },
+    { value: "birthYear", label: "Fødselsår", disabled: true },
+    { value: "sourceYear", label: "Kildeår" },
+    { value: "deathYear", label: "Dødsår", disabled: true },
+    // { category: "Andet" },
+    //{ value: "maritalStatus", label: "Civilstand" },
   ];
 
   get fieldOptionsBySearchTerms() {

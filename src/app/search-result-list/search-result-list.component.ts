@@ -82,10 +82,14 @@ export class SearchResultListComponent implements OnInit {
       "query",
       "firstName",
       "lastName",
-      "parish",
-      "county",
+      "birthName",
       "birthPlace",
-      "maritalStatus",
+      "sourcePlace",
+      //"deathPlace",
+      "birthYear",
+      "sourceYear",
+      "deathYear",
+      //"maritalStatus",
     ];
 
     this.route.queryParamMap.subscribe((queryParamMap) => {
