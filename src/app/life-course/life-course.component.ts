@@ -10,7 +10,58 @@ import { PersonAppearance } from '../search/search.service';
 export class LifeCourseComponent implements OnInit {
 
   pas: PersonAppearance[] = [];
+  // TODO: This ID seems to be just "1" all the time. Fix it.
   lifecourseId: number;
+
+  get config() {
+    return window["lls"];
+  }
+
+  featherSpriteUrl = this.config.featherIconPath;
+
+  get latestPersonAppearance() {
+    const sortedByYear = this.pas.sort(function(a, b) {
+      if (a.source_year > b.source_year) {
+        return 1;
+      }
+      if (a.source_year < b.source_year) {
+        return -1;
+      }
+      return 0;
+    });
+    return sortedByYear[sortedByYear.length - 1];
+  }
+
+  get sourceLocation() {
+    return [
+      ...new Set(
+        [
+          this.latestPersonAppearance.parish,
+          this.latestPersonAppearance.district,
+          this.latestPersonAppearance.county
+        ].filter((x) => x)
+      )
+    ].join(", ");
+  }
+
+  get lastUpdated() {
+    const months = [
+      "januar",
+      "februar",
+      "marts",
+      "april",
+      "maj",
+      "juni",
+      "juli",
+      "august",
+      "september",
+      "oktober",
+      "november",
+      "december",
+    ];
+    const date = new Date(this.latestPersonAppearance.last_updated);
+    return `${date.getDate()}. ${months[date.getMonth()]} ${date.getFullYear()}`;
+  }
 
   constructor(private route: ActivatedRoute) { }
 
