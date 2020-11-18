@@ -172,8 +172,7 @@ export class ElasticsearchService {
 
     const mapQueryMustKey = {
       firstName: "first_names",
-      parish: "parish",
-      county: "county",
+      sourceYear: "source_year",
     };
 
     const mapQueryShouldKey = {
@@ -199,6 +198,15 @@ export class ElasticsearchService {
         "maiden_family_names",
         "maiden_patronyms",
         "patronyms"
+      ],
+      birthName: [
+        "maiden_family_names",
+        "maiden_patronyms",
+      ],
+      sourcePlace: [
+        "parish",
+        "county",
+        "district",
       ],
       maritalStatus: [
         "marital_status",
