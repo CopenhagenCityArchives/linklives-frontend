@@ -44,6 +44,25 @@ export class LifeCourseComponent implements OnInit {
     ].join(", ");
   }
 
+  get lastUpdated() {
+    const months = [
+      "januar",
+      "februar",
+      "marts",
+      "april",
+      "maj",
+      "juni",
+      "juli",
+      "august",
+      "september",
+      "oktober",
+      "november",
+      "december",
+    ];
+    const date = new Date(this.latestPersonAppearance.last_updated);
+    return `${date.getDate()}. ${months[date.getMonth()]} ${date.getFullYear()}`;
+  }
+
   constructor(private route: ActivatedRoute) { }
 
   ngOnInit(): void {

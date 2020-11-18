@@ -22,11 +22,17 @@
     <app-person-appearance-item [item]="pa" class="mx-2" *ngFor="let pa of pas"></app-person-appearance-item>
     <section>
         <div class="lls-data-page-footer">
-            <div class="llls-data-page-footer__entry">
+            <div class="lls-data-page-footer__entry">
                 <div class="lls-data-page-footer__entry-label">
                     Forløbs ID
                 </div>
                 <p>{{ lifecourseId }}</p>
+            </div>
+            <div class="lls-data-page-footer__entry">
+                <div class="lls-data-page-footer__entry-label">
+                    Senest opdateret
+                </div>
+                <p>{{ lastUpdated }}</p>
             </div>
         </div>
         <div class="lls-data-page-footer">
