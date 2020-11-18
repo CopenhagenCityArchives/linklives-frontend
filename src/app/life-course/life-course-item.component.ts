@@ -11,6 +11,12 @@ export class LifeCourseItemComponent implements OnInit {
   @Input('item') personAppearances: PersonAppearance[];
   @Input('lifecourse-id') lifecourseId: number;
 
+  get config() {
+    return window["lls"];
+  }
+
+  featherSpriteUrl = this.config.featherIconPath;
+
   get latestPersonAppearance() {
     const sortedByYear = this.personAppearances.sort(function(a, b) {
       if (a.source_year > b.source_year) {

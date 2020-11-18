@@ -11,7 +11,12 @@
         <div class="u-text-capitalize">
             <p class="lls-source__subtitle">Person</p>
             <p class="lls-source__person">{{ latestPersonAppearance.name_clean }}</p>
-            <p class="u-margin-0">* {{ latestPersonAppearance.source_year - latestPersonAppearance.age_clean }}</p>
+            <p class="lls-source__person-age">
+                <svg class="lls-icon lls-icon--filled lls-icon--white lls-icon--small lls-icon--left">
+                    <use [attr.href]="featherSpriteUrl + '#star'"></use>
+                </svg>
+                ~{{ latestPersonAppearance.source_year - latestPersonAppearance.age_clean }}
+            </p>
         </div>
         <div class="u-text-capitalize u-margin-0">
             {{ birthLocation }}
@@ -25,7 +30,12 @@
 
     <div class="lls-source__section lls-source__section--cta">
         <div>
-            <a href [routerLink]="['/life-course', lifecourseId]" class="lls-btn lls-btn--blue align-self-end">Se forløb</a>
+            <a href [routerLink]="['/life-course', lifecourseId]" class="lls-btn lls-btn--blue">
+                <span>Se forløb</span>
+                <svg class="lls-icon lls-icon--right">
+                    <use [attr.href]="featherSpriteUrl + '#arrow-right'"></use>
+                </svg>
+            </a>
         </div>
     </div>
 </div>

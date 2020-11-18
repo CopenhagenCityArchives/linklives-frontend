@@ -41,7 +41,12 @@
     
     <div class="lls-source__section lls-source__section--cta">
         <div>
-            <a [routerLink]="['/pa', personAppearance.source_id + '-' + personAppearance.pa_id]" class="lls-btn">Se kilde</a>
+            <a [routerLink]="['/pa', personAppearance.source_id + '-' + personAppearance.pa_id]" class="lls-btn">
+                <span>Se kilde</span>
+                <svg class="lls-icon lls-icon--right">
+                    <use [attr.href]="featherSpriteUrl + '#arrow-right'"></use>
+                </svg>
+            </a>
         </div>
     </div>
 </div>
