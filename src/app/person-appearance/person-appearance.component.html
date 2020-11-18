@@ -50,9 +50,15 @@
     width: 33%;
 }
 
+.person-appearance-footer {
+    display: flex;
+}
 .person-appearance-footer__entry {
     font-size: 1rem;
     font-weight: 400;
+}
+.person-appearance-footer__entry:not(:first-child) {
+    margin-left: 3.5rem;
 }
 .person-appearance-footer__entry-label {
     color: rgb(97, 97, 97);
@@ -71,7 +77,6 @@
             <div class="person-appearance-classification__source-type">Kilde</div>
             <h1>Folketælling</h1>
             <div class="person-appearance-classification__data-summary">
-                <span>{{ pa.name_clean }}</span>
                 <span>{{ sourceLocation }}</span>
                 <span>{{ pa.source_year }}</span>
             </div>
@@ -145,10 +150,11 @@
     <div class="person-appearance-footer">
         <div class="person-appearance-footer__entry">
             <div class="person-appearance-footer__entry-label">Kilde ID</div>
-            <a href="/pa/{{ this.pa.id }}">{{ this.pa.id }}</a>
+            <a href="pa/{{ this.pa.id }}">{{ this.pa.id }}</a>
         </div>
-        <!--div class="person-appearance-footer__entry">
+        <div class="person-appearance-footer__entry">
             <div class="person-appearance-footer__entry-label">Senest opdateret</div>
-        </div-->
+            <span>{{ prettyLastUpdatedDate }}</span>
+        </div>
     </div>
 </div>
