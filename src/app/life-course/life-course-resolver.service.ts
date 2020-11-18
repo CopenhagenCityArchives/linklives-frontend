@@ -14,7 +14,7 @@ export class LifeCourseResolverService implements Resolve<{lifecourseId:number, 
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ lifecourseId: number; personAppearances: PersonAppearance[]; }> {
     return this.elasticsearch.getDocument('lifecourses', route.params['id']).pipe(map(pas => { 
-      return { lifecourseId: 1, personAppearances: pas as PersonAppearance[] }
+      return { lifecourseId: route.params['id'], personAppearances: pas as PersonAppearance[] }
     }));
   }
 }
