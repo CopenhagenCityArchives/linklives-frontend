@@ -32,6 +32,8 @@ export class Dropdown implements ControlValueAccessor {
   @Input() featherIconPath: string;
   @Input() name: string;
   @Input() options: Array<Option | Category>;
+  @Input() dropdownIcon: string;
+  @Input() dropdownIconOpen: string;
 
   @Input()
   get value() {

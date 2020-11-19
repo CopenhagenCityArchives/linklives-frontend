@@ -3,7 +3,7 @@
 <div class="lls-dropdown__current-item">
   <div>{{ currentLabel }}&nbsp;</div>
   <svg class="lls-icon lls-icon--right">
-    <use [attr.href]="featherIconPath + '#chevron-' + (isOpen ? 'up' : 'down')"></use>
+    <use [attr.href]="featherIconPath + '#' + (isOpen ? (dropdownIconOpen || 'chevron-up') : (dropdownIcon || 'chevron-down'))"></use>
   </svg>
 </div>
 
