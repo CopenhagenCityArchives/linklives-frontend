@@ -165,9 +165,19 @@ export class Dropdown implements ControlValueAccessor {
       return;
     }
 
-    //Otherwise pick first value
+    //Otherwise pick current value
     this.tabHovered = this.options.findIndex((option) => "value" in option && option.value === this.value);
 
+    //Or, if none, pick first value
+    if(this.tabHovered === -1) {
+      this.tabHovered = this.options.findIndex((option) => "value" in option);
+    }
+
+    //Or, if no values, do nothing
+    if(!this.tabHovered) {
+      return;
+    }
+    
     this.focusHoveredElement();
   }
 

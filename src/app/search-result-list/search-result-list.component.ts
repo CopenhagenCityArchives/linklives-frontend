@@ -29,6 +29,8 @@ export class SearchResultListComponent implements OnInit {
   indexSource: boolean = true;
   indexLifecourse: boolean = true;
 
+  fieldToAdd?: string = null;
+
   pagination: { current: number, last: number, size: number, navigationPages: number[]; }
 
   searchTerms = [];
