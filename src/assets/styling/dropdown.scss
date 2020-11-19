@@ -64,12 +64,13 @@ $dropdownFontSize: 1.125rem;
 
 .lls-dropdown__option {
   padding: 0.5rem 1.4rem;
+
+  &:not(.lls-dropdown__option--disabled):hover,
+  &:not(.lls-dropdown__option--disabled):focus {
+    background: #ACCEF7;
+  }
 }
 
-.lls-dropdown__option:not(.lls-dropdown__option--disabled):hover,
-.lls-dropdown__option:not(.lls-dropdown__option--disabled):focus {
-  background: #ACCEF7;
-}
 .lls-dropdown__option--selected {
   outline: 1px dotted black;
   outline-offset: -1px;
