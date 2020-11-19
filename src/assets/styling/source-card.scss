@@ -79,14 +79,14 @@
   font-size: 1.3rem;
 }
 
-.lls-source__count {
+.lls-source__symbol {
   display: flex;
   align-items: center;
   font-weight: 500;
   margin-bottom: 20px;
 }
 
-.lls-source__count-circle {
+.lls-source__count {
   // TODO: Fix vertical alignment on number in circle.
   display: flex;
   height: 25px;
