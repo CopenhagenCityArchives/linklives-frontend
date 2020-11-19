@@ -170,7 +170,7 @@ export class Dropdown implements ControlValueAccessor {
   }
 
   focusHoveredElement() {
-    const optionElements = this.elRef.nativeElement.querySelectorAll(".lls-dropdown__option, .lls-dropdown__category");
+    const optionElements = this.elRef.nativeElement.querySelectorAll("[data-lls-dropdown-entry]");
     const optionElement = optionElements[this.tabHovered];
     requestAnimationFrame(() => optionElement.focus());
   }
