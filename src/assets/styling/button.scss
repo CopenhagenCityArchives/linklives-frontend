@@ -22,6 +22,12 @@
       transform: translateY(-2px);
     }
   }
+
+  &:focus {
+    outline: 3px solid $blue;
+    border-radius: 0;
+    outline-offset: 0;
+  }
 }
 
 
@@ -53,6 +59,10 @@
 
   &:hover {
     background-color: darken($blue, 5%);
+  }
+
+  &:focus {
+    outline-color: $blue--light;
   }
 }
 
