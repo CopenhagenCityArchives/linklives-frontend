@@ -79,14 +79,14 @@
   font-size: 1.3rem;
 }
 
-.lls-source__count {
+.lls-source__symbol {
   display: flex;
   align-items: center;
   font-weight: 500;
   margin-bottom: 20px;
 }
 
-.lls-source__count-circle {
+.lls-source__count {
   // TODO: Fix vertical alignment on number in circle.
   display: flex;
   height: 25px;
@@ -106,5 +106,24 @@
 
 .lls-source__person {
   font-size: 18px;
+  display: flex;
+  margin-bottom: 0;
+
+  @media(min-width: $breakpointMd) {
+    display: block;
+  }
+}
+
+.lls-source__person-name {
+  margin-bottom: 0;
+
+  @media(max-width: $breakpointMd) {
+    margin-right: 10px;
+  }
+}
+
+.lls-source__person-age {
+  display: flex;
+  align-items: center;
   margin-bottom: 0;
 }
