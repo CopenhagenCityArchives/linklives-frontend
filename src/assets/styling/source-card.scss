@@ -87,7 +87,6 @@
 }
 
 .lls-source__count {
-  // TODO: Fix vertical alignment on number in circle.
   display: flex;
   height: 25px;
   width: 25px;
@@ -96,6 +95,11 @@
   align-items: center;
   justify-content: center;
   margin-right: 5px;
+  margin-bottom: 0;
+}
+
+.lls-source__count-number {
+  transform: translateY(-2px);
 }
 
 .lls-source__subtitle {
@@ -107,23 +111,22 @@
 .lls-source__person {
   font-size: 18px;
   display: flex;
+  flex-wrap: wrap;
   margin-bottom: 0;
-
-  @media(min-width: $breakpointMd) {
-    display: block;
-  }
 }
 
 .lls-source__person-name {
   margin-bottom: 0;
-
-  @media(max-width: $breakpointMd) {
-    margin-right: 10px;
-  }
+  margin-right: 0.75rem;
 }
 
 .lls-source__person-age {
   display: flex;
   align-items: center;
   margin-bottom: 0;
+
+  .lls-icon {
+    // Icon is a little off-center vertically, so we fix it with transform.
+    transform: translateY(1px);
+  }
 }
