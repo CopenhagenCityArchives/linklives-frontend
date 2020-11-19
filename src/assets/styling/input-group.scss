@@ -28,6 +28,13 @@
   @media (min-width: $breakpointMd) {
     margin: 0;
   }
+
+  &:focus {
+    border-color: $blue;
+    outline: 1px solid $blue;
+    border-radius: 0;
+    outline-offset: 0;
+  }
 }
 @media (min-width: $breakpointMd) {
   .lls-input-group__field--left {
