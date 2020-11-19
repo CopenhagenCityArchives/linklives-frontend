@@ -54,10 +54,10 @@ export class SearchResultListComponent implements OnInit {
     birthName: "Fødenavn",
     birthPlace: "Fødested",
     sourcePlace: "Kildested",
-    //deathPlace: "Dødssted",
-    //birthYear: "Fødselsår",
+    deathPlace: "Dødssted",
+    birthYear: "Fødselsår",
     sourceYear: "Kildeår",
-    //deathYear: "Dødsår",
+    deathYear: "Dødsår",
     //maritalStatus: "Civilstand",
   };
 
