@@ -1,9 +1,14 @@
-import { Component, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export interface Option {
   label: string;
   value: string;
+  disabled?: boolean;
+}
+
+export interface Category {
+  category: string;
 }
 
 @Component({
@@ -12,7 +17,7 @@ export interface Option {
   host: {
     'tabindex': '0',
     '(click)': 'toggleOpen()',
-    '(blur)': 'close();',
+    '(blur)': 'onBlur();',
     '(keydown)': 'onKeyPress($event)',
   },
   providers: [
@@ -26,7 +31,7 @@ export interface Option {
 export class Dropdown implements ControlValueAccessor {
   @Input() featherIconPath: string;
   @Input() name: string;
-  @Input() options: Array<Option>;
+  @Input() options: Array<Option | Category>;
 
   @Input()
   get value() {
@@ -45,14 +50,18 @@ export class Dropdown implements ControlValueAccessor {
   onChange: Function = () => {};
   onTouched: Function = () => {};
 
+  get currentOption() {
+    const options = <Array<Option>> this.options.filter((option) => "value" in option);
+    return options.find((opt) => opt.value == this.value);
+  }
+
   get currentLabel() {
-    const option = this.options.find((opt) => opt.value == this.value);
-    return option ? option.label : '';
+    return this.currentOption ? this.currentOption.label : '';
   }
 
   @Output() ngModelChange = new EventEmitter<string>();
 
-  constructor() {}
+  constructor(private elRef: ElementRef) {}
 
   // Start ControlValueAccessor
   registerOnChange(fn: Function) {
@@ -81,9 +90,30 @@ export class Dropdown implements ControlValueAccessor {
     this.tabHovered = null;
   }
 
+  onBlur() {
+    requestAnimationFrame(() => {
+      //If a sub-element is still focused, do nothing.
+      if(this.elRef.nativeElement.querySelector(":focus")) {
+        return;
+      }
+
+      this.close();
+    });
+  }
+
+  onOptionClick(option: Option, $event) {
+    if(!("value" in option)) {
+      return;
+    }
+
+    this.select(<Option> option);
+    $event.stopPropagation();
+  }
+
   select(option: Option) {
     this.value = option.value;
     this.close();
+    this.elRef.nativeElement.focus();
   }
 
   onKeyPress($event) {
@@ -103,35 +133,83 @@ export class Dropdown implements ControlValueAccessor {
 
   tabHoverNextItem() {
     if(this.tabHovered === null) {
-      this.tabHovered = 0;
+      this.openAndSelectFirstElement();
       return;
     }
-    if(this.tabHovered < this.options.length - 1) {
-      this.tabHovered++;
+
+    const indexOfFirstOptionBelow = this.options
+      .slice(this.tabHovered + 1)
+      .findIndex((option) => ("value" in option) && !(<Option> option).disabled);
+
+    //If no undisabled value below, stay on current
+    if(indexOfFirstOptionBelow === -1) {
+      return;
     }
+
+    //Otherwise pick first value below
+    this.tabHovered = indexOfFirstOptionBelow + this.tabHovered + 1;
+
+    this.focusHoveredElement();
+  }
+
+  openAndSelectFirstElement() {
+    this.open();
+
+    const indexOfFirstOption = this.options
+      .findIndex((option) => ("value" in option) && !(<Option> option).disabled);
+
+    //If no undisabled value, stay on current
+    if(indexOfFirstOption === -1) {
+      return;
+    }
+
+    //Otherwise pick first value
+    this.tabHovered = this.options.findIndex((option) => "value" in option && option.value === this.value);
+
+    this.focusHoveredElement();
+  }
+
+  focusHoveredElement() {
+    const optionElements = this.elRef.nativeElement.querySelectorAll("[data-lls-dropdown-entry]");
+    const optionElement = optionElements[this.tabHovered];
+    requestAnimationFrame(() => optionElement.focus());
   }
 
   tabHoverPreviousItem() {
     if(this.tabHovered === null) {
       return;
     }
-    if(this.tabHovered > 0) {
-      this.tabHovered--;
+
+    const optionsAbove = this.options
+      .slice(0, this.tabHovered);
+
+    const indexOfFirstOptionAbove = optionsAbove
+      .reverse()
+      .findIndex((option) => ("value" in option) && !(<Option> option).disabled);
+
+    //If no undisabled value below, stay on current
+    if(indexOfFirstOptionAbove === -1) {
+      return;
     }
+
+    //Otherwise pick first value below
+    this.tabHovered = optionsAbove.length - 1 - indexOfFirstOptionAbove;
+
+    this.focusHoveredElement();
   }
 
   selectTabHoveredItemOrToggleOpen() {
     if(this.tabHovered === null) {
       if(!this.isOpen) {
-        this.open();
-        this.tabHovered = this.options.findIndex((opt) => opt.value === this.value);
+        this.openAndSelectFirstElement();
       }
       else {
         this.close();
+        this.elRef.nativeElement.focus();
       }
       return;
     }
-    this.select(this.options[this.tabHovered]);
-    this.tabHovered = null;
+
+    this.select(<Option> this.options[this.tabHovered]);
   }
 }
