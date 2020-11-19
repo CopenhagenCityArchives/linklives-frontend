@@ -13,6 +13,17 @@
                             [name]="'searchterm-value-' + i"
                         />
                     </label>
+                    <lls-dropdown
+                        class="lls-dropdown--option-adder lls-columns-12 lls-columns-6--md lls-columns-4--lg"
+                        [options]="fieldOptions"
+                        name="add-field"
+                        label="Tilføj felt"
+                        value="none"
+                        [featherIconPath]="config.featherIconPath"
+                        dropdownIcon="plus-circle"
+                        dropdownIconOpen="plus-circle"
+                    ></lls-dropdown>
+                    <!-- TODO: on selection made -->
                 </div>
             </div>
             <div class="lls-columns-2 lls-columns-3--md">

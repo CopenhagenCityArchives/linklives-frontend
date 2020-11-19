@@ -63,6 +63,28 @@ export class SearchResultListComponent implements OnInit {
 
   searchParams: AdvancedSearchQuery = {};
 
+  get config() {
+    return window["lls"];
+  }
+
+  get fieldOptions() {
+    const isNotUsed = (key) => !this.searchTerms.some((term) => term.field == key);
+    const toFieldOption = (key) => ({
+      label: this.searchFieldLabels[key],
+      value: key,
+      disabled: !this.searchFieldPlaceholders[key],
+    });
+
+    return [
+      { category: "Navn" },
+      ...[ "firstName", "lastName", "birthName" ].filter(isNotUsed).map(toFieldOption),
+      { category: "Sted" },
+      ...[ "birthPlace", "sourcePlace", "deathPlace" ].filter(isNotUsed).map(toFieldOption),
+      { category: "År" },
+      ...[ "birthYear", "sourceYear", "deathYear" ].filter(isNotUsed).map(toFieldOption),
+    ];
+  }
+
   get computedIndex() {
     if((this.indexLifecourse && this.indexSource) || (!this.indexLifecourse && !this.indexSource)) {
       return 'pas,lifecourses';

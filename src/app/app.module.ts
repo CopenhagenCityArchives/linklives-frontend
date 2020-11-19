@@ -12,6 +12,7 @@ import { PersonAppearanceComponent } from './person-appearance/person-appearance
 import { LifeCourseComponent } from './life-course/life-course.component';
 import { PersonAppearanceItemComponent } from './person-appearance/person-appearance-item.component';
 import { LifeCourseItemComponent } from './life-course/life-course-item.component';
+import { FormElementsModule } from './form-elements.module';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { LifeCourseItemComponent } from './life-course/life-course-item.componen
     SearchModule,
     AppRoutingModule,
     FormsModule,
+    FormElementsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -8,7 +8,7 @@ import { SearchComponent } from './search.component';
 import { SimpleSearchComponent } from './simple/search-simple.component';
 import { AdvancedSearchComponent } from './advanced/search-advanced.component';
 import { SearchFieldComponent } from './search-field/search-field.component';
-import { Dropdown } from '../form-elements/dropdown/component';
+import { FormElementsModule } from '../form-elements.module';
 
 @NgModule({
   declarations: [
@@ -16,13 +16,13 @@ import { Dropdown } from '../form-elements/dropdown/component';
     SimpleSearchComponent,
     AdvancedSearchComponent,
     SearchFieldComponent,
-    Dropdown,
   ],
   imports: [
     CommonModule,
     HttpClientModule,
     SearchRoutingModule,
     FormsModule,
+    FormElementsModule,
   ]
 })
 export class SearchModule { }
