@@ -17,22 +17,13 @@
     background-color: lighten(#000, 5%);
     color: white;
     text-decoration: none;
-  }
 
-  .lls-icon {
-    width: 1rem;
-    height: 1rem;
-    transition: transform 0.2s;
-  }
-
-  &:hover .lls-icon {
-    transform: translateY(-2px);
-  }
-
-  .lls-icon--right {
-    margin-left: 0.5rem;
+    .lls-icon {
+      transform: translateY(-2px);
+    }
   }
 }
+
 
 .lls-btn--big {
   padding: 1.15rem 1.5rem;
@@ -68,4 +59,22 @@
     margin-top: 0;
     border-radius: 0 3px 3px 0;
   }
+}
+
+.lls-btn--link {
+  &:hover {
+    .lls-icon {
+      transform: translateX(2px);
+    }
+  }
+}
+
+.lls-icon {
+  width: 1rem;
+  height: 1rem;
+  transition: transform 0.2s;
+}
+
+.lls-icon--right {
+  margin-left: 0.5rem;
 }

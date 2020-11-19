@@ -1,7 +1,7 @@
 <div class="lls-source lls-source--lifecourse">
     <div class="lls-source__section">
         <div class="lls-source__count">
-            <span class="lls-source__count-circle">{{ personAppearances.length }}</span> kilder
+            <span class="lls-source__count-circle">{{ personAppearances.length }}</span> {{ personAppearances.length != 1 ? "kilder" : "kilde" }}
         </div>
         <h3 class="lls-source__title">Livsforløb</h3>
         <p class="u-margin-0">{{ sourceYearRange }}</p>
@@ -24,13 +24,13 @@
     </div>
     <div class="lls-source__section">
         <p class="lls-source__subtitle">Kilder</p>
-        <p class="u-margin-0">{{ personAppearances.length }} kilder i perioden {{ sourceYearRange }}.</p>
+        <p class="u-margin-0">{{ personAppearances.length }} {{ personAppearances.length != 1 ? "kilder" : "kilde" }} i perioden {{ sourceYearRange }}.</p>
         <p class="u-margin-0">{{ sourceList }}</p>
     </div>
 
     <div class="lls-source__section lls-source__section--cta">
         <div>
-            <a href [routerLink]="['/life-course', lifecourseId]" class="lls-btn lls-btn--blue">
+            <a href [routerLink]="['/life-course', lifecourseId]" class="lls-btn lls-btn--blue lls-btn--link">
                 <span>Se forløb</span>
                 <svg class="lls-icon lls-icon--right">
                     <use [attr.href]="featherSpriteUrl + '#arrow-right'"></use>
