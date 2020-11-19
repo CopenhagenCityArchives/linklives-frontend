@@ -87,7 +87,6 @@
 }
 
 .lls-source__count {
-  // TODO: Fix vertical alignment on number in circle.
   display: flex;
   height: 25px;
   width: 25px;
@@ -96,6 +95,11 @@
   align-items: center;
   justify-content: center;
   margin-right: 5px;
+  margin-bottom: 0;
+}
+
+.lls-source__count-number {
+  transform: translateY(-2px);
 }
 
 .lls-source__subtitle {
