@@ -108,7 +108,7 @@ export class Dropdown implements ControlValueAccessor {
   }
 
   onOptionClick(option: Option, $event) {
-    if(!("value" in option)) {
+    if(!("value" in option) || option.disabled) {
       return;
     }
 
