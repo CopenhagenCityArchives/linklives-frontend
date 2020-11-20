@@ -71,8 +71,8 @@ export class SearchResultListComponent implements OnInit {
       return `Viser alle ${this.searchResult.totalHits} resultater`;
     }
 
-    const firstResult = (this.pagination.current - 1) * this.pagination.size;
-    const lastResult = Math.min(firstResult + this.pagination.size, this.searchResult.totalHits);
+    const firstResult = ((this.pagination.current - 1) * this.pagination.size) + 1;
+    const lastResult = Math.min(firstResult + this.pagination.size - 1, this.searchResult.totalHits);
     return `Viser ${firstResult}&ndash;${lastResult} af ${this.searchResult.totalHits} resultater`;
   }
 
