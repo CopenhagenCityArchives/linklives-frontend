@@ -152,6 +152,10 @@ Option adder styling / a different type of dropdown
 .lls-dropdown--grey {
   background-color: $grey-bg--light;
 
+  .lls-dropdown__option--disabled {
+    background-color: $grey-bg;
+  }
+
   .lls-dropdown__option-list {
     background-color: $grey-bg--light;
   }
