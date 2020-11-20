@@ -1,0 +1,18 @@
+.lls-search-intro--header {
+  flex-shrink: 0;
+  flex-grow: 1;
+  font-size: 3em;
+}
+.lls-search-intro--text {
+  flex-basis: 600px;
+  flex-grow: 0;
+}
+.lls-search-intro--text a {
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.4s;
+}
+.lls-search-intro--text a:hover {
+  border-bottom-color: black;
+  text-decoration: none;
+}

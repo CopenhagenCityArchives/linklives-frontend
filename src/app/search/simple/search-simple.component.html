@@ -1,32 +1,4 @@
 <style>
-.search-intro--header {
-  flex-shrink: 0;
-  flex-grow: 1;
-  font-size: 3em;
-}
-.search-intro--text {
-  flex-basis: 600px;
-  flex-grow: 0;
-}
-.text-link {
-  display: inline-flex;
-  font-weight: 500;
-  border-bottom: 1px solid transparent;
-  transition: border-color 0.4s;
-  align-items: center;
-}
-.text-link:hover {
-  text-decoration: none;
-  border-bottom-color: black;
-}
-.text-link .lls-icon {
-  width: 1.2rem;
-  height: 1.2rem;
-  transform: translateY(0.1rem);
-}
-.text-link .lls-icon--right {
-  margin-left: 0.5rem;
-}
 .help-box {
   padding: 2rem;
   color: white;
@@ -53,12 +25,12 @@
 </style>
 
 <div class="lls-container mt-5">
-  <div class="search-intro">
+  <div class="lls-search-intro">
     <div class="lls-row">
-    <h2 class="lls-columns-12 lls-columns-4--lg lls-columns-4--xl search-intro--header">
+    <h2 class="lls-columns-12 lls-columns-4--lg lls-columns-4--xl lls-search-intro--header">
       {{ config.title }}
     </h2>
-    <div class="lls-columns-12 lls-columns-6--lg lls-columns-4--xl search-intro--text" [innerHTML]="config.introText"></div>
+    <div class="lls-columns-12 lls-columns-6--lg lls-columns-4--xl lls-search-intro--text" [innerHTML]="config.introText"></div>
     <div class="lls-columns-12 lls-columns-2--lg lls-columns-4--xl" style="text-align: right;">
       <h3 style="font-family: notera; font-size: 4rem; font-weight: normal;">Beta</h3>
     </div>
