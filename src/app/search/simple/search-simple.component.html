@@ -58,17 +58,7 @@
     <h2 class="lls-columns-12 lls-columns-4--lg lls-columns-4--xl search-intro--header">
       {{ config.title }}
     </h2>
-    <div class="lls-columns-12 lls-columns-6--lg lls-columns-4--xl search-intro--text">
-      <p>
-        {{ config.introText }}
-      </p>
-      <a href="{{ config.introMoreLinkUrl }}" class="search-intro--text-link text-link">
-        <span>{{ config.introMoreLinkText }}</span>
-        <svg class="lls-icon lls-icon--right">
-          <use [attr.href]="featherSpriteUrl + '#arrow-right'"></use>
-        </svg>
-      </a>
-    </div>
+    <div class="lls-columns-12 lls-columns-6--lg lls-columns-4--xl search-intro--text" [innerHTML]="config.introText"></div>
     <div class="lls-columns-12 lls-columns-2--lg lls-columns-4--xl" style="text-align: right;">
       <h3 style="font-family: notera; font-size: 4rem; font-weight: normal;">Beta</h3>
     </div>
