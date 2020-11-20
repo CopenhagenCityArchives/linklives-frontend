@@ -72,6 +72,23 @@
         </form>
     </div>
 </section>
+<section class="lls-results-filter lls-container">
+    <div class="lls-row">
+        <div class="lls-columns-6 u-p-2">
+            <p>Filter resultater</p>
+            <button class="lls-btn lls-btn--outline lls-btn--link">
+                <span>Kilder</span>
+                <svg class="lls-icon lls-icon--right">
+                    <use [attr.href]="featherSpriteUrl + '#chevron-right'"></use>
+                </svg>
+            </button>
+            <lls-filter-sidebar openSidebar="true"></lls-filter-sidebar>
+        </div>
+        <div class="lls-columns-6 u-p-2">
+            <div class="u-text-right">Viser 10 af {{ searchResult.totalHits }} resultater</div>
+        </div>
+    </div>
+</section>
 <div class="lls-container">
     <div>
         <div>
