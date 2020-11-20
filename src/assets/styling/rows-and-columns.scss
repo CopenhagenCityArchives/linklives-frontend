@@ -21,6 +21,10 @@
   }
 }
 
+.lls-row--align-bottom {
+  align-items: flex-end;
+}
+
 @for $i from 1 through 12 {
   .lls-columns-#{$i} {
     grid-column: span $i;

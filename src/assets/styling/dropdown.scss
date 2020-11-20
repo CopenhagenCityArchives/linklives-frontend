@@ -38,6 +38,10 @@ $dropdownFontSize: 1.125rem;
   }
 }
 
+.lls-dropdown__label {
+  display: none;
+}
+
 .lls-dropdown__current-item {
   display: inline-flex;
   justify-content: space-between;
@@ -49,6 +53,7 @@ $dropdownFontSize: 1.125rem;
   position: absolute;
   display: none;
   background: white;
+  color: black;
   box-shadow: 0 0 2px rgba(0,0,0,0.05);
   z-index: 1;
   left: 0;
@@ -86,4 +91,48 @@ $dropdownFontSize: 1.125rem;
   color: rgb(140, 140, 140);
   background: rgb(250, 250, 250);
   cursor: default;
+}
+
+/*
+Option adder styling / a different type of dropdown
+*/
+.lls-dropdown--option-adder {
+  border: none;
+  padding: 0.5rem 1rem;
+  width: auto;
+
+  .lls-dropdown__current-item {
+    justify-content: flex-start;
+  }
+  .lls-dropdown__label {
+    display: block;
+    padding-right: 0.25rem;
+  }
+  .lls-dropdown__current-option-label {
+    display: none;
+  }
+  &:hover .lls-icon {
+    transform: none;
+  }
+
+  .lls-dropdown__option-list {
+    transform: translateY(1rem - 0.4rem) translateX(-1px);
+    width: 225px;
+    font-size: 0.95rem;
+    border: 1px solid rgb(200, 200, 200);
+    border-radius: 4px;
+    box-shadow: 0 0 3px rgba(0,0,0,0.15);
+
+    @media (min-width: $breakpointMd) {
+      transform: translateY(1rem - 0.4rem) translateX(-1.5rem);
+    }
+  }
+
+  .lls-dropdown__category {
+    font-size: inherit;
+  }
+  .lls-dropdown__option {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+  }
 }

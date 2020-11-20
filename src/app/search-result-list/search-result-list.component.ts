@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
+import { Category, Option } from '../form-elements/dropdown/component';
 
 import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
 
@@ -7,10 +8,14 @@ interface SearchQueryParams {
   query?: string,
   firstName?: string,
   lastName?: string,
-  parish?: string,
-  county?: string,
+  birthName?: string,
   birthPlace?: string,
-  maritalStatus?: string,
+  sourcePlace?: string,
+  //deathPlace?: string,
+  //birthYear?: string
+  sourceYear?: string,
+  //deathYear?: string,
+  //maritalStatus?: string,
 }
 
 @Component({
@@ -34,10 +39,94 @@ export class SearchResultListComponent implements OnInit {
     navigationPages: number[],
   };
 
+  searchTerms = [];
+
+  searchFieldPlaceholders = {
+    query: "Vendsyssel ugift",
+    firstName: "Jens",
+    lastName: "Eriksen",
+    birthName: "Jensby",
+    birthPlace: "Randers",
+    sourcePlace: "Køge",
+    //deathPlace: "Agersø",
+    //birthYear: "1834",
+    sourceYear: "1845",
+    //deathYear: "1912",
+    //maritalStatus: "Ugift",
+  };
+
+  searchFieldLabels = {
+    query: "Fritekst",
+    firstName: "Fornavn",
+    lastName: "Efternavn",
+    birthName: "Fødenavn",
+    birthPlace: "Fødested",
+    sourcePlace: "Kildested",
+    deathPlace: "Dødssted",
+    birthYear: "Fødselsår",
+    sourceYear: "Kildeår",
+    deathYear: "Dødsår",
+    //maritalStatus: "Civilstand",
+  };
+
   searchParams: AdvancedSearchQuery = {};
 
   get config() {
     return window["lls"];
+  }
+
+  private toFieldOption(key) {
+    return {
+      label: this.searchFieldLabels[key],
+      value: key,
+      disabled: !this.searchFieldPlaceholders[key],
+    };
+  }
+
+  private allNameFields: Array<Option | Category> = [
+    "firstName",
+    "lastName",
+    "birthName"
+  ].map((f) => this.toFieldOption(f));
+
+  private allPlaceFields: Array<Option | Category> = [
+    "birthPlace",
+    "sourcePlace",
+    "deathPlace"
+  ].map((f) => this.toFieldOption(f));
+
+  private allYearFields: Array<Option | Category> = [
+    "birthYear",
+    "sourceYear",
+    "deathYear"
+  ].map((f) => this.toFieldOption(f));
+
+  get fieldOptions() {
+    const isNotUsed = (option) => !this.searchTerms.some((term) => option.value && term.field == option.value);
+
+    const notUsedNameFields = this.allNameFields.filter(isNotUsed);
+    let nameOptions = [];
+    if(notUsedNameFields.length > 0) {
+      nameOptions = [ { category: "Navn" }, ...notUsedNameFields ];
+    }
+
+    const notUsedPlaceFields = this.allPlaceFields.filter(isNotUsed);
+    let placeOptions = [];
+    if(notUsedPlaceFields.length > 0) {
+      placeOptions = [ { category: "Sted" }, ...notUsedPlaceFields ];
+    }
+
+    const notUsedYearFields = this.allYearFields.filter(isNotUsed);
+    let yearOptions = [];
+    if(notUsedYearFields.length > 0) {
+      yearOptions = [ { category: "År" }, ...notUsedYearFields ];
+    }
+
+    return [
+      ...nameOptions,
+      ...placeOptions,
+      ...yearOptions,
+    ];
   }
 
   featherSpriteUrl = this.config.featherIconPath;
@@ -87,20 +176,22 @@ export class SearchResultListComponent implements OnInit {
       "birthPlace",
       "sourcePlace",
       //"deathPlace",
-      "birthYear",
+      //"birthYear",
       "sourceYear",
-      "deathYear",
+      //"deathYear",
       //"maritalStatus",
     ];
 
-    this.route.queryParamMap.subscribe(queryParamMap => {
+    this.route.queryParamMap.subscribe((queryParamMap) => {
+      this.searchQueryParams = null;
+      this.searchTerms = [];
       const searchQueryParams = {};
       queryParamMap.keys
         .filter((key) => possibleSearchQueryParams.includes(key))
         .forEach((key) => {
           const value = queryParamMap.get(key);
           searchQueryParams[key] = value;
-          this.searchParams[key] = value;
+          this.searchTerms.push({ field: key, value });
         });
       this.searchQueryParams = searchQueryParams;
 
@@ -148,9 +239,16 @@ export class SearchResultListComponent implements OnInit {
     });
   }
 
+  addField(field) {
+    this.searchTerms.push({ field, value: "" });
+  }
+
   search(): void {
+    const searchParams: AdvancedSearchQuery = {};
+    this.searchTerms.forEach((term) => searchParams[term.field] = term.value);
+
     this.router.navigate(['/results'], {
-      queryParams: { ...this.searchParams, index: this.computedIndex },
+      queryParams: { ...searchParams, index: this.computedIndex },
     });
   }
 

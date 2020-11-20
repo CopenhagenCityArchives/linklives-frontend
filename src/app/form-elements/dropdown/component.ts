@@ -32,6 +32,9 @@ export class Dropdown implements ControlValueAccessor {
   @Input() featherIconPath: string;
   @Input() name: string;
   @Input() options: Array<Option | Category>;
+  @Input() dropdownIcon: string;
+  @Input() dropdownIconOpen: string;
+  @Input() label: string = "";
 
   @Input()
   get value() {
@@ -42,6 +45,9 @@ export class Dropdown implements ControlValueAccessor {
     this.onChange(value);
     this.onTouched();
   }
+
+  @Output()
+  change: EventEmitter<string> = new EventEmitter<string>();
 
   _value: string = "";
   isOpen: boolean = false;
@@ -55,7 +61,7 @@ export class Dropdown implements ControlValueAccessor {
     return options.find((opt) => opt.value == this.value);
   }
 
-  get currentLabel() {
+  get currentOptionLabel() {
     return this.currentOption ? this.currentOption.label : '';
   }
 
@@ -102,7 +108,7 @@ export class Dropdown implements ControlValueAccessor {
   }
 
   onOptionClick(option: Option, $event) {
-    if(!("value" in option)) {
+    if(!("value" in option) || option.disabled) {
       return;
     }
 
@@ -114,6 +120,7 @@ export class Dropdown implements ControlValueAccessor {
     this.value = option.value;
     this.close();
     this.elRef.nativeElement.focus();
+    this.change.emit(this.value);
   }
 
   onKeyPress($event) {
@@ -163,9 +170,20 @@ export class Dropdown implements ControlValueAccessor {
       return;
     }
 
-    //Otherwise pick first value
-    this.tabHovered = this.options.findIndex((option) => "value" in option && option.value === this.value);
+    //Otherwise pick current value
+    this.tabHovered = this.options.findIndex((option) => "value" in option && option.value === this.value && !(<Option> option).disabled);
 
+    //Or, if none, pick first value
+    if(this.tabHovered === -1) {
+      this.tabHovered = indexOfFirstOption;
+    }
+
+    //Or, if no values, do nothing
+    if(this.tabHovered === -1) {
+      this.tabHovered = null;
+      return;
+    }
+    
     this.focusHoveredElement();
   }
 
@@ -202,11 +220,11 @@ export class Dropdown implements ControlValueAccessor {
     if(this.tabHovered === null) {
       if(!this.isOpen) {
         this.openAndSelectFirstElement();
+        return;
       }
-      else {
-        this.close();
-        this.elRef.nativeElement.focus();
-      }
+
+      this.close();
+      this.elRef.nativeElement.focus();
       return;
     }
 
