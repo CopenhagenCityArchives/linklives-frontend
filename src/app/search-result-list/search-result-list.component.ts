@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
+import { Category, Option } from '../form-elements/dropdown/component';
 
 import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
 
@@ -67,27 +68,48 @@ export class SearchResultListComponent implements OnInit {
     return window["lls"];
   }
 
-  get fieldOptions() {
-    const isNotUsed = (key) => !this.searchTerms.some((term) => term.field == key);
-    const toFieldOption = (key) => ({
+  private toFieldOption(key) {
+    return {
       label: this.searchFieldLabels[key],
       value: key,
       disabled: !this.searchFieldPlaceholders[key],
-    });
+    };
+  }
 
-    const notUsedNameFields = [ "firstName", "lastName", "birthName" ].filter(isNotUsed).map(toFieldOption);
+  private allNameFields: Array<Option | Category> = [
+    "firstName",
+    "lastName",
+    "birthName"
+  ].map((f) => this.toFieldOption(f));
+
+  private allPlaceFields: Array<Option | Category> = [
+    "birthPlace",
+    "sourcePlace",
+    "deathPlace"
+  ].map((f) => this.toFieldOption(f));
+
+  private allYearFields: Array<Option | Category> = [
+    "birthYear",
+    "sourceYear",
+    "deathYear"
+  ].map((f) => this.toFieldOption(f));
+
+  get fieldOptions() {
+    const isNotUsed = (option) => !this.searchTerms.some((term) => option.value && term.field == option.value);
+
+    const notUsedNameFields = this.allNameFields.filter(isNotUsed);
     let nameOptions = [];
     if(notUsedNameFields.length > 0) {
       nameOptions = [ { category: "Navn" }, ...notUsedNameFields ];
     }
 
-    const notUsedPlaceFields = [ "birthPlace", "sourcePlace", "deathPlace" ].filter(isNotUsed).map(toFieldOption);
+    const notUsedPlaceFields = this.allPlaceFields.filter(isNotUsed);
     let placeOptions = [];
     if(notUsedPlaceFields.length > 0) {
       placeOptions = [ { category: "Sted" }, ...notUsedPlaceFields ];
     }
 
-    const notUsedYearFields = [ "birthYear", "sourceYear", "deathYear" ].filter(isNotUsed).map(toFieldOption);
+    const notUsedYearFields = this.allYearFields.filter(isNotUsed);
     let yearOptions = [];
     if(notUsedYearFields.length > 0) {
       yearOptions = [ { category: "År" }, ...notUsedYearFields ];
