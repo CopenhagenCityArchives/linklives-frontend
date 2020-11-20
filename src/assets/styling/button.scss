@@ -52,6 +52,18 @@
   }
 }
 
+.lls-btn--outline {
+  background-color: transparent;
+  border: 1px solid black;
+  color: black;
+  text-transform: none;
+
+  &:hover {
+    background-color: transparent;
+    color: black;
+  }
+}
+
 .lls-btn--blue {
   color: white;
   background-color: $blue;

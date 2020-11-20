@@ -26,7 +26,6 @@
                         />
                     </div>
                 </div>
-                
             </div>
             <div class="lls-columns-12 lls-columns-2--sm lls-columns-3--md">
                 <p>Resultattype</p>
@@ -75,67 +74,44 @@
         </form>
     </div>
 </section>
+<section class="lls-results-filter lls-container">
+    <div class="lls-row">
+        <div class="lls-columns-6 u-p-2">
+            <p>Filter resultater</p>
+            <button class="lls-btn lls-btn--outline lls-btn--link">
+                <span>Kilder</span>
+                <svg class="lls-icon lls-icon--right">
+                    <use [attr.href]="featherSpriteUrl + '#chevron-right'"></use>
+                </svg>
+            </button>
+        </div>
+        <div class="lls-columns-6 u-p-2">
+            <div class="u-text-right">Viser 10 af {{ searchResult.totalHits }} resultater</div>
+        </div>
+    </div>
+</section>
 <div class="lls-container">
     <div>
-        <div>
-            <!-- <ul class="nav nav-tabs nav-fill">
-                <li class="nav-item d-flex">
-                    <a class="nav-link flex-fill" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [queryParams]="searchQueryParams">
-                        <p>
-                            <strong class="align-middle">Alle</strong>
-                        </p>
-                        <p>
-                            <small>Både livsforløb, og indtastede kilder.</small>
-                        </p>
-                    </a>
+
+        <ng-container *ngFor="let hit of searchResult.hits" [ngSwitch]="hit.type">
+            <app-person-appearance-item *ngSwitchCase="'pas'" class="mx-2" [item]="hit.pa"></app-person-appearance-item>
+            <app-life-course-item *ngSwitchCase="'lifecourses'" class="mx-2" [item]="hit.pas" [lifecourse-id]="hit.life_course_id"></app-life-course-item>
+        </ng-container>
+
+        <nav>
+            <ul class="pagination justify-content-center mb-0">
+                <li class="page-item" [ngClass]="{ disabled: pagination.current === 1}">
+                    <a class="page-link" [tabindex]=" pagination.current === 1 ? -1 : 0" [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current - 1 } ]" [queryParams]="queryParams">Forrige</a>
                 </li>
                 
-                <li class="nav-item d-flex">
-                    <a class="nav-link flex-fill d-inline align-middle" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [queryParams]="lifeCourseQueryParams">
-                        <span class="align-middle">
-                            <p>
-                                <strong>Livsforløb</strong><span *ngIf="searchResult.indexHits.lifeCourses"> ({{ searchResult.indexHits.lifeCourses}})</span>
-                            </p>
-                            <p>
-                                <small>Mulige livsforløb sammensat af indtastede kilder.</small>
-                            </p>
-                        </span>
-                    </a>
+                <li *ngFor="let page of pagination.navigationPages" class="page-item" [ngClass]="{ disabled: pagination.current === page }">
+                    <a class="page-link" [routerLink]="['./', { 'size': pagination.size, 'page': page } ]" [queryParams]="queryParams">{{ page }}</a>
                 </li>
-                <li class="nav-item d-flex">
-                    <a class="nav-link flex-fill d-inline align-middle" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [queryParams]="personAppearanceQueryParams">
-                        <p>
-                            <strong>Indtastede kilder</strong><span *ngIf="searchResult.indexHits.pas"> ({{ searchResult.indexHits.pas}})</span>
-                        </p>
-                        <p>
-                            <small>Personregistreringer fra f.eks. folketællinger og kirkebøger.</small>
-                        </p>
-                    </a>
+
+                <li class="page-item" [ngClass]="{ disabled: pagination.current >= pagination.last }">
+                    <a class="page-link" [tabindex]="pagination.current >= pagination.last ? -1 : 0"  [routerLink]="['./', { 'size': pagination.size, 'page': pagination.last } ]" [queryParams]="queryParams">Næste</a>
                 </li>
-            </ul> -->
-
-            <div class="p-2 u-text-right">Viser 10 af {{ searchResult.totalHits }} resultater</div>
-
-            <ng-container *ngFor="let hit of searchResult.hits" [ngSwitch]="hit.type">
-                <app-person-appearance-item *ngSwitchCase="'pas'" class="mx-2" [item]="hit.pa"></app-person-appearance-item>
-                <app-life-course-item *ngSwitchCase="'lifecourses'" class="mx-2" [item]="hit.pas" [lifecourse-id]="hit.life_course_id"></app-life-course-item>
-            </ng-container>
-
-            <nav>
-                <ul class="pagination justify-content-center mb-0">
-                    <li class="page-item" [ngClass]="{ disabled: pagination.current === 1}">
-                        <a class="page-link" [tabindex]=" pagination.current === 1 ? -1 : 0" [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current - 1 } ]" [queryParams]="queryParams">Forrige</a>
-                    </li>
-                    
-                    <li *ngFor="let page of pagination.navigationPages" class="page-item" [ngClass]="{ disabled: pagination.current === page }">
-                        <a class="page-link" [routerLink]="['./', { 'size': pagination.size, 'page': page } ]" [queryParams]="queryParams">{{ page }}</a>
-                    </li>
-
-                    <li class="page-item" [ngClass]="{ disabled: pagination.current >= pagination.last }">
-                        <a class="page-link" [tabindex]="pagination.current >= pagination.last ? -1 : 0"  [routerLink]="['./', { 'size': pagination.size, 'page': pagination.last } ]" [queryParams]="queryParams">Næste</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+            </ul>
+        </nav>
     </div>
 </div>
