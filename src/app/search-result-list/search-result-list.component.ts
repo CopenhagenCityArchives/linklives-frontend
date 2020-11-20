@@ -25,7 +25,14 @@ export class SearchResultListComponent implements OnInit {
   indexSource: boolean = true;
   indexLifecourse: boolean = true;
 
-  pagination: { current: number, last: number, size: number, navigationPages: number[]; }
+  pagination: {
+    current: number,
+    firstInOrder: number,
+    lastInOrder: number,
+    last: number,
+    size: number,
+    navigationPages: number[],
+  };
 
   searchParams: AdvancedSearchQuery = {};
 
@@ -127,7 +134,9 @@ export class SearchResultListComponent implements OnInit {
 
         this.pagination = {
           current: page,
-          last: pageEnd,
+          firstInOrder: pageStart,
+          lastInOrder: pageEnd,
+          last: totalPages,
           size: size,
           navigationPages: []
         }
