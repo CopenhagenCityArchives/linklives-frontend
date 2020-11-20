@@ -34,6 +34,7 @@ export class Dropdown implements ControlValueAccessor {
   @Input() options: Array<Option | Category>;
   @Input() dropdownIcon: string;
   @Input() dropdownIconOpen: string;
+  @Input() label: string = "";
 
   @Input()
   get value() {
@@ -57,7 +58,7 @@ export class Dropdown implements ControlValueAccessor {
     return options.find((opt) => opt.value == this.value);
   }
 
-  get currentLabel() {
+  get currentOptionLabel() {
     return this.currentOption ? this.currentOption.label : '';
   }
 
