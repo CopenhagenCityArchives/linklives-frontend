@@ -32,13 +32,18 @@ export class LifeCourseComponent implements OnInit {
     return sortedByYear[sortedByYear.length - 1];
   }
 
-  get sourceLocation() {
+  get birthLocation() {
     return [
       ...new Set(
         [
-          this.latestPersonAppearance.parish,
-          this.latestPersonAppearance.district,
-          this.latestPersonAppearance.county
+          this.latestPersonAppearance.birth_place_parish,
+          this.latestPersonAppearance.birth_place_district,
+          this.latestPersonAppearance.birth_place_county,
+          this.latestPersonAppearance.birth_place_koebstad,
+          this.latestPersonAppearance.birth_place_town,
+          this.latestPersonAppearance.birth_place_place,
+          this.latestPersonAppearance.birth_place_island,
+          this.latestPersonAppearance.birth_place_other,
         ].filter((x) => x)
       )
     ].join(", ");
