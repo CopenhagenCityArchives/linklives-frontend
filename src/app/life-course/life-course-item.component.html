@@ -11,14 +11,14 @@
     </div>
 
     <div class="lls-source__section lls-source__section--bordered">
-        <div class="u-text-capitalize">
-            <p class="lls-source__subtitle">Person</p>
-            <p class="lls-source__person">{{ latestPersonAppearance.name_clean }}</p>
+        <div>
+            <p class="lls-source__subtitle u-text-capitalize">Person</p>
+            <p class="lls-source__person u-text-capitalize">{{ latestPersonAppearance.name_clean }}</p>
             <p class="lls-source__person-age">
                 <svg class="lls-icon lls-icon--filled lls-icon--white lls-icon--small lls-icon--left">
                     <use [attr.href]="featherSpriteUrl + '#star'"></use>
                 </svg>
-                ~{{ latestPersonAppearance.source_year - latestPersonAppearance.age_clean }}
+                ca. {{ latestPersonAppearance.source_year - latestPersonAppearance.age_clean }}
             </p>
         </div>
         <div class="u-text-capitalize u-margin-0">

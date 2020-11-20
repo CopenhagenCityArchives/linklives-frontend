@@ -33,7 +33,7 @@ export class LifeCourseComponent implements OnInit {
   }
 
   get birthLocation() {
-    return [
+    const location = [
       ...new Set(
         [
           this.latestPersonAppearance.birth_place_parish,
@@ -47,6 +47,7 @@ export class LifeCourseComponent implements OnInit {
         ].filter((x) => x)
       )
     ].join(", ");
+    return location || this.latestPersonAppearance.birth_place_clean;
   }
 
   get lastUpdated() {
