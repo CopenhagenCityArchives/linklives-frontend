@@ -1,9 +1,10 @@
 <div class="lls-source lls-source--lifecourse">
-    <div class="lls-source__section">
+    <div class="lls-source__header lls-source__section">
         <div class="lls-source__symbol">
             <div class="lls-source__count">
                 <span class="lls-source__count-number">{{ personAppearances.length }}</span>
-            </div> {{ personAppearances.length != 1 ? "kilder" : "kilde" }}
+            </div>
+            <span class="lls-source__count-text">{{ personAppearances.length != 1 ? "kilder" : "kilde" }}</span>
         </div>
         <h3 class="lls-source__title">Livsforløb</h3>
         <p class="u-margin-0">{{ sourceYearRange }}</p>

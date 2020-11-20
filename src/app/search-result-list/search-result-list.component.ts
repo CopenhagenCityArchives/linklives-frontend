@@ -30,6 +30,12 @@ export class SearchResultListComponent implements OnInit {
 
   searchParams: AdvancedSearchQuery = {};
 
+  get config() {
+    return window["lls"];
+  }
+
+  featherSpriteUrl = this.config.featherIconPath;
+
   get computedIndex() {
     if((this.indexLifecourse && this.indexSource) || (!this.indexLifecourse && !this.indexSource)) {
       return 'pas,lifecourses';
