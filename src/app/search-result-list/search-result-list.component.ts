@@ -60,6 +60,16 @@ export class SearchResultListComponent implements OnInit {
     return {...this.searchQueryParams, index: this.computedIndex};
   }
 
+  get resultRangeDescription() {
+    if(this.searchResult.totalHits < this.pagination.size) {
+      return `Viser alle ${this.searchResult.totalHits} resultater`;
+    }
+
+    const firstResult = (this.pagination.current - 1) * this.pagination.size;
+    const lastResult = Math.min(firstResult + this.pagination.size, this.searchResult.totalHits);
+    return `Viser ${firstResult}&ndash;${lastResult} af ${this.searchResult.totalHits} resultater`;
+  }
+
   constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {

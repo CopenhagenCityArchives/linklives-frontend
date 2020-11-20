@@ -114,7 +114,7 @@
                 </li>
             </ul> -->
 
-            <div class="p-2 u-text-right">Viser 10 af {{ searchResult.totalHits }} resultater</div>
+            <div class="p-2 u-text-right" [innerHTML]="resultRangeDescription"></div>
 
             <ng-container *ngFor="let hit of searchResult.hits" [ngSwitch]="hit.type">
                 <app-person-appearance-item *ngSwitchCase="'pas'" class="mx-2" [item]="hit.pa"></app-person-appearance-item>
