@@ -46,6 +46,9 @@ export class Dropdown implements ControlValueAccessor {
     this.onTouched();
   }
 
+  @Output()
+  change: EventEmitter<string> = new EventEmitter<string>();
+
   _value: string = "";
   isOpen: boolean = false;
   tabHovered?: number = null;
@@ -117,6 +120,7 @@ export class Dropdown implements ControlValueAccessor {
     this.value = option.value;
     this.close();
     this.elRef.nativeElement.focus();
+    this.change.emit(this.value);
   }
 
   onKeyPress($event) {

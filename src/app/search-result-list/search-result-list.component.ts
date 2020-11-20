@@ -29,8 +29,6 @@ export class SearchResultListComponent implements OnInit {
   indexSource: boolean = true;
   indexLifecourse: boolean = true;
 
-  fieldToAdd?: string = null;
-
   pagination: { current: number, last: number, size: number, navigationPages: number[]; }
 
   searchTerms = [];
@@ -198,6 +196,10 @@ export class SearchResultListComponent implements OnInit {
         }
       });
     });
+  }
+
+  addField(field) {
+    this.searchTerms.push({ field, value: "" });
   }
 
   search(): void {

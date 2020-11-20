@@ -19,11 +19,11 @@
                             class="lls-dropdown--option-adder"
                             [options]="fieldOptions"
                             name="add-field"
-                            [(ngModel)]="fieldToAdd"
                             label="Tilføj felt"
                             [featherIconPath]="config.featherIconPath"
                             dropdownIcon="plus-circle"
                             dropdownIconOpen="plus-circle"
+                            (change)="addField($event)"
                         ></lls-dropdown>
                         <!-- TODO: on selection made, show label -->
                     </label>
