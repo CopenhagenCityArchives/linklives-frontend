@@ -87,8 +87,8 @@
                     <span class="lls-search-modifier-inputs__label">Sorter efter</span>
                     <lls-dropdown
                         class="lls-dropdown--grey"
-                        value="hej"
-                        [options]="[{ label: 'hej', value: 'hej' }]"
+                        [options]="sortByOptions"
+                        [(ngModel)]="sortBy"
                         [featherIconPath]="featherSpriteUrl"
                     ></lls-dropdown>
                 </label>

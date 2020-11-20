@@ -39,6 +39,19 @@ export class SearchResultListComponent implements OnInit {
     navigationPages: number[],
   };
 
+  sortBy: string = "random";
+
+  sortByOptions = [
+    { label: "Tilfældig", value: "random" },
+    { label: "Relevans", value: "relevance", disabled: true },
+    { label: "Fornavn", value: "firstName" },
+    { label: "Efternavn", value: "lastName" },
+    { label: "Fødselsnavn", value: "birthName" },
+    { label: "Fødested", value: "birthPlace" },
+    { label: "Kildested", value: "sourcePlace" },
+    { label: "Kildeår", value: "sourceYear" },
+  ];
+
   searchTerms = [];
 
   searchFieldPlaceholders = {
