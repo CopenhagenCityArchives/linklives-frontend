@@ -220,11 +220,11 @@ export class Dropdown implements ControlValueAccessor {
     if(this.tabHovered === null) {
       if(!this.isOpen) {
         this.openAndSelectFirstElement();
+        return;
       }
-      else {
-        this.close();
-        this.elRef.nativeElement.focus();
-      }
+
+      this.close();
+      this.elRef.nativeElement.focus();
       return;
     }
 
