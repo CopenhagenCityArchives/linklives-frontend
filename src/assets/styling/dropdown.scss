@@ -1,10 +1,10 @@
-$dropdownPaddingY: 1.4rem;
+$dropdownPaddingY: 1rem;
 $dropdownFontSize: 1.125rem;
 
 .lls-dropdown, lls-dropdown {
   display: inline-block;
   font-size: $dropdownFontSize;
-  padding: 1rem $dropdownPaddingY;
+  padding: 0.5rem $dropdownPaddingY;
   border: 2px solid black;
   border-radius: 3px;
   width: 100%;
@@ -37,6 +37,10 @@ $dropdownFontSize: 1.125rem;
     outline-offset: 0;
   }
 }
+.lls-dropdown--open {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
 
 .lls-dropdown__label {
   display: none;
@@ -57,7 +61,7 @@ $dropdownFontSize: 1.125rem;
   box-shadow: 0 0 2px rgba(0,0,0,0.05);
   z-index: 1;
   left: 0;
-  width: calc(100% - 1rem);
+  width: calc(100% + 3px);
   transform: translateY($dropdownPaddingY - 0.4rem) translateX(-2px);
   border: 2px solid rgb(99, 95, 95);
   border-top-width: 0;
@@ -75,7 +79,7 @@ $dropdownFontSize: 1.125rem;
 }
 
 .lls-dropdown__option {
-  padding: 0.5rem 1.4rem;
+  padding: 0.5rem $dropdownPaddingY;
 
   &:not(.lls-dropdown__option--disabled):hover,
   &:not(.lls-dropdown__option--disabled):focus {
@@ -134,5 +138,21 @@ Option adder styling / a different type of dropdown
   .lls-dropdown__option {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
+  }
+}
+
+.lls-dropdown--big {
+  padding: 1rem ($dropdownPaddingY + 0.4rem);
+
+  .lls-dropdown__option {
+    padding: 0.5rem ($dropdownPaddingY + 0.4rem);
+  }
+}
+
+.lls-dropdown--grey {
+  background-color: $grey-bg--light;
+
+  .lls-dropdown__option-list {
+    background-color: $grey-bg--light;
   }
 }

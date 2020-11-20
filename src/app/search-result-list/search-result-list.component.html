@@ -73,7 +73,29 @@
     </div>
 </section>
 <div class="lls-container">
-    <div class="p-2 u-text-right" [innerHTML]="resultRangeDescription"></div>
+    <div class="lls-row">
+        <div class="lls-columns-6 lls-search-modifiers">
+            <!-- Filtering -->
+        </div>
+        <div class="lls-columns-6 lls-search-modifiers lls-search-modifiers--right">
+            <div class="lls-search-modifier-inputs lls-search-modifier-inputs">
+                <!--label class="lls-search-modifier-inputs__entry">
+                    <span class="lls-search-modifier-inputs__label">Antal per side</span>
+                    <lls-dropdown></lls-dropdown>
+                </label-->
+                <label class="lls-search-modifier-inputs__entry lls-search-modifier-inputs__entry--basis-200">
+                    <span class="lls-search-modifier-inputs__label">Sorter efter</span>
+                    <lls-dropdown
+                        class="lls-dropdown--grey"
+                        value="hej"
+                        [options]="[{ label: 'hej', value: 'hej' }]"
+                        [featherIconPath]="featherSpriteUrl"
+                    ></lls-dropdown>
+                </label>
+            </div>
+            <div class="lls-search-range-description" [innerHTML]="resultRangeDescription"></div>
+        </div>
+    </div>
 
     <ng-container *ngFor="let hit of searchResult.hits" [ngSwitch]="hit.type">
         <app-person-appearance-item *ngSwitchCase="'pas'" class="mx-2" [item]="hit.pa"></app-person-appearance-item>
