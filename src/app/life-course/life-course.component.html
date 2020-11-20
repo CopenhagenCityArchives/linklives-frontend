@@ -1,30 +1,60 @@
-<div class="lls-container">
-    <div class="row">
-        <div class="col-md">
-            <h3>Livsforløb <span class="small-text">({{ pas.length }} kilder)</span></h3>
-
-            <div>
-                <strong>Standardiseret navn:</strong> {{ pas[0].name_std }}
-            </div>
-
-            <div>
-                <strong>Fødested:</strong> {{ pas[0].birth_place }}
-            </div>
-
-            <div>
-                <strong>Fødselsår:</strong> n/a
+<div class="lls-container mt-5">
+    <section class="lls-data-page-header u-mb-4">
+        <div class="lls-data-page-header__classification">
+            <h2 class="lls-data-page-header__source-type">Livsforløb</h2>
+            <h1 class="lls-data-page-header__title u-text-capitalize">{{ latestPersonAppearance.name_clean }}</h1>
+            <div class="lls-data-page-header__data-summary">
+                <p class="u-text-capitalize u-mr-2">
+                    <span class="u-text-grey--light u-mr-2">Fødested</span> {{ birthLocation }}
+                </p>
+                <p class="u-align-icon">
+                    <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left">
+                        <use [attr.href]="featherSpriteUrl + '#star'"></use>
+                    </svg>
+                    ~{{ latestPersonAppearance.source_year - latestPersonAppearance.age_clean }}
+                </p>
             </div>
         </div>
-
-        <div class="col-md-3">
-
+        <div class="lls-data-page-header__utility-links">
+            <a href="">
+                <span>Min søgehistorik</span>
+                <svg class="lls-icon lls-icon--right">
+                    <use [attr.href]="featherSpriteUrl + '#folder'"></use>
+                </svg>
+            </a>
         </div>
-    </div>
-
-    <ul class="row nav nav-pills">
-        <li class="nav-item active">Livsforløb</li>
-        <li class="nav-item">Familierelationer</li>
-    </ul>
-
-    <app-person-appearance-item [item]="pa" class="row border p-2 mb-2" *ngFor="let pa of pas"></app-person-appearance-item>
+    </section>
+    <section>
+        <h3 class="u-margin-0">Kilder</h3>
+        <app-person-appearance-item [item]="pa" class="mx-2" *ngFor="let pa of pas"></app-person-appearance-item>
+    </section>
+    <section>
+        <div class="lls-data-page-footer">
+            <div class="lls-data-page-footer__entry">
+                <div class="lls-data-page-footer__entry-label">
+                    Forløbs ID
+                </div>
+                <a [href]="'life-course/' + lifecourseId">{{ lifecourseId }}</a>
+            </div>
+            <div class="lls-data-page-footer__entry">
+                <div class="lls-data-page-footer__entry-label">
+                    Senest opdateret
+                </div>
+                <p>{{ lastUpdated }}</p>
+            </div>
+        </div>
+        <div class="lls-data-page-footer">
+            <div class="lls-data-page-footer__entry">
+                <h3 class="lls-data-page-footer__entry-label">
+                    Om livsforløb
+                </h3>
+                <p>
+                    Et Livsforløb er et kvalificeret forslag til hvilke historiske kilder, der handler om den samme person. Der kommer løbende flere livsforløb i søgningen og der kan komme flere detaljer på et livsforløb.
+                </p>
+                <p>
+                    Livsforløb består af en række personoplysninger fra kilder som folketællinger og kirkebøger, der er blevet standardiseret for at kunne blive sammenlignet og forbundet digitalt.
+                </p>
+            </div>
+        </div>
+    </section>
 </div>

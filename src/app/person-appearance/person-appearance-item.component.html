@@ -1,22 +1,38 @@
 <div class="lls-source lls-source--census">
-    <div class="lls-source__section">
+    <div class="lls-source__header lls-source__section">
+        <div class="lls-source__symbol">
+            <svg class="lls-icon">
+                <use [attr.href]="featherSpriteUrl + '#calendar'"></use>
+            </svg>
+        </div>
         <h3 class="lls-source__title">
             Folketæling
         </h3>
-        <p *ngIf="personAppearance.source_year"  class="u-margin-0">{{ personAppearance.source_year }}</p>
+        <p *ngIf="personAppearance.source_year" class="u-margin-0">{{ personAppearance.source_year }}</p>
     </div>
     
     <div class="lls-source__section lls-source__section--bordered">
         <div>
             <div class="u-text-capitalize">
                 <p class="lls-source__subtitle">{{ personAppearance.household_position_std }}</p>
-                <p class="lls-source__person u-margin-0">
-                    <span class="u-bold">{{ personAppearance.name_clean }}</span> ~{{ personAppearance.source_year - personAppearance.age_clean }}
-                </p>
+                <div class="lls-source__person">
+                    <p class="lls-source__person-name u-bold">
+                        {{ personAppearance.name_clean }}
+                    </p>
+                    <p class="lls-source__person-age">
+                        <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left">
+                            <use [attr.href]="featherSpriteUrl + '#star'"></use>
+                        </svg>
+                        ~{{ personAppearance.source_year - personAppearance.age_clean }}
+                    </p>
+                </div>
+                <p *ngIf="personAppearance.occupation">{{ personAppearance.occupation }}</p>
             </div>
         </div>
         <div>
-            <p class="u-text-capitalize">{{ personLocation }}</p>
+            <p class="u-text-capitalize u-margin-0" *ngIf="birthLocation">
+                {{ birthLocation }}
+            </p>
         </div>
     </div>
 
@@ -30,7 +46,12 @@
     
     <div class="lls-source__section lls-source__section--cta">
         <div>
-            <a [routerLink]="['/pa', personAppearance.source_id + '-' + personAppearance.pa_id]" class="lls-btn">Se kilde</a>
+            <a [routerLink]="['/pa', personAppearance.source_id + '-' + personAppearance.pa_id]" class="lls-btn lls-btn--link">
+                <span>Se kilde</span>
+                <svg class="lls-icon lls-icon--right">
+                    <use [attr.href]="featherSpriteUrl + '#arrow-right'"></use>
+                </svg>
+            </a>
         </div>
     </div>
 </div>

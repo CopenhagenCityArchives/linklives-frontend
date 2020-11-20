@@ -8,6 +8,24 @@
   fill: none;
 }
 
+.lls-icon--filled {
+  fill: initial;
+  stroke-width: 0;
+}
+
+.lls-icon--white  {
+  fill: white;
+}
+
+.lls-icon--small {
+  width: 0.75em;
+  height: 0.75em;
+}
+
 .lls-icon--right {
   margin-left: 0.25rem;
+}
+
+.lls-icon--left {
+  margin-right: 0.25rem;
 }

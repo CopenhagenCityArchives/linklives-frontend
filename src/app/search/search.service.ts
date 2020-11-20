@@ -69,6 +69,7 @@ export interface PersonAppearance {
   id: string,
   land_register: string,
   land_register_address: string,
+  last_updated: string,
   maiden_family_names: string,
   maiden_patronyms: string,
   marital_status: string,

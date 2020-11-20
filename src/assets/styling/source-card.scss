@@ -50,6 +50,10 @@
   display: flex;
   align-items: center;
 
+  @media(max-width: $breakpointMd) {
+    padding-top: 0;
+  }
+
   @media(min-width: $breakpointMd) {
     justify-content: flex-end;
   }
@@ -75,19 +79,39 @@
   }
 }
 
-.lls-source__title {
-  font-size: 1.3rem;
+.lls-source__header {
+  display: flex;
+  align-items: center;
+
+  @media(min-width: $breakpointMd) {
+    display: block;
+  }
 }
 
-.lls-source__count {
+.lls-source__title {
+  font-size: 1.3rem;
+  margin-right: 1rem;
+  margin-bottom: 0;
+
+  @media(min-width: $breakpointMd) {
+    margin-right: 0;
+    margin-bottom: .5rem;
+  }
+}
+
+.lls-source__symbol {
   display: flex;
   align-items: center;
   font-weight: 500;
-  margin-bottom: 20px;
+  margin-right: 0.5rem;
+
+  @media(min-width: $breakpointMd) {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
 }
 
-.lls-source__count-circle {
-  // TODO: Fix vertical alignment on number in circle.
+.lls-source__count {
   display: flex;
   height: 25px;
   width: 25px;
@@ -95,7 +119,20 @@
   border-radius: 50%;
   align-items: center;
   justify-content: center;
-  margin-right: 5px;
+  margin-bottom: 0;
+}
+
+.lls-source__count-number {
+  transform: translateY(-2px);
+}
+
+.lls-source__count-text {
+  display: none;
+
+  @media(min-width: $breakpointMd) {
+    display: block;
+    margin-left: 0.5rem;
+  }
 }
 
 .lls-source__subtitle {
@@ -106,5 +143,23 @@
 
 .lls-source__person {
   font-size: 18px;
+  display: flex;
+  flex-wrap: wrap;
   margin-bottom: 0;
+}
+
+.lls-source__person-name {
+  margin-bottom: 0;
+  margin-right: 0.75rem;
+}
+
+.lls-source__person-age {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+
+  .lls-icon {
+    // Icon is a little off-center vertically, so we fix it with transform.
+    transform: translateY(1px);
+  }
 }

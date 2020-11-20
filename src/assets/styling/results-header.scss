@@ -5,7 +5,9 @@
 }
 
 .lls-results-header__right-section {
-  text-align: right;
+  @media(min-width: $breakpointSm) {
+    text-align: right;
+  }
 }
 
 .lls-results-header__checkboxes {
@@ -22,4 +24,8 @@
 
 .lls-results-header__history-link {
   color: white;
+
+  &:hover {
+    color: white;
+  }
 }

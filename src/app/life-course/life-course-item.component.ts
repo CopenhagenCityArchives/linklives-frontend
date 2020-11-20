@@ -11,6 +11,12 @@ export class LifeCourseItemComponent implements OnInit {
   @Input('item') personAppearances: PersonAppearance[];
   @Input('lifecourse-id') lifecourseId: number;
 
+  get config() {
+    return window["lls"];
+  }
+
+  featherSpriteUrl = this.config.featherIconPath;
+
   get latestPersonAppearance() {
     const sortedByYear = this.personAppearances.sort(function(a, b) {
       if (a.source_year > b.source_year) {
@@ -35,16 +41,22 @@ export class LifeCourseItemComponent implements OnInit {
     return formattedSources;
   }
 
-  get sourceLocation() {
-    return [
+  get birthLocation() {
+    const location = [
       ...new Set(
         [
-          this.latestPersonAppearance.parish,
-          this.latestPersonAppearance.district,
-          this.latestPersonAppearance.county
+          this.latestPersonAppearance.birth_place_parish,
+          this.latestPersonAppearance.birth_place_district,
+          this.latestPersonAppearance.birth_place_county,
+          this.latestPersonAppearance.birth_place_koebstad,
+          this.latestPersonAppearance.birth_place_town,
+          this.latestPersonAppearance.birth_place_place,
+          this.latestPersonAppearance.birth_place_island,
+          this.latestPersonAppearance.birth_place_other,
         ].filter((x) => x)
       )
     ].join(", ");
+    return location || this.latestPersonAppearance.birth_place_clean;
   }
 
   constructor() { }

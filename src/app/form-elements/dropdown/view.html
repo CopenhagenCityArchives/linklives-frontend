@@ -13,6 +13,7 @@
     *ngFor="let option of options; index as i;"
     (click)="onOptionClick(option, $event)"
     tabindex="-1"
+    data-lls-dropdown-entry
   >
     {{ option.label || option.category }}
   </div>

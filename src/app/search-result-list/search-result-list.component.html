@@ -1,7 +1,7 @@
 <section class="lls-results-header">
     <div class="lls-container">
         <form (ngSubmit)="search()" class="lls-row">
-            <div class="lls-columns-8 lls-columns-6--md">
+            <div class="lls-columns-12 lls-columns-8--sm lls-columns-6--md">
                 <div class="lls-row">
                     <label class="lls-columns-12 lls-columns-6--md lls-columns-4--lg" *ngFor="let searchTerm of searchTerms; index as i;">
                         <p>{{ searchFieldLabels[searchTerm.field] }}</p>
@@ -26,7 +26,7 @@
                     <!-- TODO: on selection made -->
                 </div>
             </div>
-            <div class="lls-columns-2 lls-columns-3--md">
+            <div class="lls-columns-12 lls-columns-2--sm lls-columns-3--md">
                 <p>Resultattype</p>
                 <div class="lls-results-header__checkboxes">
                     <div class="lls-results-header__checkbox-container">
@@ -51,15 +51,23 @@
                     </div>
                 </div>
             </div>
-            <div class="lls-results-header__right-section lls-columns-2 lls-columns-3--md">
-                <a routerLink="/user/search-history" class="lls-results-header__history-link">
-                    <p>Min søgehistorik</p>
-                </a>
+            <div class="lls-results-header__right-section lls-columns-12 lls-columns-2--sm lls-columns-3--md">
+                <p>
+                    <a routerLink="/user/search-history" class="lls-results-header__history-link">
+                        Min søgehistorik
+                        <svg class="lls-icon lls-icon--right">
+                            <use [attr.href]="featherSpriteUrl + '#folder'"></use>
+                        </svg>
+                    </a>
+                </p>
                 <button
                     type="submit"
                     class="lls-btn lls-btn--blue"
                 >
                     <span>Søg</span>
+                    <svg class="lls-icon lls-icon--right">
+                        <use [attr.href]="featherSpriteUrl + '#search'"></use>
+                    </svg>
                 </button>
             </div>
         </form>
@@ -106,32 +114,26 @@
 
             <div class="p-2 u-text-right">Viser 10 af {{ searchResult.totalHits }} resultater</div>
 
-            <div>
-                <div>
-                    <ng-container *ngFor="let hit of searchResult.hits" [ngSwitch]="hit.type">
-                        <app-person-appearance-item *ngSwitchCase="'pas'" class="mx-2" [item]="hit.pa"></app-person-appearance-item>
-                        <app-life-course-item *ngSwitchCase="'lifecourses'" class="mx-2" [item]="hit.pas" [lifecourse-id]="hit.life_course_id"></app-life-course-item>
-                    </ng-container>
-                </div>
+            <ng-container *ngFor="let hit of searchResult.hits" [ngSwitch]="hit.type">
+                <app-person-appearance-item *ngSwitchCase="'pas'" class="mx-2" [item]="hit.pa"></app-person-appearance-item>
+                <app-life-course-item *ngSwitchCase="'lifecourses'" class="mx-2" [item]="hit.pas" [lifecourse-id]="hit.life_course_id"></app-life-course-item>
+            </ng-container>
 
-                <div>
-                    <nav>
-                        <ul class="pagination justify-content-center mb-0">
-                            <li class="page-item" [ngClass]="{ disabled: pagination.current === 1}">
-                                <a class="page-link" [tabindex]=" pagination.current === 1 ? -1 : 0" [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current - 1 } ]" [queryParams]="queryParams">Forrige</a>
-                            </li>
-                            
-                            <li *ngFor="let page of pagination.navigationPages" class="page-item" [ngClass]="{ disabled: pagination.current === page }">
-                                <a class="page-link" [routerLink]="['./', { 'size': pagination.size, 'page': page } ]" [queryParams]="queryParams">{{ page }}</a>
-                            </li>
+            <nav>
+                <ul class="pagination justify-content-center mb-0">
+                    <li class="page-item" [ngClass]="{ disabled: pagination.current === 1}">
+                        <a class="page-link" [tabindex]=" pagination.current === 1 ? -1 : 0" [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current - 1 } ]" [queryParams]="queryParams">Forrige</a>
+                    </li>
+                    
+                    <li *ngFor="let page of pagination.navigationPages" class="page-item" [ngClass]="{ disabled: pagination.current === page }">
+                        <a class="page-link" [routerLink]="['./', { 'size': pagination.size, 'page': page } ]" [queryParams]="queryParams">{{ page }}</a>
+                    </li>
 
-                            <li class="page-item" [ngClass]="{ disabled: pagination.current >= pagination.last }">
-                                <a class="page-link" [tabindex]="pagination.current >= pagination.last ? -1 : 0"  [routerLink]="['./', { 'size': pagination.size, 'page': pagination.last } ]" [queryParams]="queryParams">Næste</a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-            </div>
+                    <li class="page-item" [ngClass]="{ disabled: pagination.current >= pagination.last }">
+                        <a class="page-link" [tabindex]="pagination.current >= pagination.last ? -1 : 0"  [routerLink]="['./', { 'size': pagination.size, 'page': pagination.last } ]" [queryParams]="queryParams">Næste</a>
+                    </li>
+                </ul>
+            </nav>
         </div>
     </div>
 </div>

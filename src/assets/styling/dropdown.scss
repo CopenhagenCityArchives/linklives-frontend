@@ -29,6 +29,13 @@ $dropdownFontSize: 1.125rem;
   &:hover .lls-icon {
     transform: translateY(0.125rem);
   }
+
+  &:focus {
+    border-color: $blue;
+    outline: 1px solid $blue;
+    border-radius: 0;
+    outline-offset: 0;
+  }
 }
 
 .lls-dropdown__current-item {
@@ -64,12 +71,13 @@ $dropdownFontSize: 1.125rem;
 
 .lls-dropdown__option {
   padding: 0.5rem 1.4rem;
+
+  &:not(.lls-dropdown__option--disabled):hover,
+  &:not(.lls-dropdown__option--disabled):focus {
+    background: #ACCEF7;
+  }
 }
 
-.lls-dropdown__option:not(.lls-dropdown__option--disabled):hover,
-.lls-dropdown__option:not(.lls-dropdown__option--disabled):focus {
-  background: #ACCEF7;
-}
 .lls-dropdown__option--selected {
   outline: 1px dotted black;
   outline-offset: -1px;
