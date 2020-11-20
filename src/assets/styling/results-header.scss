@@ -4,8 +4,18 @@
   padding: 20px 0;
 }
 
+.lls-results-header__field-label {
+  margin: 0;
+}
+
+.lls-results-header__field-label-text {
+  display: block;
+  font-size: 1rem;
+  margin-bottom: 0.25rem;
+}
+
 .lls-results-header__right-section {
-  @media(min-width: $breakpointSm) {
+  @media(min-width: $breakpointMd) {
     text-align: right;
   }
 }
@@ -16,6 +26,7 @@
 
 .lls-results-header__checkbox-container {
   margin-right: 10px;
+  font-size: 1rem;
 }
 
 .lls-results-header__checkbox {
@@ -23,7 +34,10 @@
 }
 
 .lls-results-header__history-link {
+  margin-bottom: 1.125rem;
   color: white;
+  display: inline-block;
+  font-size: 1rem;
 
   &:hover {
     color: white;

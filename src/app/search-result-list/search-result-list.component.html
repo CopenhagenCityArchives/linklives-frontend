@@ -1,10 +1,15 @@
 <section class="lls-results-header">
     <div class="lls-container">
+        <div class="lls-results-header__right-section">
+            <a routerLink="/user/search-history" class="lls-results-header__history-link">
+                Min søgehistorik
+            </a>
+        </div>
         <form (ngSubmit)="search()" class="lls-row">
-            <div class="lls-columns-12 lls-columns-8--sm lls-columns-6--md">
-                <div class="lls-row">
-                    <label class="lls-columns-12 lls-columns-6--md lls-columns-4--lg" *ngFor="let searchTerm of searchTerms; index as i;">
-                        <p>{{ searchFieldLabels[searchTerm.field] }}</p>
+            <div class="lls-columns-12 lls-columns-6--md lls-columns-8--lg lls-columns-9--xl">
+                <div class="lls-row lls-row--align-bottom">
+                    <label class="lls-results-header__field-label lls-columns-12 lls-columns-6--md lls-columns-4--lg lls-columns-2--xl" *ngFor="let searchTerm of searchTerms; index as i;">
+                        <span class="lls-results-header__field-label-text">{{ searchFieldLabels[searchTerm.field] }}</span>
                         <input
                             [(ngModel)]="searchTerm.value"
                             type="text"
@@ -13,8 +18,7 @@
                             [name]="'searchterm-value-' + i"
                         />
                     </label>
-                    <div class="lls-columns-12 lls-columns-6--md lls-columns-4--lg">
-                        <p>&nbsp;</p>
+                    <div class="lls-results-header__field-label lls-columns-12 lls-columns-6--md lls-columns-4--lg lls-columns-2--xl">
                         <lls-dropdown
                             class="lls-dropdown--option-adder"
                             [options]="fieldOptions"
@@ -29,8 +33,8 @@
                     </div>
                 </div>
             </div>
-            <div class="lls-columns-12 lls-columns-2--sm lls-columns-3--md">
-                <p>Resultattype</p>
+            <div class="lls-results-header__field-label lls-columns-12 lls-columns-3--md lls-columns-2--lg lls-columns-2--xl">
+                <span class="lls-results-header__field-label-text">Resultattype</span>
                 <div class="lls-results-header__checkboxes">
                     <div class="lls-results-header__checkbox-container">
                         <input
@@ -54,15 +58,7 @@
                     </div>
                 </div>
             </div>
-            <div class="lls-results-header__right-section lls-columns-12 lls-columns-2--sm lls-columns-3--md">
-                <p>
-                    <a routerLink="/user/search-history" class="lls-results-header__history-link">
-                        Min søgehistorik
-                        <svg class="lls-icon lls-icon--right">
-                            <use [attr.href]="featherSpriteUrl + '#folder'"></use>
-                        </svg>
-                    </a>
-                </p>
+            <div class="lls-results-header__right-section lls-columns-12 lls-columns-3--md lls-columns-2--lg lls-columns-1--xl">
                 <button
                     type="submit"
                     class="lls-btn lls-btn--blue"

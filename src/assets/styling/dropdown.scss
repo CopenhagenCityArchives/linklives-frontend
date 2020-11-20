@@ -116,12 +116,16 @@ Option adder styling / a different type of dropdown
   }
 
   .lls-dropdown__option-list {
-    transform: translateY(1rem - 0.4rem) translateX(-1.5rem);
+    transform: translateY(1rem - 0.4rem) translateX(-1px);
     width: 225px;
     font-size: 0.95rem;
     border: 1px solid rgb(200, 200, 200);
     border-radius: 4px;
     box-shadow: 0 0 3px rgba(0,0,0,0.15);
+
+    @media (min-width: $breakpointMd) {
+      transform: translateY(1rem - 0.4rem) translateX(-1.5rem);
+    }
   }
 
   .lls-dropdown__category {
