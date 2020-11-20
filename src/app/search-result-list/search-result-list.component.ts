@@ -228,8 +228,6 @@ export class SearchResultListComponent implements OnInit {
     const searchParams: AdvancedSearchQuery = {};
     this.searchTerms.forEach((term) => searchParams[term.field] = term.value);
 
-    console.log("st, searchparams", this.searchTerms, searchParams);
-
     this.router.navigate(['/results'], {
       queryParams: { ...searchParams, index: this.computedIndex },
     });
