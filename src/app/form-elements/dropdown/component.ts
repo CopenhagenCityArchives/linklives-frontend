@@ -1,4 +1,4 @@
-import { Component, ElementRef, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, forwardRef, HostBinding, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 export interface Option {
@@ -49,8 +49,10 @@ export class Dropdown implements ControlValueAccessor {
   @Output()
   change: EventEmitter<string> = new EventEmitter<string>();
 
-  _value: string = "";
+  @HostBinding("class.lls-dropdown--open")
   isOpen: boolean = false;
+
+  _value: string = "";
   tabHovered?: number = null;
 
   onChange: Function = () => {};
