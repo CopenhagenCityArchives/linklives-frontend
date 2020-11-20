@@ -78,42 +78,6 @@
 <div class="lls-container">
     <div>
         <div>
-            <!-- <ul class="nav nav-tabs nav-fill">
-                <li class="nav-item d-flex">
-                    <a class="nav-link flex-fill" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [queryParams]="searchQueryParams">
-                        <p>
-                            <strong class="align-middle">Alle</strong>
-                        </p>
-                        <p>
-                            <small>Både livsforløb, og indtastede kilder.</small>
-                        </p>
-                    </a>
-                </li>
-                
-                <li class="nav-item d-flex">
-                    <a class="nav-link flex-fill d-inline align-middle" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [queryParams]="lifeCourseQueryParams">
-                        <span class="align-middle">
-                            <p>
-                                <strong>Livsforløb</strong><span *ngIf="searchResult.indexHits.lifeCourses"> ({{ searchResult.indexHits.lifeCourses}})</span>
-                            </p>
-                            <p>
-                                <small>Mulige livsforløb sammensat af indtastede kilder.</small>
-                            </p>
-                        </span>
-                    </a>
-                </li>
-                <li class="nav-item d-flex">
-                    <a class="nav-link flex-fill d-inline align-middle" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [queryParams]="personAppearanceQueryParams">
-                        <p>
-                            <strong>Indtastede kilder</strong><span *ngIf="searchResult.indexHits.pas"> ({{ searchResult.indexHits.pas}})</span>
-                        </p>
-                        <p>
-                            <small>Personregistreringer fra f.eks. folketællinger og kirkebøger.</small>
-                        </p>
-                    </a>
-                </li>
-            </ul> -->
-
             <div class="p-2 u-text-right" [innerHTML]="resultRangeDescription"></div>
 
             <ng-container *ngFor="let hit of searchResult.hits" [ngSwitch]="hit.type">
