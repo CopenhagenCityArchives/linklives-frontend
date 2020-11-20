@@ -77,13 +77,28 @@ export class SearchResultListComponent implements OnInit {
       disabled: !this.searchFieldPlaceholders[key],
     });
 
+    const notUsedNameFields = [ "firstName", "lastName", "birthName" ].filter(isNotUsed).map(toFieldOption);
+    let nameOptions = [];
+    if(notUsedNameFields.length > 0) {
+      nameOptions = [ { category: "Navn" }, ...notUsedNameFields ];
+    }
+
+    const notUsedPlaceFields = [ "birthPlace", "sourcePlace", "deathPlace" ].filter(isNotUsed).map(toFieldOption);
+    let placeOptions = [];
+    if(notUsedPlaceFields.length > 0) {
+      placeOptions = [ { category: "Sted" }, ...notUsedPlaceFields ];
+    }
+
+    const notUsedYearFields = [ "birthYear", "sourceYear", "deathYear" ].filter(isNotUsed).map(toFieldOption);
+    let yearOptions = [];
+    if(notUsedYearFields.length > 0) {
+      yearOptions = [ { category: "År" }, ...notUsedYearFields ];
+    }
+
     return [
-      { category: "Navn" },
-      ...[ "firstName", "lastName", "birthName" ].filter(isNotUsed).map(toFieldOption),
-      { category: "Sted" },
-      ...[ "birthPlace", "sourcePlace", "deathPlace" ].filter(isNotUsed).map(toFieldOption),
-      { category: "År" },
-      ...[ "birthYear", "sourceYear", "deathYear" ].filter(isNotUsed).map(toFieldOption),
+      ...nameOptions,
+      ...placeOptions,
+      ...yearOptions,
     ];
   }
 
