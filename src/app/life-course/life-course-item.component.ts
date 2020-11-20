@@ -45,9 +45,9 @@ export class LifeCourseItemComponent implements OnInit {
     const location = [
       ...new Set(
         [
-          this.latestPersonAppearance.parish,
-          this.latestPersonAppearance.district,
-          this.latestPersonAppearance.county,
+          this.latestPersonAppearance.birth_place_parish,
+          this.latestPersonAppearance.birth_place_district,
+          this.latestPersonAppearance.birth_place_county,
           this.latestPersonAppearance.birth_place_koebstad,
           this.latestPersonAppearance.birth_place_town,
           this.latestPersonAppearance.birth_place_place,
