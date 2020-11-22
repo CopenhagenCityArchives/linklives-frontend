@@ -68,7 +68,7 @@
       <div class="lls-columns-12 lls-columns-8--md">
         <div class="lls-input-group lls-input-group--reverse-order" *ngFor="let searchTerm of searchTerms; index as i;">
           <lls-dropdown
-            class="lls-input-group__field--right lls-input-group__field--basis-40"
+            class="lls-dropdown--big lls-input-group__field--right lls-input-group__field--basis-40"
             [name]="'searchterm-field-' + i"
             [(ngModel)]="searchTerm.field"
             [options]="fieldOptionsBySearchTerms[i]"
