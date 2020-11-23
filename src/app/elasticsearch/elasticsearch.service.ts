@@ -149,48 +149,6 @@ export class ElasticsearchService {
     return sortKeys.map((key) => `person_appearance.${key}`);
   }
 
-  searchSimple(query: string, indices: string[], from: number, size: number, sortBy: string) {
-    const sort = this.createSortClause(sortBy);
-
-    const body = {
-      from,
-      size,
-      query: {
-        bool: {
-          must: [
-            {
-              nested: {
-                path: "person_appearance",
-                query: {
-                  simple_query_string: {
-                    query: query,
-                    fields: ["*"],
-                    default_operator: "and"
-                  }
-                }
-              }
-            }
-          ]
-        }
-      },
-      aggs: {
-        count: {
-          terms: {
-            field: "_index"
-          }
-        }
-      },
-      post_filter: {
-        terms: {
-          _index: indices
-        }
-      },
-      sort,
-    };
-
-    return this.search(indices, body);
-  }
-
   searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string) {
     const sort = this.createSortClause(sortBy);
 

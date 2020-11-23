@@ -42,8 +42,6 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       //"maritalStatus",
     ];
 
-    let query: string = route.queryParamMap.get("query");
-
     const actualSearchTerms: AdvancedSearchQuery = {};
 
     possibleSearchQueryParams.forEach((param) => {
@@ -54,13 +52,6 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       }
     });
 
-    if(Object.keys(actualSearchTerms).some((term) => term !== "query")) {
-      return this.service.advancedSearch(actualSearchTerms, index, (page - 1) * size, size, sortBy);
-    }
-
-    if (actualSearchTerms.query !== null) {
-      return this.service.simpleSearch(query, index, (page - 1) * size, size, sortBy);
-    }
-    return this.service.simpleSearch("", index, (page - 1) * size, size, sortBy);
+    return this.service.advancedSearch(actualSearchTerms, index, (page - 1) * size, size, sortBy);
   }
 }
