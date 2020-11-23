@@ -225,7 +225,7 @@ export class SearchResultListComponent implements OnInit {
     this.searchTerms.push({ field, value: "" });
   }
 
-  onClose() {
+  onClose(event) {
     this.openSidebar = false;
   }
 

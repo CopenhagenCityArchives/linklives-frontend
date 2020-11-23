@@ -31,7 +31,21 @@ export class FilterSidebar implements OnInit {
   constructor(private elRef: ElementRef) {}
 
   isOpen: boolean = false;
-  
+
+  filterOptions: Array<Option> = [
+    {
+      label: "Kilder (1800)",
+      value: "sources_1800"
+    },
+    {
+      label: "Kilder (1850)",
+      value: "sources_1850"
+    },
+    {
+      label: "Kilder (1900)",
+      value: "sources_1900"
+    },
+  ]
 
   open() {
     this.openSidebar = true;
@@ -39,6 +53,10 @@ export class FilterSidebar implements OnInit {
 
   close() {
     this.closeSidebar.emit(null);
+  }
+
+  addFilter(filter) {
+    console.log("ADD FILTER", filter)
   }
 
   ngOnInit(): void {

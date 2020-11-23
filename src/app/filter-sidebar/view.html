@@ -6,17 +6,11 @@
     </button>
   </div>
   <div class="lls-filter-sidebar__options">
-    <div class="lls-filter-sidebar__option">
+    <div class="lls-filter-sidebar__option" *ngFor="let option of filterOptions; index as i;" (click)="addFilter(option.value)">
       <svg class="lls-icon lls-icon--left">
         <use [attr.href]="featherIconPath + '#calendar'"></use>
       </svg>
-      Kilder (1800-1850)
-    </div>
-    <div class="lls-filter-sidebar__option">
-      Kilder (1851-1900)
-    </div>
-    <div class="lls-filter-sidebar__option">
-      Kilder (1901-1950)
+      {{ option.label }}
     </div>
   </div>
 </div>
