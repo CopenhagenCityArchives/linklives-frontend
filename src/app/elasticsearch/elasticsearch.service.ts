@@ -129,7 +129,7 @@ export class ElasticsearchService {
     return result;
   }
 
-  createSortClause(sortBy: string) {
+  createSortClause(sortBy: string, sortOrder: string) {
     const sortKeys = sortValues[sortBy];
 
     //sort: undefined should result in a JSON request with no sort field
@@ -137,11 +137,11 @@ export class ElasticsearchService {
       return;
     }
 
-    return sortKeys.map((key) => `person_appearance.${key}`);
+    return sortKeys.map((key) => ({ [`person_appearance.${key}`]: { order: sortOrder } }));
   }
 
-  searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string) {
-    const sort = this.createSortClause(sortBy);
+  searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string) {
+    const sort = this.createSortClause(sortBy, sortOrder);
 
     const must = [];
 

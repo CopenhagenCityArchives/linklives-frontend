@@ -24,7 +24,8 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       size = 10;
     }
 
-    let sortBy: string = route.paramMap.get('sortBy') || "random";
+    let sortBy: string = route.queryParamMap.get('sortBy') || "random";
+    let sortOrder: string = route.queryParamMap.get('sortOrder') === "desc" ? "desc" : "asc";
 
     let index: string[] = route.queryParamMap.get("index")?.split(",") ?? ["lifecourses", "pas"];
 
@@ -52,6 +53,6 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       }
     });
 
-    return this.service.advancedSearch(actualSearchTerms, index, (page - 1) * size, size, sortBy);
+    return this.service.advancedSearch(actualSearchTerms, index, (page - 1) * size, size, sortBy, sortOrder);
   }
 }

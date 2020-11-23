@@ -41,7 +41,7 @@ export class SearchResultListComponent implements OnInit {
   sortBy: string = "random";
   sortByOptions = sortByOptions;
 
-  sortAscending = "true";
+  sortAscending = true;
 
   searchTerms = [];
   searchFieldPlaceholders = searchFieldPlaceholders;
@@ -96,7 +96,12 @@ export class SearchResultListComponent implements OnInit {
   }
 
   get queryParams() {
-    return { ...this.searchQueryParams, index: this.computedIndex, sortBy: this.sortBy };
+    return {
+      ...this.searchQueryParams,
+      index: this.computedIndex,
+      sortBy: this.sortBy,
+      sortOrder: this.sortAscending ? "asc" : "desc",
+    };
   }
 
   get resultRangeDescription() {
@@ -127,6 +132,7 @@ export class SearchResultListComponent implements OnInit {
 
       this.index = queryParamMap.get('index');
       this.sortBy = queryParamMap.get('sortBy') || "random";
+      this.sortAscending = !(queryParamMap.get('sortOrder') === "desc");
     });
 
     this.route.data.subscribe((data: { searchResult: SearchResult }) => {
@@ -179,7 +185,12 @@ export class SearchResultListComponent implements OnInit {
     this.searchTerms.forEach((term) => searchParams[term.field] = term.value);
 
     this.router.navigate(['/results'], {
-      queryParams: { ...searchParams, index: this.computedIndex, sortBy: this.sortBy },
+      queryParams: {
+        ...searchParams,
+        index: this.computedIndex,
+        sortBy: this.sortBy,
+        sortOrder: this.sortAscending ? "asc" : "desc",
+      },
     });
   }
 
