@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { SearchResult, SearchService } from '../search/search.service';
+import { AdvancedSearchQuery, SearchResult, SearchService } from '../search/search.service';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable, EMPTY } from 'rxjs';
 
@@ -26,23 +26,37 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
 
     let index: string[] = route.queryParamMap.get("index")?.split(",") ?? ["lifecourses", "pas"];
 
-    let firstName: string = route.queryParamMap.get("firstName");
-    let lastName: string = route.queryParamMap.get("lastName");
-    let parish: string = route.queryParamMap.get("parish");
-    let birthPlace: string = route.queryParamMap.get("birthPlace");
-
-    if(firstName || lastName || parish || birthPlace) {
-      return this.service.advancedSearch({
-        firstName,
-        lastName,
-        parish,
-        birthPlace,
-      }, index, (page - 1) * size, size);
-    }
+    const possibleSearchQueryParams = [
+      "query",
+      "firstName",
+      "lastName",
+      "birthName",
+      "birthPlace",
+      "sourcePlace",
+      //"deathPlace",
+      //"birthYear",
+      "sourceYear",
+      //"deathYear",
+      //"maritalStatus",
+    ];
 
     let query: string = route.queryParamMap.get("query");
 
-    if (query !== null) {
+    const actualSearchTerms: AdvancedSearchQuery = {};
+
+    possibleSearchQueryParams.forEach((param) => {
+      const value = route.queryParamMap.get(param);
+
+      if(value) {
+        actualSearchTerms[param] = value;
+      }
+    });
+
+    if(Object.keys(actualSearchTerms).some((term) => term !== "query")) {
+      return this.service.advancedSearch(actualSearchTerms, index, (page - 1) * size, size);
+    }
+
+    if (actualSearchTerms.query !== null) {
       return this.service.simpleSearch(query, index, (page - 1) * size, size);
     }
     return this.service.simpleSearch("", index, (page - 1) * size, size);
