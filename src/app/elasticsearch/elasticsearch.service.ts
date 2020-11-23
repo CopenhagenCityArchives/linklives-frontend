@@ -3,6 +3,7 @@ import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery } from '
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { mapQueryMustKey, mapQueryShouldKey, sortValues } from 'src/app/search-term-values';
 
 export interface ElasticDocResult {
   _index: "lifecourses" | "pas" | "links",
@@ -129,16 +130,6 @@ export class ElasticsearchService {
   }
 
   createSortClause(sortBy: string) {
-    const sortValues = {
-      relevance: [ "_score" ],
-      firstName: [ "first_names" ],
-      lastName: [ "all_possible_family_names", "all_possible_patronyms" ],
-      birthName: [ "maiden_family_names", "maiden_patronyms" ],
-      birthPlace: [ "birth_place" ],
-      sourcePlace: [ "parish", "county", "district" ],
-      sourceYear: [ "source_year" ],
-    };
-
     const sortKeys = sortValues[sortBy];
 
     //sort: undefined should result in a JSON request with no sort field
@@ -153,51 +144,6 @@ export class ElasticsearchService {
     const sort = this.createSortClause(sortBy);
 
     const must = [];
-
-    const mapQueryMustKey = {
-      firstName: "first_names",
-      sourceYear: "source_year",
-    };
-
-    const mapQueryShouldKey = {
-      birthPlace: [
-        "birth_place",
-        "birth_place_clean",
-        "birth_place_county",
-        "birth_place_county_std",
-        "birth_place_district",
-        "birth_place_island",
-        "birth_place_koebstad",
-        "birth_place_koebstad_std",
-        "birth_place_other",
-        "birth_place_parish",
-        "birth_place_parish_std",
-        "birth_place_place",
-        "birth_place_town",
-      ],
-      lastName: [
-        "all_possible_family_names",
-        "all_possible_patronyms",
-        "family_names",
-        "maiden_family_names",
-        "maiden_patronyms",
-        "patronyms"
-      ],
-      birthName: [
-        "maiden_family_names",
-        "maiden_patronyms",
-      ],
-      sourcePlace: [
-        "parish",
-        "county",
-        "district",
-      ],
-      maritalStatus: [
-        "marital_status",
-        "marital_status_clean",
-        "marital_status_std"
-      ],
-    };
 
     Object.keys(query).filter((queryKey) => query[queryKey]).forEach((queryKey) => {
       if(queryKey === "query") {
