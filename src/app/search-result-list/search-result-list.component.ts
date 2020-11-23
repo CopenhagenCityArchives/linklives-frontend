@@ -157,7 +157,7 @@ export class SearchResultListComponent implements OnInit {
   }
 
   get queryParams() {
-    return {...this.searchQueryParams, index: this.computedIndex};
+    return {...this.searchQueryParams, index: this.computedIndex, sortBy: this.sortBy };
   }
 
   get resultRangeDescription() {
@@ -201,6 +201,7 @@ export class SearchResultListComponent implements OnInit {
       this.searchQueryParams = searchQueryParams;
 
       this.index = queryParamMap.get('index');
+      this.sortBy = queryParamMap.get('sortBy') || "random";
     });
 
     this.route.data.subscribe((data: { searchResult: SearchResult }) => {
@@ -253,7 +254,7 @@ export class SearchResultListComponent implements OnInit {
     this.searchTerms.forEach((term) => searchParams[term.field] = term.value);
 
     this.router.navigate(['/results'], {
-      queryParams: { ...searchParams, index: this.computedIndex },
+      queryParams: { ...searchParams, index: this.computedIndex, sortBy: this.sortBy },
     });
   }
 

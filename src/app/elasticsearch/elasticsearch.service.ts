@@ -128,10 +128,33 @@ export class ElasticsearchService {
     return result;
   }
 
-  searchSimple(query: string, indices: string[], from: number, size: number) {
-    let body = {
-      from: from,
-      size: size,
+  createSortClause(sortBy: string) {
+    const sortValues = {
+      relevance: [ "_score" ],
+      firstName: [ "first_names" ],
+      lastName: [ "all_possible_family_names", "all_possible_patronyms" ],
+      birthName: [ "maiden_family_names", "maiden_patronyms" ],
+      birthPlace: [ "birth_place" ],
+      sourcePlace: [ "parish", "county", "district" ],
+      sourceYear: [ "source_year" ],
+    };
+
+    const sortKeys = sortValues[sortBy];
+
+    //sort: undefined should result in a JSON request with no sort field
+    if(!sortKeys) {
+      return;
+    }
+
+    return sortKeys.map((key) => `person_appearance.${key}`);
+  }
+
+  searchSimple(query: string, indices: string[], from: number, size: number, sortBy: string) {
+    const sort = this.createSortClause(sortBy);
+
+    const body = {
+      from,
+      size,
       query: {
         bool: {
           must: [
@@ -161,13 +184,16 @@ export class ElasticsearchService {
         terms: {
           _index: indices
         }
-      }
+      },
+      sort,
     };
 
     return this.search(indices, body);
   }
 
-  searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number) {
+  searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string) {
+    const sort = this.createSortClause(sortBy);
+
     const must = [];
 
     const mapQueryMustKey = {
@@ -274,7 +300,8 @@ export class ElasticsearchService {
         terms: {
           _index: indices
         }
-      }
+      },
+      sort,
     };
 
     return this.search(indices, body);
