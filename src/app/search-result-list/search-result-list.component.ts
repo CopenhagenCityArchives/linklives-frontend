@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
-import { Category, Option } from '../form-elements/dropdown/component';
-
 import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
+import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, allNameFields, allPlaceFields, allYearFields, possibleSearchQueryParams } from 'src/app/search-term-values';
 
 interface SearchQueryParams {
   query?: string,
@@ -40,47 +39,11 @@ export class SearchResultListComponent implements OnInit {
   };
 
   sortBy: string = "random";
-
-  sortByOptions = [
-    { label: "Tilfældig", value: "random" },
-    { label: "Relevans", value: "relevance", disabled: true },
-    { label: "Fornavn", value: "firstName" },
-    { label: "Efternavn", value: "lastName" },
-    { label: "Fødselsnavn", value: "birthName" },
-    { label: "Fødested", value: "birthPlace" },
-    { label: "Kildested", value: "sourcePlace" },
-    { label: "Kildeår", value: "sourceYear" },
-  ];
+  sortByOptions = sortByOptions;
 
   searchTerms = [];
-
-  searchFieldPlaceholders = {
-    query: "Vendsyssel ugift",
-    firstName: "Jens",
-    lastName: "Eriksen",
-    birthName: "Jensby",
-    birthPlace: "Randers",
-    sourcePlace: "Køge",
-    //deathPlace: "Agersø",
-    //birthYear: "1834",
-    sourceYear: "1845",
-    //deathYear: "1912",
-    //maritalStatus: "Ugift",
-  };
-
-  searchFieldLabels = {
-    query: "Fritekst",
-    firstName: "Fornavn",
-    lastName: "Efternavn",
-    birthName: "Fødenavn",
-    birthPlace: "Fødested",
-    sourcePlace: "Kildested",
-    deathPlace: "Dødssted",
-    birthYear: "Fødselsår",
-    sourceYear: "Kildeår",
-    deathYear: "Dødsår",
-    //maritalStatus: "Civilstand",
-  };
+  searchFieldPlaceholders = searchFieldPlaceholders;
+  searchFieldLabels = searchFieldLabels;
 
   searchParams: AdvancedSearchQuery = {};
 
@@ -88,48 +51,22 @@ export class SearchResultListComponent implements OnInit {
     return window["lls"];
   }
 
-  private toFieldOption(key) {
-    return {
-      label: this.searchFieldLabels[key],
-      value: key,
-      disabled: !this.searchFieldPlaceholders[key],
-    };
-  }
-
-  private allNameFields: Array<Option | Category> = [
-    "firstName",
-    "lastName",
-    "birthName"
-  ].map((f) => this.toFieldOption(f));
-
-  private allPlaceFields: Array<Option | Category> = [
-    "birthPlace",
-    "sourcePlace",
-    "deathPlace"
-  ].map((f) => this.toFieldOption(f));
-
-  private allYearFields: Array<Option | Category> = [
-    "birthYear",
-    "sourceYear",
-    "deathYear"
-  ].map((f) => this.toFieldOption(f));
-
   get fieldOptions() {
     const isNotUsed = (option) => !this.searchTerms.some((term) => option.value && term.field == option.value);
 
-    const notUsedNameFields = this.allNameFields.filter(isNotUsed);
+    const notUsedNameFields = allNameFields.filter(isNotUsed);
     let nameOptions = [];
     if(notUsedNameFields.length > 0) {
       nameOptions = [ { category: "Navn" }, ...notUsedNameFields ];
     }
 
-    const notUsedPlaceFields = this.allPlaceFields.filter(isNotUsed);
+    const notUsedPlaceFields = allPlaceFields.filter(isNotUsed);
     let placeOptions = [];
     if(notUsedPlaceFields.length > 0) {
       placeOptions = [ { category: "Sted" }, ...notUsedPlaceFields ];
     }
 
-    const notUsedYearFields = this.allYearFields.filter(isNotUsed);
+    const notUsedYearFields = allYearFields.filter(isNotUsed);
     let yearOptions = [];
     if(notUsedYearFields.length > 0) {
       yearOptions = [ { category: "År" }, ...notUsedYearFields ];
@@ -157,7 +94,7 @@ export class SearchResultListComponent implements OnInit {
   }
 
   get queryParams() {
-    return {...this.searchQueryParams, index: this.computedIndex, sortBy: this.sortBy };
+    return { ...this.searchQueryParams, index: this.computedIndex, sortBy: this.sortBy };
   }
 
   get resultRangeDescription() {
@@ -173,20 +110,6 @@ export class SearchResultListComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    const possibleSearchQueryParams = [
-      "query",
-      "firstName",
-      "lastName",
-      "birthName",
-      "birthPlace",
-      "sourcePlace",
-      //"deathPlace",
-      //"birthYear",
-      "sourceYear",
-      //"deathYear",
-      //"maritalStatus",
-    ];
-
     this.route.queryParamMap.subscribe((queryParamMap) => {
       this.searchQueryParams = null;
       this.searchTerms = [];
