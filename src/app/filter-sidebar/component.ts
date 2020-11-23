@@ -26,6 +26,7 @@ export class FilterSidebar implements OnInit {
   @Input() featherIconPath: string;
   @Input() name: string;
   @Input() openSidebar: boolean;
+  @Output() closeSidebar: EventEmitter<any> = new EventEmitter();
 
   constructor(private elRef: ElementRef) {}
 
@@ -37,7 +38,7 @@ export class FilterSidebar implements OnInit {
   }
 
   close() {
-    this.openSidebar = false;
+    this.closeSidebar.emit(null);
   }
 
   ngOnInit(): void {

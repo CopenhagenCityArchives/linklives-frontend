@@ -225,6 +225,10 @@ export class SearchResultListComponent implements OnInit {
     this.searchTerms.push({ field, value: "" });
   }
 
+  onClose() {
+    this.openSidebar = false;
+  }
+
   search(): void {
     const searchParams: AdvancedSearchQuery = {};
     this.searchTerms.forEach((term) => searchParams[term.field] = term.value);

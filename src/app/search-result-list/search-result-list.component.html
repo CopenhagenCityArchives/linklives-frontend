@@ -85,6 +85,7 @@
             <lls-filter-sidebar
                 [openSidebar]="openSidebar"
                 [featherIconPath]="config.featherIconPath"
+                (closeSidebar)="onClose($event)"
             ></lls-filter-sidebar>
         </div>
         <div class="lls-columns-6 u-p-2">
