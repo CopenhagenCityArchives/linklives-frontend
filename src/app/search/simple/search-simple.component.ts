@@ -41,13 +41,7 @@ export class SimpleSearchComponent implements OnInit {
     private route: ActivatedRoute
   ) { }
 
-  ngOnInit(): void {
-    this.route.queryParamMap.subscribe((queryParamMap: ParamMap) => {
-      if (queryParamMap.has("query")) {
-        this.query = queryParamMap.get("query");
-      }
-    });
-  }
+  ngOnInit(): void {}
 
   searchSimple(): void {
     this.router.navigate(['/results'], {
@@ -62,9 +56,7 @@ export class SimpleSearchComponent implements OnInit {
       .filter((term) => term.value !== "")
       .forEach((term) => queryParams[term.field] = term.value);
 
-    this.router.navigate(['/results'], {
-      queryParams,
-    });
+    this.router.navigate(['/results'], { queryParams });
   }
 
 }
