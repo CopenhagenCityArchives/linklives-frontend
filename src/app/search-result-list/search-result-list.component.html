@@ -92,6 +92,15 @@
                         [featherIconPath]="featherSpriteUrl"
                     ></lls-dropdown>
                 </label>
+                <label class="lls-search-modifier-inputs__entry">
+                    <span class="lls-search-modifier-inputs__label">&nbsp;</span>
+                    <lls-boolean
+                        [(ngModel)]="sortAscending"
+                        [featherIconPath]="featherSpriteUrl"
+                        iconFalse="arrow-up"
+                        iconTrue="arrow-down"
+                    ></lls-boolean>
+                </label>
             </div>
             <div class="lls-search-range-description" [innerHTML]="resultRangeDescription"></div>
         </div>

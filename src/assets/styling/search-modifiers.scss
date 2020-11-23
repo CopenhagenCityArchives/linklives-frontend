@@ -14,6 +14,18 @@
   justify-content: flex-end;
   width: 100%;
 }
+.lls-search-modifier-inputs__entry {
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+
+  &:first-child {
+    margin-left: 0;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
 .lls-search-modifier-inputs__entry--basis-200 {
   flex-basis: 200px;
 }
