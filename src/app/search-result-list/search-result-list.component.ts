@@ -156,14 +156,6 @@ export class SearchResultListComponent implements OnInit {
     }
   }
 
-  get lifeCourseQueryParams() {
-    return {...this.searchQueryParams, index: 'lifecourses'};
-  }
-
-  get personAppearanceQueryParams() {
-    return {...this.searchQueryParams, index: 'pas'};
-  }
-
   get queryParams() {
     return {...this.searchQueryParams, index: this.computedIndex};
   }
