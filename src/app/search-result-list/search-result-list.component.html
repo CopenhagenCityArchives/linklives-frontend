@@ -76,13 +76,16 @@
     <div class="lls-row">
         <div class="lls-columns-6 u-p-2">
             <p>Filter resultater</p>
-            <button class="lls-btn lls-btn--outline lls-btn--link">
+            <button class="lls-btn lls-btn--outline lls-btn--link" (click)="openSidebar = true">
                 <span>Kilder</span>
                 <svg class="lls-icon lls-icon--right">
                     <use [attr.href]="featherSpriteUrl + '#chevron-right'"></use>
                 </svg>
             </button>
-            <lls-filter-sidebar openSidebar="true"></lls-filter-sidebar>
+            <lls-filter-sidebar
+                [openSidebar]="openSidebar"
+                [featherIconPath]="config.featherIconPath"
+            ></lls-filter-sidebar>
         </div>
         <div class="lls-columns-6 u-p-2">
             <div class="u-text-right">Viser 10 af {{ searchResult.totalHits }} resultater</div>

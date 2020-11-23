@@ -29,6 +29,7 @@ export class SearchResultListComponent implements OnInit {
   index: string;
   indexSource: boolean = true;
   indexLifecourse: boolean = true;
+  openSidebar: boolean = false;
 
   pagination: { current: number, last: number, size: number, navigationPages: number[]; }
 

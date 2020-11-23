@@ -11,7 +11,6 @@ export interface Option {
   selector: 'lls-filter-sidebar',
   templateUrl: './view.html',
   host: {
-    '(click)': 'toggleOpen()',
     '(blur)': 'onBlur();',
   },
   providers: [
@@ -34,11 +33,11 @@ export class FilterSidebar implements OnInit {
   
 
   open() {
-    this.isOpen = true;
+    this.openSidebar = true;
   }
 
   close() {
-    this.isOpen = false;
+    this.openSidebar = false;
   }
 
   ngOnInit(): void {

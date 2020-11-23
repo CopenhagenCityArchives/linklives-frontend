@@ -1,0 +1,35 @@
+.lls-filter-sidebar {
+  display: none;
+  max-width: 500px;
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  background-color: white;
+  padding: 30px;
+
+  @media(min-width: $breakpointSm) {
+    padding-top: 80px;
+  }
+}
+
+.lls-filter-sidebar--open {
+  display: block;
+}
+
+.lls-filter-sidebar__header {
+  margin-bottom: 2rem;
+}
+
+.lls-filter-sidebar__option {
+  padding: 10px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  border-top: 1px solid #bbb;
+
+  &:last-of-type {
+    border-bottom: 1px solid #bbb;
+  }
+}
