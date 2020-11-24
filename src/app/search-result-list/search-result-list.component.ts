@@ -29,11 +29,13 @@ export class SearchResultListComponent implements OnInit {
   index: string;
   indexSource: boolean = true;
   indexLifecourse: boolean = true;
+  // range: Array<String> = [];
   openSidebar: boolean = false;
 
   pagination: { current: number, last: number, size: number, navigationPages: number[]; }
 
   searchTerms = [];
+  filterItems = [];
 
   searchFieldPlaceholders = {
     query: "Vendsyssel ugift",
@@ -180,6 +182,7 @@ export class SearchResultListComponent implements OnInit {
       this.searchQueryParams = searchQueryParams;
 
       this.index = queryParamMap.get('index');
+      // this.range = queryParamMap.get('range').split(",");
     });
 
     this.route.data.subscribe((data: { searchResult: SearchResult }) => {
@@ -223,6 +226,14 @@ export class SearchResultListComponent implements OnInit {
 
   addField(field) {
     this.searchTerms.push({ field, value: "" });
+  }
+
+  addFilter(field) {
+    this.filterItems.push({ field, value: "" });
+  }
+
+  removeFilter(field) {
+    this.filterItems = this.filterItems.filter(item => item.field.value != field.value);
   }
 
   onClose(event) {

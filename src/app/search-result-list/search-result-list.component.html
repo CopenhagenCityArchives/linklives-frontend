@@ -86,7 +86,19 @@
                 [openSidebar]="openSidebar"
                 [featherIconPath]="config.featherIconPath"
                 (closeSidebar)="onClose($event)"
+                (change)="addFilter($event)"
             ></lls-filter-sidebar>
+            <div class="lls-results-filter__items">
+                <button
+                    *ngFor="let filterItem of filterItems; index as i;"
+                    class="lls-btn lls-btn--small lls-btn--grey u-mr-2 u-mt-2"
+                >
+                    <span>{{ filterItem.field.label }}</span>
+                    <svg class="lls-icon lls-icon--left" (click)="removeFilter(filterItem.field)">
+                        <use [attr.href]="config.featherIconPath + '#x'"></use>
+                      </svg>
+                </button>
+            </div>
         </div>
         <div class="lls-columns-6 u-p-2">
             <div class="u-text-right">Viser 10 af {{ searchResult.totalHits }} resultater</div>

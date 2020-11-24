@@ -37,6 +37,10 @@
   font-size: 0.95rem;
 }
 
+.lls-btn--small {
+  font-size: 0.7rem;
+}
+
 .lls-btn--disabled {
   cursor: default;
   color: rgb(200, 200, 200);
@@ -63,6 +67,20 @@
 
   &:focus {
     outline-color: $blue--light;
+  }
+}
+
+.lls-btn--grey {
+  color: white;
+  background-color: $grey;
+  border-color: $grey;
+
+  &:hover {
+    background-color: darken($grey, 5%);
+  }
+
+  &:focus {
+    outline-color: $grey--light;
   }
 }
 

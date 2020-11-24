@@ -27,6 +27,7 @@ export class FilterSidebar implements OnInit {
   @Input() name: string;
   @Input() openSidebar: boolean;
   @Output() closeSidebar: EventEmitter<any> = new EventEmitter();
+  @Output() change: EventEmitter<object> = new EventEmitter<object>();
 
   constructor(private elRef: ElementRef) {}
 
@@ -55,8 +56,8 @@ export class FilterSidebar implements OnInit {
     this.closeSidebar.emit(null);
   }
 
-  addFilter(filter) {
-    console.log("ADD FILTER", filter)
+  addFilter(option: Option) {
+    this.change.emit(option);
   }
 
   ngOnInit(): void {
