@@ -1,7 +1,11 @@
-<div class="lls-filter-sidebar" [class]="openSidebar ? 'lls-filter-sidebar--open' : ''">
+<div [class]="openSidebar ? 'lls-overlay' : ''"></div>
+<aside class="lls-filter-sidebar" [class]="openSidebar ? 'lls-filter-sidebar--open' : ''">
   <div class="lls-filter-sidebar__header">
     <h3>Vælg kilder</h3>
-    <button class="lls-btn lls-btn--outline" (click)="close()">
+    <button
+      class="lls-btn lls-btn--outline"
+      (click)="close()"
+    >
       Luk
     </button>
   </div>
@@ -17,4 +21,4 @@
       {{ option.label }}
     </div>
   </div>
-</div>
+</aside>
