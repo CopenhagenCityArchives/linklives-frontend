@@ -10,10 +10,7 @@
   z-index: 100;
   background-color: white;
   padding: 30px;
-
-  @media(min-width: $breakpointSm) {
-    padding-top: 80px;
-  }
+  padding-top: 80px;
 }
 
 .lls-filter-sidebar--open {
@@ -23,9 +20,14 @@
 
 .lls-filter-sidebar__header {
   margin-bottom: 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .lls-filter-sidebar__option {
+  display: flex;
+  align-items: center;
   padding: 10px;
   font-size: 1.25rem;
   font-weight: 600;
