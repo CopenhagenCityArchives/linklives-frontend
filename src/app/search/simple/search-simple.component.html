@@ -97,7 +97,7 @@
             <button
               class="lls-input-group__floating-action"
               [class]="searchTerms.length < 2 ? 'lls-input-group__floating-action--disabled' : ''"
-              (click)="removeSearchTerm(i)"
+              (click)="removeSearchTerm(i, $event)"
             >
               <svg class="lls-icon lls-icon--right">
                 <use [attr.href]="featherSpriteUrl + '#minus-circle'"></use>

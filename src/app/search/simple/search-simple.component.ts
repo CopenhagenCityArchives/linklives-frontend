@@ -58,7 +58,8 @@ export class SimpleSearchComponent implements OnInit {
     });
   }
 
-  removeSearchTerm(i: number): void {
+  removeSearchTerm(i: number, $event): void {
+    $event.preventDefault();
     if(this.searchTerms.length > 1) {
       this.searchTerms.splice(i, 1);
     }
