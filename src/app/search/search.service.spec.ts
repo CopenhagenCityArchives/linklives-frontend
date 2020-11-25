@@ -2,7 +2,6 @@ import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
 
 import { SearchService, PersonAppearance } from './search.service';
-import { environment } from 'src/environments/environment';
 
 describe('SearchService', () => {
   let service: SearchService;

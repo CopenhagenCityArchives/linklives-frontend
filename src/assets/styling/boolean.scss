@@ -1,0 +1,49 @@
+$booleanPaddingY: 0.5rem;
+$booleanFontSize: 1.125rem;
+
+.lls-boolean, lls-boolean {
+  display: inline-block;
+  font-size: $booleanFontSize;
+  padding: 0.5rem $booleanPaddingY;
+  border: 2px solid black;
+  border-radius: 3px;
+  width: 100%;
+  cursor: pointer;
+  position: relative;
+
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+
+  .lls-icon {
+    margin-top: 1px;
+    transition: transform 0.2s;
+    transform: translateY(-0.125rem);
+  }
+
+  &:hover .lls-icon {
+    transform: translateY(-0.25rem);
+  }
+
+  &:focus {
+    border-color: $blue;
+    outline: 1px solid $blue;
+    border-radius: 0;
+    outline-offset: 0;
+  }
+}
+
+.lls-boolean__option--disabled {
+  color: rgb(140, 140, 140);
+  background: rgb(250, 250, 250);
+  cursor: default;
+}
+
+.lls-boolean--big {
+  padding: 1rem ($booleanPaddingY + 0.4rem);
+}
+
+.lls-boolean--grey {
+  background-color: $grey-bg--light;
+}

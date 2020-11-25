@@ -13,6 +13,7 @@
     [class]="(option.category ? 'lls-dropdown__category' : 'lls-dropdown__option') + ' ' + ((option.value && option.value == _value) ? 'lls-dropdown__option--selected' : '') + ' ' + (option.disabled ? 'lls-dropdown__option--disabled' : '')"
     *ngFor="let option of options; index as i;"
     (click)="onOptionClick(option, $event)"
+    (blur)="onBlur()"
     tabindex="-1"
     data-lls-dropdown-entry
   >
