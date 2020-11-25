@@ -15,12 +15,30 @@
 .lls-form-actions {
   margin-top: 1rem;
   display: flex;
-  justify-content: flex-end;
 }
 .help-box-container {
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
+}
+
+.lls-search-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.lls-search-options__result-type-checkboxes {
+  display: flex;
+}
+
+.lls-search-options__checkbox-container {
+  margin-right: 1rem;
+}
+
+.lls-search-options__checkbox {
+  margin-right: 0.25rem;
 }
 </style>
 
@@ -44,7 +62,7 @@
           <input
             type="text"
             placeholder="Søg i livsforløb eller kilder"
-            class="lls-input-group__field lls-input-group__field--left"
+            class="lls-input-field lls-input-field--big lls-input-group__field lls-input-group__field--left"
             [(ngModel)]="query"
             name="query"
           />
@@ -66,21 +84,56 @@
     <h3 class="lls-card__title">Specifik søgning</h3>
     <form (ngSubmit)="searchAdvanced()" class="lls-row">
       <div class="lls-columns-12 lls-columns-8--md">
-        <div class="lls-input-group lls-input-group--reverse-order" *ngFor="let searchTerm of searchTerms; index as i;">
-          <lls-dropdown
-            class="lls-dropdown--big lls-input-group__field--right lls-input-group__field--basis-40"
-            [name]="'searchterm-field-' + i"
-            [(ngModel)]="searchTerm.field"
-            [options]="fieldOptionsBySearchTerms[i]"
-            [featherIconPath]="featherSpriteUrl"
-          ></lls-dropdown>
-          <input
-            type="text"
-            [placeholder]="searchFieldPlaceholders[searchTerm.field] || ''"
-            class="lls-input-group__field lls-input-group__field--left lls-input-group__field--basis-60"
-            [(ngModel)]="searchTerm.value"
-            [name]="'searchterm-value-' + i"
-          />
+        <label *ngFor="let searchTerm of searchTerms; index as i;" class="lls-input-entry">
+          <span class="lls-input-label">{{ searchFieldLabels[searchTerm.field] }}</span>
+          <div class="lls-input-group">
+            <input
+              type="text"
+              [placeholder]="searchFieldPlaceholders[searchTerm.field] || ''"
+              class="lls-input-field lls-input-field--big lls-input-group__field"
+              [(ngModel)]="searchTerm.value"
+              [name]="'searchterm-value-' + i"
+            />
+            <button
+              type="button"
+              class="lls-input-group__floating-action"
+              [class]="searchTerms.length < 2 ? 'lls-input-group__floating-action--disabled' : ''"
+              (click)="removeSearchTerm(i, $event)"
+            >
+              <svg class="lls-icon lls-icon--right">
+                <use [attr.href]="featherSpriteUrl + '#minus-circle'"></use>
+              </svg>
+            </button>
+          </div>
+        </label>
+
+        <div class="lls-search-options">
+          <div class="lls-search-options__result-type">
+            <span class="lls-input-label">Resultattype</span>
+            <div class="lls-search-options__result-type-checkboxes">
+              <label class="lls-search-options__checkbox-container" *ngFor="let index of indexKeys">
+                <input
+                  [(ngModel)]="indices[index].value"
+                  type="checkbox"
+                  class="lls-search-options__checkbox"
+                  [name]="'index_' + index"
+                >
+                <span>{{ indices[index].label }}</span>
+              </label>
+            </div>
+          </div>
+          <div class="lls-search-options__add-field">
+            <lls-dropdown
+              class="lls-dropdown--option-adder"
+              [options]="fieldOptions"
+              name="add-field"
+              label="Tilføj felt"
+              [featherIconPath]="config.featherIconPath"
+              dropdownIcon="plus-circle"
+              dropdownIconOpen="plus-circle"
+              (change)="addField($event)"
+            ></lls-dropdown>
+          </div>
         </div>
 
         <div class="lls-form-actions">
