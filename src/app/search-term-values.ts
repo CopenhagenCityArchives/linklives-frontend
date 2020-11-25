@@ -57,17 +57,17 @@ export const sortValues = {
 
 // Advanced search
 export const searchFieldPlaceholders = {
-  query: "Vendsyssel ugift",
-  firstName: "Jens",
-  lastName: "Eriksen",
-  birthName: "Jensby",
-  birthPlace: "Randers",
-  sourcePlace: "Køge",
-  //deathPlace: "Agersø",
-  //birthYear: "1834",
-  sourceYear: "1845",
-  //deathYear: "1912",
-  //maritalStatus: "Ugift",
+  query: "Indtast fritekstsøgning",
+  firstName: "Indtast fornavn",
+  lastName: "Indtast efternavn",
+  birthName: "Indtast fødselsår",
+  birthPlace: "Indtast fødested",
+  sourcePlace: "Indtast kildested",
+  //deathPlace: "Indtast dødssted",
+  //birthYear: "Indtast fødeår",
+  sourceYear: "Indtast kildeår",
+  //deathYear: "Indtast dødsår",
+  //maritalStatus: "Indtast civilstand",
 };
 
 export const possibleSearchQueryParams = Object.keys(searchFieldPlaceholders);
