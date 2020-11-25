@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router } from '@angular/router';
 import { AdvancedSearchQuery } from '../search.service';
 import { searchFieldPlaceholders, fieldOptions, searchFieldLabels, getFieldOptions } from 'src/app/search-term-values';
 
@@ -48,10 +48,7 @@ export class SimpleSearchComponent implements OnInit {
     return getFieldOptions(isNotUsed);
   }
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute
-  ) { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {}
 
