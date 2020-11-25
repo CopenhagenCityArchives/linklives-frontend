@@ -198,7 +198,15 @@ export class ElasticsearchService {
           terms: {
             field: "_index"
           }
-        }
+        },
+        person_appearance: {
+          nested: { path: "person_appearance" },
+          aggs:{
+            source_years: {
+              terms: { field: "person_appearance.source_year", size: 10000 }
+            },
+          }
+        },
       },
       post_filter: {
         terms: {
