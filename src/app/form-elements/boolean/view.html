@@ -1,0 +1,5 @@
+<input type="hidden" [value]="value">
+
+<svg class="lls-icon">
+  <use [attr.href]="featherIconPath + '#' + (value ? (iconTrue || 'check') : (iconFalse || 'x'))"></use>
+</svg>

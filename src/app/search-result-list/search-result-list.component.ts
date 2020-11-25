@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
-import { Category, Option } from '../form-elements/dropdown/component';
-
 import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
+import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, allNameFields, allPlaceFields, allYearFields, possibleSearchQueryParams } from 'src/app/search-term-values';
 
 interface SearchQueryParams {
   query?: string,
@@ -30,37 +29,23 @@ export class SearchResultListComponent implements OnInit {
   indexSource: boolean = true;
   indexLifecourse: boolean = true;
 
-  pagination: { current: number, last: number, size: number, navigationPages: number[]; }
+  pagination: {
+    current: number,
+    firstInOrder: number,
+    lastInOrder: number,
+    last: number,
+    size: number,
+    navigationPages: number[],
+  };
+
+  sortBy: string = "random";
+  sortByOptions = sortByOptions;
+
+  sortAscending = true;
 
   searchTerms = [];
-
-  searchFieldPlaceholders = {
-    query: "Vendsyssel ugift",
-    firstName: "Jens",
-    lastName: "Eriksen",
-    birthName: "Jensby",
-    birthPlace: "Randers",
-    sourcePlace: "Køge",
-    //deathPlace: "Agersø",
-    //birthYear: "1834",
-    sourceYear: "1845",
-    //deathYear: "1912",
-    //maritalStatus: "Ugift",
-  };
-
-  searchFieldLabels = {
-    query: "Fritekst",
-    firstName: "Fornavn",
-    lastName: "Efternavn",
-    birthName: "Fødenavn",
-    birthPlace: "Fødested",
-    sourcePlace: "Kildested",
-    deathPlace: "Dødssted",
-    birthYear: "Fødselsår",
-    sourceYear: "Kildeår",
-    deathYear: "Dødsår",
-    //maritalStatus: "Civilstand",
-  };
+  searchFieldPlaceholders = searchFieldPlaceholders;
+  searchFieldLabels = searchFieldLabels;
 
   searchParams: AdvancedSearchQuery = {};
 
@@ -68,48 +53,22 @@ export class SearchResultListComponent implements OnInit {
     return window["lls"];
   }
 
-  private toFieldOption(key) {
-    return {
-      label: this.searchFieldLabels[key],
-      value: key,
-      disabled: !this.searchFieldPlaceholders[key],
-    };
-  }
-
-  private allNameFields: Array<Option | Category> = [
-    "firstName",
-    "lastName",
-    "birthName"
-  ].map((f) => this.toFieldOption(f));
-
-  private allPlaceFields: Array<Option | Category> = [
-    "birthPlace",
-    "sourcePlace",
-    "deathPlace"
-  ].map((f) => this.toFieldOption(f));
-
-  private allYearFields: Array<Option | Category> = [
-    "birthYear",
-    "sourceYear",
-    "deathYear"
-  ].map((f) => this.toFieldOption(f));
-
   get fieldOptions() {
     const isNotUsed = (option) => !this.searchTerms.some((term) => option.value && term.field == option.value);
 
-    const notUsedNameFields = this.allNameFields.filter(isNotUsed);
+    const notUsedNameFields = allNameFields.filter(isNotUsed);
     let nameOptions = [];
     if(notUsedNameFields.length > 0) {
       nameOptions = [ { category: "Navn" }, ...notUsedNameFields ];
     }
 
-    const notUsedPlaceFields = this.allPlaceFields.filter(isNotUsed);
+    const notUsedPlaceFields = allPlaceFields.filter(isNotUsed);
     let placeOptions = [];
     if(notUsedPlaceFields.length > 0) {
       placeOptions = [ { category: "Sted" }, ...notUsedPlaceFields ];
     }
 
-    const notUsedYearFields = this.allYearFields.filter(isNotUsed);
+    const notUsedYearFields = allYearFields.filter(isNotUsed);
     let yearOptions = [];
     if(notUsedYearFields.length > 0) {
       yearOptions = [ { category: "År" }, ...notUsedYearFields ];
@@ -136,35 +95,28 @@ export class SearchResultListComponent implements OnInit {
     }
   }
 
-  get lifeCourseQueryParams() {
-    return {...this.searchQueryParams, index: 'lifecourses'};
-  }
-
-  get personAppearanceQueryParams() {
-    return {...this.searchQueryParams, index: 'pas'};
-  }
-
   get queryParams() {
-    return {...this.searchQueryParams, index: this.computedIndex};
+    return {
+      ...this.searchQueryParams,
+      index: this.computedIndex,
+      sortBy: this.sortBy,
+      sortOrder: this.sortAscending ? "asc" : "desc",
+    };
+  }
+
+  get resultRangeDescription() {
+    if(this.searchResult.totalHits < this.pagination.size) {
+      return `Viser alle ${this.searchResult.totalHits} resultater`;
+    }
+
+    const firstResult = ((this.pagination.current - 1) * this.pagination.size) + 1;
+    const lastResult = Math.min(firstResult + this.pagination.size - 1, this.searchResult.totalHits);
+    return `Viser ${firstResult}&ndash;${lastResult} af ${this.searchResult.totalHits} resultater`;
   }
 
   constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    const possibleSearchQueryParams = [
-      "query",
-      "firstName",
-      "lastName",
-      "birthName",
-      "birthPlace",
-      "sourcePlace",
-      //"deathPlace",
-      //"birthYear",
-      "sourceYear",
-      //"deathYear",
-      //"maritalStatus",
-    ];
-
     this.route.queryParamMap.subscribe((queryParamMap) => {
       this.searchQueryParams = null;
       this.searchTerms = [];
@@ -179,6 +131,8 @@ export class SearchResultListComponent implements OnInit {
       this.searchQueryParams = searchQueryParams;
 
       this.index = queryParamMap.get('index');
+      this.sortBy = queryParamMap.get('sortBy') || "random";
+      this.sortAscending = !(queryParamMap.get('sortOrder') === "desc");
     });
 
     this.route.data.subscribe((data: { searchResult: SearchResult }) => {
@@ -208,7 +162,9 @@ export class SearchResultListComponent implements OnInit {
 
         this.pagination = {
           current: page,
-          last: pageEnd,
+          firstInOrder: pageStart,
+          lastInOrder: pageEnd,
+          last: totalPages,
           size: size,
           navigationPages: []
         }
@@ -229,7 +185,12 @@ export class SearchResultListComponent implements OnInit {
     this.searchTerms.forEach((term) => searchParams[term.field] = term.value);
 
     this.router.navigate(['/results'], {
-      queryParams: { ...searchParams, index: this.computedIndex },
+      queryParams: {
+        ...searchParams,
+        index: this.computedIndex,
+        sortBy: this.sortBy,
+        sortOrder: this.sortAscending ? "asc" : "desc",
+      },
     });
   }
 

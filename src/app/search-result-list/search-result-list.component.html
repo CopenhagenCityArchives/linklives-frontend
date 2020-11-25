@@ -73,66 +73,77 @@
     </div>
 </section>
 <div class="lls-container">
-    <div>
-        <div>
-            <!-- <ul class="nav nav-tabs nav-fill">
-                <li class="nav-item d-flex">
-                    <a class="nav-link flex-fill" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" [queryParams]="searchQueryParams">
-                        <p>
-                            <strong class="align-middle">Alle</strong>
-                        </p>
-                        <p>
-                            <small>Både livsforløb, og indtastede kilder.</small>
-                        </p>
-                    </a>
-                </li>
-                
-                <li class="nav-item d-flex">
-                    <a class="nav-link flex-fill d-inline align-middle" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [queryParams]="lifeCourseQueryParams">
-                        <span class="align-middle">
-                            <p>
-                                <strong>Livsforløb</strong><span *ngIf="searchResult.indexHits.lifeCourses"> ({{ searchResult.indexHits.lifeCourses}})</span>
-                            </p>
-                            <p>
-                                <small>Mulige livsforløb sammensat af indtastede kilder.</small>
-                            </p>
-                        </span>
-                    </a>
-                </li>
-                <li class="nav-item d-flex">
-                    <a class="nav-link flex-fill d-inline align-middle" [routerLink]="['./', { 'page': 1 } ]" routerLinkActive="active" [queryParams]="personAppearanceQueryParams">
-                        <p>
-                            <strong>Indtastede kilder</strong><span *ngIf="searchResult.indexHits.pas"> ({{ searchResult.indexHits.pas}})</span>
-                        </p>
-                        <p>
-                            <small>Personregistreringer fra f.eks. folketællinger og kirkebøger.</small>
-                        </p>
-                    </a>
-                </li>
-            </ul> -->
-
-            <div class="p-2 u-text-right">Viser 10 af {{ searchResult.totalHits }} resultater</div>
-
-            <ng-container *ngFor="let hit of searchResult.hits" [ngSwitch]="hit.type">
-                <app-person-appearance-item *ngSwitchCase="'pas'" class="mx-2" [item]="hit.pa"></app-person-appearance-item>
-                <app-life-course-item *ngSwitchCase="'lifecourses'" class="mx-2" [item]="hit.pas" [lifecourse-id]="hit.life_course_id"></app-life-course-item>
-            </ng-container>
-
-            <nav>
-                <ul class="pagination justify-content-center mb-0">
-                    <li class="page-item" [ngClass]="{ disabled: pagination.current === 1}">
-                        <a class="page-link" [tabindex]=" pagination.current === 1 ? -1 : 0" [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current - 1 } ]" [queryParams]="queryParams">Forrige</a>
-                    </li>
-                    
-                    <li *ngFor="let page of pagination.navigationPages" class="page-item" [ngClass]="{ disabled: pagination.current === page }">
-                        <a class="page-link" [routerLink]="['./', { 'size': pagination.size, 'page': page } ]" [queryParams]="queryParams">{{ page }}</a>
-                    </li>
-
-                    <li class="page-item" [ngClass]="{ disabled: pagination.current >= pagination.last }">
-                        <a class="page-link" [tabindex]="pagination.current >= pagination.last ? -1 : 0"  [routerLink]="['./', { 'size': pagination.size, 'page': pagination.last } ]" [queryParams]="queryParams">Næste</a>
-                    </li>
-                </ul>
-            </nav>
+    <div class="lls-row">
+        <div class="lls-columns-6 lls-search-modifiers">
+            <!-- Filtering -->
+        </div>
+        <div class="lls-columns-6 lls-search-modifiers lls-search-modifiers--right">
+            <div class="lls-search-modifier-inputs lls-search-modifier-inputs">
+                <!--label class="lls-search-modifier-inputs__entry">
+                    <span class="lls-search-modifier-inputs__label">Antal per side</span>
+                    <lls-dropdown></lls-dropdown>
+                </label-->
+                <label class="lls-search-modifier-inputs__entry lls-search-modifier-inputs__entry--basis-200">
+                    <span class="lls-search-modifier-inputs__label">Sorter efter</span>
+                    <lls-dropdown
+                        class="lls-dropdown--grey"
+                        [options]="sortByOptions"
+                        [(ngModel)]="sortBy"
+                        [featherIconPath]="featherSpriteUrl"
+                    ></lls-dropdown>
+                </label>
+                <label class="lls-search-modifier-inputs__entry">
+                    <span class="lls-search-modifier-inputs__label">&nbsp;</span>
+                    <lls-boolean
+                        [(ngModel)]="sortAscending"
+                        [featherIconPath]="featherSpriteUrl"
+                        iconFalse="arrow-up"
+                        iconTrue="arrow-down"
+                    ></lls-boolean>
+                </label>
+            </div>
+            <div class="u-mt-2" [innerHTML]="resultRangeDescription"></div>
         </div>
     </div>
+
+    <ng-container *ngFor="let hit of searchResult.hits" [ngSwitch]="hit.type">
+        <app-person-appearance-item *ngSwitchCase="'pas'" class="mx-2" [item]="hit.pa"></app-person-appearance-item>
+        <app-life-course-item *ngSwitchCase="'lifecourses'" class="mx-2" [item]="hit.pas" [lifecourse-id]="hit.life_course_id"></app-life-course-item>
+    </ng-container>
+
+    <nav>
+        <div class="lls-pagination">
+            <a class="lls-pagination__item" [ngClass]="{ 'lls-pagination__item--disabled': pagination.current === 1}" [tabindex]=" pagination.current === 1 ? -1 : 0" [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current - 1 } ]" [queryParams]="queryParams">
+                <svg class="lls-icon">
+                    <use [attr.href]="featherSpriteUrl + '#arrow-left'"></use>
+                </svg>
+            </a>
+
+            <ng-container *ngIf="pagination.firstInOrder > 1">
+                <a class="lls-pagination__item" [routerLink]="['./', { 'size': pagination.size, 'page': 1 } ]" [queryParams]="queryParams">
+                    <span class="lls-pagination__item-text">1</span>
+                </a>
+
+                <div class="lls-pagination__entry" *ngIf="pagination.firstInOrder > 2">&mdash;</div>
+            </ng-container>
+            
+            <a class="lls-pagination__item" *ngFor="let page of pagination.navigationPages" [ngClass]="{ 'lls-pagination__item--selected': pagination.current === page }" [routerLink]="['./', { 'size': pagination.size, 'page': page } ]" [queryParams]="queryParams">
+                <span class="lls-pagination__item-text">{{ page }}</span>
+            </a>
+
+            <ng-container *ngIf="pagination.lastInOrder < pagination.last">
+                <div class="lls-pagination__entry" *ngIf="pagination.lastInOrder < pagination.last - 1">&mdash;</div>
+
+                <a class="lls-pagination__item" [routerLink]="['./', { 'size': pagination.size, 'page': pagination.last } ]" [queryParams]="queryParams">
+                    <span class="lls-pagination__item-text">{{ pagination.last }}</span>
+                </a>
+            </ng-container>
+
+            <a class="lls-pagination__item" [ngClass]="{ 'lls-pagination__item--disabled': pagination.current >= pagination.last }" [tabindex]="pagination.current >= pagination.last ? -1 : 0"  [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current + 1 } ]" [queryParams]="queryParams">
+                <svg class="lls-icon">
+                    <use [attr.href]="featherSpriteUrl + '#arrow-right'"></use>
+                </svg>
+            </a>
+        </div>
+    </nav>
 </div>
