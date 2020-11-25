@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { Router } from '@angular/router';
 import { AdvancedSearchQuery } from '../search.service';
-import { searchFieldPlaceholders, fieldOptions } from 'src/app/search-term-values';
+import { searchFieldPlaceholders, fieldOptions, searchFieldLabels, getFieldOptions } from 'src/app/search-term-values';
 
 @Component({
   selector: 'app-search-simple',
@@ -20,6 +20,7 @@ export class SimpleSearchComponent implements OnInit {
 
   // Advanced search
   searchFieldPlaceholders = searchFieldPlaceholders;
+  searchFieldLabels = searchFieldLabels;
 
   searchTerms = [
     { field: "firstName", value: "" },
@@ -27,19 +28,27 @@ export class SimpleSearchComponent implements OnInit {
     { field: "birthPlace", value: "" },
   ];
 
-  get fieldOptionsBySearchTerms() {
-    return this.searchTerms.map((_, i) => {
-      const alreadyPickedFields = this.searchTerms
-        .filter((_, j) => j != i)
-        .map((term) => term.field);
-      return fieldOptions.filter((opt) => !("value" in opt) || (("value" in opt) && !alreadyPickedFields.includes(opt.value)));
-    });
+  indices = {
+    pas: { value: true, label: "Kilder" },
+    lifecourses: { value: true, label: "Livsforløb" },
+  };
+
+  get indexKeys() {
+    return Object.keys(this.indices);
   }
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute
-  ) { }
+  get computedIndex() {
+    return this.indexKeys
+      .filter((key) => this.indices[key].value)
+      .join(",");
+  }
+
+  get fieldOptions() {
+    const isNotUsed = (option) => !this.searchTerms.some((term) => option.value && term.field == option.value);
+    return getFieldOptions(isNotUsed);
+  }
+
+  constructor(private router: Router) { }
 
   ngOnInit(): void {}
 
@@ -49,14 +58,25 @@ export class SimpleSearchComponent implements OnInit {
     });
   }
 
+  removeSearchTerm(i: number, $event): void {
+    $event.preventDefault();
+    if(this.searchTerms.length > 1) {
+      this.searchTerms.splice(i, 1);
+    }
+  }
+
+  addField(field) {
+    this.searchTerms.push({ field, value: "" });
+  }
+
   searchAdvanced(): void {
-    const queryParams: AdvancedSearchQuery = {};
+    const searchParams: AdvancedSearchQuery = {};
 
     this.searchTerms
       .filter((term) => term.value !== "")
-      .forEach((term) => queryParams[term.field] = term.value);
+      .forEach((term) => searchParams[term.field] = term.value);
 
-    this.router.navigate(['/results'], { queryParams });
+    this.router.navigate(['/results'], { queryParams: { ...searchParams, index: this.computedIndex } });
   }
 
 }

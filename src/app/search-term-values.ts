@@ -60,7 +60,7 @@ export const searchFieldPlaceholders = {
   query: "Indtast fritekstsøgning",
   firstName: "Indtast fornavn",
   lastName: "Indtast efternavn",
-  birthName: "Indtast fødselsår",
+  birthName: "Indtast fødenavn",
   birthPlace: "Indtast fødested",
   sourcePlace: "Indtast kildested",
   //deathPlace: "Indtast dødssted",
@@ -131,3 +131,29 @@ export const fieldOptions = [
   { category: "År" },
   ...allYearFields,
 ];
+
+export function getFieldOptions(filter) {
+  const notUsedNameFields = allNameFields.filter(filter);
+  let nameOptions = [];
+  if(notUsedNameFields.length > 0) {
+    nameOptions = [ { category: "Navn" }, ...notUsedNameFields ];
+  }
+
+  const notUsedPlaceFields = allPlaceFields.filter(filter);
+  let placeOptions = [];
+  if(notUsedPlaceFields.length > 0) {
+    placeOptions = [ { category: "Sted" }, ...notUsedPlaceFields ];
+  }
+
+  const notUsedYearFields = allYearFields.filter(filter);
+  let yearOptions = [];
+  if(notUsedYearFields.length > 0) {
+    yearOptions = [ { category: "År" }, ...notUsedYearFields ];
+  }
+
+  return [
+    ...nameOptions,
+    ...placeOptions,
+    ...yearOptions,
+  ];
+}

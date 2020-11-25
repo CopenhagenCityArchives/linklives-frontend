@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
 import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
-import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, allNameFields, allPlaceFields, allYearFields, possibleSearchQueryParams } from 'src/app/search-term-values';
+import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, possibleSearchQueryParams, getFieldOptions } from 'src/app/search-term-values';
 
 interface SearchQueryParams {
   query?: string,
@@ -25,10 +25,6 @@ interface SearchQueryParams {
 export class SearchResultListComponent implements OnInit {
   searchResult: SearchResult;
   searchQueryParams: SearchQueryParams;
-  index: string;
-  indexSource: boolean = true;
-  indexLifecourse: boolean = true;
-  // range: Array<String> = [];
   openSidebar: boolean = false;
 
   pagination: {
@@ -58,44 +54,24 @@ export class SearchResultListComponent implements OnInit {
 
   get fieldOptions() {
     const isNotUsed = (option) => !this.searchTerms.some((term) => option.value && term.field == option.value);
-
-    const notUsedNameFields = allNameFields.filter(isNotUsed);
-    let nameOptions = [];
-    if(notUsedNameFields.length > 0) {
-      nameOptions = [ { category: "Navn" }, ...notUsedNameFields ];
-    }
-
-    const notUsedPlaceFields = allPlaceFields.filter(isNotUsed);
-    let placeOptions = [];
-    if(notUsedPlaceFields.length > 0) {
-      placeOptions = [ { category: "Sted" }, ...notUsedPlaceFields ];
-    }
-
-    const notUsedYearFields = allYearFields.filter(isNotUsed);
-    let yearOptions = [];
-    if(notUsedYearFields.length > 0) {
-      yearOptions = [ { category: "År" }, ...notUsedYearFields ];
-    }
-
-    return [
-      ...nameOptions,
-      ...placeOptions,
-      ...yearOptions,
-    ];
+    return getFieldOptions(isNotUsed);
   }
 
   featherSpriteUrl = this.config.featherIconPath;
 
+  indices = {
+    pas: { value: false, label: "Kilder" },
+    lifecourses: { value: false, label: "Livsforløb" },
+  };
+
+  get indexKeys() {
+    return Object.keys(this.indices);
+  }
+
   get computedIndex() {
-    if((this.indexLifecourse && this.indexSource) || (!this.indexLifecourse && !this.indexSource)) {
-      return 'pas,lifecourses';
-    }
-    else if(this.indexSource) {
-      return 'pas';
-    }
-    else if(this.indexLifecourse) {
-      return 'lifecourses';
-    }
+    return this.indexKeys
+      .filter((key) => this.indices[key].value)
+      .join(",");
   }
 
   get sourceFilter() {
@@ -142,7 +118,10 @@ export class SearchResultListComponent implements OnInit {
         });
       this.searchQueryParams = searchQueryParams;
 
-      this.index = queryParamMap.get('index');
+      const indices = queryParamMap.get('index');
+      if(indices) {
+        indices.split(",").forEach((index) => this.indices[index].value = true);
+      }
       this.sortBy = queryParamMap.get('sortBy') || "random";
       this.sortAscending = !(queryParamMap.get('sortOrder') === "desc");
     });
@@ -205,6 +184,13 @@ export class SearchResultListComponent implements OnInit {
 
   onClose(event) {
     this.openSidebar = false;
+  }
+
+  removeSearchTerm(i: number, $event) {
+    $event.preventDefault();
+    if(this.searchTerms.length > 1) {
+      this.searchTerms.splice(i, 1);
+    }
   }
 
   search(): void {
