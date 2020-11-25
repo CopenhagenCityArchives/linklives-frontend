@@ -95,6 +95,7 @@
               [name]="'searchterm-value-' + i"
             />
             <button
+              type="button"
               class="lls-input-group__floating-action"
               [class]="searchTerms.length < 2 ? 'lls-input-group__floating-action--disabled' : ''"
               (click)="removeSearchTerm(i, $event)"
