@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { AdvancedSearchQuery } from '../search.service';
-import { searchFieldPlaceholders, fieldOptions, searchFieldLabels, allNameFields, allPlaceFields, allYearFields } from 'src/app/search-term-values';
+import { searchFieldPlaceholders, fieldOptions, searchFieldLabels, getFieldOptions } from 'src/app/search-term-values';
 
 @Component({
   selector: 'app-search-simple',
@@ -45,30 +45,7 @@ export class SimpleSearchComponent implements OnInit {
 
   get fieldOptions() {
     const isNotUsed = (option) => !this.searchTerms.some((term) => option.value && term.field == option.value);
-
-    const notUsedNameFields = allNameFields.filter(isNotUsed);
-    let nameOptions = [];
-    if(notUsedNameFields.length > 0) {
-      nameOptions = [ { category: "Navn" }, ...notUsedNameFields ];
-    }
-
-    const notUsedPlaceFields = allPlaceFields.filter(isNotUsed);
-    let placeOptions = [];
-    if(notUsedPlaceFields.length > 0) {
-      placeOptions = [ { category: "Sted" }, ...notUsedPlaceFields ];
-    }
-
-    const notUsedYearFields = allYearFields.filter(isNotUsed);
-    let yearOptions = [];
-    if(notUsedYearFields.length > 0) {
-      yearOptions = [ { category: "År" }, ...notUsedYearFields ];
-    }
-
-    return [
-      ...nameOptions,
-      ...placeOptions,
-      ...yearOptions,
-    ];
+    return getFieldOptions(isNotUsed);
   }
 
   constructor(

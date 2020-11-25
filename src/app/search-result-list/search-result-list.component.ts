@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
 import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
-import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, allNameFields, allPlaceFields, allYearFields, possibleSearchQueryParams } from 'src/app/search-term-values';
+import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, possibleSearchQueryParams, getFieldOptions } from 'src/app/search-term-values';
 
 interface SearchQueryParams {
   query?: string,
@@ -55,30 +55,7 @@ export class SearchResultListComponent implements OnInit {
 
   get fieldOptions() {
     const isNotUsed = (option) => !this.searchTerms.some((term) => option.value && term.field == option.value);
-
-    const notUsedNameFields = allNameFields.filter(isNotUsed);
-    let nameOptions = [];
-    if(notUsedNameFields.length > 0) {
-      nameOptions = [ { category: "Navn" }, ...notUsedNameFields ];
-    }
-
-    const notUsedPlaceFields = allPlaceFields.filter(isNotUsed);
-    let placeOptions = [];
-    if(notUsedPlaceFields.length > 0) {
-      placeOptions = [ { category: "Sted" }, ...notUsedPlaceFields ];
-    }
-
-    const notUsedYearFields = allYearFields.filter(isNotUsed);
-    let yearOptions = [];
-    if(notUsedYearFields.length > 0) {
-      yearOptions = [ { category: "År" }, ...notUsedYearFields ];
-    }
-
-    return [
-      ...nameOptions,
-      ...placeOptions,
-      ...yearOptions,
-    ];
+    return getFieldOptions(isNotUsed);
   }
 
   featherSpriteUrl = this.config.featherIconPath;
