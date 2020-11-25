@@ -13,6 +13,8 @@ import { LifeCourseComponent } from './life-course/life-course.component';
 import { PersonAppearanceItemComponent } from './person-appearance/person-appearance-item.component';
 import { LifeCourseItemComponent } from './life-course/life-course-item.component';
 import { FormElementsModule } from './form-elements.module';
+import { RelatedPeopleComponent } from './person-appearance/related-people.component';
+import { SourceDataComponent } from './person-appearance/source-data.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +22,8 @@ import { FormElementsModule } from './form-elements.module';
     PageNotFoundComponent,
     SearchResultListComponent,
     PersonAppearanceComponent,
+    RelatedPeopleComponent,
+    SourceDataComponent,
     LifeCourseComponent,
     PersonAppearanceItemComponent,
     LifeCourseItemComponent,
