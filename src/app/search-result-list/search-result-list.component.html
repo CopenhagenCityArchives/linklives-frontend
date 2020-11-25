@@ -35,26 +35,15 @@
             <div class="lls-results-header__field-label lls-columns-12 lls-columns-3--md lls-columns-2--lg lls-columns-2--xl">
                 <span class="lls-results-header__field-label-text">Resultattype</span>
                 <div class="lls-results-header__checkboxes">
-                    <div class="lls-results-header__checkbox-container">
+                    <label class="lls-results-header__checkbox-container" *ngFor="let index of indexKeys">
                         <input
-                            [(ngModel)]="indexSource"
+                            [(ngModel)]="indices[index].value"
                             type="checkbox"
                             class="lls-results-header__checkbox"
-                            id="indexSource-checkbox"
-                            name="indexSource"
+                            [name]="'index_' + index"
                         >
-                        <label for="indexSource-checkbox">Kilder</label>
-                    </div>
-                    <div class="lls-results-header__checkbox-container">
-                        <input
-                            [(ngModel)]="indexLifecourse"
-                            type="checkbox"
-                            class="lls-results-header__checkbox"
-                            id="indexLifecourse-checkbox"
-                            name="indexLifecourse"
-                        >
-                        <label for="indexLifecourse-checkbox">Livsforløb</label>
-                    </div>
+                        <span>{{ indices[index].label }}</span>
+                    </label>
                 </div>
             </div>
             <div class="lls-results-header__right-section lls-columns-12 lls-columns-3--md lls-columns-2--lg lls-columns-1--xl">

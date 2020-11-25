@@ -110,23 +110,14 @@
           <div class="lls-search-options__result-type">
             <span class="lls-input-label">Resultattype</span>
             <div class="lls-search-options__result-type-checkboxes">
-              <label class="lls-search-options__checkbox-container">
+              <label class="lls-search-options__checkbox-container" *ngFor="let index of indexKeys">
                 <input
-                  [(ngModel)]="indexSource"
+                  [(ngModel)]="indices[index].value"
                   type="checkbox"
                   class="lls-search-options__checkbox"
-                  name="indexSource"
+                  [name]="'index_' + index"
                 >
-                <span>Kilder</span>
-              </label>
-              <label class="lls-search-options__checkbox-container">
-                <input
-                  [(ngModel)]="indexLifecourse"
-                  type="checkbox"
-                  class="lls-search-options__checkbox"
-                  name="indexLifecourse"
-                >
-                <span>Livsforløb</span>
+                <span>{{ indices[index].label }}</span>
               </label>
             </div>
           </div>

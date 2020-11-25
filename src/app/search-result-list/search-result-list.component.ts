@@ -25,9 +25,6 @@ interface SearchQueryParams {
 export class SearchResultListComponent implements OnInit {
   searchResult: SearchResult;
   searchQueryParams: SearchQueryParams;
-  index: string;
-  indexSource: boolean = true;
-  indexLifecourse: boolean = true;
 
   pagination: {
     current: number,
@@ -60,16 +57,19 @@ export class SearchResultListComponent implements OnInit {
 
   featherSpriteUrl = this.config.featherIconPath;
 
+  indices = {
+    pas: { value: false, label: "Kilder" },
+    lifecourses: { value: false, label: "Livsforløb" },
+  };
+
+  get indexKeys() {
+    return Object.keys(this.indices);
+  }
+
   get computedIndex() {
-    if((this.indexLifecourse && this.indexSource) || (!this.indexLifecourse && !this.indexSource)) {
-      return 'pas,lifecourses';
-    }
-    else if(this.indexSource) {
-      return 'pas';
-    }
-    else if(this.indexLifecourse) {
-      return 'lifecourses';
-    }
+    return this.indexKeys
+      .filter((key) => this.indices[key].value)
+      .join(",");
   }
 
   get queryParams() {
@@ -107,7 +107,10 @@ export class SearchResultListComponent implements OnInit {
         });
       this.searchQueryParams = searchQueryParams;
 
-      this.index = queryParamMap.get('index');
+      const indices = queryParamMap.get('index');
+      if(indices) {
+        indices.split(",").forEach((index) => this.indices[index].value = true);
+      }
       this.sortBy = queryParamMap.get('sortBy') || "random";
       this.sortAscending = !(queryParamMap.get('sortOrder') === "desc");
     });

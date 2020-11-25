@@ -28,19 +28,19 @@ export class SimpleSearchComponent implements OnInit {
     { field: "birthPlace", value: "" },
   ];
 
-  indexSource = true;
-  indexLifecourse = true;
+  indices = {
+    pas: { value: true, label: "Kilder" },
+    lifecourses: { value: true, label: "Livsforløb" },
+  };
+
+  get indexKeys() {
+    return Object.keys(this.indices);
+  }
 
   get computedIndex() {
-    if((this.indexLifecourse && this.indexSource) || (!this.indexLifecourse && !this.indexSource)) {
-      return 'pas,lifecourses';
-    }
-    else if(this.indexSource) {
-      return 'pas';
-    }
-    else if(this.indexLifecourse) {
-      return 'lifecourses';
-    }
+    return this.indexKeys
+      .filter((key) => this.indices[key].value)
+      .join(",");
   }
 
   get fieldOptions() {
