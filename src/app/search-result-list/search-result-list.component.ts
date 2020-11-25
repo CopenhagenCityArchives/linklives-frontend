@@ -160,6 +160,13 @@ export class SearchResultListComponent implements OnInit {
     this.searchTerms.push({ field, value: "" });
   }
 
+  removeSearchTerm(i: number, $event) {
+    $event.preventDefault();
+    if(this.searchTerms.length > 1) {
+      this.searchTerms.splice(i, 1);
+    }
+  }
+
   search(): void {
     const searchParams: AdvancedSearchQuery = {};
     this.searchTerms.forEach((term) => searchParams[term.field] = term.value);

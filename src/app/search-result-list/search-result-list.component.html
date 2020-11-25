@@ -10,13 +10,24 @@
                 <div class="lls-row lls-row--align-bottom">
                     <label class="lls-results-header__field-label lls-columns-12 lls-columns-6--md lls-columns-4--lg lls-columns-2--xl" *ngFor="let searchTerm of searchTerms; index as i;">
                         <span class="lls-results-header__field-label-text">{{ searchFieldLabels[searchTerm.field] }}</span>
-                        <input
-                            [(ngModel)]="searchTerm.value"
-                            type="text"
-                            [placeholder]="searchFieldPlaceholders[searchTerm.field]"
-                            class="lls-input-field"
-                            [name]="'searchterm-value-' + i"
-                        />
+                        <div class="lls-input-group">
+                            <input
+                                [(ngModel)]="searchTerm.value"
+                                type="text"
+                                [placeholder]="searchFieldPlaceholders[searchTerm.field]"
+                                class="lls-input-field"
+                                [name]="'searchterm-value-' + i"
+                            />
+                            <button
+                                class="lls-input-group__floating-action"
+                                [class]="searchTerms.length < 2 ? 'lls-input-group__floating-action--disabled' : ''"
+                                (click)="removeSearchTerm(i, $event)"
+                            >
+                                <svg class="lls-icon lls-icon--right">
+                                    <use [attr.href]="featherSpriteUrl + '#minus-circle'"></use>
+                                </svg>
+                            </button>
+                        </div>
                     </label>
                     <div class="lls-results-header__field-label lls-columns-12 lls-columns-6--md lls-columns-4--lg lls-columns-2--xl">
                         <lls-dropdown
