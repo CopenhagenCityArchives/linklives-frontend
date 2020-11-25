@@ -139,6 +139,11 @@ export class SearchResultListComponent implements OnInit {
     }
   }
 
+  get sourceFilter() {
+    const sourceYears = this.filterItems.map(item => item.value);
+    return sourceYears.toString();
+  }
+
   get lifeCourseQueryParams() {
     return {...this.searchQueryParams, index: 'lifecourses'};
   }
@@ -148,7 +153,7 @@ export class SearchResultListComponent implements OnInit {
   }
 
   get queryParams() {
-    return {...this.searchQueryParams, index: this.computedIndex};
+    return {...this.searchQueryParams, index: this.computedIndex, sourceFilter: this.sourceFilter};
   }
 
   constructor(private router: Router, private route: ActivatedRoute) { }
@@ -229,11 +234,14 @@ export class SearchResultListComponent implements OnInit {
   }
 
   addFilter(field) {
-    this.filterItems.push({ field, value: "" });
+    if(this.filterItems.find(({label}) => label === field.label)) {
+      return;
+    }
+    this.filterItems.push(field);
   }
 
   removeFilter(field) {
-    this.filterItems = this.filterItems.filter(item => item.field.value != field.value);
+    this.filterItems = this.filterItems.filter(item => item.value != field.value);
   }
 
   onClose(event) {
@@ -245,7 +253,7 @@ export class SearchResultListComponent implements OnInit {
     this.searchTerms.forEach((term) => searchParams[term.field] = term.value);
 
     this.router.navigate(['/results'], {
-      queryParams: { ...searchParams, index: this.computedIndex },
+      queryParams: { ...searchParams, index: this.computedIndex, sourceFilter: this.sourceFilter },
     });
   }
 

@@ -33,18 +33,18 @@ export class FilterSidebar implements OnInit {
 
   isOpen: boolean = false;
 
-  filterOptions: Array<Option> = [
+  filterOptions = [
     {
       label: "Kilder (1800)",
-      value: "sources_1800"
+      value: 1800
     },
     {
       label: "Kilder (1850)",
-      value: "sources_1850"
+      value: 1850
     },
     {
       label: "Kilder (1900)",
-      value: "sources_1900"
+      value: 1900
     },
   ]
 
