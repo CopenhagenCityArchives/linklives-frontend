@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { AdvancedSearchQuery } from '../search.service';
-import { searchFieldPlaceholders, fieldOptions, searchFieldLabels } from 'src/app/search-term-values';
+import { searchFieldPlaceholders, fieldOptions, searchFieldLabels, allNameFields, allPlaceFields, allYearFields } from 'src/app/search-term-values';
 
 @Component({
   selector: 'app-search-simple',
@@ -28,13 +28,32 @@ export class SimpleSearchComponent implements OnInit {
     { field: "birthPlace", value: "" },
   ];
 
-  get fieldOptionsBySearchTerms() {
-    return this.searchTerms.map((_, i) => {
-      const alreadyPickedFields = this.searchTerms
-        .filter((_, j) => j != i)
-        .map((term) => term.field);
-      return fieldOptions.filter((opt) => !("value" in opt) || (("value" in opt) && !alreadyPickedFields.includes(opt.value)));
-    });
+  get fieldOptions() {
+    const isNotUsed = (option) => !this.searchTerms.some((term) => option.value && term.field == option.value);
+
+    const notUsedNameFields = allNameFields.filter(isNotUsed);
+    let nameOptions = [];
+    if(notUsedNameFields.length > 0) {
+      nameOptions = [ { category: "Navn" }, ...notUsedNameFields ];
+    }
+
+    const notUsedPlaceFields = allPlaceFields.filter(isNotUsed);
+    let placeOptions = [];
+    if(notUsedPlaceFields.length > 0) {
+      placeOptions = [ { category: "Sted" }, ...notUsedPlaceFields ];
+    }
+
+    const notUsedYearFields = allYearFields.filter(isNotUsed);
+    let yearOptions = [];
+    if(notUsedYearFields.length > 0) {
+      yearOptions = [ { category: "År" }, ...notUsedYearFields ];
+    }
+
+    return [
+      ...nameOptions,
+      ...placeOptions,
+      ...yearOptions,
+    ];
   }
 
   constructor(
@@ -50,10 +69,14 @@ export class SimpleSearchComponent implements OnInit {
     });
   }
 
-  removeSearchTerm(i): void {
+  removeSearchTerm(i: number): void {
     if(this.searchTerms.length > 1) {
       this.searchTerms.splice(i, 1);
     }
+  }
+
+  addField(field) {
+    this.searchTerms.push({ field, value: "" });
   }
 
   searchAdvanced(): void {

@@ -15,12 +15,17 @@
 .lls-form-actions {
   margin-top: 1rem;
   display: flex;
-  justify-content: flex-end;
 }
 .help-box-container {
   display: flex;
   justify-content: flex-end;
   align-items: flex-start;
+}
+
+.lls-search-options {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.5rem 0;
 }
 </style>
 
@@ -87,6 +92,22 @@
             </button>
           </div>
         </label>
+
+        <div class="lls-search-options">
+          <div class="lls-search-options__result-type"></div>
+          <div class="lls-search-options__add-field">
+            <lls-dropdown
+              class="lls-dropdown--option-adder"
+              [options]="fieldOptions"
+              name="add-field"
+              label="Tilføj felt"
+              [featherIconPath]="config.featherIconPath"
+              dropdownIcon="plus-circle"
+              dropdownIconOpen="plus-circle"
+              (change)="addField($event)"
+            ></lls-dropdown>
+          </div>
+        </div>
 
         <div class="lls-form-actions">
           <button
