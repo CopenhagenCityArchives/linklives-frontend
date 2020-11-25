@@ -28,6 +28,21 @@ export class SimpleSearchComponent implements OnInit {
     { field: "birthPlace", value: "" },
   ];
 
+  indexSource = true;
+  indexLifecourse = true;
+
+  get computedIndex() {
+    if((this.indexLifecourse && this.indexSource) || (!this.indexLifecourse && !this.indexSource)) {
+      return 'pas,lifecourses';
+    }
+    else if(this.indexSource) {
+      return 'pas';
+    }
+    else if(this.indexLifecourse) {
+      return 'lifecourses';
+    }
+  }
+
   get fieldOptions() {
     const isNotUsed = (option) => !this.searchTerms.some((term) => option.value && term.field == option.value);
 
@@ -80,13 +95,13 @@ export class SimpleSearchComponent implements OnInit {
   }
 
   searchAdvanced(): void {
-    const queryParams: AdvancedSearchQuery = {};
+    const searchParams: AdvancedSearchQuery = {};
 
     this.searchTerms
       .filter((term) => term.value !== "")
-      .forEach((term) => queryParams[term.field] = term.value);
+      .forEach((term) => searchParams[term.field] = term.value);
 
-    this.router.navigate(['/results'], { queryParams });
+    this.router.navigate(['/results'], { queryParams: { ...searchParams, index: this.computedIndex } });
   }
 
 }

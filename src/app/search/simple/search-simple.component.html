@@ -25,7 +25,20 @@
 .lls-search-options {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 0.5rem 0;
+}
+
+.lls-search-options__result-type-checkboxes {
+  display: flex;
+}
+
+.lls-search-options__checkbox-container {
+  margin-right: 1rem;
+}
+
+.lls-search-options__checkbox {
+  margin-right: 0.25rem;
 }
 </style>
 
@@ -94,7 +107,29 @@
         </label>
 
         <div class="lls-search-options">
-          <div class="lls-search-options__result-type"></div>
+          <div class="lls-search-options__result-type">
+            <span class="lls-input-label">Resultattype</span>
+            <div class="lls-search-options__result-type-checkboxes">
+              <label class="lls-search-options__checkbox-container">
+                <input
+                  [(ngModel)]="indexSource"
+                  type="checkbox"
+                  class="lls-search-options__checkbox"
+                  name="indexSource"
+                >
+                <span>Kilder</span>
+              </label>
+              <label class="lls-search-options__checkbox-container">
+                <input
+                  [(ngModel)]="indexLifecourse"
+                  type="checkbox"
+                  class="lls-search-options__checkbox"
+                  name="indexLifecourse"
+                >
+                <span>Livsforløb</span>
+              </label>
+            </div>
+          </div>
           <div class="lls-search-options__add-field">
             <lls-dropdown
               class="lls-dropdown--option-adder"
