@@ -60,7 +60,7 @@ export const searchFieldPlaceholders = {
   query: "Indtast fritekstsøgning",
   firstName: "Indtast fornavn",
   lastName: "Indtast efternavn",
-  birthName: "Indtast fødselsår",
+  birthName: "Indtast fødenavn",
   birthPlace: "Indtast fødested",
   sourcePlace: "Indtast kildested",
   //deathPlace: "Indtast dødssted",
