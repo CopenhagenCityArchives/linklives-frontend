@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 import { AdvancedSearchQuery } from '../search.service';
-import { searchFieldPlaceholders, fieldOptions } from 'src/app/search-term-values';
+import { searchFieldPlaceholders, fieldOptions, searchFieldLabels } from 'src/app/search-term-values';
 
 @Component({
   selector: 'app-search-simple',
@@ -20,6 +20,7 @@ export class SimpleSearchComponent implements OnInit {
 
   // Advanced search
   searchFieldPlaceholders = searchFieldPlaceholders;
+  searchFieldLabels = searchFieldLabels;
 
   searchTerms = [
     { field: "firstName", value: "" },
@@ -47,6 +48,12 @@ export class SimpleSearchComponent implements OnInit {
     this.router.navigate(['/results'], {
       queryParams: { query: this.query },
     });
+  }
+
+  removeSearchTerm(i): void {
+    if(this.searchTerms.length > 1) {
+      this.searchTerms.splice(i, 1);
+    }
   }
 
   searchAdvanced(): void {
