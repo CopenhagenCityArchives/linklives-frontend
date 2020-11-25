@@ -1,0 +1,4 @@
+<h1>Search history!</h1>
+<p *ngFor="let entry of searchHistory">
+    {{ entry.type }}: query={{ !!entry.query }}, lifecourse={{ !!entry.lifecourse }}, personappearance={{ !!entry.personAppearance }}
+</p>

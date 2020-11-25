@@ -13,6 +13,7 @@ import { LifeCourseComponent } from './life-course/life-course.component';
 import { PersonAppearanceItemComponent } from './person-appearance/person-appearance-item.component';
 import { LifeCourseItemComponent } from './life-course/life-course-item.component';
 import { FormElementsModule } from './form-elements.module';
+import { SearchHistoryComponent } from './search-history/component';
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { FormElementsModule } from './form-elements.module';
     LifeCourseComponent,
     PersonAppearanceItemComponent,
     LifeCourseItemComponent,
+    SearchHistoryComponent,
   ],
   imports: [
     BrowserModule,
