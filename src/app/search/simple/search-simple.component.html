@@ -62,7 +62,7 @@
           <input
             type="text"
             placeholder="Søg i livsforløb eller kilder"
-            class="lls-input-group__field lls-input-group__field--left"
+            class="lls-input-field lls-input-field--big lls-input-group__field lls-input-group__field--left"
             [(ngModel)]="query"
             name="query"
           />
@@ -90,7 +90,7 @@
             <input
               type="text"
               [placeholder]="searchFieldPlaceholders[searchTerm.field] || ''"
-              class="lls-input-group__field"
+              class="lls-input-field lls-input-field--big lls-input-group__field"
               [(ngModel)]="searchTerm.value"
               [name]="'searchterm-value-' + i"
             />
