@@ -36,7 +36,7 @@ export class SearchResultListComponent implements OnInit {
     navigationPages: number[],
   };
 
-  filterItems = [];
+  sourceFilter = [];
   sortBy: string = "random";
   sortByOptions = sortByOptions;
 
@@ -74,10 +74,6 @@ export class SearchResultListComponent implements OnInit {
       .join(",");
   }
 
-  get sourceFilter() {
-    const sourceYears = this.filterItems.map(item => item);
-    return sourceYears;
-  }
 
   get lifeCourseQueryParams() {
     return {...this.searchQueryParams, index: 'lifecourses'};
@@ -129,6 +125,10 @@ export class SearchResultListComponent implements OnInit {
       }
       this.sortBy = queryParamMap.get('sortBy') || "random";
       this.sortAscending = !(queryParamMap.get('sortOrder') === "desc");
+      const sourceFilters = queryParamMap.get('sourceFilter');
+      if(sourceFilters) {
+        this.sourceFilter = sourceFilters.split(",").filter(x => x).map(x => parseInt(x));
+      }
     });
 
     this.route.data.subscribe((data: { searchResult: SearchResult }) => {
@@ -177,14 +177,14 @@ export class SearchResultListComponent implements OnInit {
   }
 
   addFilter(option) {
-    if(this.filterItems.find((label) => label === option)) {
+    if(this.sourceFilter.find((label) => label === option)) {
       return;
     }
-    this.filterItems.push(option);
+    this.sourceFilter.push(option);
   }
 
   removeFilter(option) {
-    this.filterItems = this.filterItems.filter(item => item != option);
+    this.sourceFilter = this.sourceFilter.filter(item => item != option);
   }
 
   onClose(event) {
