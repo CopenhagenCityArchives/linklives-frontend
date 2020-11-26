@@ -93,7 +93,7 @@ export class SearchResultListComponent implements OnInit {
   }
 
   get possibleYears() {
-    return this.searchResult.meta.possibleYears;
+    return this.searchResult.meta.possibleYears.sort();
   }
 
   get resultRangeDescription() {
