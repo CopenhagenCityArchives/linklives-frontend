@@ -8,6 +8,8 @@ import { PersonAppearanceComponent } from './person-appearance/person-appearance
 import { LifeCourseComponent } from './life-course/life-course.component';
 import { PersonAppearanceResolverService } from './person-appearance/person-appearance-resolver.service';
 import { LifeCourseResolverService } from './life-course/life-course-resolver.service';
+import { RelatedPeopleComponent } from './person-appearance/related-people.component';
+import { SourceDataComponent } from './person-appearance/source-data.component';
 
 
 const routes: Routes = [
@@ -23,6 +25,11 @@ const routes: Routes = [
   {
     path: 'pa/:id',
     component: PersonAppearanceComponent,
+    children: [
+      { path: 'related-people', component: RelatedPeopleComponent },
+      { path: 'source-data', component: SourceDataComponent },
+      { path: '', redirectTo: 'source-data', pathMatch: 'full' },
+    ],
     resolve: {
       item: PersonAppearanceResolverService
     },
@@ -39,9 +46,11 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    scrollPositionRestoration: 'enabled'
-  })],
+  imports: [
+    RouterModule.forRoot(routes, {
+      scrollPositionRestoration: 'enabled'
+    }),
+  ],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
