@@ -75,7 +75,7 @@ $dropdownFontSize: 1.125rem;
 .lls-dropdown__category {
   font-weight: 600;
   font-size: 0.85rem;
-  padding: 0.875rem 1.4rem 0.125rem;
+  padding: 0.875rem $dropdownPaddingY 0.125rem;
 }
 
 .lls-dropdown__option {
