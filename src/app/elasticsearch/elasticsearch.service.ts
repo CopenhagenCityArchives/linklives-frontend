@@ -146,10 +146,12 @@ export class ElasticsearchService {
     const must = [];
 
     Object.keys(query).filter((queryKey) => query[queryKey]).forEach((queryKey) => {
+      const value = query[queryKey];
+
       if(queryKey === "query") {
         must.push({
           simple_query_string: {
-            query: query,
+            query: value,
             fields: ["*"],
             default_operator: "and",
           },
@@ -161,7 +163,7 @@ export class ElasticsearchService {
 
       if(mustKey) {
         must.push({
-          match: { [`person_appearance.${mustKey}`]: query[queryKey] }
+          match: { [`person_appearance.${mustKey}`]: value }
         });
         return;
       }
@@ -172,7 +174,7 @@ export class ElasticsearchService {
         must.push({
           bool: {
             should: shouldKeys.map((shouldKey) => {
-              return { match: { [`person_appearance.${shouldKey}`]: query[queryKey] } };
+              return { match: { [`person_appearance.${shouldKey}`]: value } };
             }),
           },
         });
