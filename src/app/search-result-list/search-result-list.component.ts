@@ -185,10 +185,12 @@ export class SearchResultListComponent implements OnInit {
 
   removeFilter(option) {
     this.sourceFilter = this.sourceFilter.filter(item => item != option);
+    this.search();
   }
 
   onClose(event) {
     this.openSidebar = false;
+    this.search();
   }
 
   removeSearchTerm(i: number, $event) {
