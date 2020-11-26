@@ -26,7 +26,8 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
 
     let sortBy: string = route.queryParamMap.get('sortBy') || "random";
     let sortOrder: string = route.queryParamMap.get('sortOrder') === "desc" ? "desc" : "asc";
-    let sourceFilter: string[] = route.queryParamMap.get("sourceFilter")?.split(",");
+    const sourceFilterRaw = route.queryParamMap.get("sourceFilter");
+    let sourceFilter: number[] = sourceFilterRaw ? sourceFilterRaw.split(",").filter(x => x).map((year) => parseInt(year)) : [];
 
     let index: string[] = route.queryParamMap.get("index")?.split(",") ?? ["lifecourses", "pas"];
 

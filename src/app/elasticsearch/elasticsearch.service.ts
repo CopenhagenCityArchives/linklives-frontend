@@ -151,7 +151,7 @@ export class ElasticsearchService {
     return sortKeys.map((key) => ({ [`person_appearance.${key}`]: { order: sortOrder } }));
   }
 
-  searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: string[]) {
+  searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: number[]) {
     const sort = this.createSortClause(sortBy, sortOrder);
 
     const must = [];
@@ -174,17 +174,9 @@ export class ElasticsearchService {
         must.push({
           match: { [`person_appearance.${mustKey}`]: query[queryKey] }
         });
-        return;
-      }
 
-      if(sourceFilter) {
-        must.push({
-          bool: {
-            should: sourceFilter.map((sourceYear) => {
-              return { match: { [`person_appearance.source_year`]: sourceYear } };
-            }),
-          },
-        })
+        
+        return;
       }
 
       const shouldKeys = mapQueryShouldKey[queryKey];
@@ -202,6 +194,16 @@ export class ElasticsearchService {
 
       console.warn("[elasticsearch.service] key we don't know how to search on provided", queryKey);
     });
+
+    if(sourceFilter.length) {
+      must.push({
+        bool: {
+          should: sourceFilter.map((sourceYear) => {
+            return { match: { [`person_appearance.source_year`]: sourceYear } };
+          }),
+        },
+      })
+    }
 
     const body = {
       from: from,

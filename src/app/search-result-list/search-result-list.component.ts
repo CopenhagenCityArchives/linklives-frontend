@@ -76,7 +76,7 @@ export class SearchResultListComponent implements OnInit {
 
   get sourceFilter() {
     const sourceYears = this.filterItems.map(item => item);
-    return sourceYears.toString();
+    return sourceYears;
   }
 
   get lifeCourseQueryParams() {
@@ -89,6 +89,7 @@ export class SearchResultListComponent implements OnInit {
       index: this.computedIndex,
       sortBy: this.sortBy,
       sortOrder: this.sortAscending ? "asc" : "desc",
+      sourceFilter: this.sourceFilter.join(",") || undefined,
     };
   }
 
@@ -204,10 +205,10 @@ export class SearchResultListComponent implements OnInit {
     this.router.navigate(['/results'], {
       queryParams: {
         ...searchParams,
-        index: this.computedIndex,
-        sortBy: this.sortBy,
-        sortOrder: this.sortAscending ? "asc" : "desc",
-        sourceFilter: this.sourceFilter,
+        index: this.queryParams.index,
+        sortBy: this.queryParams.sortBy,
+        sortOrder: this.queryParams.sortOrder,
+        sourceFilter: this.queryParams.sourceFilter,
       },
     });
   }

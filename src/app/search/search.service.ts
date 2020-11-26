@@ -115,7 +115,7 @@ export class SearchService {
 
   constructor(private elasticsearch: ElasticsearchService) { }
 
-  advancedSearch(query: Object, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: string[]): Observable<SearchResult> {
+  advancedSearch(query: Object, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: number[]): Observable<SearchResult> {
     return this.elasticsearch.searchAdvanced(query, indices, from, size, sortBy, sortOrder, sourceFilter);
   }
 }
