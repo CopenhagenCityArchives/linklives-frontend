@@ -9,11 +9,16 @@
             </div>
         </div>
         <div class="lls-data-page-header__utility-links">
+            <a
+                class="u-mr-2"
+                tabindex="0"
+                onclick="window.history.back()"
+                style="cursor: pointer;"
+            >
+                Tilbage til søgning
+            </a>
             <a routerLink="/user/search-history">
-                <span>Min søgehistorik</span>
-                <svg class="lls-icon lls-icon--right">
-                    <use [attr.href]="featherSpriteUrl + '#folder'"></use>
-                </svg>
+                Min søgehistorik
             </a>
         </div>
     </div>
