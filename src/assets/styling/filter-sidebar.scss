@@ -31,11 +31,23 @@
   padding: 10px;
   font-size: 1.25rem;
   font-weight: 600;
+  border: none;
+  width: 100%;
+  background-color: transparent;
   border-top: 1px solid #bbb;
 
   &:last-of-type {
     border-bottom: 1px solid #bbb;
   }
+}
+
+.lls-filter-sidebar__option--active {
+  background-color: $blue--dark;
+  color: white;
+}
+
+.lls-filter-sidebar__option-icon--delete {
+  margin-left: auto;
 }
 
 .lls-overlay {

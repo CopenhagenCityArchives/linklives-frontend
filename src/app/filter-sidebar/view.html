@@ -13,15 +13,19 @@
     </button>
   </div>
   <div class="lls-filter-sidebar__options">
-    <div
-      *ngFor="let option of possibleYears, index as i"
+    <button
+      *ngFor="let option of filters, index as i"
       class="lls-filter-sidebar__option"
       (click)="addFilter(option)"
+      [class]="option.chosen ? 'lls-filter-sidebar__option--active' : ''"
     >
       <svg class="lls-icon lls-icon--left u-mr-2">
         <use [attr.href]="featherIconPath + '#calendar'"></use>
       </svg>
-      {{ option }}
-    </div>
+      {{ option.label }}
+      <svg *ngIf="option.chosen" class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-icon--delete lls-icon">
+        <use [attr.href]="featherIconPath + '#x'"></use>
+      </svg>
+    </button>
   </div>
 </aside>
