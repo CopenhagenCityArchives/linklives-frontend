@@ -25,11 +25,14 @@
 
 .lls-results-header__checkboxes {
   display: flex;
+  height: 45px;
+  align-items: center;
 }
 
 .lls-results-header__checkbox-container {
   margin-right: 10px;
   font-size: 1rem;
+  margin-bottom: 0;
 }
 
 .lls-results-header__checkbox {
