@@ -14,14 +14,14 @@
   </div>
   <div class="lls-filter-sidebar__options">
     <div
-      *ngFor="let option of filterOptions; index as i;"
+      *ngFor="let option of possibleYears, index as i"
       class="lls-filter-sidebar__option"
       (click)="addFilter(option)"
     >
       <svg class="lls-icon lls-icon--left u-mr-2">
         <use [attr.href]="featherIconPath + '#calendar'"></use>
       </svg>
-      {{ option.label }}
+      {{ option }}
     </div>
   </div>
 </aside>

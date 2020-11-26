@@ -75,7 +75,7 @@ export class SearchResultListComponent implements OnInit {
   }
 
   get sourceFilter() {
-    const sourceYears = this.filterItems.map(item => item.value);
+    const sourceYears = this.filterItems.map(item => item);
     return sourceYears.toString();
   }
 
@@ -90,6 +90,10 @@ export class SearchResultListComponent implements OnInit {
       sortBy: this.sortBy,
       sortOrder: this.sortAscending ? "asc" : "desc",
     };
+  }
+
+  get possibleYears() {
+    return this.searchResult.meta.possibleYears;
   }
 
   get resultRangeDescription() {
@@ -171,15 +175,15 @@ export class SearchResultListComponent implements OnInit {
     this.searchTerms.push({ field, value: "" });
   }
 
-  addFilter(field) {
-    if(this.filterItems.find(({label}) => label === field.label)) {
+  addFilter(option) {
+    if(this.filterItems.find((label) => label === option)) {
       return;
     }
-    this.filterItems.push(field);
+    this.filterItems.push(option);
   }
 
-  removeFilter(field) {
-    this.filterItems = this.filterItems.filter(item => item.value != field.value);
+  removeFilter(option) {
+    this.filterItems = this.filterItems.filter(item => item != option);
   }
 
   onClose(event) {

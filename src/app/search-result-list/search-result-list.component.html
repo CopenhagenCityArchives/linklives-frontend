@@ -86,6 +86,7 @@
                 <lls-filter-sidebar
                     [openSidebar]="openSidebar"
                     [featherIconPath]="config.featherIconPath"
+                    [possibleYears]="possibleYears"
                     (closeSidebar)="onClose($event)"
                     (change)="addFilter($event)"
                 ></lls-filter-sidebar>
@@ -94,7 +95,7 @@
                         *ngFor="let filterItem of filterItems; index as i;"
                         class="lls-btn lls-btn--small lls-btn--grey u-mr-2 u-mt-2"
                     >
-                        <span>{{ filterItem.label }}</span>
+                        <span>{{ filterItem }}</span>
                         <svg class="lls-icon lls-icon--right" (click)="removeFilter(filterItem)">
                             <use [attr.href]="config.featherIconPath + '#x'"></use>
                           </svg>

@@ -24,6 +24,7 @@ export interface Option {
 
 export class FilterSidebar implements OnInit {
   @Input() featherIconPath: string;
+  @Input() possibleYears: Array<number>;
   @Input() name: string;
   @Input() openSidebar: boolean;
   @Output() closeSidebar: EventEmitter<any> = new EventEmitter();
@@ -33,21 +34,6 @@ export class FilterSidebar implements OnInit {
 
   isOpen: boolean = false;
 
-  filterOptions = [
-    {
-      label: "Kilder (1800)",
-      value: 1800
-    },
-    {
-      label: "Kilder (1850)",
-      value: 1850
-    },
-    {
-      label: "Kilder (1900)",
-      value: 1900
-    },
-  ]
-
   open() {
     this.openSidebar = true;
   }
@@ -56,7 +42,7 @@ export class FilterSidebar implements OnInit {
     this.closeSidebar.emit(null);
   }
 
-  addFilter(option: Option) {
+  addFilter(option) {
     this.change.emit(option);
   }
 
