@@ -40,7 +40,7 @@ export class SimpleSearchComponent implements OnInit {
   get computedIndex() {
     return this.indexKeys
       .filter((key) => this.indices[key].value)
-      .join(",");
+      .join(",") || null;
   }
 
   get fieldOptions() {
