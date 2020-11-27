@@ -176,13 +176,6 @@ export class SearchResultListComponent implements OnInit {
     this.searchTerms.push({ field, value: "" });
   }
 
-  addFilter(option) {
-    if(this.sourceFilter.find((label) => label === option)) {
-      return;
-    }
-    this.sourceFilter.push(option);
-  }
-
   removeFilter(option) {
     this.sourceFilter = this.sourceFilter.filter(item => item != option);
     this.search();

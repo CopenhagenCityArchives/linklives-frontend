@@ -51,9 +51,14 @@
   &:hover {
     background-color: darken($grey-bg, 5%);
   }
+
+  .lls-filter-sidebar__option-icon--delete {
+    display: inline;
+  }
 }
 
 .lls-filter-sidebar__option-icon--delete {
+  display: none;
   margin-left: auto;
 }
 

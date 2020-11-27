@@ -85,13 +85,12 @@
                     </svg>
                 </button>
                 <lls-filter-sidebar
+                    [(ngModel)]="sourceFilter"
                     [openSidebar]="openSidebar"
                     [featherIconPath]="config.featherIconPath"
                     [possibleYears]="possibleYears"
-                    [sourceFilter]="sourceFilter"
                     (closeSidebar)="onClose($event)"
                     (removeFilter)="removeFilter($event)"
-                    (change)="addFilter($event)"
                 ></lls-filter-sidebar>
                 <div class="lls-results-filter__items">
                     <button
