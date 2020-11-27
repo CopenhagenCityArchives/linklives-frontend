@@ -181,7 +181,7 @@ export class SearchResultListComponent implements OnInit {
     this.search();
   }
 
-  onClose(event) {
+  closeSidebar(event) {
     this.openSidebar = false;
     this.search();
   }

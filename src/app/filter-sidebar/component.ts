@@ -25,11 +25,7 @@ export interface Option {
 export class FilterSidebar implements OnInit {
   @Input() featherIconPath: string;
   @Input() possibleYears: Array<number>;
-  @Input() name: string;
   @Input() openSidebar: boolean;
-  @Output() closeSidebar: EventEmitter<any> = new EventEmitter();
-  @Output() removeFilter: EventEmitter<any> = new EventEmitter();
-
   @Input()
   get filters() {
     return this._filters;
@@ -37,6 +33,9 @@ export class FilterSidebar implements OnInit {
   set filters(filters: number[]) {
     this._filters = filters;
   }
+
+  @Output() closeSidebar: EventEmitter<any> = new EventEmitter();
+  @Output() removeFilter: EventEmitter<any> = new EventEmitter();
 
   constructor(private elRef: ElementRef) {}
 
@@ -57,8 +56,6 @@ export class FilterSidebar implements OnInit {
   isOpen: boolean = false;
   filtersWithLabels = [];
   _filters: number[] = [];
-  tabHovered?: number = null;
-
   onChange: Function = () => {};
   onTouched: Function = () => {};
 

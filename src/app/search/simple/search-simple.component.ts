@@ -78,5 +78,4 @@ export class SimpleSearchComponent implements OnInit {
 
     this.router.navigate(['/results'], { queryParams: { ...searchParams, index: this.computedIndex } });
   }
-
 }
