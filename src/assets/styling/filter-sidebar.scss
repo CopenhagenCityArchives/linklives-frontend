@@ -36,14 +36,21 @@
   background-color: transparent;
   border-top: 1px solid #bbb;
 
+  &:hover {
+    background-color: $grey-bg--light;
+  }
+
   &:last-of-type {
     border-bottom: 1px solid #bbb;
   }
 }
 
 .lls-filter-sidebar__option--active {
-  background-color: $blue--dark;
-  color: white;
+  background-color: $grey-bg;
+
+  &:hover {
+    background-color: darken($grey-bg, 5%);
+  }
 }
 
 .lls-filter-sidebar__option-icon--delete {
