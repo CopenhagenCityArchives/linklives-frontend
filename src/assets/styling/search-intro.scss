@@ -1,3 +1,8 @@
+.lls-search-intro {
+  @media(min-width: $breakpointMd) {
+    margin: 0 4rem;
+  }
+}
 .lls-search-intro--header {
   flex-shrink: 0;
   flex-grow: 1;
