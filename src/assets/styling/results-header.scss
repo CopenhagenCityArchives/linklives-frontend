@@ -1,7 +1,7 @@
 .lls-results-header {
   background-color: $blue--darker;
   color: white;
-  padding: 20px 0;
+  padding: 1.25rem 0 2.25rem;
 }
 
 .lls-results-header__field-label {
@@ -16,17 +16,23 @@
 
 .lls-results-header__right-section {
   @media(min-width: $breakpointMd) {
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
     text-align: right;
   }
 }
 
 .lls-results-header__checkboxes {
   display: flex;
+  height: 45px;
+  align-items: center;
 }
 
 .lls-results-header__checkbox-container {
   margin-right: 10px;
   font-size: 1rem;
+  margin-bottom: 0;
 }
 
 .lls-results-header__checkbox {
@@ -34,7 +40,6 @@
 }
 
 .lls-results-header__history-link {
-  margin-bottom: 1.125rem;
   color: white;
   display: inline-block;
   font-size: 1rem;

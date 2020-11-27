@@ -19,6 +19,7 @@
                                 [name]="'searchterm-value-' + i"
                             />
                             <button
+                                type="button"
                                 class="lls-input-group__floating-action"
                                 [class]="searchTerms.length < 2 ? 'lls-input-group__floating-action--disabled' : ''"
                                 (click)="removeSearchTerm(i, $event)"
@@ -60,7 +61,7 @@
             <div class="lls-results-header__right-section lls-columns-12 lls-columns-3--md lls-columns-2--lg lls-columns-1--xl">
                 <button
                     type="submit"
-                    class="lls-btn lls-btn--blue"
+                    class="lls-btn lls-btn--medium lls-btn--blue"
                 >
                     <span>Søg</span>
                     <svg class="lls-icon lls-icon--right">
