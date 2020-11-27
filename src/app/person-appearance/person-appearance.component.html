@@ -9,75 +9,35 @@
             </div>
         </div>
         <div class="lls-data-page-header__utility-links">
+            <a
+                class="u-mr-2"
+                tabindex="0"
+                onclick="window.history.back()"
+                style="cursor: pointer;"
+            >
+                Tilbage til søgning
+            </a>
             <a routerLink="/user/search-history">
-                <span>Min søgehistorik</span>
-                <svg class="lls-icon lls-icon--right">
-                    <use [attr.href]="featherSpriteUrl + '#folder'"></use>
-                </svg>
+                Min søgehistorik
             </a>
         </div>
     </div>
 
-    <div class="lls-card lls-card--census">
-        <div class="lls-row lls-row--gap-3--md lls-row--gap-5--lg lls-row--gap-6--xl">
-            <div class="lls-columns-12 lls-columns-6--md">
-                <div class="data-section">
-                    <h2>Original komplet indtastning</h2>
-                    <table>
-                        <tr *ngFor="let line of originalDataLines">
-                            <th>{{ line.label }}</th>
-                            <td>{{ line.value || '—' }}</td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="data-section">
-                    <h2>Processeret data brugt til linking</h2>
-                    <table>
-                        <tr *ngFor="let line of standardizedDataLines">
-                            <th>{{ line.label }}</th>
-                            <td>{{ line.value || '—' }}</td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-            <div class="lls-columns-12 lls-columns-6--md">
-                <div class="data-section">
-                    <h2>Om kilden</h2>
-                    <table>
-                        <tr *ngFor="let line of sourceDataLines">
-                            <th>{{ line.label }}</th>
-                            <td>{{ line.value || '—' }}</td>
-                        </tr>
-                    </table>
-                </div>
-                <!--div class="data-section">
-                    <h2>Anden data (rå)</h2>
-                    <table>
-                        <tr *ngFor="let line of otherDataLines">
-                            <th>{{ line.label }}</th>
-                            <td>{{ line.value || '—' }}</td>
-                        </tr>
-                    </table>
-                </div-->
-            </div>
-        </div>
-        <div class="lls-card__actions">
-            <a class="lls-btn lls-btn--big lls-btn--disabled" tabindex="0">
-                <span>Se original kilde</span>
-                <svg class="lls-icon lls-icon--right">
-                    <use [attr.href]="featherSpriteUrl + '#search'"></use>
-                </svg>
-            </a>
-        </div>
-        <div class="lls-card__action-hint">
-            Det er på nuværende tidspunkt ikke muligt at linke direkte til kilden hos Rigsarkivet
-        </div>
+    <div class="lls-tabs">
+        <a href routerLink="source-data" [routerLinkActive]="'lls-tabs__item--active'" class="lls-tabs__item">
+            <span class="lls-tabs__item-text">Kildeinfo</span>
+        </a>
+        <a href routerLink="related-people" [routerLinkActive]="'lls-tabs__item--active'" class="lls-tabs__item">
+            <span class="lls-tabs__item-text">Relaterede personer</span>
+        </a>
     </div>
+
+    <router-outlet></router-outlet>
 
     <div class="lls-data-page-footer">
         <div class="lls-data-page-footer__entry">
             <div class="lls-data-page-footer__entry-label">Kilde ID</div>
-            <a href="pa/{{ this.pa.id }}">{{ this.pa.id }}</a>
+            <a href="pa/{{ pa.id }}">{{ this.pa.id }}</a>
         </div>
         <div class="lls-data-page-footer__entry">
             <div class="lls-data-page-footer__entry-label">Senest opdateret</div>

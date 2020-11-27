@@ -14,6 +14,8 @@ import { PersonAppearanceItemComponent } from './person-appearance/person-appear
 import { LifeCourseItemComponent } from './life-course/life-course-item.component';
 import { FormElementsModule } from './form-elements.module';
 import { SearchHistoryComponent } from './search-history/component';
+import { RelatedPeopleComponent } from './person-appearance/related-people.component';
+import { SourceDataComponent } from './person-appearance/source-data.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +23,8 @@ import { SearchHistoryComponent } from './search-history/component';
     PageNotFoundComponent,
     SearchResultListComponent,
     PersonAppearanceComponent,
+    RelatedPeopleComponent,
+    SourceDataComponent,
     LifeCourseComponent,
     PersonAppearanceItemComponent,
     LifeCourseItemComponent,
