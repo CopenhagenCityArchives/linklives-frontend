@@ -1,21 +1,80 @@
-<aside>
-    <h1>Search history!</h1>
-    <div 
+<div [class]="openSearchHistory ? 'lls-overlay' : ''"></div>
+<aside class="lls-search-history lls-sidebar lls-sidebar--right" [class]="openSearchHistory ? 'lls-sidebar--open' : ''">
+    <div class="lls-sidebar__header">
+        <h3>Min Søgehistorik</h3>
+        <button
+          class="lls-btn lls-btn--outline"
+          (click)="closeSearchHistory()"
+        >
+          <span>Luk</span>
+          <svg class="lls-icon lls-icon--right">
+            <use [attr.href]="featherIconPath + '#x'"></use>
+          </svg>
+        </button>
+    </div>
+    <div
         *ngFor="let entry of searchHistory"
-        [routerLink]="['./']"
-        [queryParams]="entry.query"
+        class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item"
     >
-        <div *ngIf="entry.query">
-            <p *ngIf="entry.query.query">
-                {{ entry.query.query }}
+        <a
+            *ngIf="entry.type === 'search_result'"
+            class="lls-search-history__item-link"
+            [routerLink]="['./']"
+            [queryParams]="entry.query"
+            (click)="closeSearchHistory()"
+        >
+            <div>
+                <h3 class="lls-search-history__item-header">
+                    <svg class="lls-icon lls-icon--left u-mr-2">
+                        <use [attr.href]="featherIconPath + '#search'"></use>
+                    </svg>
+                    <span>Søgeresultat</span>
+                </h3>
+                <p class="u-margin-0" *ngIf="entry.query.query">
+                    <strong class="u-mr-2">Fritekst</strong> {{ entry.query.query }}
+                </p>
+                <p class="u-margin-0" *ngIf="entry.query.firstName">
+                    <strong class="u-mr-2">Fornavn</strong> {{ entry.query.firstName }}
+                </p>
+                <p class="u-margin-0" *ngIf="entry.query.lastName">
+                    <strong class="u-mr-2">Efternavn</strong> {{ entry.query.lastName }}
+                </p>
+            </div>
+        </a>
+        <a
+            *ngIf="entry.type === 'lifecourse'"
+            class="lls-search-history__item-link"
+            (click)="closeSearchHistory()"
+        >
+            <h3 class="lls-search-history__item-header">
+                <svg class="lls-icon lls-icon--left u-mr-2">
+                    <use [attr.href]="featherIconPath + '#circle'"></use>
+                </svg>
+                <span>Livsforløb {{ entry.lifecourse[0].source_year }}-{{ entry.lifecourse[entry.lifecourse.length - 1].source_year }}</span>
+            </h3>
+            <p class="u-text-capitalize u-margin-0">
+                <strong class="u-mr-2">Navn</strong> {{ entry.lifecourse[entry.lifecourse.length - 1].name_clean }}
             </p>
-            <p *ngIf="entry.query.firstName">
-                {{ entry.query.firstName }}
+        </a>
+        <a
+            *ngIf="entry.type === 'census'"
+            class="lls-search-history__item-link"
+            [routerLink]="['/pa', entry.personAppearance.source_id + '-' + entry.personAppearance.pa_id]"
+            (click)="closeSearchHistory()"
+        >
+            <h3 class="lls-search-history__item-header">
+                <svg class="lls-icon lls-icon--left u-mr-2">
+                    <use [attr.href]="featherIconPath + '#calendar'"></use>
+                </svg>
+                <span>Folketælling {{ entry.personAppearance.source_year }}</span>
+            </h3>
+            <p class="u-text-capitalize u-margin-0">
+                <strong class="u-mr-2">Navn</strong> {{ entry.personAppearance.name_clean }}
             </p>
-        </div>
+        </a>
         <!-- <a class="lls-btn lls-btn--blue" >
             {{ entry.type }}: query={{ !!entry.query }}, lifecourse={{ !!entry.lifecourse }}, personappearance={{ !!entry.personAppearance }}
         </a> -->
-</div>
+    </div>
 </aside>
 

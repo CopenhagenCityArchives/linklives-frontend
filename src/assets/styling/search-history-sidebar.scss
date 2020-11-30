@@ -1,0 +1,17 @@
+.lls-search-history__item {
+  color: $black;
+}
+
+.lls-search-history__item-link {
+  width: 100%;
+  
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.lls-search-history__item-header {
+  font-size: 1.25rem;
+  display: flex;
+  align-items: center;
+}
