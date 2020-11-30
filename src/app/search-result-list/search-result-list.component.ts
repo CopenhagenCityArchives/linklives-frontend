@@ -25,6 +25,7 @@ interface SearchQueryParams {
 export class SearchResultListComponent implements OnInit {
   searchResult: SearchResult;
   searchQueryParams: SearchQueryParams;
+  openSidebar: boolean = false;
 
   pagination: {
     current: number,
@@ -35,6 +36,7 @@ export class SearchResultListComponent implements OnInit {
     navigationPages: number[],
   };
 
+  sourceFilter = [];
   sortBy: string = "random";
   sortByOptions = sortByOptions;
 
@@ -69,16 +71,21 @@ export class SearchResultListComponent implements OnInit {
   get computedIndex() {
     return this.indexKeys
       .filter((key) => this.indices[key].value)
-      .join(",");
+      .join(",") || null;
   }
-
+  
   get queryParams() {
     return {
       ...this.searchQueryParams,
       index: this.computedIndex,
       sortBy: this.sortBy,
       sortOrder: this.sortAscending ? "asc" : "desc",
+      sourceFilter: this.sourceFilter.join(",") || undefined,
     };
+  }
+
+  get possibleYears() {
+    return this.searchResult.meta.possibleYears.sort();
   }
 
   get resultRangeDescription() {
@@ -113,6 +120,10 @@ export class SearchResultListComponent implements OnInit {
       }
       this.sortBy = queryParamMap.get('sortBy') || "random";
       this.sortAscending = !(queryParamMap.get('sortOrder') === "desc");
+      const sourceFilters = queryParamMap.get('sourceFilter');
+      if(sourceFilters) {
+        this.sourceFilter = sourceFilters.split(",").filter(x => x).map(x => parseInt(x));
+      }
     });
 
     this.route.data.subscribe((data: { searchResult: SearchResult }) => {
@@ -160,6 +171,16 @@ export class SearchResultListComponent implements OnInit {
     this.searchTerms.push({ field, value: "" });
   }
 
+  removeFilter(option) {
+    this.sourceFilter = this.sourceFilter.filter(item => item != option);
+    this.search();
+  }
+
+  closeSidebar(event) {
+    this.openSidebar = false;
+    this.search();
+  }
+
   removeSearchTerm(i: number, $event) {
     $event.preventDefault();
     if(this.searchTerms.length > 1) {
@@ -174,9 +195,10 @@ export class SearchResultListComponent implements OnInit {
     this.router.navigate(['/results'], {
       queryParams: {
         ...searchParams,
-        index: this.computedIndex,
-        sortBy: this.sortBy,
-        sortOrder: this.sortAscending ? "asc" : "desc",
+        index: this.queryParams.index,
+        sortBy: this.queryParams.sortBy,
+        sortOrder: this.queryParams.sortOrder,
+        sourceFilter: this.queryParams.sourceFilter,
       },
     });
   }

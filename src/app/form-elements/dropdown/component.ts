@@ -67,8 +67,6 @@ export class Dropdown implements ControlValueAccessor {
     return this.currentOption ? this.currentOption.label : '';
   }
 
-  @Output() ngModelChange = new EventEmitter<string>();
-
   constructor(private elRef: ElementRef) {}
 
   // Start ControlValueAccessor

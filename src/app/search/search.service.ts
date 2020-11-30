@@ -31,7 +31,10 @@ export interface SearchResult {
     pas?: number,
     links?: number
   },
-  hits: SearchHit[]
+  hits: SearchHit[],
+  meta: {
+    possibleYears: Array<number>,
+  }
 }
 
 export interface PersonAppearance {
@@ -112,7 +115,7 @@ export class SearchService {
 
   constructor(private elasticsearch: ElasticsearchService) { }
 
-  advancedSearch(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string): Observable<SearchResult> {
-    return this.elasticsearch.searchAdvanced(query, indices, from, size, sortBy, sortOrder);
+  advancedSearch(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: number[]): Observable<SearchResult> {
+    return this.elasticsearch.searchAdvanced(query, indices, from, size, sortBy, sortOrder, sourceFilter);
   }
 }
