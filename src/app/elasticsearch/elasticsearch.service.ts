@@ -102,7 +102,7 @@ export class ElasticsearchService {
       indexHits: {},
       hits: [],
       meta: {
-        possibleYears: elasticResult.aggregations.person_appearance.source_years.buckets.map((bucket) => bucket.key)
+        possibleYears: elasticResult.aggregations?.person_appearance?.source_years?.buckets.map((bucket) => bucket.key) ?? [],
       },
     };
 
