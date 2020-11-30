@@ -1,0 +1,31 @@
+<div [class]="openSidebar ? 'lls-overlay' : ''"></div>
+<aside class="lls-filter-sidebar" [class]="openSidebar ? 'lls-filter-sidebar--open' : ''">
+  <div class="lls-filter-sidebar__header">
+    <h3 class="u-margin-0">Vælg kilder</h3>
+    <button
+      class="lls-btn lls-btn--outline"
+      (click)="close()"
+    >
+      <span>Luk</span>
+      <svg class="lls-icon lls-icon--right">
+        <use [attr.href]="featherIconPath + '#x'"></use>
+      </svg>
+    </button>
+  </div>
+  <div class="lls-filter-sidebar__options">
+    <button
+      *ngFor="let option of filtersWithLabels, index as i"
+      class="lls-filter-sidebar__option"
+      (click)="addFilter(option)"
+      [class]="activeFilter(option.value) ? 'lls-filter-sidebar__option--active' : ''"
+    >
+      <svg class="lls-icon lls-icon--left u-mr-2">
+        <use [attr.href]="featherIconPath + '#calendar'"></use>
+      </svg>
+      {{ option.label }}
+      <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-icon--delete lls-icon">
+        <use [attr.href]="featherIconPath + '#x'"></use>
+      </svg>
+    </button>
+  </div>
+</aside>
