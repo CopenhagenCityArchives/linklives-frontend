@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { prettySourceLocation } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({
@@ -35,15 +36,7 @@ export class PersonAppearanceItemComponent implements OnInit {
   }
 
   get sourceLocation() {
-    return [
-      ...new Set(
-        [
-          this.personAppearance.parish,
-          this.personAppearance.district,
-          this.personAppearance.county
-        ].filter((x) => x)
-      )
-    ].join(", ");
+    return prettySourceLocation(this.personAppearance);
   }
 
   constructor() { }
