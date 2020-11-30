@@ -10,9 +10,6 @@ export interface Option {
 @Component({
   selector: 'lls-filter-sidebar',
   templateUrl: './view.html',
-  host: {
-    '(blur)': 'onBlur();',
-  },
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,
@@ -37,8 +34,6 @@ export class FilterSidebar implements OnInit {
   @Output() closeSidebar: EventEmitter<any> = new EventEmitter();
   @Output() removeFilter: EventEmitter<any> = new EventEmitter();
 
-  constructor(private elRef: ElementRef) {}
-
   // Start ControlValueAccessor
   registerOnChange(fn: Function) {
     this.onChange = fn;
@@ -53,15 +48,10 @@ export class FilterSidebar implements OnInit {
   }
   // End ControlValueAccessor
 
-  isOpen: boolean = false;
   filtersWithLabels = [];
   _filters: number[] = [];
   onChange: Function = () => {};
   onTouched: Function = () => {};
-
-  open() {
-    this.openSidebar = true;
-  }
 
   close() {
     this.onChange([...this.filters]);
@@ -70,19 +60,17 @@ export class FilterSidebar implements OnInit {
   }
 
   addFilter(option) {
-    if(this.filters.find(x => x === option.value)) {
+    if(this.filters.find(filterValue => filterValue === option.value)) {
       const elementIndex = this.filters.indexOf(option.value);
       this.filters.splice(elementIndex, 1);
       return;
     }
 
-    this.filters.push(option.value)
+    this.filters.push(option.value);
   }
 
   activeFilter(optionValue) {
-    if(this.filters.find(x => x === optionValue)) {
-      return true;
-    }
+    return this.filters.some((filterValue) => filterValue === optionValue)
   }
 
   ngOnInit(): void {

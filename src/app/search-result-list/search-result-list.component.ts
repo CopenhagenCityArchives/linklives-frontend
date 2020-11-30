@@ -73,11 +73,6 @@ export class SearchResultListComponent implements OnInit {
       .filter((key) => this.indices[key].value)
       .join(",") || null;
   }
-
-
-  get lifeCourseQueryParams() {
-    return {...this.searchQueryParams, index: 'lifecourses'};
-  }
   
   get queryParams() {
     return {

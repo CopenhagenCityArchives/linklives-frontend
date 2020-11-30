@@ -177,7 +177,6 @@ export class ElasticsearchService {
           match: { [`person_appearance.${mustKey}`]: value }
         });
 
-        
         return;
       }
 
