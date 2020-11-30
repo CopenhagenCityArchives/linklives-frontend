@@ -10,7 +10,6 @@ import { PersonAppearance } from '../search/search.service';
 export class LifeCourseComponent implements OnInit {
 
   pas: PersonAppearance[] = [];
-  // TODO: This ID seems to be just "1" all the time. Fix it.
   lifecourseId: number;
 
   get config() {
@@ -73,7 +72,6 @@ export class LifeCourseComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe(next => {
-      console.log(next)
       this.pas = next.lifecourse.personAppearances as PersonAppearance[];
       this.lifecourseId = next.lifecourse.lifecourseId;
     });
