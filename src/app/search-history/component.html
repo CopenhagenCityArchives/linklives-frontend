@@ -12,13 +12,12 @@
           </svg>
         </button>
     </div>
-    <div
+    <ng-container
         *ngFor="let entry of searchHistory"
-        class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item"
     >
         <a
             *ngIf="entry.type === 'search_result'"
-            class="lls-search-history__item-link"
+            class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item lls-search-history__item-link"
             [routerLink]="['./']"
             [queryParams]="entry.query"
             (click)="closeSearchHistory()"
@@ -43,38 +42,43 @@
         </a>
         <a
             *ngIf="entry.type === 'lifecourse'"
-            class="lls-search-history__item-link"
+            class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item lls-search-history__item-link"
+            [routerLink]="['/life-course', entry.lifecourse.id]"
             (click)="closeSearchHistory()"
         >
-            <h3 class="lls-search-history__item-header">
-                <svg class="lls-icon lls-icon--left u-mr-2">
-                    <use [attr.href]="featherIconPath + '#circle'"></use>
-                </svg>
-                <span>Livsforløb {{ entry.lifecourse[0].source_year }}-{{ entry.lifecourse[entry.lifecourse.length - 1].source_year }}</span>
-            </h3>
-            <p class="u-text-capitalize u-margin-0">
-                <strong class="u-mr-2">Navn</strong> {{ entry.lifecourse[entry.lifecourse.length - 1].name_clean }}
-            </p>
+            <div>
+                <h3 class="lls-search-history__item-header">
+                    <svg class="lls-icon lls-icon--left u-mr-2">
+                        <use [attr.href]="featherIconPath + '#circle'"></use>
+                    </svg>
+                    <span>Livsforløb {{ entry.lifecourse.personAppearances[0].source_year }}-{{ entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1].source_year }}</span>
+                </h3>
+                <p class="u-text-capitalize u-margin-0">
+                    <strong class="u-mr-2">Navn</strong> {{ entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1].name_clean }}
+                </p>
+            </div>
         </a>
         <a
             *ngIf="entry.type === 'census'"
-            class="lls-search-history__item-link"
+            class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item lls-search-history__item-link"
             [routerLink]="['/pa', entry.personAppearance.source_id + '-' + entry.personAppearance.pa_id]"
             (click)="closeSearchHistory()"
         >
-            <h3 class="lls-search-history__item-header">
-                <svg class="lls-icon lls-icon--left u-mr-2">
-                    <use [attr.href]="featherIconPath + '#calendar'"></use>
-                </svg>
-                <span>Folketælling {{ entry.personAppearance.source_year }}</span>
-            </h3>
-            <p class="u-text-capitalize u-margin-0">
-                <strong class="u-mr-2">Navn</strong> {{ entry.personAppearance.name_clean }}
-            </p>
+            <div>
+                <h3 class="lls-search-history__item-header">
+                    <svg class="lls-icon lls-icon--left u-mr-2">
+                        <use [attr.href]="featherIconPath + '#calendar'"></use>
+                    </svg>
+                    <span>Folketælling {{ entry.personAppearance.source_year }}</span>
+                </h3>
+                <p class="u-text-capitalize u-margin-0">
+                    <strong class="u-mr-2">Navn</strong> {{ entry.personAppearance.name_clean }}
+                </p>
+            </div>
         </a>
         <!-- <a class="lls-btn lls-btn--blue" >
             {{ entry.type }}: query={{ !!entry.query }}, lifecourse={{ !!entry.lifecourse }}, personappearance={{ !!entry.personAppearance }}
         </a> -->
-    </div>
+    </ng-container>
 </aside>
 

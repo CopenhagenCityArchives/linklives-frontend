@@ -19,7 +19,10 @@ export class LifeCourseResolverService implements Resolve<{lifecourseId:number, 
 
       addSearchHistoryEntry({
         type: SearchHistoryEntryType.Lifecourse,
-        lifecourse,
+        lifecourse: {
+          id: route.params['id'],
+          personAppearances: lifecourse,
+        },
       });
 
       return { lifecourseId: route.params['id'], personAppearances: lifecourse }

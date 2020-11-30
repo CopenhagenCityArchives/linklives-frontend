@@ -12,8 +12,13 @@ export enum SearchHistoryEntryType {
 export interface SearchHistoryEntry {
   type: SearchHistoryEntryType,
   query?: AdvancedSearchQuery,
-  lifecourse?: PersonAppearance[],
+  lifecourse?: LifecourseSearchHistoryEntry,
   personAppearance?: PersonAppearance,
+}
+
+export interface LifecourseSearchHistoryEntry {
+  id: string,
+  personAppearances: PersonAppearance[],
 }
 
 export interface SearchHistoryEntryListener {
