@@ -24,11 +24,21 @@
             >
                 Tilbage til søgning
             </a>
-            <a href="">
+            <a
+                (click)="openSearchHistory = true"
+                (keyup.enter)="openSearchHistory = true"
+                tabindex="0"
+                style="cursor: pointer;"
+            >
                 Min søgehistorik
             </a>
         </div>
     </section>
+    <app-search-history
+        [openSearchHistory]="openSearchHistory"
+        [featherIconPath]="featherSpriteUrl"
+        (close)="openSearchHistory = false"
+    ></app-search-history>
     <section>
         <h3 class="u-margin-0">Kilder</h3>
         <app-person-appearance-item [item]="pa" class="mx-2" *ngFor="let pa of pas"></app-person-appearance-item>

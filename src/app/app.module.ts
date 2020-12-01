@@ -13,6 +13,7 @@ import { LifeCourseComponent } from './life-course/life-course.component';
 import { PersonAppearanceItemComponent } from './person-appearance/person-appearance-item.component';
 import { LifeCourseItemComponent } from './life-course/life-course-item.component';
 import { FormElementsModule } from './form-elements.module';
+import { SearchHistoryComponent } from './search-history/component';
 import { FilterSidebar } from './filter-sidebar/component';
 import { RelatedPeopleComponent } from './person-appearance/related-people.component';
 import { SourceDataComponent } from './person-appearance/source-data.component';
@@ -28,6 +29,7 @@ import { SourceDataComponent } from './person-appearance/source-data.component';
     LifeCourseComponent,
     PersonAppearanceItemComponent,
     LifeCourseItemComponent,
+    SearchHistoryComponent,
     FilterSidebar,
   ],
   imports: [

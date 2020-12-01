@@ -26,6 +26,7 @@ export class SearchResultListComponent implements OnInit {
   searchResult: SearchResult;
   searchQueryParams: SearchQueryParams;
   openSidebar: boolean = false;
+  openSearchHistory: boolean = false;
 
   pagination: {
     current: number,
@@ -179,6 +180,10 @@ export class SearchResultListComponent implements OnInit {
   closeSidebar(event) {
     this.openSidebar = false;
     this.search();
+  }
+
+  closeSearchHistory() {
+    this.openSearchHistory = false;
   }
 
   removeSearchTerm(i: number, $event) {
