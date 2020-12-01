@@ -19,6 +19,7 @@ export class LifeCourseComponent implements OnInit {
   }
 
   featherSpriteUrl = this.config.featherIconPath;
+  openSearchHistory: boolean = false;
 
   get latestPersonAppearance() {
     const sortedByYear = this.pas.sort(function(a, b) {

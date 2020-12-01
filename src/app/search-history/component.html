@@ -1,7 +1,7 @@
 <div [class]="openSearchHistory ? 'lls-overlay' : ''"></div>
 <aside class="lls-search-history lls-sidebar lls-sidebar--right" [class]="openSearchHistory ? 'lls-sidebar--open' : ''">
     <div class="lls-sidebar__header">
-        <h3>Min Søgehistorik</h3>
+        <h3 class="u-margin-0">Min Søgehistorik</h3>
         <button
           class="lls-btn lls-btn--outline"
           [tabIndex]="openSearchHistory ? 0 : -1"
@@ -18,7 +18,7 @@
             *ngSwitchCase="'search_result'"
             class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item lls-search-history__item-link"
             [tabIndex]="openSearchHistory ? 0 : -1"
-            [routerLink]="['./']"
+            [routerLink]="['/results']"
             [queryParams]="entry.query"
             (click)="closeSearchHistory()"
         >

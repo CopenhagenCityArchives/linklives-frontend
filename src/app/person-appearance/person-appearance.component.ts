@@ -10,6 +10,7 @@ import { prettySourceLocation } from '../display-helpers';
 })
 export class PersonAppearanceComponent implements OnInit {
   featherSpriteUrl = window["lls"].featherIconPath;
+  openSearchHistory: boolean = false;
 
   constructor(private route: ActivatedRoute) { }
   pa: PersonAppearance;
