@@ -29,14 +29,8 @@
                     </svg>
                     <span>Søgeresultat</span>
                 </h3>
-                <p class="u-margin-0" *ngIf="entry.query.query">
-                    <strong class="u-mr-2">Fritekst</strong> {{ entry.query.query }}
-                </p>
-                <p class="u-margin-0" *ngIf="entry.query.firstName">
-                    <strong class="u-mr-2">Fornavn</strong> {{ entry.query.firstName }}
-                </p>
-                <p class="u-margin-0" *ngIf="entry.query.lastName">
-                    <strong class="u-mr-2">Efternavn</strong> {{ entry.query.lastName }}
+                <p class="u-margin-0" *ngFor="let item of entry.queryItems">
+                    <strong class="u-mr-2">{{ searchFieldLabels[item.field] }}</strong> {{ item.value }}
                 </p>
             </div>
         </a>
