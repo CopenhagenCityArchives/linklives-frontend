@@ -42,9 +42,12 @@
         >
             <div>
                 <h3 class="lls-search-history__item-header">
-                    <svg class="lls-icon lls-icon--left u-mr-2">
-                        <use [attr.href]="featherIconPath + '#circle'"></use>
-                    </svg>
+                    <div class="lls-search-history__source-count u-mr-2">
+                        <svg class="lls-icon lls-icon--left">
+                            <use [attr.href]="featherIconPath + '#circle'"></use>
+                        </svg>
+                        <span class="lls-search-history__source-number">{{ entry.lifecourse.personAppearances.length }}</span>
+                    </div>
                     <span>Livsforløb {{ entry.lifecourse.personAppearances[0].source_year }}-{{ entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1].source_year }}</span>
                 </h3>
                 <p class="u-text-capitalize u-margin-0">
