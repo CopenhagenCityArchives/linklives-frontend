@@ -18,7 +18,6 @@ export class SearchHistoryComponent implements OnInit {
 
   ngOnInit(): void {
     onSearchHistoryEntry((history) => this.searchHistory = history);
-    console.warn("searchHistory", this.searchHistory)
   }
 
   closeSearchHistory() {
