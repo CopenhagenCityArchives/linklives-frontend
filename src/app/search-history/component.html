@@ -4,6 +4,7 @@
         <h3>Min Søgehistorik</h3>
         <button
           class="lls-btn lls-btn--outline"
+          [tabIndex]="openSearchHistory ? 0 : -1"
           (click)="closeSearchHistory()"
         >
           <span>Luk</span>
@@ -12,12 +13,11 @@
           </svg>
         </button>
     </div>
-    <ng-container
-        *ngFor="let entry of searchHistory"
-    >
+    <ng-container *ngFor="let entry of searchHistory">
         <a
             *ngIf="entry.type === 'search_result'"
             class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item lls-search-history__item-link"
+            [tabIndex]="openSearchHistory ? 0 : -1"
             [routerLink]="['./']"
             [queryParams]="entry.query"
             (click)="closeSearchHistory()"
@@ -37,6 +37,7 @@
         <a
             *ngIf="entry.type === 'lifecourse'"
             class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item lls-search-history__item-link"
+            [tabIndex]="openSearchHistory ? 0 : -1"
             [routerLink]="['/life-course', entry.lifecourse.id]"
             (click)="closeSearchHistory()"
         >
@@ -64,6 +65,7 @@
         <a
             *ngIf="entry.type === 'census'"
             class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item lls-search-history__item-link"
+            [tabIndex]="openSearchHistory ? 0 : -1"
             [routerLink]="['/pa', entry.personAppearance.source_id + '-' + entry.personAppearance.pa_id]"
             (click)="closeSearchHistory()"
         >
@@ -85,9 +87,6 @@
                 </p>
             </div>
         </a>
-        <!-- <a class="lls-btn lls-btn--blue" >
-            {{ entry.type }}: query={{ !!entry.query }}, lifecourse={{ !!entry.lifecourse }}, personappearance={{ !!entry.personAppearance }}
-        </a> -->
     </ng-container>
 </aside>
 

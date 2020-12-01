@@ -1,7 +1,12 @@
 <section class="lls-results-header">
     <div class="lls-container">
         <div class="lls-results-header__right-section">
-            <a (click)="openSearchHistory = true" class="lls-results-header__history-link">
+            <a
+                (click)="openSearchHistory = true"
+                (keyup.enter)="openSearchHistory = true"
+                class="lls-results-header__history-link"
+                tabindex="0"
+            >
                 Min søgehistorik
             </a>
         </div>
