@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { getSearchHistory, onSearchHistoryEntry, SearchHistoryEntry } from '../search-history';
 import { searchFieldLabels } from 'src/app/search-term-values';
+import { prettyBirthLocation } from '../display-helpers';
 
 @Component({
   selector: 'app-search-history',
@@ -13,6 +14,7 @@ export class SearchHistoryComponent implements OnInit {
   @Output() close: EventEmitter<any> = new EventEmitter();
   searchHistory: SearchHistoryEntry[] = getSearchHistory();
   searchFieldLabels = searchFieldLabels;
+  prettyBirthLocation = prettyBirthLocation;
 
   ngOnInit(): void {
     onSearchHistoryEntry((history) => this.searchHistory = history);
