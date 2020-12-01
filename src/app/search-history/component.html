@@ -13,9 +13,9 @@
           </svg>
         </button>
     </div>
-    <ng-container *ngFor="let entry of searchHistory">
+    <ng-container *ngFor="let entry of searchHistory" [ngSwitch]="entry.type">
         <a
-            *ngIf="entry.type === 'search_result'"
+            *ngSwitchCase="'search_result'"
             class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item lls-search-history__item-link"
             [tabIndex]="openSearchHistory ? 0 : -1"
             [routerLink]="['./']"
@@ -35,7 +35,7 @@
             </div>
         </a>
         <a
-            *ngIf="entry.type === 'lifecourse'"
+            *ngSwitchCase="'lifecourse'"
             class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item lls-search-history__item-link"
             [tabIndex]="openSearchHistory ? 0 : -1"
             [routerLink]="['/life-course', entry.lifecourse.id]"
@@ -63,7 +63,7 @@
             </div>
         </a>
         <a
-            *ngIf="entry.type === 'census'"
+            *ngSwitchCase="'census'"
             class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item lls-search-history__item-link"
             [tabIndex]="openSearchHistory ? 0 : -1"
             [routerLink]="['/pa', entry.personAppearance.source_id + '-' + entry.personAppearance.pa_id]"
