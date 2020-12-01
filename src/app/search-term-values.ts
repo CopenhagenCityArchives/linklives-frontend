@@ -47,12 +47,9 @@ export const mapQueryShouldKey = {
 
 export const sortValues = {
   relevance: [ "_score" ],
-  firstName: [ "first_names" ],
-  lastName: [ "all_possible_family_names", "all_possible_patronyms" ],
-  birthName: [ "maiden_family_names", "maiden_patronyms" ],
-  birthPlace: [ "birth_place" ],
-  sourcePlace: [ "parish", "county", "district" ],
-  sourceYear: [ "source_year" ],
+  firstName: [ "first_names_sortable" ],
+  lastName: [ "family_names_sortable" ],
+  birthYear: [ "birth_year" ],
 };
 
 // Advanced search
@@ -77,10 +74,7 @@ export const sortByOptions = [
   { label: "Relevans", value: "relevance", disabled: true },
   { label: "Fornavn", value: "firstName" },
   { label: "Efternavn", value: "lastName" },
-  { label: "Fødselsnavn", value: "birthName" },
-  { label: "Fødested", value: "birthPlace" },
-  { label: "Kildested", value: "sourcePlace" },
-  { label: "Kildeår", value: "sourceYear" },
+  { label: "Fødselsår", value: "birthYear", disabled: true },
 ];
 
 export const searchFieldLabels = {
