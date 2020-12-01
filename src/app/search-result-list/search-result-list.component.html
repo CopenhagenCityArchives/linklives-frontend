@@ -123,6 +123,7 @@
                         [options]="sortByOptions"
                         [(ngModel)]="sortBy"
                         [featherIconPath]="featherSpriteUrl"
+                        (change)="search()"
                     ></lls-dropdown>
                 </label>
                 <label class="lls-search-modifier-inputs__entry">
