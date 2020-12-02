@@ -149,6 +149,9 @@
         <app-person-appearance-item *ngSwitchCase="'pas'" class="mx-2" [item]="hit.pa"></app-person-appearance-item>
         <app-life-course-item *ngSwitchCase="'lifecourses'" class="mx-2" [item]="hit.pas" [lifecourse-id]="hit.life_course_id"></app-life-course-item>
     </ng-container>
+    <p *ngIf="!searchResult.hits.length" class="u-text-center">
+        Din søgning gav ingen resultater.
+    </p>
 
     <nav>
         <div class="lls-pagination">
