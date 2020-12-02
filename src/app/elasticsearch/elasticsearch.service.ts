@@ -122,6 +122,7 @@ export class ElasticsearchService {
   }
 
   search(indices: string[], body: any): Observable<SearchResult> {
+    // TODO: Prettifiy the loading overlay code.
     const loadingIndicator = document.querySelector("app-loading-overlay");
     if(loadingIndicator) {
       loadingIndicator.classList.remove("u-hide");
