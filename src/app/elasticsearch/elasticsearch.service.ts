@@ -122,11 +122,9 @@ export class ElasticsearchService {
   }
 
   search(indices: string[], body: any): Observable<SearchResult> {
-    const loadingIndicator = document.querySelector(".lls-loading-overlay");
-    const overlay = document.querySelector(".lls-overlay");
+    const loadingIndicator = document.querySelector("app-loading-overlay");
     if(loadingIndicator) {
-      overlay.classList.remove("lls-overlay--hidden")
-      loadingIndicator.classList.add("lls-loading-overlay--show");
+      loadingIndicator.classList.remove("u-hide");
     }
     var result = new Observable<SearchResult>(observer => {
       this.http.post<ElasticSearchResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, body)
@@ -137,12 +135,16 @@ export class ElasticsearchService {
             observer.error(error);
           }
         }, error => {
+          document.querySelector(".lls-loading-overlay").classList.add("lls-loading-overlay--error");
+          window.setTimeout(function() {
+            loadingIndicator.classList.add("u-hide");
+            document.querySelector(".lls-loading-overlay").classList.remove("lls-loading-overlay--error");
+          }, 3000);
           observer.error(error);
         }, () => {
           observer.complete();
           if(loadingIndicator) {
-            overlay.classList.add("lls-overlay--hidden")
-            loadingIndicator.classList.remove("lls-loading--show"); 
+            loadingIndicator.classList.add("u-hide");
           }
         });
     });
