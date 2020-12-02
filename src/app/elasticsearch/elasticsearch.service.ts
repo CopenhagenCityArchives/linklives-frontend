@@ -122,6 +122,12 @@ export class ElasticsearchService {
   }
 
   search(indices: string[], body: any): Observable<SearchResult> {
+    const loadingIndicator = document.querySelector(".lls-loading-overlay");
+    const overlay = document.querySelector(".lls-overlay");
+    if(loadingIndicator) {
+      overlay.classList.remove("lls-overlay--hidden")
+      loadingIndicator.classList.add("lls-loading-overlay--show");
+    }
     var result = new Observable<SearchResult>(observer => {
       this.http.post<ElasticSearchResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, body)
         .subscribe(next => {
@@ -134,9 +140,12 @@ export class ElasticsearchService {
           observer.error(error);
         }, () => {
           observer.complete();
+          if(loadingIndicator) {
+            overlay.classList.add("lls-overlay--hidden")
+            loadingIndicator.classList.remove("lls-loading--show"); 
+          }
         });
     });
-
     return result;
   }
 

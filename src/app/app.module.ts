@@ -7,6 +7,7 @@ import { AppRoutingModule } from './app-routing.module';
 
 import { AppComponent } from './app.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
+import { LoadingOverlay } from './loading-overlay/component';
 import { SearchResultListComponent } from './search-result-list/search-result-list.component';
 import { PersonAppearanceComponent } from './person-appearance/person-appearance.component';
 import { LifeCourseComponent } from './life-course/life-course.component';
@@ -22,6 +23,7 @@ import { SourceDataComponent } from './person-appearance/source-data.component';
   declarations: [
     AppComponent,
     PageNotFoundComponent,
+    LoadingOverlay,
     SearchResultListComponent,
     PersonAppearanceComponent,
     RelatedPeopleComponent,

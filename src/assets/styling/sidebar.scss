@@ -9,6 +9,10 @@
   opacity: 0.46;
 }
 
+.lls-overlay--hidden {
+  display: none;
+}
+
 .lls-sidebar {
   transform: translateX(-100%);
   transition: transform ease-in 200ms;
