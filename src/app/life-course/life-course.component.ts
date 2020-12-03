@@ -67,11 +67,11 @@ export class LifeCourseComponent implements OnInit {
       return {
         path: `
           M0,0
-          h${tier * 20}
+          h${tier * 16}
           a10,10 0 0 1 10,10
           v${((196 + 27) * indexDiff) - 20}
           a10,10 0 01 -10,10
-          h-${tier * 20}
+          h-${tier * 16}
         `,
         offsetY: ((196 + 27) * firstIndex + (196 / 2)),
       };
