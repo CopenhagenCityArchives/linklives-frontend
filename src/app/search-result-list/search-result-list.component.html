@@ -84,38 +84,36 @@
 </section>
 <section class="lls-container">
     <div class="lls-row">
-        <div class="lls-columns-6 lls-search-modifiers">
+        <div class="lls-columns-12 lls-columns-6--sm lls-columns-9--md lls-search-modifiers">
             <!-- Filtering -->
-            <div class="lls-columns-12 lls-columns-6--sm u-p-2">
-                <p>Filter resultater</p>
-                <button class="lls-btn lls-btn--outline lls-btn--link" (click)="openSidebar = true">
-                    <span>Kilder</span>
-                    <svg class="lls-icon lls-icon--right">
-                        <use [attr.href]="featherSpriteUrl + '#chevron-right'"></use>
+            <span class="lls-search-modifier-inputs__label">Filter resultater</span>
+            <button class="lls-btn lls-btn--outline lls-btn--link" (click)="openSidebar = true">
+                <span>Kilder</span>
+                <svg class="lls-icon lls-icon--right">
+                    <use [attr.href]="featherSpriteUrl + '#chevron-right'"></use>
+                </svg>
+            </button>
+            <lls-filter-sidebar
+                [(ngModel)]="sourceFilter"
+                [openSidebar]="openSidebar"
+                [featherIconPath]="config.featherIconPath"
+                [possibleYears]="possibleYears"
+                (closeSidebar)="closeSidebar($event)"
+                (removeFilter)="removeFilter($event)"
+            ></lls-filter-sidebar>
+            <div class="lls-results-filter__items">
+                <button
+                    *ngFor="let filterItem of sourceFilter; index as i;"
+                    class="lls-btn lls-btn--grey u-mr-2 u-mt-2 u-text-capitalize"
+                >
+                    <span>Folketælling {{ filterItem }}</span>
+                    <svg class="lls-icon lls-icon--right" (click)="removeFilter(filterItem)">
+                        <use [attr.href]="config.featherIconPath + '#x'"></use>
                     </svg>
                 </button>
-                <lls-filter-sidebar
-                    [(ngModel)]="sourceFilter"
-                    [openSidebar]="openSidebar"
-                    [featherIconPath]="config.featherIconPath"
-                    [possibleYears]="possibleYears"
-                    (closeSidebar)="closeSidebar($event)"
-                    (removeFilter)="removeFilter($event)"
-                ></lls-filter-sidebar>
-                <div class="lls-results-filter__items">
-                    <button
-                        *ngFor="let filterItem of sourceFilter; index as i;"
-                        class="lls-btn lls-btn--small lls-btn--grey u-mr-2 u-mt-2"
-                    >
-                        <span>{{ filterItem }}</span>
-                        <svg class="lls-icon lls-icon--right" (click)="removeFilter(filterItem)">
-                            <use [attr.href]="config.featherIconPath + '#x'"></use>
-                        </svg>
-                    </button>
-                </div>
             </div>
         </div>
-        <div class="lls-columns-12 lls-columns-6--sm lls-search-modifiers lls-search-modifiers--right">
+        <div class="lls-columns-12 lls-columns-6--sm lls-columns-3--md lls-search-modifiers lls-search-modifiers--right">
             <div class="lls-search-modifier-inputs lls-search-modifier-inputs">
                 <!--label class="lls-search-modifier-inputs__entry">
                     <span class="lls-search-modifier-inputs__label">Antal per side</span>

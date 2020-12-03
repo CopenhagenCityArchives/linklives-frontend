@@ -6,7 +6,10 @@
 .lls-search-modifiers--right {
   display: flex;
   flex-direction: column;
-  align-items: flex-end;
+
+  @media(min-width: $breakpointMd) {
+    align-items: flex-end;
+  }
 }
 
 .lls-search-modifier-inputs {
@@ -14,6 +17,7 @@
   justify-content: flex-end;
   width: 100%;
 }
+
 .lls-search-modifier-inputs__entry {
   margin-left: 0.25rem;
   margin-right: 0.25rem;
@@ -26,9 +30,11 @@
     margin-right: 0;
   }
 }
+
 .lls-search-modifier-inputs__entry--basis-200 {
   flex-basis: 200px;
 }
+
 .lls-search-modifier-inputs__label {
   display: block;
   margin-bottom: 0.25rem;
