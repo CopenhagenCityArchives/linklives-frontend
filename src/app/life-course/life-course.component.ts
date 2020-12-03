@@ -27,21 +27,43 @@ export class LifeCourseComponent implements OnInit {
   }
 
   get drawableLinks() {
-    console.log("pas", this.pas.map((pa) => (`${pa.source_id}-${pa.pa_id}`)));
-    console.log("links", this.links.map((link) => ({ a: `${link.source_id1}-${link.pa_id1}`, b: `${link.source_id2}-${link.pa_id2}` })));
-    return this.links.map((link, i) => {
-      const matchEitherLinkEnd = (pa: PersonAppearance) => {
-        return [
-          `${link.source_id1}-${link.pa_id1}`,
-          `${link.source_id2}-${link.pa_id2}`
-        ].includes(`${pa.source_id}-${pa.pa_id}`);
-      };
+    //These represent gaps, not PAs, so there is one less than there are PAs in order.
+    const maxTiers = Array(this.pas.length - 1).fill(-1);
 
-      const firstIndex = this.pas.findIndex(matchEitherLinkEnd);
-      const lastIndex = this.pas.length - 1 - (this.pasReversed.findIndex(matchEitherLinkEnd));
+    const matchEitherLinkEnd = (link: Link) => (pa: PersonAppearance) => {
+      return [
+        `${link.source_id1}-${link.pa_id1}`,
+        `${link.source_id2}-${link.pa_id2}`
+      ].includes(`${pa.source_id}-${pa.pa_id}`);
+    };
+
+    const getIndexLength = (link: Link) => {
+      const firstIndex = this.pas.findIndex(matchEitherLinkEnd(link));
+      const lastIndex = this.pas.length - 1 - (this.pasReversed.findIndex(matchEitherLinkEnd(link)));
       const indexDiff = lastIndex - firstIndex;
+      return { indexDiff, firstIndex, lastIndex };
+    };
 
-      const tier = 0;
+    const shortestLinkFirst = (a, b) => {
+      const { indexDiff: aLength } = getIndexLength(a);
+      const { indexDiff: bLength } = getIndexLength(b);
+
+      if(aLength < bLength) {
+        return -1;
+      }
+      if(aLength > bLength) {
+        return 1;
+      }
+      return 0;
+    };
+
+    return this.links.sort(shortestLinkFirst).map((link, i) => {
+      const { indexDiff, firstIndex, lastIndex } = getIndexLength(link);
+
+      const maxTiersInRange: number[] = maxTiers.slice(firstIndex, lastIndex);
+      const tier = Math.max.apply(Math, maxTiersInRange) + 1;
+      maxTiers.fill(tier, firstIndex, lastIndex);
+
       return {
         path: `
           M0,0
