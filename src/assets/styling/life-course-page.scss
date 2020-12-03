@@ -1,0 +1,19 @@
+.lls-life-course-source-container {
+  display: flex;
+}
+
+.lls-life-course-source-container__source-list {
+  flex-grow: 1;
+}
+
+.lls-life-course-source-container__source-linking-graph {
+  width: 200px;
+  height: 100%;
+  display: none;
+  margin-left: 1rem;
+  margin-top: 3.625rem;
+
+  @media(min-width: $breakpointMd) {
+    display: block;
+  }
+}

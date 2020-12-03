@@ -10,6 +10,7 @@
     flex-direction: row;
     border-radius: 10px;
     border-left: none;
+    height: 196px;
   }
 
   &::before {
@@ -44,6 +45,10 @@
   padding: 24px 20px;
   width: 100%;
   box-sizing: border-box;
+
+  @media(min-width: $breakpointMd) {
+    width: calc(25% - 4px);
+  }
 }
 
 .lls-source__section--cta {
@@ -151,6 +156,9 @@
 .lls-source__person-name {
   margin-bottom: 0;
   margin-right: 0.75rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .lls-source__person-age {

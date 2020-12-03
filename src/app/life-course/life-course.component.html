@@ -29,10 +29,59 @@
             </a>
         </div>
     </section>
-    <section>
-        <h3 class="u-margin-0">Kilder</h3>
-        <app-person-appearance-item [item]="pa" class="mx-2" *ngFor="let pa of pas"></app-person-appearance-item>
-    </section>
+    <div class="lls-life-course-source-container">
+        <section class="lls-life-course-source-container__source-list">
+            <h3 class="u-margin-0">Kilder</h3>
+            <app-person-appearance-item [item]="pa" class="mx-2" *ngFor="let pa of pas"></app-person-appearance-item>
+        </section>
+        <section class="lls-life-course-source-container__source-linking-graph">
+            <svg width="200px" [attr.height]="(196 + 16) * pas.length" [attr.viewBox]="'0 0 200 ' + ((196 + 16) * pas.length)">
+                <style scoped>
+                    .lls-life-course-source-container__source-linking-graph-source-year {
+                        font-size: 0.9rem;
+                        font-weight: 600;
+                        letter-spacing: 1px;
+                    }
+                </style>
+                <!-- Cirlces for years -->
+                <g
+                    *ngFor="let pa of pas; index as i;"
+                    [attr.transform]="'translate(0 ' + ((196 + 27) * i + (196 / 2)) + ')'"
+                >
+                    <text
+                        class="lls-life-course-source-container__source-linking-graph-source-year"
+                        text-anchor="end"
+                        alignment-baseline="middle"
+                        x="40"
+                        dy=".3em"
+                    >
+                        {{ pa.source_year }}
+                    </text>
+                    <circle
+                        cx="65"
+                        r="17"
+                        fill="rgb(224, 224, 224)"
+                    />
+                    <circle
+                        cx="65"
+                        r="5"
+                        fill="rgb(203, 150, 74)"
+                        stroke="white"
+                        stroke-width="2"
+                    />
+                </g>
+                <!-- Chronological lines between -->
+                <line
+                    x1="65"
+                    x2="65"
+                    [attr.y1]="((196 + 27) * i + (196 / 2)) + 20 + 5"
+                    [attr.y2]="((196 + 27) * (i + 1) + (196 / 2)) - 20 - 5"
+                    stroke="black"
+                    *ngFor="let pa of pas.slice(1); index as i; let last = last;"
+                />
+            </svg>
+        </section>
+    </div>
     <section>
         <div class="lls-data-page-footer">
             <div class="lls-data-page-footer__entry">
