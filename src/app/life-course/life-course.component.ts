@@ -22,6 +22,40 @@ export class LifeCourseComponent implements OnInit {
   featherSpriteUrl = this.config.featherIconPath;
   openSearchHistory: boolean = false;
 
+  get pasReversed() {
+    return [ ...this.pas ].reverse();
+  }
+
+  get drawableLinks() {
+    console.log("pas", this.pas.map((pa) => (`${pa.source_id}-${pa.pa_id}`)));
+    console.log("links", this.links.map((link) => ({ a: `${link.source_id1}-${link.pa_id1}`, b: `${link.source_id2}-${link.pa_id2}` })));
+    return this.links.map((link, i) => {
+      const matchEitherLinkEnd = (pa: PersonAppearance) => {
+        return [
+          `${link.source_id1}-${link.pa_id1}`,
+          `${link.source_id2}-${link.pa_id2}`
+        ].includes(`${pa.source_id}-${pa.pa_id}`);
+      };
+
+      const firstIndex = this.pas.findIndex(matchEitherLinkEnd);
+      const lastIndex = this.pas.length - 1 - (this.pasReversed.findIndex(matchEitherLinkEnd));
+      const indexDiff = lastIndex - firstIndex;
+
+      const tier = 0;
+      return {
+        path: `
+          M0,0
+          h${tier * 20}
+          a10,10 0 0 1 10,10
+          v${((196 + 27) * indexDiff) - 20}
+          a10,10 0 01 -10,10
+          h-${tier * 20}
+        `,
+        offsetY: ((196 + 27) * firstIndex + (196 / 2)),
+      };
+    });
+  }
+
   get latestPersonAppearance() {
     const sortedByYear = this.pas.sort(function(a, b) {
       if (a.source_year > b.source_year) {

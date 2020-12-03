@@ -89,6 +89,18 @@
                     stroke="black"
                     *ngFor="let pa of pas.slice(1); index as i; let last = last;"
                 />
+                <!-- Links -->
+                <g
+                    *ngFor="let link of drawableLinks;"
+                    [attr.transform]="'translate(90 ' + link.offsetY + ')'"
+                >
+                    <path
+                        [attr.d]="link.path"
+                        fill="transparent"
+                        stroke="#767676"
+                        stroke-dasharray="3 1"
+                    />
+                </g>
             </svg>
         </section>
     </div>
