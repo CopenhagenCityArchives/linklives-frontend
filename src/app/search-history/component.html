@@ -1,0 +1,92 @@
+<div [class]="openSearchHistory ? 'lls-overlay' : ''"></div>
+<aside class="lls-search-history lls-sidebar lls-sidebar--right" [class]="openSearchHistory ? 'lls-sidebar--open' : ''">
+    <div class="lls-sidebar__header">
+        <h3 class="u-margin-0">Min Søgehistorik</h3>
+        <button
+          class="lls-btn lls-btn--outline"
+          [tabIndex]="openSearchHistory ? 0 : -1"
+          (click)="closeSearchHistory()"
+        >
+          <span>Luk</span>
+          <svg class="lls-icon lls-icon--right">
+            <use [attr.href]="featherIconPath + '#x'"></use>
+          </svg>
+        </button>
+    </div>
+    <ng-container *ngFor="let entry of searchHistory" [ngSwitch]="entry.type">
+        <a
+            *ngSwitchCase="'search_result'"
+            class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item lls-search-history__item-link"
+            [tabIndex]="openSearchHistory ? 0 : -1"
+            [routerLink]="['/results']"
+            [queryParams]="entry.query"
+            (click)="closeSearchHistory()"
+        >
+            <div>
+                <h3 class="lls-search-history__item-header">
+                    <svg class="lls-icon lls-icon--left u-mr-2">
+                        <use [attr.href]="featherIconPath + '#search'"></use>
+                    </svg>
+                    <span>Søgeresultat</span>
+                </h3>
+                <p class="u-margin-0" *ngFor="let item of entry.queryItems">
+                    <strong class="u-mr-2">{{ searchFieldLabels[item.field] }}</strong> {{ item.value }}
+                </p>
+            </div>
+        </a>
+        <a
+            *ngSwitchCase="'lifecourse'"
+            class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item lls-search-history__item-link"
+            [tabIndex]="openSearchHistory ? 0 : -1"
+            [routerLink]="['/life-course', entry.lifecourse.id]"
+            (click)="closeSearchHistory()"
+        >
+            <div>
+                <h3 class="lls-search-history__item-header">
+                    <div class="lls-search-history__source-count u-mr-2">
+                        <svg class="lls-icon lls-icon--left">
+                            <use [attr.href]="featherIconPath + '#circle'"></use>
+                        </svg>
+                        <span class="lls-search-history__source-number">{{ entry.lifecourse.personAppearances.length }}</span>
+                    </div>
+                    <span>Livsforløb {{ entry.lifecourse.personAppearances[0].source_year }}-{{ entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1].source_year }}</span>
+                </h3>
+                <p class="u-text-capitalize u-margin-0">
+                    <strong class="u-mr-2">Navn</strong> {{ entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1].name_clean }}
+                </p>
+                <p class="u-margin-0">
+                    <strong class="u-mr-2">Født</strong> ca. {{ entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1].source_year - entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1].age_clean }}
+                </p>
+                <p class="u-text-capitalize u-margin-0">
+                    <strong class="u-mr-2">Fødested</strong> {{ prettyBirthLocation(entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1]) }}
+                </p>
+            </div>
+        </a>
+        <a
+            *ngSwitchCase="'census'"
+            class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item lls-search-history__item-link"
+            [tabIndex]="openSearchHistory ? 0 : -1"
+            [routerLink]="['/pa', entry.personAppearance.source_id + '-' + entry.personAppearance.pa_id]"
+            (click)="closeSearchHistory()"
+        >
+            <div>
+                <h3 class="lls-search-history__item-header">
+                    <svg class="lls-icon lls-icon--left u-mr-2">
+                        <use [attr.href]="featherIconPath + '#calendar'"></use>
+                    </svg>
+                    <span>Folketælling {{ entry.personAppearance.source_year }}</span>
+                </h3>
+                <p class="u-text-capitalize u-margin-0">
+                    <strong class="u-mr-2">Navn</strong> {{ entry.personAppearance.name_clean }}
+                </p>
+                <p class="u-margin-0">
+                    <strong class="u-mr-2">Født</strong> ca. {{ entry.personAppearance.source_year - entry.personAppearance.age_clean }}
+                </p>
+                <p class="u-text-capitalize u-margin-0">
+                    <strong class="u-mr-2">Fødested</strong> {{ prettyBirthLocation(entry.personAppearance) }}
+                </p>
+            </div>
+        </a>
+    </ng-container>
+</aside>
+

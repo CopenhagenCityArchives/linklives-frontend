@@ -3,6 +3,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/r
 import { PersonAppearance, PersonAppearanceHit } from '../search/search.service';
 import { map, mergeMap } from 'rxjs/operators';
 import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
+import { addSearchHistoryEntry, SearchHistoryEntryType } from '../search-history';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,11 @@ export class PersonAppearanceResolverService implements Resolve<{pa:PersonAppear
     return this.elasticsearch.getDocument('pas', route.params['id']).pipe(map(pa => pa as PersonAppearance))
     .pipe(
       mergeMap((pa: PersonAppearance, index) => {
+        addSearchHistoryEntry({
+          type: SearchHistoryEntryType.Census,
+          personAppearance: pa,
+        });
+
         let body = {
           "from": 0,
           "size": 100,

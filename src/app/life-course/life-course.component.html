@@ -24,11 +24,21 @@
             >
                 Tilbage til søgning
             </a>
-            <a href="">
+            <a
+                (click)="openSearchHistory = true"
+                (keyup.enter)="openSearchHistory = true"
+                tabindex="0"
+                style="cursor: pointer;"
+            >
                 Min søgehistorik
             </a>
         </div>
     </section>
+    <app-search-history
+        [openSearchHistory]="openSearchHistory"
+        [featherIconPath]="featherSpriteUrl"
+        (close)="openSearchHistory = false"
+    ></app-search-history>
     <div class="lls-life-course-source-container">
         <section class="lls-life-course-source-container__source-list">
             <h3 class="u-margin-0">Kilder</h3>

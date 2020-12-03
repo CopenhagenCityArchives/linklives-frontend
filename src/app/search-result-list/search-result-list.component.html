@@ -1,10 +1,20 @@
 <section class="lls-results-header">
     <div class="lls-container">
         <div class="lls-results-header__right-section">
-            <a routerLink="/user/search-history" class="lls-results-header__history-link">
+            <a
+                (click)="openSearchHistory = true"
+                (keyup.enter)="openSearchHistory = true"
+                class="lls-results-header__history-link"
+                tabindex="0"
+            >
                 Min søgehistorik
             </a>
         </div>
+        <app-search-history
+            [openSearchHistory]="openSearchHistory"
+            [featherIconPath]="config.featherIconPath"
+            (close)="closeSearchHistory()"
+        ></app-search-history>
         <form (ngSubmit)="search()" class="lls-row">
             <div class="lls-columns-12 lls-columns-6--md lls-columns-8--lg lls-columns-9--xl">
                 <div class="lls-row lls-row--align-bottom">
@@ -118,6 +128,7 @@
                         [options]="sortByOptions"
                         [(ngModel)]="sortBy"
                         [featherIconPath]="featherSpriteUrl"
+                        (change)="search()"
                     ></lls-dropdown>
                 </label>
                 <label class="lls-search-modifier-inputs__entry">
@@ -138,6 +149,9 @@
         <app-person-appearance-item *ngSwitchCase="'pas'" class="mx-2" [item]="hit.pa"></app-person-appearance-item>
         <app-life-course-item *ngSwitchCase="'lifecourses'" class="mx-2" [item]="hit.pas" [lifecourse-id]="hit.life_course_id"></app-life-course-item>
     </ng-container>
+    <p *ngIf="!searchResult.hits.length" class="u-text-center">
+        Din søgning gav ingen resultater.
+    </p>
 
     <nav>
         <div class="lls-pagination">

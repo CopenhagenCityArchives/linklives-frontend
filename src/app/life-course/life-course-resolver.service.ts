@@ -4,6 +4,7 @@ import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/r
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
 import { ElasticsearchService, Link } from '../elasticsearch/elasticsearch.service';
+import { addSearchHistoryEntry, SearchHistoryEntryType } from '../search-history';
 
 @Injectable({
   providedIn: 'root'
@@ -25,6 +26,14 @@ export class LifeCourseResolverService implements Resolve<{lifecourseId:number, 
     return this.elasticsearch.getDocument('lifecourses', route.params['id'])
       .pipe(map(pas => pas as PersonAppearance[]))
       .pipe(mergeMap((pas: PersonAppearance[], index) => {
+        addSearchHistoryEntry({
+          type: SearchHistoryEntryType.Lifecourse,
+          lifecourse: {
+            id: route.params['id'],
+            personAppearances: pas,
+          },
+        });
+
         return x(pas);
       }));
   }

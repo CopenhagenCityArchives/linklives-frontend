@@ -17,7 +17,7 @@
   text-align: left !important;
 }
 
-.u-text-right {
+.u-text-center {
   text-align: center !important;
 }
 
@@ -63,4 +63,8 @@
   svg {
     transform: translateY(1px);
   }
+}
+
+.u-hide {
+  display: none !important;
 }

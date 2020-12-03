@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Link } from '../elasticsearch/elasticsearch.service';
+import { prettyBirthLocation } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({
@@ -19,6 +20,7 @@ export class LifeCourseComponent implements OnInit {
   }
 
   featherSpriteUrl = this.config.featherIconPath;
+  openSearchHistory: boolean = false;
 
   get latestPersonAppearance() {
     const sortedByYear = this.pas.sort(function(a, b) {
@@ -34,21 +36,7 @@ export class LifeCourseComponent implements OnInit {
   }
 
   get birthLocation() {
-    const location = [
-      ...new Set(
-        [
-          this.latestPersonAppearance.birth_place_parish,
-          this.latestPersonAppearance.birth_place_district,
-          this.latestPersonAppearance.birth_place_county,
-          this.latestPersonAppearance.birth_place_koebstad,
-          this.latestPersonAppearance.birth_place_town,
-          this.latestPersonAppearance.birth_place_place,
-          this.latestPersonAppearance.birth_place_island,
-          this.latestPersonAppearance.birth_place_other,
-        ].filter((x) => x)
-      )
-    ].join(", ");
-    return location || this.latestPersonAppearance.birth_place_clean;
+    return prettyBirthLocation(this.latestPersonAppearance);
   }
 
   get lastUpdated() {

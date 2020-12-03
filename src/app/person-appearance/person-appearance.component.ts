@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PersonAppearance } from '../search/search.service';
+import { prettySourceLocation } from '../display-helpers';
 
 @Component({
   selector: 'app-person-appearance',
@@ -9,17 +10,14 @@ import { PersonAppearance } from '../search/search.service';
 })
 export class PersonAppearanceComponent implements OnInit {
   featherSpriteUrl = window["lls"].featherIconPath;
+  openSearchHistory: boolean = false;
 
   constructor(private route: ActivatedRoute) { }
   pa: PersonAppearance;
   hh: PersonAppearance[];
 
   get sourceLocation() {
-    return [
-      ...new Set(
-        [ this.pa.parish, this.pa.district, this.pa.county ].filter((x) => x)
-      )
-    ].join(", ");
+    return prettySourceLocation(this.pa);
   }
 
   get prettyLastUpdatedDate() {

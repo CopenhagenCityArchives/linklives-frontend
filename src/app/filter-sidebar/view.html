@@ -1,6 +1,6 @@
 <div [class]="openSidebar ? 'lls-overlay' : ''"></div>
-<aside class="lls-filter-sidebar" [class]="openSidebar ? 'lls-filter-sidebar--open' : ''">
-  <div class="lls-filter-sidebar__header">
+<aside class="lls-filter-sidebar lls-sidebar" [class]="openSidebar ? 'lls-sidebar--open' : ''">
+  <div class="lls-sidebar__header">
     <h3 class="u-margin-0">Vælg kilder</h3>
     <button
       class="lls-btn lls-btn--outline"
@@ -15,7 +15,7 @@
   <div class="lls-filter-sidebar__options">
     <button
       *ngFor="let option of filtersWithLabels, index as i"
-      class="lls-filter-sidebar__option"
+      class="lls-filter-sidebar__option lls-sidebar__item"
       (click)="addFilter(option)"
       [class]="activeFilter(option.value) ? 'lls-filter-sidebar__option--active' : ''"
     >

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AdvancedSearchQuery, SearchResult, SearchService } from '../search/search.service';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable, EMPTY } from 'rxjs';
+import { addSearchHistoryEntry, SearchHistoryEntryType } from '../search-history';
 
 @Injectable({
   providedIn: 'root'
@@ -53,6 +54,12 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       if(value) {
         actualSearchTerms[param] = value;
       }
+    });
+
+    addSearchHistoryEntry({
+      type: SearchHistoryEntryType.SearchResult,
+      query: actualSearchTerms,
+      queryItems: Object.entries(actualSearchTerms).map(([key, value]) => ({field : key, value: value })),
     });
 
     return this.service.advancedSearch(actualSearchTerms, index, (page - 1) * size, size, sortBy, sortOrder, sourceFilter);
