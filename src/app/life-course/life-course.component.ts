@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Link } from '../elasticsearch/elasticsearch.service';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({
@@ -11,6 +12,7 @@ export class LifeCourseComponent implements OnInit {
 
   pas: PersonAppearance[] = [];
   lifecourseId: number;
+  links: Link[];
 
   get config() {
     return window["lls"];
@@ -74,6 +76,7 @@ export class LifeCourseComponent implements OnInit {
     this.route.data.subscribe(next => {
       this.pas = next.lifecourse.personAppearances as PersonAppearance[];
       this.lifecourseId = next.lifecourse.lifecourseId;
+      this.links = next.lifecourse.links;
     });
   }
 
