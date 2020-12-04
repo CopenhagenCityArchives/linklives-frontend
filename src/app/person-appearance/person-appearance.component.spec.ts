@@ -1,6 +1,5 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
-import { PersonAppearance } from '../search/search.service';
 import { of } from 'rxjs';
 
 import { PersonAppearanceComponent } from './person-appearance.component';
