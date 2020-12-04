@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PersonAppearance } from '../search/search.service';
-import { prettySourceLocation } from '../display-helpers';
+import { eventType, prettySourceLocation } from '../display-helpers';
 import { getLatestSearchQuery } from '../search-history';
 
 @Component({
@@ -19,10 +19,7 @@ export class PersonAppearanceComponent implements OnInit {
   hh: PersonAppearance[];
 
   get eventType() {
-    return {
-      "census": "Folketælling",
-      "burial": "Begravelse",
-    }[this.pa.event_type] || "Kilde";
+    return eventType(this.pa);
   }
 
   get sourceLocation() {

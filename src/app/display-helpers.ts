@@ -52,3 +52,10 @@ export function prettyBirthYear(
 ) {
   return `ca. ${source_year - age_clean}`;
 };
+
+export function eventType({ event_type }: PersonAppearance) {
+  return {
+    "census": "Folketælling",
+    "burial": "Begravelse",
+  }[event_type] || "Kilde"
+};

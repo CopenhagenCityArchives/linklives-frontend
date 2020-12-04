@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { prettyBirthLocation, prettyBirthYear, prettySourceLocation } from '../display-helpers';
+import { eventType, prettyBirthLocation, prettyBirthYear, prettySourceLocation } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({
@@ -18,10 +18,7 @@ export class PersonAppearanceItemComponent implements OnInit {
   featherSpriteUrl = this.config.featherIconPath;
 
   get eventType() {
-    return {
-      "census": "Folketælling",
-      "burial": "Begravelse",
-    }[this.personAppearance.event_type] || "Kilde";
+    return eventType(this.personAppearance);
   }
 
   get eventIcon() {
