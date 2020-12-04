@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { prettyBirthLocation } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
+import { getLatestSearchQuery } from '../search-history';
 
 @Component({
   selector: 'app-life-course',
@@ -13,6 +14,7 @@ export class LifeCourseComponent implements OnInit {
   pas: PersonAppearance[] = [];
   // TODO: This ID seems to be just "1" all the time. Fix it.
   lifecourseId: number;
+  getLatestSearchQuery = getLatestSearchQuery;
 
   get config() {
     return window["lls"];
