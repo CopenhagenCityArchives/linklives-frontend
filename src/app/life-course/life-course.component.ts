@@ -59,7 +59,12 @@ export class LifeCourseComponent implements OnInit {
       "november",
       "december",
     ];
-    const date = new Date(this.latestPersonAppearance.last_updated);
+
+    const dates = this.pas
+      .map((pa) => new Date(pa.last_updated))
+      .sort();
+    const date = dates[dates.length - 1];
+
     return `${date.getDate()}. ${months[date.getMonth()]} ${date.getFullYear()}`;
   }
 
