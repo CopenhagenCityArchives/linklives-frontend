@@ -17,6 +17,20 @@ export class PersonAppearanceItemComponent implements OnInit {
 
   featherSpriteUrl = this.config.featherIconPath;
 
+  get eventType() {
+    return {
+      "census": "Folketælling",
+      "burial": "Begravelse",
+    }[this.personAppearance.event_type] || "Kilde";
+  }
+
+  get eventIcon() {
+    return {
+      "census": "archive",
+      "burial": "ll-funeral",
+    }[this.personAppearance.event_type] || "circle";
+  }
+
   get birthLocation() {
     return prettyBirthLocation(this.personAppearance);
   }

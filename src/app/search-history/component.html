@@ -74,7 +74,7 @@
                     <svg class="lls-icon lls-icon--left u-mr-2">
                         <use [attr.href]="featherIconPath + '#calendar'"></use>
                     </svg>
-                    <span>Folketælling {{ entry.personAppearance.source_year }}</span>
+                    <span>{{ eventType(entry.personAppearance) }} {{ entry.personAppearance.source_year }}</span>
                 </h3>
                 <p class="u-text-capitalize u-margin-0">
                     <strong class="u-mr-2">Navn</strong> {{ entry.personAppearance.name_clean }}

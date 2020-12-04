@@ -2,11 +2,11 @@
     <div class="lls-source__header lls-source__section">
         <div class="lls-source__symbol">
             <svg class="lls-icon">
-                <use [attr.href]="featherSpriteUrl + '#calendar'"></use>
+                <use [attr.href]="featherSpriteUrl + '#' + eventIcon"></use>
             </svg>
         </div>
         <h3 class="lls-source__title">
-            Folketælling
+            {{ eventType }}
         </h3>
         <p *ngIf="personAppearance.source_year" class="u-margin-0">{{ personAppearance.source_year }}</p>
     </div>
@@ -36,7 +36,7 @@
 
     <div class="lls-source__section">
         <p class="lls-source__subtitle">Kilde</p>
-        <p class="u-margin-0">Folketælling {{ personAppearance.source_year }}</p>
+        <p class="u-margin-0">{{ eventType }} {{ personAppearance.source_year }}</p>
         <p class="u-text-capitalize u-margin-0">
             {{ sourceLocation }}
         </p>

@@ -18,6 +18,13 @@ export class PersonAppearanceComponent implements OnInit {
   pa: PersonAppearance;
   hh: PersonAppearance[];
 
+  get eventType() {
+    return {
+      "census": "Folketælling",
+      "burial": "Begravelse",
+    }[this.pa.event_type] || "Kilde";
+  }
+
   get sourceLocation() {
     return prettySourceLocation(this.pa);
   }
