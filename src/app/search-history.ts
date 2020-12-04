@@ -59,7 +59,10 @@ export function getSearchHistory(): SearchHistoryEntry[] {
   }
 }
 
-export function latestSearchQuery() {
-  const existingHistory = getSearchHistory();
-  return existingHistory.filter(item => item.type === "search_result")[0].query || "";
+export function getLatestSearchQuery() {
+  const latestSearch = getSearchHistory().filter(item => item.type === "search_result")[0];
+  if(latestSearch) {
+    return latestSearch.query;
+  }
+  return { query: "" };
 }
