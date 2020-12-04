@@ -74,6 +74,9 @@ export class LifeCourseComponent implements OnInit {
           h-${tier * 16}
         `,
         offsetY: ((196 + 27) * firstIndex + (196 / 2)),
+        pathTierX: tier * 16 + 10,
+        confidencePct: Math.round((1 - link.score) * 100),
+        linkingMethod: link.method_type,
       };
     });
   }

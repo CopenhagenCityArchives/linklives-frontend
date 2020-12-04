@@ -52,6 +52,37 @@
                         font-weight: 600;
                         letter-spacing: 1px;
                     }
+                    .lls-life-course-source-container__source-linking-graph-tooltip {
+                        font-size: 0.8rem;
+                        opacity: 0;
+                        transition: opacity 0.4s;
+                        fill: white;
+                    }
+                    .lls-life-course-source-container__source-linking-graph-link:hover .lls-life-course-source-container__source-linking-graph-tooltip {
+                        opacity: 1;
+                    }
+                    .lls-life-course-source-container__source-linking-graph-tooltip-box, .lls-life-course-source-container__source-linking-graph-tooltip-box-tip {
+                        fill: rgb(6, 40, 81);
+                    }
+                    .lls-life-course-source-container__source-linking-graph-link-background {
+                        stroke: rgb(224, 224, 224);
+                        stroke-width: 0;
+                        transition: stroke-width 0.4s;
+                    }
+                    .lls-life-course-source-container__source-linking-graph-link:hover .lls-life-course-source-container__source-linking-graph-link-background {
+                        stroke-width: 4px;
+                    }
+
+                    .lls-life-course-source-container__source-linking-graph-link-path {
+                        stroke: #767676;
+                        stroke-dasharray: 3, 1;
+                        transition: 0.4s;
+                    }
+                    .lls-life-course-source-container__source-linking-graph-link:hover .lls-life-course-source-container__source-linking-graph-link-path {
+                        stroke: rgb(25, 85, 163);
+                        stroke-dasharray: 3, 0;
+                        stroke-width: 2px;
+                    }
                 </style>
                 <!-- Cirlces for years -->
                 <g
@@ -91,15 +122,88 @@
                 />
                 <!-- Links -->
                 <g
-                    *ngFor="let link of drawableLinks;"
+                    *ngFor="let link of drawableLinks; index as i;"
                     [attr.transform]="'translate(90 ' + link.offsetY + ')'"
+                    class="lls-life-course-source-container__source-linking-graph-link"
                 >
+                    <circle
+                        class="lls-life-course-source-container__source-linking-graph-link-background"
+                        [attr.cx]="link.pathTierX"
+                        [attr.cy]="(196 + 27) / 2"
+                        r="10"
+                        fill="rgb(224, 224, 224)"
+                    />
                     <path
+                        class="lls-life-course-source-container__source-linking-graph-link-path"
                         [attr.d]="link.path"
                         fill="transparent"
-                        stroke="#767676"
-                        stroke-dasharray="3 1"
                     />
+                    <circle
+                        [attr.cx]="link.pathTierX"
+                        [attr.cy]="(196 + 27) / 2"
+                        r="4"
+                        stroke="white"
+                        stroke-width="5"
+                        stroke-alignment="outer"
+                        fill="black"
+                    />
+                    <g
+                        class="lls-life-course-source-container__source-linking-graph-tooltip"
+                        [attr.transform]="'translate(' + (link.pathTierX - 60) + ' ' + ((196 + 27) / 2 - 105) + ')'"
+                    >
+                        <rect
+                            class="lls-life-course-source-container__source-linking-graph-tooltip-box"
+                            x="0"
+                            width="120"
+                            y="0"
+                            height="100"
+                            rx="3"
+                        />
+                        <path
+                            class="lls-life-course-source-container__source-linking-graph-tooltip-box-tip"
+                            d="M53,98 l7,7 l7,-7 h-14"
+                        />
+                        <text
+                            text-anchor="middle"
+                            class="lls-life-course-source-container__source-linking-graph-tooltip-label"
+                            x="60"
+                            y="20"
+                            dy=".3em"
+                            fill="rgb(224, 224, 224)"
+                        >
+                            Sikkerhed
+                        </text>
+                        <text
+                            text-anchor="middle"
+                            class="lls-life-course-source-container__source-linking-graph-tooltip-confidence"
+                            x="60"
+                            y="42"
+                            dy=".3em"
+                            fill="white"
+                            font-size="2rem"
+                            font-weight="bold"
+                        >
+                            {{ link.confidencePct }}%
+                        </text>
+                        <text
+                            class="lls-life-course-source-container__source-linking-graph-tooltip-description"
+                            font-weight="bold"
+                            x="60"
+                            y="72"
+                            text-anchor="middle"
+                        >
+                            Linket via
+                        </text>
+                        <text
+                            class="lls-life-course-source-container__source-linking-graph-tooltip-description"
+                            font-weight="bold"
+                            x="60"
+                            y="85"
+                            text-anchor="middle"
+                        >
+                            {{ link.linkingMethod }}
+                        </text>
+                    </g>
                 </g>
             </svg>
         </section>
