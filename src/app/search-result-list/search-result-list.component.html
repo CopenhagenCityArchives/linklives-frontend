@@ -106,7 +106,7 @@
                     *ngFor="let filterItem of sourceFilter; index as i;"
                     class="lls-btn lls-btn--grey u-mr-2 u-mt-2 u-text-capitalize"
                 >
-                    <span>Folketælling {{ filterItem }}</span>
+                    <span>FT {{ filterItem }}</span>
                     <svg class="lls-icon lls-icon--right" (click)="removeFilter(filterItem)">
                         <use [attr.href]="config.featherIconPath + '#x'"></use>
                     </svg>
