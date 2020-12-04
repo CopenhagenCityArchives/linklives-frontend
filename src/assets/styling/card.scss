@@ -19,7 +19,21 @@
     left: 0;
     bottom: 0;
     width: 1.125rem;
-    background-color: rgb(203, 150, 74);
+    background-color: $yellow;
+  }
+}
+
+.lls-card--burial {
+  position: relative;
+
+  &:before {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 1.125rem;
+    background-color: $burial-grey;
   }
 }
 

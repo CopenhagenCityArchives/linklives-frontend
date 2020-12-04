@@ -30,6 +30,14 @@
   }
 }
 
+.lls-source--burial {
+  border-left-color: $burial-grey;
+
+  &::before {
+    background-color: $burial-grey;
+  }
+}
+
 .lls-source--lifecourse {
   background-color: $blue--dark;
   border-left-color: $blue--darker;
