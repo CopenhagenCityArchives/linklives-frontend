@@ -16,10 +16,17 @@ export class LifeCourseResolverService implements Resolve<{lifecourseId:number, 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ lifecourseId: number; personAppearances: PersonAppearance[]; links: Link[]; }> {
     const x = (pas) => this.elasticsearch.searchLinks(pas)
       .pipe(map((linksResult, index) => {
+        const paIds: string[] = pas.map((pa) => `${pa.source_id}-${pa.pa_id}`);
+        const links = linksResult.filter((link) => {
+          const linkStartId = `${link.source_id1}-${link.pa_id1}`;
+          const linkEndId = `${link.source_id2}-${link.pa_id2}`;
+          return paIds.includes(linkStartId) && paIds.includes(linkEndId);
+        });
+
         return {
           lifecourseId: route.params['id'],
           personAppearances: pas as PersonAppearance[],
-          links: linksResult as Link[],
+          links,
         };
       }));
 
