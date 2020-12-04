@@ -32,7 +32,7 @@
   }
 }
 .lls-pagination__item--selected {
-  border-color: black;
+  border-color: $off-black;
 }
 .lls-pagination__item--disabled {
   color: rgba(0,0,0,0.2);
