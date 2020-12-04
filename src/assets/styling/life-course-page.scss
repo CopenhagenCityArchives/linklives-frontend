@@ -4,6 +4,23 @@
 
 .lls-life-course-source-container__source-list {
   flex-grow: 1;
+
+  @media(min-width: $breakpointMd) {
+    .lls-source {
+      height: 196px;
+    }
+
+    .lls-source__section {
+      overflow: hidden;
+    }
+
+    .lls-source__person-name,
+    .lls-source__person-age {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+  }
 }
 
 .lls-life-course-source-container__source-linking-graph {

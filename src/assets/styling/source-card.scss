@@ -10,7 +10,6 @@
     flex-direction: row;
     border-radius: 10px;
     border-left: none;
-    height: 196px;
   }
 
   &::before {
@@ -156,9 +155,6 @@
 .lls-source__person-name {
   margin-bottom: 0;
   margin-right: 0.75rem;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
 }
 
 .lls-source__person-age {
