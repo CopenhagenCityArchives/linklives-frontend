@@ -21,7 +21,7 @@
   width: 100%;
 
   @media(min-width: $breakpointMd) {
-    align-items: flex-end;
+    justify-content: flex-end;
   }
 }
 
