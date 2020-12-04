@@ -1,0 +1,65 @@
+.lls-source-graph__source {
+  text-anchor: end;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.lls-source-graph__circle-background {
+  fill: $grey-bg;
+  stroke: rgb(224, 224, 224);
+  stroke-width: 0;
+  transition: stroke-width 0.4s;
+
+  .lls-source-graph__link:hover & {
+    stroke-width: 4px;
+  }
+}
+
+.lls-source-graph__circle {
+  stroke: white;
+  stroke-width: 2;
+}
+.lls-source-graph__circle--census {
+  fill: rgb(203, 150, 74);
+}
+.lls-source-graph__circle--action {
+  stroke-width: 5;
+}
+
+.lls-source-graph__link-path {
+  stroke: #767676;
+  stroke-dasharray: 4, 2;
+  transition: 0.4s;
+
+  .lls-source-graph__link:hover & {
+    stroke: rgb(25, 85, 163);
+    stroke-dasharray: 5, 0;
+    stroke-width: 2px;
+  }
+}
+
+.lls-source-graph__tooltip {
+  font-size: 0.9rem;
+  opacity: 0;
+  transition: opacity 0.4s;
+  fill: white;
+  pointer-events: none;
+  text-anchor: middle;
+  font-weight: bold;
+
+  .lls-source-graph__link:hover & {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+.lls-source-graph__tooltip-box {
+  fill: rgb(6, 40, 81);
+}
+.lls-source-graph__tooltip-label {
+  font-weight: normal;
+  fill: rgb(224, 224, 224);
+}
+.lls-soruce-graph__tooltip-text--large {
+  font-size: 2rem;
+}
