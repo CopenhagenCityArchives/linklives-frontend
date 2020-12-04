@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { Link } from '../elasticsearch/elasticsearch.service';
 import { prettyBirthLocation } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
+import { getLatestSearchQuery } from '../search-history';
 
 @Component({
   selector: 'app-life-course',
@@ -14,6 +15,7 @@ export class LifeCourseComponent implements OnInit {
   pas: PersonAppearance[] = [];
   lifecourseId: number;
   links: Link[];
+  getLatestSearchQuery = getLatestSearchQuery;
 
   get config() {
     return window["lls"];
