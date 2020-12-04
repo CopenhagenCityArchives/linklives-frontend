@@ -58,6 +58,12 @@
                         transition: opacity 0.4s;
                         fill: white;
                     }
+                    .lls-life-course-source-container__source-linking-graph-tooltip > * {
+                        pointer-events: none;
+                    }
+                    .lls-life-course-source-container__source-linking-graph-link:hover .lls-life-course-source-container__source-linking-graph-tooltip > * {
+                        pointer-events: all;
+                    }
                     .lls-life-course-source-container__source-linking-graph-link:hover .lls-life-course-source-container__source-linking-graph-tooltip {
                         opacity: 1;
                     }
