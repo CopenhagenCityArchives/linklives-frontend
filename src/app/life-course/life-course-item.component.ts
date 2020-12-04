@@ -37,7 +37,7 @@ export class LifeCourseItemComponent implements OnInit {
   }
 
   get sourceList() {
-    const sources = this.personAppearances.map(pa => `Folketælling ${pa.source_year}`);
+    const sources = this.personAppearances.map(pa => `Folke&shy;tælling ${pa.source_year}`);
     const formattedSources = sources.join(", ");
     return formattedSources;
   }
