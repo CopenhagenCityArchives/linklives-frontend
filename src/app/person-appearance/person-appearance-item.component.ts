@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { prettyBirthLocation, prettySourceLocation } from '../display-helpers';
+import { prettyBirthLocation, prettyBirthYear, prettySourceLocation } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({
@@ -19,6 +19,10 @@ export class PersonAppearanceItemComponent implements OnInit {
 
   get birthLocation() {
     return prettyBirthLocation(this.personAppearance);
+  }
+
+  get birthYear() {
+    return prettyBirthYear(this.personAppearance);
   }
 
   get sourceLocation() {

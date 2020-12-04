@@ -42,3 +42,13 @@ export function prettyBirthLocation(
 
   return location || birth_place_clean;
 };
+
+export function prettyBirthYear(
+  {
+    source_year,
+    age_clean,
+    //birth_year: number,
+  }: PersonAppearance
+) {
+  return `ca. ${source_year - age_clean}`;
+};

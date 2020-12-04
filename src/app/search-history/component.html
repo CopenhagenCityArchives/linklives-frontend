@@ -55,7 +55,7 @@
                     <strong class="u-mr-2">Navn</strong> {{ entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1].name_clean }}
                 </p>
                 <p class="u-margin-0">
-                    <strong class="u-mr-2">Født</strong> ca. {{ entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1].source_year - entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1].age_clean }}
+                    <strong class="u-mr-2">Født</strong> {{ prettyBirthYear(entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1]) }}
                 </p>
                 <p class="u-text-capitalize u-margin-0">
                     <strong class="u-mr-2">Fødested</strong> {{ prettyBirthLocation(entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1]) }}
@@ -80,7 +80,7 @@
                     <strong class="u-mr-2">Navn</strong> {{ entry.personAppearance.name_clean }}
                 </p>
                 <p class="u-margin-0">
-                    <strong class="u-mr-2">Født</strong> ca. {{ entry.personAppearance.source_year - entry.personAppearance.age_clean }}
+                    <strong class="u-mr-2">Født</strong> {{ prettyBirthYear(entry.personAppearance) }}
                 </p>
                 <p class="u-text-capitalize u-margin-0">
                     <strong class="u-mr-2">Fødested</strong> {{ prettyBirthLocation(entry.personAppearance) }}

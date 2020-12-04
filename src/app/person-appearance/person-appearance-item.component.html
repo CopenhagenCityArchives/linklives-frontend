@@ -22,7 +22,7 @@
                     <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left">
                         <use [attr.href]="featherSpriteUrl + '#star'"></use>
                     </svg>
-                    ca. {{ personAppearance.source_year - personAppearance.age_clean }}
+                    {{ birthYear }}
                 </p>
             </div>
             <p *ngIf="personAppearance.occupation">{{ personAppearance.occupation }}</p>

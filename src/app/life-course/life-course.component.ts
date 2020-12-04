@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { prettyBirthLocation } from '../display-helpers';
+import { prettyBirthLocation, prettyBirthYear } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 import { getLatestSearchQuery } from '../search-history';
 
@@ -38,6 +38,10 @@ export class LifeCourseComponent implements OnInit {
 
   get birthLocation() {
     return prettyBirthLocation(this.latestPersonAppearance);
+  }
+
+  get birthYear() {
+    return prettyBirthYear(this.latestPersonAppearance);
   }
 
   get lastUpdated() {
