@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PersonAppearance } from '../search/search.service';
 import { prettySourceLocation } from '../display-helpers';
+import { latestSearchQuery } from '../search-history';
 
 @Component({
   selector: 'app-person-appearance',
@@ -11,6 +12,7 @@ import { prettySourceLocation } from '../display-helpers';
 export class PersonAppearanceComponent implements OnInit {
   featherSpriteUrl = window["lls"].featherIconPath;
   openSearchHistory: boolean = false;
+  latestSearchQuery = latestSearchQuery;
 
   constructor(private route: ActivatedRoute) { }
   pa: PersonAppearance;

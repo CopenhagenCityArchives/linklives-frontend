@@ -58,3 +58,8 @@ export function getSearchHistory(): SearchHistoryEntry[] {
     return [];
   }
 }
+
+export function latestSearchQuery() {
+  const existingHistory = getSearchHistory();
+  return existingHistory.filter(item => item.type === "search_result")[0].query || "";
+}
