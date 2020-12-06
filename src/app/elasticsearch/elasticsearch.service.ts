@@ -221,12 +221,16 @@ export class ElasticsearchService {
     const body = {
       from: from,
       size: size,
+      indices_boost: [
+        { 'lifecourses': 1.05 },
+      ],
       query: {
         nested: {
           path: "person_appearance",
           query: {
             bool: { must },
           },
+          score_mode: "max",
         },
       },
       aggs: {
