@@ -13,7 +13,7 @@
     
     <div class="lls-source__section lls-source__section--bordered">
         <div>
-            <p class="lls-source__subtitle u-text-capitalize">{{ personAppearance.household_position_std }}</p>
+            <p class="lls-source__subtitle u-text-capitalize">{{ personAppearance.household_position_std }} ({{ personAppearance.score && personAppearance.score.toFixed(2) }})</p>
             <div class="lls-source__person">
                 <p class="lls-source__person-name u-bold u-text-capitalize">
                     {{ personAppearance.name_clean }}

@@ -7,7 +7,8 @@ export type SearchHit = PersonAppearanceHit | LinkHit | LifecourseHit;
 
 export interface PersonAppearanceHit {
   type: "pas",
-  pa: PersonAppearance
+  pa: PersonAppearance,
+  score?: number,
 }
 
 export interface LinkHit {
@@ -20,7 +21,8 @@ export interface LinkHit {
 export interface LifecourseHit {
   type: "lifecourses",
   life_course_id: number,
-  pas: PersonAppearance[]
+  pas: PersonAppearance[],
+  score?: number,
 }
 
 export interface SearchResult {
@@ -38,6 +40,7 @@ export interface SearchResult {
 }
 
 export interface PersonAppearance {
+  score?: number,
   address: string,
   age: string,
   age_clean: number,

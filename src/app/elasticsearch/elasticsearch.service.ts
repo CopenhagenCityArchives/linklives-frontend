@@ -78,19 +78,20 @@ export class ElasticsearchService {
         return {
           type: "lifecourses",
           life_course_id: elasticHit._id,
-          pas: elasticHit._source.person_appearance as PersonAppearance[]
+          score: elasticHit._score,
+          pas: elasticHit._source.person_appearance as PersonAppearance[],
         };
       case "pas":
         return {
           type: "pas",
-          pa: elasticHit._source.person_appearance as PersonAppearance
+          pa: { ...elasticHit._source.person_appearance, score: elasticHit._score } as PersonAppearance,
         };
       case "links":
         return {
           type: "links",
           link_id: elasticHit._id,
           life_course_ids: elasticHit._source.life_course_ids,
-          pas: elasticHit._source.person_appearance as [PersonAppearance, PersonAppearance]
+          pas: elasticHit._source.person_appearance as [PersonAppearance, PersonAppearance],
         }
     }
   }

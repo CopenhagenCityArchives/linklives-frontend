@@ -11,6 +11,7 @@ export class LifeCourseItemComponent implements OnInit {
 
   @Input('item') personAppearances: PersonAppearance[];
   @Input('lifecourse-id') lifecourseId: number;
+  @Input('score') score: number;
 
   get config() {
     return window["lls"];
