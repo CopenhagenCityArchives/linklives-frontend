@@ -46,7 +46,6 @@ export const mapQueryShouldKey = {
 };
 
 export const sortValues = {
-  relevance: [ "_score" ],
   firstName: [ "first_names_sortable" ],
   lastName: [ "family_names_sortable" ],
   birthYear: [ "birth_year" ],
@@ -70,8 +69,7 @@ export const searchFieldPlaceholders = {
 export const possibleSearchQueryParams = Object.keys(searchFieldPlaceholders);
 
 export const sortByOptions = [
-  { label: "Tilfældig", value: "random" },
-  { label: "Relevans", value: "relevance", disabled: true },
+  { label: "Relevans", value: "relevance" },
   { label: "Fornavn", value: "firstName" },
   { label: "Efternavn", value: "lastName" },
   { label: "Fødselsår", value: "birthYear", disabled: true },
