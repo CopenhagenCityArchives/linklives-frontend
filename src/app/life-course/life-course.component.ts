@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Link } from '../elasticsearch/elasticsearch.service';
-import { prettyBirthLocation } from '../display-helpers';
+import { prettyBirthLocation, prettyBirthYear } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 import { getLatestSearchQuery } from '../search-history';
 
@@ -100,6 +100,10 @@ export class LifeCourseComponent implements OnInit {
     return prettyBirthLocation(this.latestPersonAppearance);
   }
 
+  get birthYear() {
+    return prettyBirthYear(this.latestPersonAppearance);
+  }
+
   get lastUpdated() {
     const months = [
       "januar",
@@ -115,7 +119,12 @@ export class LifeCourseComponent implements OnInit {
       "november",
       "december",
     ];
-    const date = new Date(this.latestPersonAppearance.last_updated);
+
+    const dates = this.pas
+      .map((pa) => new Date(pa.last_updated))
+      .sort();
+    const date = dates[dates.length - 1];
+
     return `${date.getDate()}. ${months[date.getMonth()]} ${date.getFullYear()}`;
   }
 

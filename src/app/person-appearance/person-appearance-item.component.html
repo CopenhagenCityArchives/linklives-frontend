@@ -1,12 +1,12 @@
-<div class="lls-source lls-source--census">
+<div class="lls-source" [class]="'lls-source--' + personAppearance.event_type">
     <div class="lls-source__header lls-source__section">
         <div class="lls-source__symbol">
             <svg class="lls-icon">
-                <use [attr.href]="featherSpriteUrl + '#calendar'"></use>
+                <use [attr.href]="featherSpriteUrl + '#' + eventIcon"></use>
             </svg>
         </div>
         <h3 class="lls-source__title">
-            Folketælling
+            {{ eventType }}
         </h3>
         <p *ngIf="personAppearance.source_year" class="u-margin-0">{{ personAppearance.source_year }}</p>
     </div>
@@ -21,7 +21,7 @@
                 <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left">
                     <use [attr.href]="featherSpriteUrl + '#star'"></use>
                 </svg>
-                ca. {{ personAppearance.source_year - personAppearance.age_clean }}
+                {{ birthYear }}
             </p>
         </div>
         <p *ngIf="personAppearance.occupation">{{ personAppearance.occupation }}</p>
@@ -32,7 +32,7 @@
 
     <div class="lls-source__section">
         <p class="lls-source__subtitle">Kilde</p>
-        <p class="u-margin-0">Folke&shy;tælling {{ personAppearance.source_year }}</p>
+        <p class="u-margin-0">{{ eventType }} {{ personAppearance.source_year }}</p>
         <p class="u-text-capitalize u-margin-0">
             {{ sourceLocation }}
         </p>

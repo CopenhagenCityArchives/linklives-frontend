@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PersonAppearance } from '../search/search.service';
-import { prettySourceLocation } from '../display-helpers';
+import { eventType, prettySourceLocation } from '../display-helpers';
 import { getLatestSearchQuery } from '../search-history';
 
 @Component({
@@ -17,6 +17,10 @@ export class PersonAppearanceComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
   pa: PersonAppearance;
   hh: PersonAppearance[];
+
+  get eventType() {
+    return eventType(this.pa);
+  }
 
   get sourceLocation() {
     return prettySourceLocation(this.pa);

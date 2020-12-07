@@ -38,7 +38,7 @@ export class SearchResultListComponent implements OnInit {
   };
 
   sourceFilter = [];
-  sortBy: string = "random";
+  sortBy: string = "relevance";
   sortByOptions = sortByOptions;
 
   sortAscending = true;
@@ -119,7 +119,7 @@ export class SearchResultListComponent implements OnInit {
       if(indices) {
         indices.split(",").forEach((index) => this.indices[index].value = true);
       }
-      this.sortBy = queryParamMap.get('sortBy') || "random";
+      this.sortBy = queryParamMap.get('sortBy') || "relevance";
       this.sortAscending = !(queryParamMap.get('sortOrder') === "desc");
       const sourceFilters = queryParamMap.get('sourceFilter');
       if(sourceFilters) {
