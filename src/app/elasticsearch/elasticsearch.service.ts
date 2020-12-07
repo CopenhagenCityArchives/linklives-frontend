@@ -73,26 +73,34 @@ export class ElasticsearchService {
   constructor(private http: HttpClient) { }
 
   private handleHit(elasticHit: ElasticSearchHit): SearchHit {
-    switch (elasticHit._index) {
-      case "lifecourses":
-        return {
-          type: "lifecourses",
-          life_course_id: elasticHit._id,
-          pas: elasticHit._source.person_appearance as PersonAppearance[]
-        };
-      case "pas":
-        return {
-          type: "pas",
-          pa: elasticHit._source.person_appearance as PersonAppearance
-        };
-      case "links":
-        return {
-          type: "links",
-          link_id: elasticHit._id,
-          life_course_ids: elasticHit._source.life_course_ids,
-          pas: elasticHit._source.person_appearance as [PersonAppearance, PersonAppearance]
-        }
+    if(elasticHit._index.startsWith("lifecourses")) {
+      return {
+        type: "lifecourses",
+        life_course_id: elasticHit._id,
+        pas: elasticHit._source.person_appearance as PersonAppearance[]
+      };
     }
+
+    if(elasticHit._index.startsWith("pas")) {
+      return {
+        type: "pas",
+        pa: elasticHit._source.person_appearance as PersonAppearance
+      };
+    }
+
+    if(elasticHit._index.startsWith("links")) {
+      return {
+        type: "links",
+        link_id: elasticHit._id,
+        life_course_ids: elasticHit._source.life_course_ids,
+        pas: elasticHit._source.person_appearance as [PersonAppearance, PersonAppearance]
+      };
+    }
+
+    throw {
+      trace: new Error("Got unknown type of elasticHit (not in known index)"),
+      elasticHit,
+    };
   }
 
   private handleResult(elasticResult: ElasticSearchResult): SearchResult {
@@ -221,12 +229,16 @@ export class ElasticsearchService {
     const body = {
       from: from,
       size: size,
+      indices_boost: [
+        { 'lifecourses': 1.05 },
+      ],
       query: {
         nested: {
           path: "person_appearance",
           query: {
             bool: { must },
           },
+          score_mode: "max",
         },
       },
       aggs: {
