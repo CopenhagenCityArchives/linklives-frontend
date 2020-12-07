@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({
@@ -9,13 +9,17 @@ import { PersonAppearance } from '../search/search.service';
 export class RelatedPeopleComponent implements OnInit {
   featherSpriteUrl = window["lls"].featherIconPath;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private router: Router) { }
 
   relatedPas: Array<PersonAppearance>;
 
   ngOnInit(): void {
     this.route.parent.data.subscribe((resolve) => {
-      this.relatedPas = resolve.item.hh as Array<PersonAppearance>;
+      if(!resolve.item.hh) {
+        this.router.navigate([ "pa", resolve.item.pa.id, "source-data" ]);
+        return;
+      }
+      this.relatedPas = resolve.item.hh as PersonAppearance[];
     });
   }
 
