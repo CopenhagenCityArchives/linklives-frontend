@@ -11,16 +11,14 @@
     </div>
 
     <div class="lls-source__section lls-source__section--bordered">
-        <div>
-            <p class="lls-source__subtitle u-text-capitalize">Person</p>
-            <p class="lls-source__person u-text-capitalize">{{ latestPersonAppearance.name_clean }}</p>
-            <p class="lls-source__person-age">
-                <svg class="lls-icon lls-icon--filled lls-icon--white lls-icon--small lls-icon--left">
-                    <use [attr.href]="featherSpriteUrl + '#star'"></use>
-                </svg>
-                {{ birthYear }}
-            </p>
-        </div>
+        <p class="lls-source__subtitle u-text-capitalize">Person</p>
+        <p class="lls-source__person u-text-capitalize">{{ latestPersonAppearance.name_clean }}</p>
+        <p class="lls-source__person-age">
+            <svg class="lls-icon lls-icon--filled lls-icon--white lls-icon--small lls-icon--left">
+                <use [attr.href]="featherSpriteUrl + '#star'"></use>
+            </svg>
+            {{ birthYear }}
+        </p>
         <div class="u-text-capitalize u-margin-0">
             {{ birthLocation }}
         </div>
@@ -28,7 +26,7 @@
     <div class="lls-source__section">
         <p class="lls-source__subtitle">Kilder</p>
         <p class="u-margin-0">{{ personAppearances.length }} {{ personAppearances.length != 1 ? "kilder" : "kilde" }} i perioden {{ sourceYearRange }}.</p>
-        <p class="u-margin-0">{{ sourceList }}</p>
+        <p class="u-margin-0" [innerHTML]="sourceList"></p>
     </div>
 
     <div class="lls-source__section lls-source__section--cta">

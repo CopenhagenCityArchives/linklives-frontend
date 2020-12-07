@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Link } from '../elasticsearch/elasticsearch.service';
 import { prettyBirthLocation, prettyBirthYear } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 import { getLatestSearchQuery } from '../search-history';
@@ -12,8 +13,8 @@ import { getLatestSearchQuery } from '../search-history';
 export class LifeCourseComponent implements OnInit {
 
   pas: PersonAppearance[] = [];
-  // TODO: This ID seems to be just "1" all the time. Fix it.
   lifecourseId: number;
+  links: Link[];
   getLatestSearchQuery = getLatestSearchQuery;
 
   get config() {
@@ -22,6 +23,65 @@ export class LifeCourseComponent implements OnInit {
 
   featherSpriteUrl = this.config.featherIconPath;
   openSearchHistory: boolean = false;
+
+  get pasReversed() {
+    return [ ...this.pas ].reverse();
+  }
+
+  get drawableLinks() {
+    //These represent gaps, not PAs, so there is one less than there are PAs in order.
+    const maxTiers = Array(this.pas.length - 1).fill(-1);
+
+    const matchEitherLinkEnd = (link: Link) => (pa: PersonAppearance) => {
+      return [
+        `${link.source_id1}-${link.pa_id1}`,
+        `${link.source_id2}-${link.pa_id2}`
+      ].includes(`${pa.source_id}-${pa.pa_id}`);
+    };
+
+    const getIndexLength = (link: Link) => {
+      const firstIndex = this.pas.findIndex(matchEitherLinkEnd(link));
+      const lastIndex = this.pas.length - 1 - (this.pasReversed.findIndex(matchEitherLinkEnd(link)));
+      const indexDiff = lastIndex - firstIndex;
+      return { indexDiff, firstIndex, lastIndex };
+    };
+
+    const shortestLinkFirst = (a, b) => {
+      const { indexDiff: aLength } = getIndexLength(a);
+      const { indexDiff: bLength } = getIndexLength(b);
+
+      if(aLength < bLength) {
+        return -1;
+      }
+      if(aLength > bLength) {
+        return 1;
+      }
+      return 0;
+    };
+
+    return this.links.sort(shortestLinkFirst).map((link, i) => {
+      const { indexDiff, firstIndex, lastIndex } = getIndexLength(link);
+
+      const maxTiersInRange: number[] = maxTiers.slice(firstIndex, lastIndex);
+      const tier = Math.max.apply(Math, maxTiersInRange) + 1;
+      maxTiers.fill(tier, firstIndex, lastIndex);
+
+      return {
+        path: `
+          M0,0
+          h${tier * 16}
+          a10,10 0 0 1 10,10
+          v${((196 + 27) * indexDiff) - 20}
+          a10,10 0 01 -10,10
+          h-${tier * 16}
+        `,
+        offsetY: ((196 + 27) * firstIndex + (196 / 2)),
+        pathTierX: tier * 16 + 10,
+        confidencePct: Math.round((1 - link.score) * 100),
+        linkingMethod: link.method_type,
+      };
+    });
+  }
 
   get latestPersonAppearance() {
     const sortedByYear = this.pas.sort(function(a, b) {
@@ -72,9 +132,9 @@ export class LifeCourseComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe(next => {
-      console.log(next)
       this.pas = next.lifecourse.personAppearances as PersonAppearance[];
       this.lifecourseId = next.lifecourse.lifecourseId;
+      this.links = next.lifecourse.links;
     });
   }
 

@@ -38,10 +38,102 @@
         [featherIconPath]="featherSpriteUrl"
         (close)="openSearchHistory = false"
     ></app-search-history>
-    <section>
-        <h3 class="u-margin-0">Kilder</h3>
-        <app-person-appearance-item [item]="pa" class="mx-2" *ngFor="let pa of pas"></app-person-appearance-item>
-    </section>
+    <div class="lls-life-course-source-container">
+        <section class="lls-life-course-source-container__source-list">
+            <h3 class="u-margin-0">Kilder</h3>
+            <app-person-appearance-item [item]="pa" class="mx-2" *ngFor="let pa of pas"></app-person-appearance-item>
+        </section>
+        <section class="lls-life-course-source-container__source-linking-graph">
+            <svg width="200px" [attr.height]="(196 + 27) * pas.length" [attr.viewBox]="'0 0 200 ' + ((196 + 27) * pas.length)">
+                <g
+                    *ngFor="let pa of pas; index as i;"
+                    [attr.transform]="'translate(0 ' + ((196 + 27) * i + (196 / 2)) + ')'"
+                    class="lls-source-graph__source"
+                >
+                    <text x="40" dy=".3em">
+                        {{ pa.source_year }}
+                    </text>
+                    <circle
+                        class="lls-source-graph__circle-background"
+                        cx="65"
+                        r="17"
+                    />
+                    <circle
+                        class="lls-source-graph__circle"
+                        [class]="'lls-source-graph__circle--' + pa.event_type"
+                        cx="65"
+                        r="5"
+                    />
+                </g>
+
+                <!-- Chronological lines between -->
+                <line
+                    x1="65"
+                    x2="65"
+                    [attr.y1]="((196 + 27) * i + (196 / 2)) + 20 + 5"
+                    [attr.y2]="((196 + 27) * (i + 1) + (196 / 2)) - 20 - 5"
+                    stroke="black"
+                    *ngFor="let pa of pas.slice(1); index as i; let last = last;"
+                />
+
+                <!-- Links -->
+                <g
+                    *ngFor="let link of drawableLinks; index as i;"
+                    [attr.transform]="'translate(90 ' + link.offsetY + ')'"
+                    class="lls-source-graph__link"
+                >
+                    <circle
+                        class="lls-source-graph__circle-background"
+                        [attr.cx]="link.pathTierX"
+                        [attr.cy]="(196 + 27) / 2"
+                        r="10"
+                    />
+                    <path
+                        class="lls-source-graph__link-path"
+                        [attr.d]="link.path"
+                        fill="transparent"
+                    />
+                    <circle
+                        class="lls-source-graph__circle lls-source-graph__circle--action"
+                        [attr.cx]="link.pathTierX"
+                        [attr.cy]="(196 + 27) / 2"
+                        r="4"
+                    />
+                    <g
+                        class="lls-source-graph__tooltip"
+                        [attr.transform]="'translate(' + (link.pathTierX - 60) + ' ' + ((196 + 27) / 2 - 110) + ')'"
+                    >
+                        <g class="lls-source-graph__tooltip-box">
+                            <rect width="120" height="100" rx="3" />
+                            <path d="M53,98 l7,7 l7,-7 h-14" />
+                        </g>
+                        <text
+                            class="lls-source-graph__tooltip-label"
+                            x="60"
+                            y="20"
+                            dy=".3em"
+                        >
+                            Sikkerhed
+                        </text>
+                        <text
+                            class="lls-soruce-graph__tooltip-text--large"
+                            x="60"
+                            y="44"
+                            dy=".3em"
+                        >
+                            {{ link.confidencePct }}%
+                        </text>
+                        <text x="60" y="68" dy=".3em">
+                            Linket via
+                        </text>
+                        <text x="60" y="81" dy=".3em">
+                            {{ link.linkingMethod }}
+                        </text>
+                    </g>
+                </g>
+            </svg>
+        </section>
+    </div>
     <section>
         <div class="lls-data-page-footer">
             <div class="lls-data-page-footer__entry">

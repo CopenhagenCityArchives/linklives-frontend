@@ -52,6 +52,10 @@
   padding: 24px 20px;
   width: 100%;
   box-sizing: border-box;
+
+  @media(min-width: $breakpointMd) {
+    width: calc(25% - 4px);
+  }
 }
 
 .lls-source__section--cta {
