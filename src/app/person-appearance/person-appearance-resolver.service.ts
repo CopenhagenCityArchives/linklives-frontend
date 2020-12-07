@@ -4,15 +4,16 @@ import { PersonAppearance, PersonAppearanceHit } from '../search/search.service'
 import { map, mergeMap } from 'rxjs/operators';
 import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 import { addSearchHistoryEntry, SearchHistoryEntryType } from '../search-history';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class PersonAppearanceResolverService implements Resolve<{pa:PersonAppearance, hh:PersonAppearance[]}> {
+export class PersonAppearanceResolverService implements Resolve<{pa:PersonAppearance, hh?:PersonAppearance[]}> {
 
   constructor(private elasticsearch: ElasticsearchService) { }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{pa:PersonAppearance, hh?:PersonAppearance[]}> {
     return this.elasticsearch.getDocument('pas', route.params['id']).pipe(map(pa => pa as PersonAppearance))
     .pipe(
       mergeMap((pa: PersonAppearance, index) => {
@@ -20,6 +21,16 @@ export class PersonAppearanceResolverService implements Resolve<{pa:PersonAppear
           type: SearchHistoryEntryType.Census,
           personAppearance: pa,
         });
+
+        if(!pa.hh_id) {
+          return new Observable<{pa:PersonAppearance, hh?:PersonAppearance[]}>(observer => {
+            observer.next({
+              pa,
+              hh: null
+            });
+            observer.complete();
+          });
+        }
 
         let body = {
           "from": 0,
