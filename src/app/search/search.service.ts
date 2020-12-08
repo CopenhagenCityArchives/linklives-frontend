@@ -56,6 +56,7 @@ export interface PersonAppearance {
   birth_place_parish_std: string,
   birth_place_place: string,
   birth_place_town: string,
+  birth_year: string,
   county: string,
   district: string,
   event_type: string,
