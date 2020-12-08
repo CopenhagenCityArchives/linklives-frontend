@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery } from '../search/search.service';
+import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery, Source } from '../search/search.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
