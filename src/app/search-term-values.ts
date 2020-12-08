@@ -1,11 +1,15 @@
 import { Category, Option } from './form-elements/dropdown/component';
 
 export const mapQueryMustKey = {
-  firstName: "first_names",
   sourceYear: "source_year",
 };
 
 export const mapQueryShouldKey = {
+  firstName: [
+    "first_names",
+    "first_names_clean",
+    "first_names_std",
+  ],
   birthPlace: [
     "birth_place",
     "birth_place_clean",
@@ -27,11 +31,13 @@ export const mapQueryShouldKey = {
     "family_names",
     "maiden_family_names",
     "maiden_patronyms",
-    "patronyms"
+    "patronyms",
+    "lastname_clean",
   ],
   birthName: [
     "maiden_family_names",
     "maiden_patronyms",
+    "birthname_clean",
   ],
   sourcePlace: [
     "parish",
@@ -41,7 +47,7 @@ export const mapQueryShouldKey = {
   maritalStatus: [
     "marital_status",
     "marital_status_clean",
-    "marital_status_std"
+    "marital_status_std",
   ],
 };
 
