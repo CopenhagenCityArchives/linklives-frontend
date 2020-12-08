@@ -5,9 +5,9 @@ export function prettySourceLocation({ parish, parish_type, district, county  }:
     ...new Set(
       [
         parish_type === "Sogn" ? `${parish} sogn` : parish,
-        `${district} herred`,
-        `${county} amt`,
-      ]
+        district ? `${district} herred` : null,
+        county ? `${county} amt` : null,
+      ].filter((x) => x)
     )
   ].join(", ");
 };
