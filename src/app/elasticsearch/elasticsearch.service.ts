@@ -193,6 +193,21 @@ export class ElasticsearchService {
   }
 
   searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: number[]) {
+    if(indices.length < 1) {
+      const emptySearchResult = new Observable<SearchResult>((observer) => {
+        observer.next({
+          took: 0,
+          totalHits: 0,
+          indexHits: {},
+          hits: [],
+          meta: { possibleYears: [] },
+        });
+
+        observer.complete();
+      });
+      return emptySearchResult;
+    }
+
     const sort = this.createSortClause(sortBy, sortOrder);
 
     const must = [];
