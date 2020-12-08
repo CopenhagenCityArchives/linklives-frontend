@@ -293,7 +293,7 @@ export class ElasticsearchService {
       observer => {
         this.http.get<ElasticDocResult>(`${environment.apiUrl}/${index}/_doc/${id}`)
         .subscribe(next => {
-            const typeKey = Object.keys(next._source)[0];
+            const typeKey = Object.keys(next._source).find((key) => !key.includes("id"));
             observer.next(next._source[typeKey]);
           }, error => {
             observer.error(error);
