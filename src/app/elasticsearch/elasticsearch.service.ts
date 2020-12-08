@@ -186,10 +186,26 @@ export class ElasticsearchService {
 
     //sort: undefined should result in a JSON request with no sort field
     if(!sortKeys) {
-      return;
+      return undefined;
     }
 
-    return sortKeys.map((key) => ({ [`person_appearance.${key}`]: { order: sortOrder } }));
+    return sortKeys.map((key: string) => {
+      if(key == "_score") {
+        return { _score: { order: sortOrder } };
+      }
+
+      const qualifiedKey = `person_appearance.${key}`;
+
+      return {
+        [qualifiedKey]: {
+          order: sortOrder,
+          mode: "max",
+          nested: {
+            path: "person_appearance",
+          },
+        }
+      };
+    });
   }
 
   searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: number[]) {

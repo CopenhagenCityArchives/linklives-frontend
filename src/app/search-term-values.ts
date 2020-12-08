@@ -46,6 +46,7 @@ export const mapQueryShouldKey = {
 };
 
 export const sortValues = {
+  relevance: [ "_score" ],
   firstName: [ "first_names_sortable" ],
   lastName: [ "family_names_sortable" ],
   birthYear: [ "birth_year" ],
