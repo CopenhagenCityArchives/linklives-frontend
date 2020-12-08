@@ -168,14 +168,14 @@
             </ng-container>
             
             <a class="lls-pagination__item" *ngFor="let page of pagination.navigationPages" [ngClass]="{ 'lls-pagination__item--selected': pagination.current === page }" [routerLink]="['./', { 'size': pagination.size, 'page': page } ]" [queryParams]="queryParams">
-                <span class="lls-pagination__item-text">{{ page }}</span>
+                <span class="lls-pagination__item-text">{{ prettyPaginationNumber(page) }}</span>
             </a>
 
             <ng-container *ngIf="pagination.lastInOrder < pagination.last">
                 <div class="lls-pagination__entry" *ngIf="pagination.lastInOrder < pagination.last - 1">&mdash;</div>
 
                 <a class="lls-pagination__item" [routerLink]="['./', { 'size': pagination.size, 'page': pagination.last } ]" [queryParams]="queryParams">
-                    <span class="lls-pagination__item-text">{{ pagination.last }}</span>
+                    <span class="lls-pagination__item-text">{{ prettyPaginationNumber(pagination.last) }}</span>
                 </a>
             </ng-container>
 
