@@ -25,8 +25,6 @@ export const mapQueryShouldKey = {
     "all_possible_family_names",
     "all_possible_patronyms",
     "family_names",
-    "maiden_family_names",
-    "maiden_patronyms",
     "patronyms"
   ],
   birthName: [
