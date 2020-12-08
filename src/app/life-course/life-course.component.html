@@ -41,7 +41,12 @@
     <div class="lls-life-course-source-container">
         <section class="lls-life-course-source-container__source-list">
             <h3 class="u-margin-0">Kilder</h3>
-            <app-person-appearance-item [item]="pa" class="mx-2" *ngFor="let pa of pas"></app-person-appearance-item>
+            <app-person-appearance-item
+                *ngFor="let pa of pas"
+                class="mx-2"
+                [item]="pa"
+                truncatableName="true"
+            ></app-person-appearance-item>
         </section>
         <section class="lls-life-course-source-container__source-linking-graph">
             <svg width="200px" [attr.height]="(196 + 27) * pas.length" [attr.viewBox]="'0 0 200 ' + ((196 + 27) * pas.length)">
