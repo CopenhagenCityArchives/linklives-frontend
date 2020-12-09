@@ -18,7 +18,10 @@
             {{ personRole }}
         </p>
         <div class="lls-source__person">
-            <p class="lls-source__person-name u-bold u-text-capitalize">
+            <p
+                class="lls-source__person-name u-bold u-text-capitalize"
+                [attr.title]="showTitleOnName ? personAppearance.name_clean : null"
+            >
                 {{ personName }}
             </p>
             <p class="lls-source__person-age">

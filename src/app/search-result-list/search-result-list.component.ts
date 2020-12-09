@@ -41,7 +41,7 @@ export class SearchResultListComponent implements OnInit {
   sortBy: string = "relevance";
   sortByOptions = sortByOptions;
 
-  sortAscending = true;
+  sortAscending = false;
 
   searchTerms = [];
   searchFieldPlaceholders = searchFieldPlaceholders;
@@ -90,13 +90,23 @@ export class SearchResultListComponent implements OnInit {
   }
 
   get resultRangeDescription() {
+    const prettyTotal = this.prettyPaginationNumber(this.searchResult.totalHits);
+
     if(this.searchResult.totalHits < this.pagination.size) {
-      return `Viser alle ${this.searchResult.totalHits} resultater`;
+      return `Viser alle ${prettyTotal} resultater`;
     }
 
     const firstResult = ((this.pagination.current - 1) * this.pagination.size) + 1;
     const lastResult = Math.min(firstResult + this.pagination.size - 1, this.searchResult.totalHits);
-    return `Viser ${firstResult}&ndash;${lastResult} af ${this.searchResult.totalHits} resultater`;
+
+    const prettyFirst = this.prettyPaginationNumber(firstResult);
+    const prettyLast = this.prettyPaginationNumber(lastResult);
+
+    return `Viser ${prettyFirst}&ndash;${prettyLast} af ${prettyTotal} resultater`;
+  }
+
+  prettyPaginationNumber(num: number) {
+    return num.toLocaleString("da-DK");
   }
 
   constructor(private router: Router, private route: ActivatedRoute) { }

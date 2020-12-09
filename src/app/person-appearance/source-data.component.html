@@ -42,14 +42,21 @@
         </div>
     </div>
     <div class="lls-card__actions">
-        <a class="lls-btn lls-btn--big lls-btn--disabled" tabindex="0">
+        <a
+            class="lls-btn lls-btn--big"
+            [class]="pa.pa_entry_permalink ? '' : 'lls-btn--disabled'"
+            [attr.href]="pa.pa_entry_permalink ? pa.pa_entry_permalink : null"
+            [attr.tabindex]="pa.pa_entry_permalink ? null : -1"
+            target="_blank"
+            rel="noopener"
+        >
             <span>Se original kilde</span>
             <svg class="lls-icon lls-icon--right">
                 <use [attr.href]="featherSpriteUrl + '#search'"></use>
             </svg>
         </a>
     </div>
-    <div class="lls-card__action-hint">
-        Det er på nuværende tidspunkt ikke muligt at linke direkte til kilden hos Rigsarkivet
+    <div class="lls-card__action-hint" *ngIf="!pa.pa_entry_permalink">
+        Det er på nuværende tidspunkt ikke muligt at linke direkte til kilden hos {{ source.institution }}
     </div>
 </div>

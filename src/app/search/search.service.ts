@@ -86,6 +86,7 @@ export interface PersonAppearance {
   name_std: string,
   occupation: string,
   pa_id: number,
+  pa_entry_permalink: string,
   parish: string,
   parish_type: string,
   patronyms: string[],
@@ -101,6 +102,16 @@ export interface PersonAppearance {
   transcription_id: number,
   uncat_names: string
 }
+
+export interface Source {
+  id: string,
+  source_id: number,
+  year: number,
+  type: string,
+  description: string,
+  link: string,
+  institution: string,
+};
 
 export interface AdvancedSearchQuery {
   query?: string,

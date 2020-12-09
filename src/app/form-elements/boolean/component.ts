@@ -29,6 +29,7 @@ export class Boolean implements ControlValueAccessor {
   set value(value: boolean) {
     this._value = value;
     this.onChange(value);
+    this.change.emit(value);
     this.onTouched();
   }
 
@@ -38,6 +39,7 @@ export class Boolean implements ControlValueAccessor {
   onTouched: Function = () => {};
 
   @Output() ngModelChange = new EventEmitter<boolean>();
+  @Output() change = new EventEmitter<boolean>();
 
   constructor() {}
 

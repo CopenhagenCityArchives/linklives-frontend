@@ -5,7 +5,7 @@ $booleanFontSize: 1.125rem;
   display: inline-block;
   font-size: $booleanFontSize;
   padding: 0.5rem $booleanPaddingY;
-  border: 2px solid black;
+  border: 2px solid $off-black;
   border-radius: 3px;
   width: 100%;
   cursor: pointer;

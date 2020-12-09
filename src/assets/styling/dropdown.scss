@@ -5,7 +5,7 @@ $dropdownFontSize: 1.125rem;
   display: inline-block;
   font-size: $dropdownFontSize;
   padding: 0.5rem $dropdownPaddingY;
-  border: 2px solid black;
+  border: 2px solid $off-black;
   border-radius: 3px;
   width: 100%;
   margin: 0.125rem 0;
@@ -57,7 +57,7 @@ $dropdownFontSize: 1.125rem;
   position: absolute;
   display: none;
   background: white;
-  color: black;
+  color: $off-black;
   box-shadow: 0 0 2px rgba(0,0,0,0.05);
   z-index: 1;
   left: 0;
@@ -88,7 +88,7 @@ $dropdownFontSize: 1.125rem;
 }
 
 .lls-dropdown__option--selected {
-  outline: 1px dotted black;
+  outline: 1px dotted $off-black;
   outline-offset: -1px;
 }
 .lls-dropdown__option--disabled {
