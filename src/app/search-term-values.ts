@@ -1,11 +1,15 @@
 import { Category, Option } from './form-elements/dropdown/component';
 
 export const mapQueryMustKey = {
-  firstName: "first_names",
   sourceYear: "source_year",
 };
 
 export const mapQueryShouldKey = {
+  firstName: [
+    "first_names",
+    "first_names_clean",
+    "first_names_std",
+  ],
   birthPlace: [
     "birth_place",
     "birth_place_clean",
@@ -25,11 +29,13 @@ export const mapQueryShouldKey = {
     "all_possible_family_names",
     "all_possible_patronyms",
     "family_names",
-    "patronyms"
+    "patronyms",
+    "lastname_clean",
   ],
   birthName: [
     "maiden_family_names",
     "maiden_patronyms",
+    "birthname_clean",
   ],
   sourcePlace: [
     "parish",
@@ -39,11 +45,12 @@ export const mapQueryShouldKey = {
   maritalStatus: [
     "marital_status",
     "marital_status_clean",
-    "marital_status_std"
+    "marital_status_std",
   ],
 };
 
 export const sortValues = {
+  relevance: [ "_score" ],
   firstName: [ "first_names_sortable" ],
   lastName: [ "family_names_sortable" ],
   birthYear: [ "birth_year" ],

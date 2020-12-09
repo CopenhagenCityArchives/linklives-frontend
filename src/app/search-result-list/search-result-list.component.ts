@@ -41,7 +41,7 @@ export class SearchResultListComponent implements OnInit {
   sortBy: string = "relevance";
   sortByOptions = sortByOptions;
 
-  sortAscending = true;
+  sortAscending = false;
 
   searchTerms = [];
   searchFieldPlaceholders = searchFieldPlaceholders;
