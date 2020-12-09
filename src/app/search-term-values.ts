@@ -91,6 +91,7 @@ export const searchFieldLabels = {
   birthYear: "Fødselsår",
   sourceYear: "Kildeår",
   deathYear: "Dødsår",
+  // index: "Resultattype",
   //maritalStatus: "Civilstand",
 };
 

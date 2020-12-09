@@ -44,6 +44,7 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       "sourceYear",
       //"deathYear",
       //"maritalStatus",
+      "index",
     ];
 
     const actualSearchTerms: AdvancedSearchQuery = {};

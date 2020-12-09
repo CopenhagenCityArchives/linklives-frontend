@@ -29,9 +29,11 @@
                     </svg>
                     <span>Søgeresultat</span>
                 </h3>
-                <p class="u-margin-0" *ngFor="let item of entry.queryItems">
-                    <strong class="u-mr-2">{{ searchFieldLabels[item.field] }}</strong> {{ item.value }}
-                </p>
+                <ng-container *ngFor="let item of entry.queryItems">
+                    <p class="u-margin-0" *ngIf="item.field != 'index'">
+                        <strong class="u-mr-2">{{ searchFieldLabels[item.field] }}</strong> {{ item.value }}
+                    </p>
+                </ng-container>
             </div>
         </a>
         <a
