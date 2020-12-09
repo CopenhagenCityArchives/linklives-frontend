@@ -47,10 +47,10 @@ export function prettyBirthYear(
   {
     source_year,
     age_clean,
-    //birth_year: number,
+    birth_year,
   }: PersonAppearance
 ) {
-  return `ca. ${source_year - age_clean}`;
+  return birth_year || `ca. ${source_year - age_clean}`;
 };
 
 export function eventType({ event_type }: PersonAppearance) {

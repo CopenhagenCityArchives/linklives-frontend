@@ -33,7 +33,7 @@ export class PersonAppearanceItemComponent implements OnInit {
   }
 
   get birthYear() {
-    return this.personAppearance.birth_year || prettyBirthYear(this.personAppearance);
+    return prettyBirthYear(this.personAppearance);
   }
 
   get sourceLocation() {
