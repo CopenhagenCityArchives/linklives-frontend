@@ -53,6 +53,36 @@ export function prettyBirthYear(
   return birth_year || `ca. ${source_year - age_clean}`;
 };
 
+export function prettyFirstName(
+  {
+    first_names_clean,
+    first_names,
+  }: PersonAppearance
+) {
+  if(first_names_clean) {
+    return first_names_clean;
+  }
+  if(first_names.length) {
+    return first_names.join(" ");
+  }
+  return "";
+}
+
+export function prettyLastName(
+  {
+    lastname_clean,
+    patronyms,
+  }: PersonAppearance
+) {
+  if(lastname_clean) {
+    return lastname_clean;
+  }
+  if(patronyms.length) {
+    return patronyms.join(" ");
+  }
+  return "";
+}
+
 export function eventType({ event_type }: PersonAppearance) {
   return {
     "census": "Folketælling",
