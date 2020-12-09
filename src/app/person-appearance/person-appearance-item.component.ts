@@ -10,6 +10,7 @@ import { PersonAppearance } from '../search/search.service';
 export class PersonAppearanceItemComponent implements OnInit {
 
   @Input("item") personAppearance: PersonAppearance;
+  @Input("truncatableName") showTitleOnName: boolean = false;
 
   get config() {
     return window["lls"];

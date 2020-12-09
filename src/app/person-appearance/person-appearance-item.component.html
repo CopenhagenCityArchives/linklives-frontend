@@ -14,7 +14,10 @@
     <div class="lls-source__section lls-source__section--bordered">
         <p class="lls-source__subtitle u-text-capitalize">{{ personAppearance.household_position_std }}</p>
         <div class="lls-source__person">
-            <p class="lls-source__person-name u-bold u-text-capitalize">
+            <p
+                class="lls-source__person-name u-bold u-text-capitalize"
+                [attr.title]="showTitleOnName ? personAppearance.name_clean : null"
+            >
                 {{ personAppearance.name_clean }}
             </p>
             <p class="lls-source__person-age">

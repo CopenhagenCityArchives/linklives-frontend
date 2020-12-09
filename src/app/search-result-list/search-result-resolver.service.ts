@@ -30,7 +30,7 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
     const sourceFilterRaw = route.queryParamMap.get("sourceFilter");
     let sourceFilter: number[] = sourceFilterRaw ? sourceFilterRaw.split(",").filter(x => x).map((year) => parseInt(year)) : [];
 
-    let index: string[] = route.queryParamMap.get("index")?.split(",") ?? ["lifecourses", "pas"];
+    let index: string[] = route.queryParamMap.get("index")?.split(",") ?? [];
 
     const possibleSearchQueryParams = [
       "query",

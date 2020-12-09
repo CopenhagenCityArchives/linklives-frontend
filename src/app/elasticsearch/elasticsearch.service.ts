@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery } from '../search/search.service';
+import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery, Source } from '../search/search.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -209,6 +209,21 @@ export class ElasticsearchService {
   }
 
   searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: number[]) {
+    if(indices.length < 1) {
+      const emptySearchResult = new Observable<SearchResult>((observer) => {
+        observer.next({
+          took: 0,
+          totalHits: 0,
+          indexHits: {},
+          hits: [],
+          meta: { possibleYears: [] },
+        });
+
+        observer.complete();
+      });
+      return emptySearchResult;
+    }
+
     const sort = this.createSortClause(sortBy, sortOrder);
 
     const must = [];
@@ -304,12 +319,13 @@ export class ElasticsearchService {
     return this.search(indices, body);
   }
 
-  getDocument(index: string, id: string|number): Observable<PersonAppearance|PersonAppearance[]> {
-    return new Observable<PersonAppearance|PersonAppearance[]>(
+  getDocument(index: string, id: string|number): Observable<Source|PersonAppearance|PersonAppearance[]> {
+    return new Observable<Source|PersonAppearance|PersonAppearance[]>(
       observer => {
         this.http.get<ElasticDocResult>(`${environment.apiUrl}/${index}/_doc/${id}`)
         .subscribe(next => {
-            observer.next(next._source.person_appearance)
+            const typeKey = Object.keys(next._source).find((key) => !key.includes("id"));
+            observer.next(next._source[typeKey]);
           }, error => {
             observer.error(error);
           }, () => {
