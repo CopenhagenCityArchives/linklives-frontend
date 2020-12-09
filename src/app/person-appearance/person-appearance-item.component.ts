@@ -45,15 +45,15 @@ export class PersonAppearanceItemComponent implements OnInit {
   }
 
   get personRole() {
-    if(this.personAppearance.role != "unknown" || !this.personAppearance.role) {
+    if(this.personAppearance.role != "unknown" && this.personAppearance.role) {
       return this.personAppearance.role;
     }
 
-    if(this.personAppearance.household_position_std != "unknown" || !this.personAppearance.household_position_std) {
+    if(this.personAppearance.household_position_std != "unknown" && this.personAppearance.household_position_std) {
       return this.personAppearance.household_position_std;
     }
 
-    if(this.personAppearance.household_position != "unknown" || !this.personAppearance.household_position) {
+    if(this.personAppearance.household_position != "unknown" && this.personAppearance.household_position) {
       return this.personAppearance.household_position;
     }
 
