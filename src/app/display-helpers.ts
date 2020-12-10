@@ -90,3 +90,22 @@ export function eventType({ event_type }: PersonAppearance) {
     "burial": "Begravelse",
   }[event_type] || "Kilde"
 };
+
+export function prettyDate(rawDate) {
+  const months = [
+    "januar",
+    "februar",
+    "marts",
+    "april",
+    "maj",
+    "juni",
+    "juli",
+    "august",
+    "september",
+    "oktober",
+    "november",
+    "december",
+  ];
+  const date = new Date(rawDate);
+  return `${date.getDate()}. ${months[date.getMonth()]} ${date.getFullYear()}`;
+}
