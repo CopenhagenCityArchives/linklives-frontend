@@ -29,6 +29,14 @@
                     <use [attr.href]="featherSpriteUrl + '#star'"></use>
                 </svg>
                 {{ birthYear }}
+                <ng-container *ngIf="personAppearance.dateOfDeath">
+                     - 
+                    <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left">
+                        <use [attr.href]="featherSpriteUrl + '#ll-funeral'"></use>
+                    </svg>
+                    {{ deathYear }}
+                </ng-container>
+                
             </p>
         </div>
         <p *ngIf="occupation">
