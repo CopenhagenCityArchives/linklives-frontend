@@ -10,10 +10,6 @@
   @media(min-width: $breakpointMd) {
     align-items: flex-end;
   }
-
-  @media(max-width: $breakpointSm) {
-    margin-top: 0rem;
-  }
 }
 
 .lls-search-modifier-inputs {

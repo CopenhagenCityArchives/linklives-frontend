@@ -15,12 +15,10 @@
 }
 
 .lls-results-header__right-section {
-  @media(min-width: $breakpointMd) {
-    display: flex;
-    align-items: flex-end;
-    justify-content: flex-end;
-    text-align: right;
-  }
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  text-align: right;
 }
 
 .lls-results-header__checkboxes {
@@ -47,5 +45,10 @@
 
   &:hover {
     color: white;
+  }
+
+  @media(max-width: $breakpointMd) {
+    border: 1px solid white;
+    padding: 0.5rem 1rem;
   }
 }
