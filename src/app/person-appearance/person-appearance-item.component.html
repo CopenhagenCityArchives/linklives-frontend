@@ -8,17 +8,21 @@
         <h3 class="lls-source__title">
             {{ eventType }}
         </h3>
-        <p *ngIf="personAppearance.source_year" class="u-margin-0">{{ personAppearance.source_year }}</p>
+        <p *ngIf="personAppearance.source_year" class="u-margin-0">
+            {{ personAppearance.source_year }}
+        </p>
     </div>
     
     <div class="lls-source__section lls-source__section--bordered">
-        <p class="lls-source__subtitle u-text-capitalize">{{ personAppearance.household_position_std }}</p>
+        <p class="lls-source__subtitle u-text-capitalize" *ngIf="personRole">
+            {{ personRole }}
+        </p>
         <div class="lls-source__person">
             <p
                 class="lls-source__person-name u-bold u-text-capitalize"
                 [attr.title]="showTitleOnName ? personAppearance.name_clean : null"
             >
-                {{ personAppearance.name_clean }}
+                {{ personName }}
             </p>
             <p class="lls-source__person-age">
                 <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left">
@@ -27,7 +31,9 @@
                 {{ birthYear }}
             </p>
         </div>
-        <p *ngIf="personAppearance.occupation">{{ personAppearance.occupation }}</p>
+        <p *ngIf="occupation">
+            {{ occupation }}
+        </p>
         <p class="u-text-capitalize u-margin-0" *ngIf="birthLocation">
             {{ birthLocation }}
         </p>
@@ -35,7 +41,9 @@
 
     <div class="lls-source__section">
         <p class="lls-source__subtitle">Kilde</p>
-        <p class="u-margin-0">{{ eventType }} {{ personAppearance.source_year }}</p>
+        <p class="u-margin-0">
+            {{ eventType }} {{ personAppearance.source_year }}
+        </p>
         <p class="u-text-capitalize u-margin-0">
             {{ sourceLocation }}
         </p>

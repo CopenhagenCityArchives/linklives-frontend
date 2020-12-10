@@ -1,13 +1,14 @@
 import { PersonAppearance } from './search/search.service';
 
-export function prettySourceLocation({ parish, parish_type, district, county  }: PersonAppearance) {
+export function prettySourceLocation({ parish, parish_type, district, county, event_type }: PersonAppearance) {
   return [
     ...new Set(
       [
+        event_type === "burial" ? "Københavns begravelsesprotokoller" : null,
         parish_type === "Sogn" ? `${parish} sogn` : parish,
-        `${district} herred`,
-        `${county} amt`,
-      ]
+        district ? `${district} herred` : null,
+        county ? `${county} amt` : null,
+      ].filter((x) => x)
     )
   ].join(", ");
 };
@@ -47,11 +48,41 @@ export function prettyBirthYear(
   {
     source_year,
     age_clean,
-    //birth_year: number,
+    birth_year,
   }: PersonAppearance
 ) {
-  return `ca. ${source_year - age_clean}`;
+  return birth_year || `ca. ${source_year - age_clean}`;
 };
+
+export function prettyFirstName(
+  {
+    first_names_clean,
+    first_names,
+  }: PersonAppearance
+) {
+  if(first_names_clean) {
+    return first_names_clean;
+  }
+  if(first_names.length) {
+    return first_names.join(" ");
+  }
+  return "";
+}
+
+export function prettyLastName(
+  {
+    lastname_clean,
+    patronyms,
+  }: PersonAppearance
+) {
+  if(lastname_clean) {
+    return lastname_clean;
+  }
+  if(patronyms.length) {
+    return patronyms.join(" ");
+  }
+  return "";
+}
 
 export function eventType({ event_type }: PersonAppearance) {
   return {
