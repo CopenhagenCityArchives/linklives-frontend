@@ -50,7 +50,31 @@ export class SourceDataComponent implements OnInit {
       birth_place_county_std: "birth_place_county_std",
       birth_place_koebstad_std: "birth_place_koebstad_std",
     },
-    burial: {},
+    burial: {
+      gender_clean: "gender_clean",
+      gender_std: "gender_std",
+      age_clean: "age_clean",
+      name_std: "name_std",
+      first_names: "first_names",
+      family_names: "family_names",
+      patronyms: "patronyms",
+      uncat_names: "uncat_names",
+      maiden_family_names: "maiden_family_names",
+      maiden_patronyms: "maiden_patronyms",
+      all_possible_family_names: "all_possible_family_names",
+      all_possible_patronyms: "all_possible_patronyms",
+      marital_status_clean: "marital_status_clean",
+      marital_status_std: "marital_status_std",
+      event_type: "event_type",
+      role: "role",
+      birth_year: "birth_year",
+      firstnames_clean: "firstnames_clean",
+      firstnames_std: "firstnames_std",
+      lastname_clean: "lastname_clean",
+      lastname_std: "lastname_std",
+      birthname_clean: "birthname_clean",
+      birthname_std: "birthname_std",
+    },
   };
 
   get standardizedDataLines() {
@@ -74,7 +98,12 @@ export class SourceDataComponent implements OnInit {
       transcription_id: "transcription_id",
       household_family_no: "Husstands nr.",
     },
-    burial: {},
+    burial: {
+      source_id: "Kilde ID",
+      source_year: "Kildeår",
+      id_cph: "ID",
+      number: "Nummer",
+    },
   };
 
   get sourceDataLines() {
@@ -129,7 +158,42 @@ export class SourceDataComponent implements OnInit {
       state_region: "Land",
       transcriber_comments: "Indtasters kommentar",
     },
-    burial: {}
+    burial: {
+      gender: "Køn",
+      marital_status: "Civilstand",
+      ageYears: "Alder, år",
+      ageMonths: "Alder, måneder",
+      ageWeeks: "Alder, uger",
+      ageDays: "Alder, dage",
+      ageHours: "Alder, timer",
+      dateOfBirth: "Fødselsdato",
+      dateOfDeath: "Dødsdato",
+      yearOfBirth: "Fødselsår",
+      firstnames: "Fornavn",
+      lastname: "Efternavn",
+      birthname: "Fødenavn",
+      deathplace: "Dødssted",
+      adressOutsideCph: "Adresse udenfor København", //[sic]
+      comment: "Indtasters kommentar",
+      cemetary: "Kirkegård",
+      chapel: "Kapel",
+      parish: "Sogn",
+      street: "Gade",
+      hood: "Kvarter",
+      street_unique: "street_unique",
+      street_number: "Gadenummer",
+      letter: "Bogstav",
+      floor: "Etage",
+      institution: "Institution",
+      institution_street: "Institution - gade",
+      institution_hood: "Institution - kvarter",
+      institution_street_unique: "institution_street_unique",
+      institution_street_number: "Institution - nummer",
+      positions: "Erhverv",
+      relationstypes: "Relation til erhverv",
+      workplaces: "Arbejdssted",
+      deathcauses: "Dødsårsag",
+    }
   };
 
   get originalDataLines() {
