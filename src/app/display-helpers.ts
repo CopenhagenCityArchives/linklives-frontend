@@ -78,7 +78,7 @@ export function prettyFirstName(
   if(first_names_clean) {
     return first_names_clean;
   }
-  if(first_names.length) {
+  if(first_names?.length) {
     return first_names.join(" ");
   }
   return "";
@@ -93,7 +93,7 @@ export function prettyLastName(
   if(lastname_clean) {
     return lastname_clean;
   }
-  if(patronyms.length) {
+  if(patronyms?.length) {
     return patronyms.join(" ");
   }
   return "";

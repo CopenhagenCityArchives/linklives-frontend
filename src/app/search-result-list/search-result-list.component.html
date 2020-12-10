@@ -84,7 +84,7 @@
 </section>
 <section class="lls-container">
     <div class="lls-row">
-        <div class="lls-columns-5 lls-columns-6--sm lls-columns-9--md lls-search-modifiers">
+        <div class="lls-columns-12 lls-columns-7--md lls-columns-8--lg lls-search-modifiers">
             <!-- Filtering -->
             <span class="lls-search-modifier-inputs__label">Filter resultater</span>
             <button class="lls-btn lls-btn--outline lls-btn--link" (click)="openSidebar = true">
@@ -113,12 +113,18 @@
                 </button>
             </div>
         </div>
-        <div class="lls-columns-7 lls-columns-6--sm lls-columns-3--md lls-search-modifiers lls-search-modifiers--right">
+        <div class="lls-columns-12 lls-columns-5--md lls-columns-4--lg lls-search-modifiers lls-search-modifiers--right">
             <div class="lls-search-modifier-inputs lls-search-modifier-inputs">
-                <!--label class="lls-search-modifier-inputs__entry">
+                <label class="lls-search-modifier-inputs__entry lls-search-modifier-inputs__entry--basis-110">
                     <span class="lls-search-modifier-inputs__label">Antal per side</span>
-                    <lls-dropdown></lls-dropdown>
-                </label-->
+                    <lls-dropdown
+                        class="lls-dropdown--grey"
+                        [options]="sizeOptions"
+                        [(ngModel)]="pagination.size"
+                        [featherIconPath]="featherSpriteUrl"
+                        (change)="search()"
+                    ></lls-dropdown>
+                </label>
                 <label class="lls-search-modifier-inputs__entry lls-search-modifier-inputs__entry--basis-200">
                     <span class="lls-search-modifier-inputs__label">Sorter efter</span>
                     <lls-dropdown
@@ -129,7 +135,7 @@
                         (change)="search()"
                     ></lls-dropdown>
                 </label>
-                <label class="lls-search-modifier-inputs__entry">
+                <label class="lls-search-modifier-inputs__entry lls-search-modifier-inputs__entry--flex-0">
                     <span class="lls-search-modifier-inputs__label">&nbsp;</span>
                     <lls-boolean
                         [(ngModel)]="sortAscending"
