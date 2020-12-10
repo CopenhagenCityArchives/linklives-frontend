@@ -28,6 +28,7 @@
 .lls-search-modifier-inputs__entry {
   margin-left: 0.25rem;
   margin-right: 0.25rem;
+  flex-grow: 1;
 
   &:first-child {
     margin-left: 0;
@@ -43,6 +44,10 @@
 }
 .lls-search-modifier-inputs__entry--basis-200 {
   flex-basis: 200px;
+}
+.lls-search-modifier-inputs__entry--flex-0 {
+  flex-grow: 0;
+  flex-shrink: 0;
 }
 
 .lls-search-modifier-inputs__label {
