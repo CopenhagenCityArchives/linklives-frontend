@@ -12,12 +12,20 @@
 
     <div class="lls-source__section lls-source__section--bordered">
         <p class="lls-source__subtitle u-text-capitalize">Person</p>
-        <p class="lls-source__person u-text-capitalize">{{ latestPersonAppearance.name_clean }}</p>
+        <p class="lls-source__person u-bold u-text-capitalize">
+            {{ personName }}
+        </p>
         <p class="lls-source__person-age">
             <svg class="lls-icon lls-icon--filled lls-icon--white lls-icon--small lls-icon--left">
-                <use [attr.href]="featherSpriteUrl + '#star'"></use>
+                <use [attr.href]="featherSpriteUrl + '#ll-born'"></use>
             </svg>
             {{ birthYear }}
+            <ng-container *ngIf="deathYear">
+                <svg class="lls-icon lls-icon--filled lls-icon--white lls-icon--small lls-icon--left u-ml-2">
+                    <use [attr.href]="featherSpriteUrl + '#ll-dead'"></use>
+                </svg>
+                {{ deathYear }}
+            </ng-container>
         </p>
         <div class="u-text-capitalize u-margin-0">
             {{ birthLocation }}

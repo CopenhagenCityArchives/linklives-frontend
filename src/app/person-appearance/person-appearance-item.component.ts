@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { eventType, prettyBirthLocation, prettyBirthYear, prettyDeathYear, prettySourceLocation, prettyFirstName, prettyLastName } from '../display-helpers';
+import { eventType, prettyBirthLocation, prettyBirthYear, prettyDeathYear, prettySourceLocation, prettyFullName } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({
@@ -46,7 +46,7 @@ export class PersonAppearanceItemComponent implements OnInit {
   }
 
   get personName() {
-    return this.personAppearance.name_clean || `${prettyFirstName(this.personAppearance)} ${prettyLastName(this.personAppearance)}`;
+    return prettyFullName(this.personAppearance);
   }
 
   get personRole() {

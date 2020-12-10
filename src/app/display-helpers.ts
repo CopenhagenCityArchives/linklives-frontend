@@ -59,8 +59,15 @@ export function prettyDeathYear(
     dateOfDeath,
   }: PersonAppearance
 ) {
-  return dateOfDeath.split("-")[0];
+  if(dateOfDeath) {
+    return dateOfDeath.split("-")[0];
+  }
+  return null;
 };
+
+export function prettyFullName(personAppearance: PersonAppearance) {
+  return personAppearance.name_clean || `${prettyFirstName(personAppearance)} ${prettyLastName(personAppearance)}`;
+}
 
 export function prettyFirstName(
   {
