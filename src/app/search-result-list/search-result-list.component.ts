@@ -37,6 +37,12 @@ export class SearchResultListComponent implements OnInit {
     navigationPages: number[],
   };
 
+  sizeOptions = [
+    { label: "10", value: 10 },
+    { label: "20", value: 20 },
+    { label: "50", value: 50 },
+  ];
+
   sourceFilter = [];
   sortBy: string = "relevance";
   sortByOptions = sortByOptions;
@@ -207,7 +213,7 @@ export class SearchResultListComponent implements OnInit {
     const searchParams: AdvancedSearchQuery = {};
     this.searchTerms.forEach((term) => searchParams[term.field] = term.value);
 
-    this.router.navigate(['/results'], {
+    this.router.navigate(['/results', { page: 1, size: this.pagination.size }], {
       queryParams: {
         ...searchParams,
         index: this.queryParams.index,
