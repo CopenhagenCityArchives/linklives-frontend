@@ -303,8 +303,14 @@ export class ElasticsearchService {
         person_appearance: {
           nested: { path: "person_appearance" },
           aggs:{
-            source_years: {
-              terms: { field: "person_appearance.source_year", size: 10000 }
+            sources: {
+              composite: {
+                sources: [
+                  { source_year: { terms: { field: "person_appearance.source_year" } } },
+                  { event_type: { terms: { field: "person_appearance.event_type" } } },
+                ],
+                size: 10000
+              }
             },
           }
         },
