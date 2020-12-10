@@ -51,6 +51,9 @@ export class PersonAppearanceItemComponent implements OnInit {
 
   get personRole() {
     if(this.personAppearance.role != "unknown" && this.personAppearance.role) {
+      if(this.personAppearance.role === "deceased") {
+        return "afdøde"
+      }
       return this.personAppearance.role;
     }
 
