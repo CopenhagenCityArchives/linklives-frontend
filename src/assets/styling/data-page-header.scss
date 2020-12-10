@@ -1,6 +1,11 @@
 .lls-data-page-header {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+
+  @media(min-width: $breakpointMd) {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+  }
 }
 
 .lls-data-page-header__title {
@@ -29,4 +34,15 @@
 .lls-data-page-header__utility-links {
   font-size: 1rem;
   font-weight: 400;
+  text-align: right;
+
+  @media(max-width: $breakpointSm) {
+    margin-bottom: 1rem;
+    text-align: left;
+  }
+}
+
+.lls-data-page-header__utility-link {
+  cursor: pointer;
+  white-space: nowrap;
 }
