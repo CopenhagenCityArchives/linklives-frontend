@@ -54,6 +54,21 @@ export function prettyBirthYear(
   return birth_year || `ca. ${source_year - age_clean}`;
 };
 
+export function prettyDeathYear(
+  {
+    dateOfDeath,
+  }: PersonAppearance
+) {
+  if(dateOfDeath) {
+    return dateOfDeath.split("-")[0];
+  }
+  return null;
+};
+
+export function prettyFullName(personAppearance: PersonAppearance) {
+  return personAppearance.name_clean || `${prettyFirstName(personAppearance)} ${prettyLastName(personAppearance)}`;
+}
+
 export function prettyFirstName(
   {
     first_names_clean,
