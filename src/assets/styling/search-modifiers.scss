@@ -11,8 +11,8 @@
     align-items: flex-end;
   }
 
-  @media(max-width: $breakpointSm) {
-    margin-top: 0rem;
+  @media(max-width: $breakpointMd) {	
+    margin-top: 0rem;	
   }
 }
 
