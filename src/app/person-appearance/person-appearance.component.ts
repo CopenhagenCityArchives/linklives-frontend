@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PersonAppearance } from '../search/search.service';
-import { eventType, prettySourceLocation } from '../display-helpers';
+import { eventType, prettyDate, prettySourceLocation } from '../display-helpers';
 import { getLatestSearchQuery } from '../search-history';
 
 @Component({
@@ -27,22 +27,7 @@ export class PersonAppearanceComponent implements OnInit {
   }
 
   get prettyLastUpdatedDate() {
-    const months = [
-      "januar",
-      "februar",
-      "marts",
-      "april",
-      "maj",
-      "juni",
-      "juli",
-      "august",
-      "september",
-      "oktober",
-      "november",
-      "december",
-    ];
-    const date = new Date(this.pa.last_updated);
-    return `${date.getDate()}. ${months[date.getMonth()]} ${date.getFullYear()}`;
+    return prettyDate(this.pa.last_updated);
   }
 
   ngOnInit(): void {
