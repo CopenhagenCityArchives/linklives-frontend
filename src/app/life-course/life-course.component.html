@@ -109,7 +109,7 @@
                         [attr.transform]="'translate(' + (link.pathTierX - 60) + ' ' + ((196 + 27) / 2 - 110) + ')'"
                     >
                         <g class="lls-source-graph__tooltip-box">
-                            <rect width="120" height="100" rx="3" />
+                            <rect width="140" height="100" rx="3" transform="translate(-10 0)" />
                             <path d="M53,98 l7,7 l7,-7 h-14" />
                         </g>
                         <text
@@ -128,11 +128,17 @@
                         >
                             {{ link.confidencePct }}%
                         </text>
-                        <text x="60" y="68" dy=".3em">
+                        <text x="24" y="69" dy=".3em" class="lls-soruce-graph__tooltip-info-icon">
+                            <title>{{ link.linkingMethod.long }}</title>
+                            &#9432;
+                        </text>
+                        <text x="65" y="68" dy=".3em">
+                            <title>{{ link.linkingMethod.long }}</title>
                             Linket via
                         </text>
                         <text x="60" y="81" dy=".3em">
-                            {{ link.linkingMethod }}
+                            <title>{{ link.linkingMethod.long }}</title>
+                            {{ link.linkingMethod.short }}
                         </text>
                     </g>
                 </g>

@@ -66,6 +66,31 @@ export class LifeCourseComponent implements OnInit {
       const tier = Math.max.apply(Math, maxTiersInRange) + 1;
       maxTiers.fill(tier, firstIndex, lastIndex);
 
+      const prettyLinkMethod = ({ method_type: method, method_subtype1: subtype }) => {
+        if(method === "Manual") {
+          return {
+            short: "Manuelt",
+            long: "Manuelt skabt link af en peson i Link-Lives teamet.",
+          };
+        }
+        if(method === "Rule Based" && subtype === "household") {
+          return {
+            short: "Regel - husstandsinfo",
+            long: "Regelbaseret link skabt ud fra sammenhængen mellem person og husstand.",
+          };
+        }
+        if(method === "Rule Based") {
+          return {
+            short: "Regel - personinfo",
+            long: "Regelbaseret link skabt ud fra personinformationer som alder, køn, navn, og fødested.",
+          };
+        }
+        return {
+          short: "Anden metode",
+          long: "Der findes ingen mere præcis forklaring af metoden."
+        };
+      };
+
       return {
         path: `
           M0,0
@@ -78,7 +103,7 @@ export class LifeCourseComponent implements OnInit {
         offsetY: ((196 + 27) * firstIndex + (196 / 2)),
         pathTierX: tier * 16 + 10,
         confidencePct: Math.round((1 - link.score) * 100),
-        linkingMethod: link.method_type,
+        linkingMethod: prettyLinkMethod(link),
       };
     });
   }

@@ -71,6 +71,7 @@ export interface Link {
   source_id1: string,
   source_id2: string,
   method_type: string,
+  method_subtype1: string,
   score: number,
 }
 
@@ -390,6 +391,7 @@ export class ElasticsearchService {
                 source_id1: link.source_id1,
                 source_id2: link.source_id2,
                 method_type: link.method_type,
+                method_subtype1: link.method_subtype1,
                 score: link.score,
               }));
 
