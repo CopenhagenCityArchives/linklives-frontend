@@ -9,7 +9,6 @@ import { ElasticsearchService } from './elasticsearch/elasticsearch.service';
 @Injectable({
   providedIn: 'root'
 })
-
 export class AppComponent {
   title = 'linklives';
   loading = false;
