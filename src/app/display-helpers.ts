@@ -124,3 +124,8 @@ export function prettyDate(rawDate) {
   const date = new Date(rawDate);
   return `${date.getDate()}. ${months[date.getMonth()]} ${date.getFullYear()}`;
 }
+
+export function prettyYearRange(personAppearances) {
+  const sortedYears = personAppearances.map(pa => pa.source_year).sort();
+  return `${sortedYears[0]} - ${sortedYears[sortedYears.length - 1]}`;
+}

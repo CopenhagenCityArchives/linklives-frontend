@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { getSearchHistory, onSearchHistoryEntry, SearchHistoryEntry } from '../search-history';
-import { searchFieldLabels } from 'src/app/search-term-values';
-import { eventType, prettyBirthLocation, prettyBirthYear } from '../display-helpers';
+import { searchFieldLabels } from '../search-term-values';
+import { eventType, prettyBirthLocation, prettyBirthYear, prettyYearRange } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({
@@ -17,9 +17,14 @@ export class SearchHistoryComponent implements OnInit {
   searchFieldLabels = searchFieldLabels;
   prettyBirthLocation = prettyBirthLocation;
   prettyBirthYear = prettyBirthYear;
+  prettyYearRange = prettyYearRange;
 
   eventType(pa: PersonAppearance) {
     return eventType(pa);
+  }
+
+  queryKeys(entry) {
+    return Object.keys(entry.query);
   }
 
   ngOnInit(): void {
