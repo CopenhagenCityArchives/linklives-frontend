@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AdvancedSearchQuery, SearchResult, SearchService } from '../search/search.service';
+import { AdvancedSearchQuery, SearchResult, SearchService, SourceIdentifier } from '../search/search.service';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable, EMPTY } from 'rxjs';
 import { addSearchHistoryEntry, SearchHistoryEntryType } from '../search-history';
