@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery, Source } from '../search/search.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -151,12 +151,11 @@ export class ElasticsearchService {
     return result;
   }
 
+  loading = new EventEmitter<boolean>();
+
   search(indices: string[], body: any): Observable<SearchResult> {
     // TODO: Prettifiy the loading overlay code.
-    const loadingIndicator = document.querySelector("app-loading-overlay");
-    if(loadingIndicator) {
-      loadingIndicator.classList.remove("u-hide");
-    }
+    this.loading.emit(true);
     var result = new Observable<SearchResult>(observer => {
       this.http.post<ElasticSearchResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, body)
         .subscribe(next => {
@@ -166,17 +165,13 @@ export class ElasticsearchService {
             observer.error(error);
           }
         }, error => {
-          document.querySelector(".lls-loading-overlay").classList.add("lls-loading-overlay--error");
           window.setTimeout(function() {
-            loadingIndicator.classList.add("u-hide");
-            document.querySelector(".lls-loading-overlay").classList.remove("lls-loading-overlay--error");
+            this.loading.emit(false);
           }, 3000);
           observer.error(error);
         }, () => {
           observer.complete();
-          if(loadingIndicator) {
-            loadingIndicator.classList.add("u-hide");
-          }
+            this.loading.emit(false);
         });
     });
     return result;
