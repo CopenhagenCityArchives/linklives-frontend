@@ -31,9 +31,9 @@
                     </svg>
                     <span>Søgeresultat</span>
                 </h3>
-                <ng-container *ngFor="let item of entry.queryItems">
-                    <p class="u-margin-0" *ngIf="item.field != 'index'">
-                        <strong class="u-mr-2">{{ searchFieldLabels[item.field] }}</strong> {{ item.value }}
+                <ng-container *ngFor="let key of queryKeys(entry)">
+                    <p class="u-margin-0" *ngIf="key != 'index'">
+                        <strong class="u-mr-2">{{ searchFieldLabels[key] }}</strong> {{ entry.query[key] }}
                     </p>
                 </ng-container>
             </div>
