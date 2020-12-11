@@ -39,11 +39,11 @@
         (close)="openSearchHistory = false"
     ></app-search-history>
     <div class="lls-life-course-source-container">
-        <section class="lls-life-course-source-container__source-list">
-            <h3 class="u-margin-0">Kilder</h3>
+        <section class="lls-life-course-source-container__source-list lls-row">
+            <h3 class="lls-columns-12 u-margin-0">Kilder</h3>
             <app-person-appearance-item
                 *ngFor="let pa of pas"
-                class="mx-2"
+                class="lls-columns-12"
                 [item]="pa"
                 truncatableName="true"
             ></app-person-appearance-item>

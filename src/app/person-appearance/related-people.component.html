@@ -1,1 +1,8 @@
-<app-person-appearance-item [item]="pa" class="mx-2" *ngFor="let pa of relatedPas"></app-person-appearance-item>
+<section class="lls-row">
+  <app-person-appearance-item
+    [item]="pa"
+    class="lls-columns-12"
+    *ngFor="let pa of relatedPas"
+  ></app-person-appearance-item>
+</section>
+  
