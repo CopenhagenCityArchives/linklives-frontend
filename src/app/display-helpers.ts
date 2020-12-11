@@ -106,6 +106,13 @@ export function eventType({ event_type }) {
   }[event_type] || "Kilde"
 };
 
+export function eventIcon(eventType: string) {
+  return {
+    "census": "archive",
+    "burial": "ll-funeral",
+  }[eventType] || "circle";
+};
+
 export function prettyDate(rawDate) {
   const months = [
     "januar",

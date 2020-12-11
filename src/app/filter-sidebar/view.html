@@ -20,7 +20,7 @@
       [class]="activeFilter(option.value) ? 'lls-filter-sidebar__option--active' : ''"
     >
       <svg class="lls-icon lls-icon--left u-mr-2">
-        <use [attr.href]="featherIconPath + '#calendar'"></use>
+        <use [attr.href]="featherIconPath + '#' + option.icon"></use>
       </svg>
       {{ option.label }}
       <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-icon--delete lls-icon">

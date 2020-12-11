@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { eventType, prettyBirthLocation, prettyBirthYear, prettyDeathYear, prettySourceLocation, prettyFullName } from '../display-helpers';
+import { eventType, prettyBirthLocation, prettyBirthYear, prettyDeathYear, prettySourceLocation, prettyFullName, eventIcon } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({
@@ -23,10 +23,7 @@ export class PersonAppearanceItemComponent implements OnInit {
   }
 
   get eventIcon() {
-    return {
-      "census": "archive",
-      "burial": "ll-funeral",
-    }[this.personAppearance.event_type] || "circle";
+    return eventIcon(this.personAppearance.event_type);
   }
 
   get birthLocation() {
