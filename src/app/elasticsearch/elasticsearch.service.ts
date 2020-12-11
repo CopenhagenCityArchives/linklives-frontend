@@ -272,8 +272,15 @@ export class ElasticsearchService {
     if(sourceFilter.length) {
       must.push({
         bool: {
-          should: sourceFilter.map((sourceYear) => {
-            return { match: { [`person_appearance.source_year`]: sourceYear } };
+          should: sourceFilter.map(({ source_year, event_type }) => {
+            return {
+              bool: {
+                must: [
+                  { match: { [`person_appearance.source_year`]: source_year } },
+                  { match: { [`person_appearance.event_type`]: event_type } },
+                ]
+              }
+            };
           }),
         },
       })
