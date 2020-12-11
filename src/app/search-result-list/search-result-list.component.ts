@@ -85,8 +85,16 @@ export class SearchResultListComponent implements OnInit {
     };
   }
 
-  get possibleYears() {
-    return this.searchResult.meta.possibleYears.sort();
+  get possibleSources() {
+    return this.searchResult.meta.possibleSources.sort((a, b) => {
+      if(a.source_year < b.source_year) {
+        return -1;
+      }
+      if(a.source_year > b.source_year) {
+        return 1;
+      }
+      return 0;
+    });
   }
 
   get resultRangeDescription() {

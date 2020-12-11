@@ -55,9 +55,9 @@ export interface ElasticSearchResult {
       }[]
     },
     person_appearance: {
-      source_years: {
+      sources: {
         buckets: {
-          key: number,
+          key: { source_year: number, event_type: string },
           doc_count: number
         }[]
       }
@@ -132,7 +132,7 @@ export class ElasticsearchService {
       indexHits: {},
       hits: [],
       meta: {
-        possibleYears: elasticResult.aggregations?.person_appearance?.source_years?.buckets.map((bucket) => bucket.key) ?? [],
+        possibleSources: elasticResult.aggregations?.person_appearance?.sources?.buckets.map((bucket) => bucket.key) ?? [],
       },
     };
 
@@ -217,7 +217,7 @@ export class ElasticsearchService {
           totalHits: 0,
           indexHits: {},
           hits: [],
-          meta: { possibleYears: [] },
+          meta: { possibleSources: [] },
         });
 
         observer.complete();

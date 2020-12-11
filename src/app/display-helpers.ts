@@ -99,7 +99,7 @@ export function prettyLastName(
   return "";
 }
 
-export function eventType({ event_type }: PersonAppearance) {
+export function eventType({ event_type }) {
   return {
     "census": "Folketælling",
     "burial": "Begravelse",
