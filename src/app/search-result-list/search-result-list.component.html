@@ -106,11 +106,16 @@
                     *ngFor="let filterItem of sourceFilter; index as i;"
                     class="lls-btn lls-btn--grey u-mr-2 u-mt-2 u-text-capitalize"
                 >
-                    <svg class="lls-icon u-mr-2">
+                    <svg class="lls-icon u-mr-2" [attr.alt]="getEventTypeFromSourceFilterValue(filterItem)">
                         <use [attr.href]="config.featherIconPath + '#' + getIconFromSourceFilterValue(filterItem)"></use>
                     </svg>
-                    <span>{{ getNameFromSourceFilterValue(filterItem) }}</span>
-                    <svg class="lls-icon lls-icon--right" (click)="removeFilter(filterItem)" tabindex="0">
+                    <span>{{ getYearFromSourceFilterValue(filterItem) }}</span>
+                    <svg
+                        class="lls-icon lls-icon--right"
+                        (click)="removeFilter(filterItem)"
+                        tabindex="0"
+                        alt="Fjern dette filter"
+                    >
                         <use [attr.href]="config.featherIconPath + '#x'"></use>
                     </svg>
                 </div>

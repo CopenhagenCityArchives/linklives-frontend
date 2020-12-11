@@ -192,9 +192,14 @@ export class SearchResultListComponent implements OnInit {
     return eventIcon(event_type);
   }
 
-  getNameFromSourceFilterValue(filterValue: string) {
-    const [event_type, source_year] = filterValue.split("_");
-    return `${eventType({ event_type })} ${source_year}`;
+  getYearFromSourceFilterValue(filterValue: string) {
+    const [_, source_year] = filterValue.split("_");
+    return source_year;
+  }
+
+  getEventTypeFromSourceFilterValue(filterValue: string) {
+    const [event_type, _] = filterValue.split("_");
+    return eventType({ event_type });
   }
 
   addField(field) {
