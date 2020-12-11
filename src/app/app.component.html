@@ -1,2 +1,4 @@
-<app-loading-overlay class="u-hide"></app-loading-overlay>
+<app-loading-overlay
+  [class]="loading ? '' : 'u-hide'"
+></app-loading-overlay>
 <router-outlet></router-outlet>
