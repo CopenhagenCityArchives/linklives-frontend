@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { prettyBirthLocation, prettyBirthYear, prettyDeathYear, prettyFullName } from '../display-helpers';
+import { prettyBirthLocation, prettyBirthYear, prettyDeathYear, prettyFullName, prettyYearRange } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({
@@ -32,8 +32,7 @@ export class LifeCourseItemComponent implements OnInit {
   }
 
   get sourceYearRange() {
-    const sortedYears = this.personAppearances.map(pa => pa.source_year).sort();
-    return `${sortedYears[0]} - ${sortedYears[sortedYears.length - 1]}`;
+    return prettyYearRange(this.personAppearances);
   }
 
   get sourceList() {

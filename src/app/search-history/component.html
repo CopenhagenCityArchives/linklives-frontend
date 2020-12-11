@@ -1,7 +1,9 @@
 <div [class]="openSearchHistory ? 'lls-overlay' : ''"></div>
 <aside class="lls-search-history lls-sidebar lls-sidebar--right" [class]="openSearchHistory ? 'lls-sidebar--open' : ''">
     <div class="lls-sidebar__header">
-        <h3 class="u-margin-0">Min Søgehistorik</h3>
+        <h3 class="u-margin-0">
+            Min Søgehistorik
+        </h3>
         <button
           class="lls-btn lls-btn--outline"
           [tabIndex]="openSearchHistory ? 0 : -1"
@@ -49,9 +51,13 @@
                         <svg class="lls-icon lls-icon--left">
                             <use [attr.href]="featherIconPath + '#circle'"></use>
                         </svg>
-                        <span class="lls-search-history__source-number">{{ entry.lifecourse.personAppearances.length }}</span>
+                        <span class="lls-search-history__source-number">
+                            {{ entry.lifecourse.personAppearances.length }}
+                        </span>
                     </div>
-                    <span>Livsforløb {{ entry.lifecourse.personAppearances[0].source_year }}-{{ entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1].source_year }}</span>
+                    <span>
+                        Livsforløb {{ prettyYearRange(entry.lifecourse.personAppearances) }}
+                    </span>
                 </h3>
                 <p class="u-text-capitalize u-margin-0">
                     <strong class="u-mr-2">Navn</strong> {{ entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1].name_clean }}
@@ -76,7 +82,9 @@
                     <svg class="lls-icon lls-icon--left u-mr-2">
                         <use [attr.href]="featherIconPath + '#calendar'"></use>
                     </svg>
-                    <span>{{ eventType(entry.personAppearance) }} {{ entry.personAppearance.source_year }}</span>
+                    <span>
+                        {{ eventType(entry.personAppearance) }} {{ entry.personAppearance.source_year }}
+                    </span>
                 </h3>
                 <p class="u-text-capitalize u-margin-0">
                     <strong class="u-mr-2">Navn</strong> {{ entry.personAppearance.name_clean }}
