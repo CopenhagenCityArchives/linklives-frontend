@@ -142,7 +142,9 @@ export class SearchResultListComponent implements OnInit {
       this.sortAscending = !(queryParamMap.get('sortOrder') === "desc");
       const sourceFilters = queryParamMap.get('sourceFilter');
       if(sourceFilters) {
-        this.sourceFilter = sourceFilters.split(",").filter(x => x).map(x => parseInt(x));
+        this.sourceFilter = sourceFilters
+          .split(",")
+          .filter(x => x);
       }
     });
 

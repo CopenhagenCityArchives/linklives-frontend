@@ -28,7 +28,17 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
     let sortBy: string = route.queryParamMap.get('sortBy') || "relevance";
     let sortOrder: string = route.queryParamMap.get('sortOrder') === "desc" ? "desc" : "asc";
     const sourceFilterRaw = route.queryParamMap.get("sourceFilter");
-    let sourceFilter: number[] = sourceFilterRaw ? sourceFilterRaw.split(",").filter(x => x).map((year) => parseInt(year)) : [];
+
+    let sourceFilter = [];
+    if(sourceFilterRaw) {
+      sourceFilter = sourceFilterRaw
+        .split(",")
+        .filter(x => x)
+        .map((id) => {
+          const [ event_type, source_year ] = id.split("_");
+          return { event_type, source_year };
+        });
+    }
 
     let index: string[] = route.queryParamMap.get("index")?.split(",") ?? [];
 
