@@ -6,7 +6,6 @@ import { searchFieldPlaceholders, fieldOptions, searchFieldLabels, getFieldOptio
 @Component({
   selector: 'app-search-simple',
   templateUrl: './search-simple.component.html',
-  styleUrls: ['./search-simple.component.scss']
 })
 export class SimpleSearchComponent implements OnInit {
   get config() {

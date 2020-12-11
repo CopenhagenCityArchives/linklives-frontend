@@ -7,7 +7,6 @@ import { getLatestSearchQuery } from '../search-history';
 @Component({
   selector: 'app-person-appearance',
   templateUrl: './person-appearance.component.html',
-  styleUrls: ['./person-appearance.component.scss']
 })
 export class PersonAppearanceComponent implements OnInit {
   featherSpriteUrl = window["lls"].featherIconPath;
