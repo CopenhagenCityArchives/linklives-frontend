@@ -21,7 +21,6 @@ interface SearchQueryParams {
 @Component({
   selector: 'app-search-result-list',
   templateUrl: './search-result-list.component.html',
-  styleUrls: ['./search-result-list.component.scss']
 })
 export class SearchResultListComponent implements OnInit {
   searchResult: SearchResult;
@@ -37,6 +36,12 @@ export class SearchResultListComponent implements OnInit {
     size: number,
     navigationPages: number[],
   };
+
+  sizeOptions = [
+    { label: "10", value: 10 },
+    { label: "20", value: 20 },
+    { label: "50", value: 50 },
+  ];
 
   sourceFilter = [];
   sortBy: string = "relevance";
@@ -233,7 +238,7 @@ export class SearchResultListComponent implements OnInit {
     const searchParams: AdvancedSearchQuery = {};
     this.searchTerms.forEach((term) => searchParams[term.field] = term.value);
 
-    this.router.navigate(['/results'], {
+    this.router.navigate(['/results', { page: 1, size: this.pagination.size }], {
       queryParams: {
         ...searchParams,
         index: this.queryParams.index,

@@ -1,61 +1,24 @@
-<style>
-.help-box {
-  padding: 2rem;
-  color: white;
-  background: rgb(6, 40, 81);
-  margin-top: 1rem;
-  font-size: 1rem;
-  flex-basis: 300px;
-  flex-grow: 0;
-  flex-shrink: 1;
-}
-.help-box strong {
-  font-weight: 600;
-}
-.lls-form-actions {
-  margin-top: 1rem;
-  display: flex;
-}
-.help-box-container {
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
-}
-
-.lls-search-options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem 0;
-}
-
-.lls-search-options__result-type-checkboxes {
-  display: flex;
-}
-
-.lls-search-options__checkbox-container {
-  margin-right: 1rem;
-}
-
-.lls-search-options__checkbox {
-  margin-right: 0.25rem;
-}
-</style>
-
 <div class="lls-container mt-5">
   <div class="lls-search-intro">
     <div class="lls-row">
-    <h2 class="lls-columns-12 lls-columns-4--lg lls-columns-4--xl lls-search-intro--header">
+    <h2 class="lls-search-intro__header lls-columns-12 lls-columns-4--lg lls-columns-4--xl">
       {{ config.title }}
     </h2>
-    <div class="lls-columns-12 lls-columns-6--lg lls-columns-4--xl lls-search-intro--text" [innerHTML]="config.introText"></div>
-    <div class="lls-columns-12 lls-columns-2--lg lls-columns-4--xl" style="text-align: right;">
-      <h3 style="font-family: notera; font-size: 4rem; font-weight: normal;">Beta</h3>
+    <div
+      class="lls-search-intro__text lls-columns-12 lls-columns-6--lg lls-columns-4--xl"
+      [innerHTML]="config.introText"
+    ></div>
+    <div class="lls-search-intro__beta-container lls-columns-12 lls-columns-2--lg lls-columns-4--xl">
+      <h3 class="lls-search-intro__beta-text u-font-handwriting u-margin-0">
+        Beta
+      </h3>
     </div>
     </div>
   </div>
   <div class="lls-card">
-    <h3 class="lls-card__title">Fritekstsøgning</h3>
+    <h3 class="lls-card__title">
+      Fritekstsøgning
+    </h3>
     <form (ngSubmit)="searchSimple()" class="lls-row">
       <div class="lls-columns-12 lls-columns-8--md">
         <div class="lls-input-group">
@@ -136,7 +99,7 @@
           </div>
         </div>
 
-        <div class="lls-form-actions">
+        <div class="u-mt-2">
           <button
             type="submit"
             class="lls-btn lls-btn--big"
@@ -148,8 +111,11 @@
           </button>
         </div>
       </div>
-      <div class="lls-columns-12 lls-columns-4--md help-box-container">
-        <div class="help-box" [innerHTML]="config.helpBoxText"></div>
+      <div class="lls-info-box-container lls-columns-12 lls-columns-4--md">
+        <div
+          class="lls-info-box"
+          [innerHTML]="config.helpBoxText"
+        ></div>
       </div>
     </form>
   </div>

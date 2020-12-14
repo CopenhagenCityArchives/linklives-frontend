@@ -5,7 +5,6 @@ import { PersonAppearance } from '../search/search.service';
 @Component({
   selector: 'app-person-appearance-item',
   templateUrl: './person-appearance-item.component.html',
-  styleUrls: ['./person-appearance-item.component.scss']
 })
 export class PersonAppearanceItemComponent implements OnInit {
 
@@ -49,20 +48,12 @@ export class PersonAppearanceItemComponent implements OnInit {
   get personRole() {
     if(this.personAppearance.role != "unknown" && this.personAppearance.role) {
       if(this.personAppearance.role === "deceased") {
-        return "afdøde"
+        return "afdøde";
       }
       return this.personAppearance.role;
     }
 
-    if(this.personAppearance.household_position_std != "unknown" && this.personAppearance.household_position_std) {
-      return this.personAppearance.household_position_std;
-    }
-
-    if(this.personAppearance.household_position != "unknown" && this.personAppearance.household_position) {
-      return this.personAppearance.household_position;
-    }
-
-    return "";
+    return null;
   }
 
   get occupation() {
