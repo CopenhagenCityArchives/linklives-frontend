@@ -1,5 +1,6 @@
 import { Component, OnInit, ElementRef, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { eventIcon, eventType } from '../display-helpers';
 
 export interface Option {
   label: string;
@@ -21,7 +22,7 @@ export interface Option {
 
 export class FilterSidebar implements OnInit {
   @Input() featherIconPath: string;
-  @Input() possibleYears: Array<number>;
+  @Input() possibleSources: Array<{ source_year: number, event_type: string }>;
   @Input() openSidebar: boolean;
   @Input()
   get filters() {
@@ -74,7 +75,15 @@ export class FilterSidebar implements OnInit {
   }
 
   ngOnInit(): void {
-    this.filtersWithLabels = this.possibleYears.map(x => ({ "label": `Folketælling ${x}`, "value": x, "chosen": false }));
+    this.filtersWithLabels = this.possibleSources.map(x => {
+      const prettyEventType = eventType({ event_type: x.event_type });
+      return {
+        label: `${prettyEventType} ${x.source_year}`,
+        icon: eventIcon(x.event_type),
+        value: `${x.event_type}_${x.source_year}`,
+        chosen: false,
+      };
+    });
   }
 
 }

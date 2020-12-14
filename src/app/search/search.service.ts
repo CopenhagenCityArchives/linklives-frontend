@@ -33,7 +33,7 @@ export interface SearchResult {
   },
   hits: SearchHit[],
   meta: {
-    possibleYears: Array<number>,
+    possibleSources: Array<{ source_year: number, event_type: string }>,
   }
 }
 
@@ -114,6 +114,11 @@ export interface Source {
   institution: string,
 };
 
+export interface SourceIdentifier {
+  event_type: string,
+  source_year: number,
+};
+
 export interface AdvancedSearchQuery {
   query?: string,
   firstName?: string,
@@ -131,7 +136,7 @@ export class SearchService {
 
   constructor(private elasticsearch: ElasticsearchService) { }
 
-  advancedSearch(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: number[]): Observable<SearchResult> {
+  advancedSearch(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: SourceIdentifier[]): Observable<SearchResult> {
     return this.elasticsearch.searchAdvanced(query, indices, from, size, sortBy, sortOrder, sourceFilter);
   }
 }

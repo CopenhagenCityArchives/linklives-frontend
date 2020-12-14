@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
 import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
 import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, possibleSearchQueryParams, getFieldOptions } from 'src/app/search-term-values';
+import { eventIcon, eventType } from '../display-helpers';
 
 interface SearchQueryParams {
   query?: string,
@@ -90,8 +91,16 @@ export class SearchResultListComponent implements OnInit {
     };
   }
 
-  get possibleYears() {
-    return this.searchResult.meta.possibleYears.sort();
+  get possibleSources() {
+    return this.searchResult.meta.possibleSources.sort((a, b) => {
+      if(a.source_year < b.source_year) {
+        return -1;
+      }
+      if(a.source_year > b.source_year) {
+        return 1;
+      }
+      return 0;
+    });
   }
 
   get resultRangeDescription() {
@@ -138,7 +147,9 @@ export class SearchResultListComponent implements OnInit {
       this.sortAscending = !(queryParamMap.get('sortOrder') === "desc");
       const sourceFilters = queryParamMap.get('sourceFilter');
       if(sourceFilters) {
-        this.sourceFilter = sourceFilters.split(",").filter(x => x).map(x => parseInt(x));
+        this.sourceFilter = sourceFilters
+          .split(",")
+          .filter(x => x);
       }
     });
 
@@ -181,6 +192,21 @@ export class SearchResultListComponent implements OnInit {
         }
       });
     });
+  }
+
+  getIconFromSourceFilterValue(filterValue: string) {
+    const [event_type, _] = filterValue.split("_");
+    return eventIcon(event_type);
+  }
+
+  getYearFromSourceFilterValue(filterValue: string) {
+    const [_, source_year] = filterValue.split("_");
+    return source_year;
+  }
+
+  getEventTypeFromSourceFilterValue(filterValue: string) {
+    const [event_type, _] = filterValue.split("_");
+    return eventType({ event_type });
   }
 
   addField(field) {

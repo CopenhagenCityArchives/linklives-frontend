@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery, Source } from '../search/search.service';
+import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery, Source, SourceIdentifier } from '../search/search.service';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -55,9 +55,9 @@ export interface ElasticSearchResult {
       }[]
     },
     person_appearance: {
-      source_years: {
+      sources: {
         buckets: {
-          key: number,
+          key: { source_year: number, event_type: string },
           doc_count: number
         }[]
       }
@@ -132,7 +132,7 @@ export class ElasticsearchService {
       indexHits: {},
       hits: [],
       meta: {
-        possibleYears: elasticResult.aggregations?.person_appearance?.source_years?.buckets.map((bucket) => bucket.key) ?? [],
+        possibleSources: elasticResult.aggregations?.person_appearance?.sources?.buckets.map((bucket) => bucket.key) ?? [],
       },
     };
 
@@ -204,7 +204,7 @@ export class ElasticsearchService {
     });
   }
 
-  searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: number[]) {
+  searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: SourceIdentifier[]) {
     if(indices.length < 1) {
       const emptySearchResult = new Observable<SearchResult>((observer) => {
         observer.next({
@@ -212,7 +212,7 @@ export class ElasticsearchService {
           totalHits: 0,
           indexHits: {},
           hits: [],
-          meta: { possibleYears: [] },
+          meta: { possibleSources: [] },
         });
 
         observer.complete();
@@ -267,8 +267,15 @@ export class ElasticsearchService {
     if(sourceFilter.length) {
       must.push({
         bool: {
-          should: sourceFilter.map((sourceYear) => {
-            return { match: { [`person_appearance.source_year`]: sourceYear } };
+          should: sourceFilter.map(({ source_year, event_type }) => {
+            return {
+              bool: {
+                must: [
+                  { match: { [`person_appearance.source_year`]: source_year } },
+                  { match: { [`person_appearance.event_type`]: event_type } },
+                ]
+              }
+            };
           }),
         },
       })
@@ -298,8 +305,14 @@ export class ElasticsearchService {
         person_appearance: {
           nested: { path: "person_appearance" },
           aggs:{
-            source_years: {
-              terms: { field: "person_appearance.source_year", size: 10000 }
+            sources: {
+              composite: {
+                sources: [
+                  { source_year: { terms: { field: "person_appearance.source_year" } } },
+                  { event_type: { terms: { field: "person_appearance.event_type" } } },
+                ],
+                size: 10000
+              }
             },
           }
         },

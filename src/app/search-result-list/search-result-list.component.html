@@ -97,20 +97,28 @@
                 [(ngModel)]="sourceFilter"
                 [openSidebar]="openSidebar"
                 [featherIconPath]="config.featherIconPath"
-                [possibleYears]="possibleYears"
+                [possibleSources]="possibleSources"
                 (closeSidebar)="closeSidebar($event)"
                 (removeFilter)="removeFilter($event)"
             ></lls-filter-sidebar>
             <div class="lls-results-filter__items">
-                <button
+                <div
                     *ngFor="let filterItem of sourceFilter; index as i;"
                     class="lls-btn lls-btn--grey u-mr-2 u-mt-2 u-text-capitalize"
                 >
-                    <span>FT {{ filterItem }}</span>
-                    <svg class="lls-icon lls-icon--right" (click)="removeFilter(filterItem)">
+                    <svg class="lls-icon u-mr-2" [attr.alt]="getEventTypeFromSourceFilterValue(filterItem)">
+                        <use [attr.href]="config.featherIconPath + '#' + getIconFromSourceFilterValue(filterItem)"></use>
+                    </svg>
+                    <span>{{ getYearFromSourceFilterValue(filterItem) }}</span>
+                    <svg
+                        class="lls-icon lls-icon--right"
+                        (click)="removeFilter(filterItem)"
+                        tabindex="0"
+                        alt="Fjern dette filter"
+                    >
                         <use [attr.href]="config.featherIconPath + '#x'"></use>
                     </svg>
-                </button>
+                </div>
             </div>
         </div>
         <div class="lls-columns-12 lls-columns-5--md lls-columns-4--lg lls-search-modifiers lls-search-modifiers--right">
