@@ -54,7 +54,6 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       "sourceYear",
       //"deathYear",
       //"maritalStatus",
-      "index",
     ];
 
     const actualSearchTerms: AdvancedSearchQuery = {};
@@ -70,6 +69,7 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
     addSearchHistoryEntry({
       type: SearchHistoryEntryType.SearchResult,
       query: actualSearchTerms,
+      index,
     });
 
     return this.service.advancedSearch(actualSearchTerms, index, (page - 1) * size, size, sortBy, sortOrder, sourceFilter);
