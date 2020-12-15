@@ -29,6 +29,13 @@ export class SearchHistoryComponent implements OnInit {
     return Object.keys(entry.query);
   }
 
+  queryParams(entry) {
+    return {
+      ...entry.query,
+      index: entry.index
+    };
+  }
+
   ngOnInit(): void {
     onSearchHistoryEntry((history) => this.searchHistory = history);
   }
