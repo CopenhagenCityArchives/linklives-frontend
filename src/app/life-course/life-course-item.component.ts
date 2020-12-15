@@ -64,5 +64,4 @@ export class LifeCourseItemComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
 }
