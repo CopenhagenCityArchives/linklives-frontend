@@ -15,7 +15,9 @@
           </svg>
         </button>
     </div>
-    <ng-container *ngFor="let entry of searchHistory" [ngSwitch]="entry.type">
+    <ng-container
+        *ngFor="let entry of searchHistory"
+        [ngSwitch]="entry.type">
         <a
             *ngSwitchCase="'search_result'"
             class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item lls-search-history__item-link"
