@@ -1,7 +1,6 @@
 # Linklives
 
-[![Build Status](https://travis-ci.org/CopenhagenCityArchives/linklives-frontend.svg?branch=master)](https://travis-ci.org/CopenhagenCityArchives/linklives-frontend)
-
+[![Build Status](https://travis-ci.com/CopenhagenCityArchives/linklives-frontend.svg?branch=master)](https://travis-ci.com/CopenhagenCityArchives/linklives-frontend)
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 9.0.7.
 
