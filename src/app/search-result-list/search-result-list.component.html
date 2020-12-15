@@ -162,9 +162,11 @@
             <app-person-appearance-item *ngSwitchCase="'pas'" class="lls-columns-12" [item]="hit.pa"></app-person-appearance-item>
             <app-life-course-item *ngSwitchCase="'lifecourses'" class="lls-columns-12" [item]="hit.pas" [lifecourse-id]="hit.life_course_id"></app-life-course-item>
         </ng-container>
-        <p *ngIf="!searchResult.hits.length" class="u-text-center">
-            Din søgning gav ingen resultater.
-        </p>
+        <div *ngIf="!searchResult.hits.length" class="lls-columns-12 u-text-center">
+            <p>
+                Din søgning gav ingen resultater.
+            </p>
+        </div>
 
     </div>
 
