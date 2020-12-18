@@ -32,9 +32,11 @@
     background-color: rgba(0,0,0,0.2);
   }
 }
+
 .lls-pagination__item--selected {
   border-color: $off-black;
 }
+
 .lls-pagination__item--disabled {
   color: rgba(0,0,0,0.2);
   cursor: default;
