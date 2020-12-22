@@ -32,6 +32,7 @@
                                 type="button"
                                 class="lls-input-group__floating-action"
                                 [class]="searchTerms.length < 2 ? 'lls-input-group__floating-action--disabled' : ''"
+                                aria-label="Fjern søgeterm"
                                 (click)="removeSearchTerm(i, $event)"
                             >
                                 <svg class="lls-icon lls-icon--right">
@@ -167,38 +168,77 @@
                 Din søgning gav ingen resultater.
             </p>
         </div>
-
     </div>
 
-    <nav>
+    <nav aria-label="paginering">
         <div class="lls-pagination">
-            <a class="lls-pagination__item" [ngClass]="{ 'lls-pagination__item--disabled': pagination.current === 1}" [tabindex]=" pagination.current === 1 ? -1 : 0" [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current - 1 } ]" [queryParams]="queryParams">
+            <a
+                class="lls-pagination__item"
+                [ngClass]="{ 'lls-pagination__item--disabled': pagination.current === 1}" 
+                [tabindex]=" pagination.current === 1 ? -1 : 0"
+                aria-label="gå til forrige resultater"
+                [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current - 1 } ]"
+                [queryParams]="queryParams"
+            >
                 <svg class="lls-icon">
                     <use [attr.href]="featherSpriteUrl + '#arrow-left'"></use>
                 </svg>
             </a>
 
             <ng-container *ngIf="pagination.firstInOrder > 1">
-                <a class="lls-pagination__item" [routerLink]="['./', { 'size': pagination.size, 'page': 1 } ]" [queryParams]="queryParams">
+                <a
+                    class="lls-pagination__item"
+                    aria-label="gå til første resultater"
+                    [routerLink]="['./', { 'size': pagination.size, 'page': 1 } ]"
+                    [queryParams]="queryParams"
+                >
                     <span class="lls-pagination__item-text">1</span>
                 </a>
-
-                <div class="lls-pagination__entry" *ngIf="pagination.firstInOrder > 2">&mdash;</div>
+                <div
+                    class="lls-pagination__entry"
+                    *ngIf="pagination.firstInOrder > 2"
+                >
+                    &mdash;
+                </div>
             </ng-container>
             
-            <a class="lls-pagination__item" *ngFor="let page of pagination.navigationPages" [ngClass]="{ 'lls-pagination__item--selected': pagination.current === page }" [routerLink]="['./', { 'size': pagination.size, 'page': page } ]" [queryParams]="queryParams">
-                <span class="lls-pagination__item-text">{{ prettyPaginationNumber(page) }}</span>
+            <a class="lls-pagination__item"
+                *ngFor="let page of pagination.navigationPages"
+                [ngClass]="{ 'lls-pagination__item--selected': pagination.current === page }"
+                [routerLink]="['./', { 'size': pagination.size, 'page': page } ]"
+                [queryParams]="queryParams"
+            >
+                <span class="lls-pagination__item-text">
+                    {{ prettyPaginationNumber(page) }}
+                </span>
             </a>
 
             <ng-container *ngIf="pagination.lastInOrder < pagination.last">
-                <div class="lls-pagination__entry" *ngIf="pagination.lastInOrder < pagination.last - 1">&mdash;</div>
-
-                <a class="lls-pagination__item" [routerLink]="['./', { 'size': pagination.size, 'page': pagination.last } ]" [queryParams]="queryParams">
-                    <span class="lls-pagination__item-text">{{ prettyPaginationNumber(pagination.last) }}</span>
+                <div
+                    class="lls-pagination__entry"
+                    *ngIf="pagination.lastInOrder < pagination.last - 1"
+                >
+                    &mdash;
+                </div>
+                <a
+                    class="lls-pagination__item"
+                    [routerLink]="['./', { 'size': pagination.size, 'page': pagination.last } ]"
+                    [queryParams]="queryParams"
+                >
+                    <span class="lls-pagination__item-text">
+                        {{ prettyPaginationNumber(pagination.last) }}
+                    </span>
                 </a>
             </ng-container>
 
-            <a class="lls-pagination__item" [ngClass]="{ 'lls-pagination__item--disabled': pagination.current >= pagination.last }" [tabindex]="pagination.current >= pagination.last ? -1 : 0"  [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current + 1 } ]" [queryParams]="queryParams">
+            <a
+                class="lls-pagination__item"
+                [ngClass]="{ 'lls-pagination__item--disabled': pagination.current >= pagination.last }"
+                aria-label="gå til næste resultater"
+                [tabindex]="pagination.current >= pagination.last ? -1 : 0"
+                [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current + 1 } ]"
+                [queryParams]="queryParams"
+            >
                 <svg class="lls-icon">
                     <use [attr.href]="featherSpriteUrl + '#arrow-right'"></use>
                 </svg>
