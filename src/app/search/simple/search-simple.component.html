@@ -16,7 +16,7 @@
     </div>
   </div>
   <div class="lls-card">
-    <h3 class="lls-card__title">
+    <h3 class="lls-card__title" id="simple-search-headline">
       Fritekstsøgning
     </h3>
     <form (ngSubmit)="searchSimple()" class="lls-row">
@@ -26,6 +26,7 @@
             type="text"
             placeholder="Søg i livsforløb eller kilder"
             class="lls-input-field lls-input-field--big lls-input-group__field lls-input-group__field--left"
+            aria-labelledby="simple-search-headline"
             [(ngModel)]="query"
             name="query"
           />
@@ -61,6 +62,7 @@
               type="button"
               class="lls-input-group__floating-action"
               [class]="searchTerms.length < 2 ? 'lls-input-group__floating-action--disabled' : ''"
+              aria-label="Fjern søgeterm"
               (click)="removeSearchTerm(i, $event)"
             >
               <svg class="lls-icon lls-icon--right">
