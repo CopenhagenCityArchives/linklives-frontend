@@ -30,10 +30,13 @@ export class SearchHistoryComponent implements OnInit {
   }
 
   queryParams(entry) {
-    return {
+    let queryParams = {
       ...entry.query,
-      index: entry.index
-    };
+    }
+    if(entry.index && entry.index != "") {
+      queryParams.index = entry.index.join(",");
+    }
+    return queryParams;
   }
 
   ngOnInit(): void {
