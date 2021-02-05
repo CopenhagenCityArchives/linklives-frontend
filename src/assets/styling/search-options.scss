@@ -16,3 +16,16 @@
 .lls-search-options__checkbox {
   margin-right: 0.25rem;
 }
+
+.lls-search-options__add-field {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.lls-search-options__clear-search {
+  padding: 0.5rem 1rem;
+  background-color: transparent;
+  border: none;
+  font-weight: inherit;
+}

@@ -96,6 +96,16 @@
               dropdownIconOpen="plus-circle"
               (change)="addField($event)"
             ></lls-dropdown>
+            <button
+              type="button"
+              class="lls-search-options__clear-search"
+              (click)="clearSearchTerms()"
+            >
+                Nulstil søgning
+                <svg class="lls-icon lls-icon--right">
+                  <use [attr.href]="featherSpriteUrl + '#x-circle'"></use>
+                </svg>
+            </button>
           </div>
         </div>
 
