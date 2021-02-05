@@ -1,8 +1,13 @@
 .lls-search-options {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column-reverse;
   padding: 0.5rem 0;
+
+  @media(min-width: $breakpointSm) {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .lls-search-options__result-type-checkboxes {
@@ -18,9 +23,11 @@
 }
 
 .lls-search-options__add-field {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+  @media(min-width: $breakpointSm) {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
 }
 
 .lls-search-options__clear-search {
