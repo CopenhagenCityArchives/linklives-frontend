@@ -234,6 +234,12 @@ export class SearchResultListComponent implements OnInit {
     }
   }
 
+  clearSearchTerms() {
+    this.searchTerms = [
+      { field: "query", value: "" }
+    ];
+  }
+
   search(): void {
     const searchParams: AdvancedSearchQuery = {};
     this.searchTerms.forEach((term) => searchParams[term.field] = term.value);
