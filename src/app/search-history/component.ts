@@ -33,7 +33,7 @@ export class SearchHistoryComponent implements OnInit {
     let queryParams = {
       ...entry.query,
     }
-    if(entry.index && entry.index != "") {
+    if(Array.isArray(entry.index)) {
       queryParams.index = entry.index.join(",");
     }
     return queryParams;
