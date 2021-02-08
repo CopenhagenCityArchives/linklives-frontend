@@ -121,6 +121,10 @@ export const allYearFields: Array<Option | Category> = [
   "deathYear"
 ].map((f) => toFieldOption(f));
 
+export const allOtherFields: Array<Option | Category> = [
+  "query"
+].map((f) => toFieldOption(f));
+
 export const fieldOptions = [
   { category: "Navn" },
   ...allNameFields,
@@ -128,6 +132,8 @@ export const fieldOptions = [
   ...allPlaceFields,
   { category: "År" },
   ...allYearFields,
+  { category: "Andet" },
+  ...allOtherFields,
 ];
 
 export function getFieldOptions(filter) {
@@ -149,9 +155,16 @@ export function getFieldOptions(filter) {
     yearOptions = [ { category: "År" }, ...notUsedYearFields ];
   }
 
+  const notUsedOtherFields = allOtherFields.filter(filter);
+  let otherOptions = [];
+  if(notUsedOtherFields.length > 0) {
+    otherOptions = [ { category: "Andet" }, ...notUsedOtherFields ];
+  }
+
   return [
     ...nameOptions,
     ...placeOptions,
     ...yearOptions,
+    ...otherOptions
   ];
 }
