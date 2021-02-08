@@ -12,20 +12,52 @@
       </svg>
     </button>
   </div>
-  <div class="lls-filter-sidebar__options">
+  <section>
     <button
-      *ngFor="let option of filtersWithLabels, index as i"
       class="lls-filter-sidebar__option lls-sidebar__item"
-      (click)="addFilter(option)"
-      [class]="activeFilter(option.value) ? 'lls-filter-sidebar__option--active' : ''"
+      (click)="toggleCategory('burials')"
     >
-      <svg class="lls-icon lls-icon--left u-mr-2">
-        <use [attr.href]="featherIconPath + '#' + option.icon"></use>
-      </svg>
-      {{ option.label }}
-      <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-icon--delete lls-icon">
-        <use [attr.href]="featherIconPath + '#x'"></use>
-      </svg>
+      Begravelser ({{ filtersCategories.burials.length }})
     </button>
-  </div>
+    <div *ngIf="sidebarCategories.burials" class="lls-filter-sidebar__options js-sidebar-category--burial">
+      <button
+        *ngFor="let option of filtersCategories.burials, index as i"
+        class="lls-filter-sidebar__option lls-sidebar__item"
+        (click)="addFilter(option)"
+        [class]="activeFilter(option.value) ? 'lls-filter-sidebar__option--active' : ''"
+      >
+        <svg class="lls-icon lls-icon--left u-mr-2">
+          <use [attr.href]="featherIconPath + '#' + option.icon"></use>
+        </svg>
+        {{ option.label }}
+        <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-icon--delete lls-icon">
+          <use [attr.href]="featherIconPath + '#x'"></use>
+        </svg>
+      </button>
+    </div>
+  </section>
+  <section>
+    <button
+      class="lls-filter-sidebar__option lls-sidebar__item"
+      (click)="toggleCategory('census')"
+    >
+      Folketællinger ({{ filtersCategories.census.length }})
+    </button>
+    <div *ngIf="sidebarCategories.census" class="lls-filter-sidebar__options">
+      <button
+        *ngFor="let option of filtersCategories.census, index as i"
+        class="lls-filter-sidebar__option lls-sidebar__item"
+        (click)="addFilter(option)"
+        [class]="activeFilter(option.value) ? 'lls-filter-sidebar__option--active' : ''"
+      >
+        <svg class="lls-icon lls-icon--left u-mr-2">
+          <use [attr.href]="featherIconPath + '#' + option.icon"></use>
+        </svg>
+        {{ option.label }}
+        <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-icon--delete lls-icon">
+          <use [attr.href]="featherIconPath + '#x'"></use>
+        </svg>
+      </button>
+    </div>
+  </section>
 </aside>

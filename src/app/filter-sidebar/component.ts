@@ -50,6 +50,8 @@ export class FilterSidebar implements OnInit {
   // End ControlValueAccessor
 
   filtersWithLabels = [];
+  sidebarCategories = {burials: false, census: false};
+  filtersCategories = { burials: [], census: [] };
   _filters: number[] = [];
   onChange: Function = () => {};
   onTouched: Function = () => {};
@@ -74,15 +76,26 @@ export class FilterSidebar implements OnInit {
     return this.filters.some((filterValue) => filterValue === optionValue)
   }
 
+  toggleCategory(type) {
+    this.sidebarCategories[type] = !this.sidebarCategories[type];
+  }
+
   ngOnInit(): void {
-    this.filtersWithLabels = this.possibleSources.map(x => {
+    this.possibleSources.forEach(x => {
       const prettyEventType = eventType({ event_type: x.event_type });
-      return {
+      const filter =  {
         label: `${prettyEventType} ${x.source_year}`,
+        type: prettyEventType,
         icon: eventIcon(x.event_type),
         value: `${x.event_type}_${x.source_year}`,
         chosen: false,
       };
+      if(x.event_type === "burial") {
+        this.filtersCategories.burials.push(filter);
+      }
+      if(x.event_type === "census") {
+        this.filtersCategories.census.push(filter);
+      }
     });
   }
 
