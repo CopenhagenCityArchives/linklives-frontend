@@ -3,7 +3,7 @@ import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery, Source,
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { mapQueryMustKey, mapQueryShouldKey, sortValues } from 'src/app/search-term-values';
+import { mapSearchKeys, sortValues } from 'src/app/search-term-values';
 
 export interface ElasticDocResult {
   _index: "lifecourses" | "pas" | "links",
@@ -204,7 +204,7 @@ export class ElasticsearchService {
     });
   }
 
-  searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: SourceIdentifier[]) {
+  searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: SourceIdentifier[], mode: String = "default") {
     if(indices.length < 1) {
       const emptySearchResult = new Observable<SearchResult>((observer) => {
         observer.next({
@@ -238,30 +238,16 @@ export class ElasticsearchService {
         return;
       }
 
-      const mustKey = mapQueryMustKey[queryKey];
-
-      if(mustKey) {
-        must.push({
-          match: { [`person_appearance.${mustKey}`]: value }
-        });
-
-        return;
+      const searchKeyConfig = mapSearchKeys[queryKey];
+      if(!searchKeyConfig) {
+        return console.warn("[elasticsearch.service] key we don't know how to search on provided", queryKey);
       }
 
-      const shouldKeys = mapQueryShouldKey[queryKey];
+      const searchKey = searchKeyConfig[mode] || searchKeyConfig.default;
 
-      if(shouldKeys) {
-        must.push({
-          bool: {
-            should: shouldKeys.map((shouldKey) => {
-              return { match: { [`person_appearance.${shouldKey}`]: value } };
-            }),
-          },
-        });
-        return;
-      }
-
-      console.warn("[elasticsearch.service] key we don't know how to search on provided", queryKey);
+      must.push({
+        match: { [`person_appearance.${searchKey}`]: value }
+      });
     });
 
     if(sourceFilter.length) {

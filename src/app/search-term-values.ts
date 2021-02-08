@@ -1,6 +1,23 @@
 import { Category, Option } from './form-elements/dropdown/component';
 
-export const mapQueryMustKey = {
+export const mapSearchKeys = {
+  firstName: {
+    default: "firstnames_searchable",
+    fuzzy: "firstnames_searchable_fz",
+  },
+  lastName: {
+    default: "lastname_searchable",
+    fuzzy: "lastname_searchable_fz",
+  },
+  //birthName: {}, //no appropriate fields in frontend yet
+  birthPlace: {
+    default: "birthplace_searchable",
+    fuzzy: "birthplace_searchable_fz",
+  },
+  sourcePlace: {
+    default: "sourceplace_searchable",
+  },
+  //birthYear: {}, //not implemented in elasticsearch yet
   sourceYear: "source_year",
 };
 
