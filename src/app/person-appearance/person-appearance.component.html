@@ -6,7 +6,7 @@
                 [routerLink]="['/results']"
                 [queryParams]="getLatestSearchQuery()"
             >
-                Tilbage til søgning
+                Tilbage til søgeresultat
             </a>
             <a
                 class="lls-data-page-header__utility-link"
@@ -19,10 +19,9 @@
         </div>
         <div class="lls-data-page-header__classification">
             <div class="lls-data-page-header__source-type">Kilde</div>
-            <h1 class="lls-data-page-header__title">{{ eventType }}</h1>
+            <h1 class="lls-data-page-header__title">{{ eventType }} {{ pa.source_year }}</h1>
             <div class="lls-data-page-header__data-summary">
                 <span class="u-text-capitalize">{{ sourceLocation }}</span>
-                <span>{{ pa.source_year }}</span>
             </div>
         </div>
     </div>
