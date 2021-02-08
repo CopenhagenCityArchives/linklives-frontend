@@ -116,6 +116,7 @@ Option adder styling / a different type of dropdown
   .lls-dropdown__label {
     display: block;
     padding-right: 0.25rem;
+    white-space: nowrap;
   }
 
   .lls-dropdown__current-option-label {
