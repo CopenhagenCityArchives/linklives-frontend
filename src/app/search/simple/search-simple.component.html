@@ -109,6 +109,16 @@
               <use [attr.href]="featherSpriteUrl + '#search'"></use>
             </svg>
           </button>
+
+          <label class="lls-search-options__checkbox-container mx-4">
+            <input
+              [(ngModel)]="modeFuzzy"
+              type="checkbox"
+              class="lls-search-options__checkbox"
+              name="modeFuzzy"
+            >
+            <span>Inkluder stavevariationer i søgning</span>
+          </label>
         </div>
       </div>
       <div class="lls-info-box-container lls-columns-12 lls-columns-4--md">

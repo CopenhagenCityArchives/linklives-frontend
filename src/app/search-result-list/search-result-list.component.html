@@ -67,6 +67,17 @@
                         <span>{{ indices[index].label }}</span>
                     </label>
                 </div>
+                <div class="lls-results-header__checkboxes">
+                    <label class="lls-results-header__checkbox-container">
+                        <input
+                            [(ngModel)]="modeFuzzy"
+                            type="checkbox"
+                            class="lls-results-header__checkbox"
+                            name="modeFuzzy"
+                        >
+                        <span>Inkluder stavevariationer</span>
+                    </label>
+                </div>
             </div>
             <div class="lls-results-header__right-section lls-columns-12 lls-columns-3--md lls-columns-2--lg lls-columns-1--xl">
                 <button

@@ -25,6 +25,7 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       size = 10;
     }
 
+    let mode: String = route.queryParamMap.get('mode') || 'default';
     let sortBy: string = route.queryParamMap.get('sortBy') || "relevance";
     let sortOrder: string = route.queryParamMap.get('sortOrder') === "desc" ? "desc" : "asc";
     const sourceFilterRaw = route.queryParamMap.get("sourceFilter");
@@ -72,6 +73,6 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       index,
     });
 
-    return this.service.advancedSearch(actualSearchTerms, index, (page - 1) * size, size, sortBy, sortOrder, sourceFilter);
+    return this.service.advancedSearch(actualSearchTerms, index, (page - 1) * size, size, sortBy, sortOrder, sourceFilter, mode);
   }
 }

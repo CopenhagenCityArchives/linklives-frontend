@@ -49,6 +49,8 @@ export class SearchResultListComponent implements OnInit {
 
   sortAscending = false;
 
+  modeFuzzy = false;
+
   searchTerms = [];
   searchFieldPlaceholders = searchFieldPlaceholders;
   searchFieldLabels = searchFieldLabels;
@@ -145,6 +147,7 @@ export class SearchResultListComponent implements OnInit {
       }
       this.sortBy = queryParamMap.get('sortBy') || "relevance";
       this.sortAscending = !(queryParamMap.get('sortOrder') === "desc");
+      this.modeFuzzy = queryParamMap.get('mode') === "fuzzy";
       const sourceFilters = queryParamMap.get('sourceFilter');
       if(sourceFilters) {
         this.sourceFilter = sourceFilters
@@ -245,6 +248,7 @@ export class SearchResultListComponent implements OnInit {
         sortBy: this.queryParams.sortBy,
         sortOrder: this.queryParams.sortOrder,
         sourceFilter: this.queryParams.sourceFilter,
+        mode: this.modeFuzzy ? "fuzzy" : "default",
       },
     });
   }
