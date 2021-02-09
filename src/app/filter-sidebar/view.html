@@ -12,14 +12,44 @@
       </svg>
     </button>
   </div>
-  <section>
+  <div class="lls-filter-sidebar__options">
     <button
+      *ngIf="sidebarCategoryOpen"
       class="lls-filter-sidebar__option lls-sidebar__item"
-      (click)="toggleCategory('burials')"
+      (click)="toggleCategory('')"
     >
-      Begravelser ({{ filtersCategories.burials.length }})
+    <svg class="lls-filter-sidebar__option-icon lls-icon">
+      <use [attr.href]="featherIconPath + '#arrow-left'"></use>
+    </svg>
+      Tilbage
     </button>
-    <div *ngIf="sidebarCategories.burials" class="lls-filter-sidebar__options js-sidebar-category--burial">
+    <ng-container *ngIf="!sidebarCategoryOpen">
+      <button
+        class="lls-filter-sidebar__option lls-sidebar__item"
+        (click)="toggleCategory('burials')"
+      >
+        <svg class="lls-icon lls-icon--left u-mr-2">
+          <use [attr.href]="featherIconPath + '#' + eventIcon('burial')"></use>
+        </svg>
+        Begravelser ({{ filtersCategories.burials.length }})
+        <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-icon--right lls-icon">
+          <use [attr.href]="featherIconPath + '#arrow-right'"></use>
+        </svg>
+      </button>
+      <button
+        class="lls-filter-sidebar__option lls-sidebar__item"
+        (click)="toggleCategory('census')"
+      >
+        <svg class="lls-icon lls-icon--left u-mr-2">
+          <use [attr.href]="featherIconPath + '#' + eventIcon('census')"></use>
+        </svg>
+        Folketællinger ({{ filtersCategories.census.length }})
+        <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-icon--right lls-icon">
+          <use [attr.href]="featherIconPath + '#arrow-right'"></use>
+        </svg>
+      </button>
+    </ng-container>
+    <ng-container *ngIf="sidebarCategoryOpen === 'burials'">
       <button
         *ngFor="let option of filtersCategories.burials, index as i"
         class="lls-filter-sidebar__option lls-sidebar__item"
@@ -34,16 +64,8 @@
           <use [attr.href]="featherIconPath + '#x'"></use>
         </svg>
       </button>
-    </div>
-  </section>
-  <section>
-    <button
-      class="lls-filter-sidebar__option lls-sidebar__item"
-      (click)="toggleCategory('census')"
-    >
-      Folketællinger ({{ filtersCategories.census.length }})
-    </button>
-    <div *ngIf="sidebarCategories.census" class="lls-filter-sidebar__options">
+    </ng-container>
+    <ng-container *ngIf="sidebarCategoryOpen === 'census'">
       <button
         *ngFor="let option of filtersCategories.census, index as i"
         class="lls-filter-sidebar__option lls-sidebar__item"
@@ -54,10 +76,10 @@
           <use [attr.href]="featherIconPath + '#' + option.icon"></use>
         </svg>
         {{ option.label }}
-        <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-icon--delete lls-icon">
+        <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-icon--right lls-filter-sidebar__option-icon--delete lls-icon">
           <use [attr.href]="featherIconPath + '#x'"></use>
         </svg>
       </button>
-    </div>
-  </section>
+    </ng-container>
+  </div>
 </aside>

@@ -34,6 +34,7 @@ export class FilterSidebar implements OnInit {
 
   @Output() closeSidebar: EventEmitter<any> = new EventEmitter();
   @Output() removeFilter: EventEmitter<any> = new EventEmitter();
+  eventIcon = eventIcon;
 
   // Start ControlValueAccessor
   registerOnChange(fn: Function) {
@@ -50,7 +51,7 @@ export class FilterSidebar implements OnInit {
   // End ControlValueAccessor
 
   filtersWithLabels = [];
-  sidebarCategories = {burials: false, census: false};
+  sidebarCategoryOpen: String = undefined;
   filtersCategories = { burials: [], census: [] };
   _filters: number[] = [];
   onChange: Function = () => {};
@@ -77,11 +78,12 @@ export class FilterSidebar implements OnInit {
   }
 
   toggleCategory(type) {
-    this.sidebarCategories[type] = !this.sidebarCategories[type];
+    this.sidebarCategoryOpen = type;
   }
 
   ngOnInit(): void {
     this.possibleSources.forEach(x => {
+      console.warn("source", x);
       const prettyEventType = eventType({ event_type: x.event_type });
       const filter =  {
         label: `${prettyEventType} ${x.source_year}`,
