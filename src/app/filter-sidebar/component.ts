@@ -22,7 +22,7 @@ export interface Option {
 
 export class FilterSidebar implements OnInit {
   @Input() featherIconPath: string;
-  @Input() possibleSources: Array<{ source_year: number, event_type: string }>;
+  @Input() possibleSources: Array<{ source_year: number, event_type: string, count: number }>;
   @Input() openSidebar: boolean;
   @Input()
   get filters() {
@@ -83,13 +83,13 @@ export class FilterSidebar implements OnInit {
 
   ngOnInit(): void {
     this.possibleSources.forEach(x => {
-      console.warn("source", x);
       const prettyEventType = eventType({ event_type: x.event_type });
       const filter =  {
         label: `${prettyEventType} ${x.source_year}`,
         type: prettyEventType,
         icon: eventIcon(x.event_type),
         value: `${x.event_type}_${x.source_year}`,
+        count: x.count,
         chosen: false,
       };
       if(x.event_type === "burial") {

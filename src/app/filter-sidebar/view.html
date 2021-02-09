@@ -59,8 +59,8 @@
         <svg class="lls-icon lls-icon--left u-mr-2">
           <use [attr.href]="featherIconPath + '#' + option.icon"></use>
         </svg>
-        {{ option.label }}
-        <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-icon--delete lls-icon">
+        {{ option.label }} ({{ option.count }})
+        <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-icon--right lls-filter-sidebar__option-icon--delete lls-icon">
           <use [attr.href]="featherIconPath + '#x'"></use>
         </svg>
       </button>
@@ -75,7 +75,7 @@
         <svg class="lls-icon lls-icon--left u-mr-2">
           <use [attr.href]="featherIconPath + '#' + option.icon"></use>
         </svg>
-        {{ option.label }}
+        {{ option.label }} ({{ option.count }})
         <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-icon--right lls-filter-sidebar__option-icon--delete lls-icon">
           <use [attr.href]="featherIconPath + '#x'"></use>
         </svg>
