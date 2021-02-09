@@ -62,7 +62,7 @@ export function getSearchHistory(): SearchHistoryEntry[] {
 export function getLatestSearchQuery() {
   const latestSearch = getSearchHistory().filter(item => item.type === "search_result")[0];
   if(latestSearch) {
-    return { ...latestSearch.query, index: latestSearch.index };
+    return { ...latestSearch.query, index: latestSearch.index.join(",") };
   }
   return { query: "" };
 }

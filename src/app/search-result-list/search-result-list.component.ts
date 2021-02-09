@@ -141,6 +141,8 @@ export class SearchResultListComponent implements OnInit {
 
       const indices = queryParamMap.get('index');
       if(indices) {
+        // Reset index checkbox values
+        Object.keys(this.indices).forEach(index => this.indices[index].value = false);
         indices.split(",").forEach((index) => this.indices[index].value = true);
       }
       this.sortBy = queryParamMap.get('sortBy') || "relevance";
