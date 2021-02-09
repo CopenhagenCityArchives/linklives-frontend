@@ -7,7 +7,7 @@
       (click)="close()"
     >
       <span>Luk</span>
-      <svg class="lls-icon lls-icon--right">
+      <svg class="lls-icon lls-filter-sidebar__option-item--right">
         <use [attr.href]="featherIconPath + '#x'"></use>
       </svg>
     </button>
@@ -32,7 +32,7 @@
           <use [attr.href]="featherIconPath + '#' + eventIcon('burial')"></use>
         </svg>
         Begravelser ({{ filtersCategories.burials.length }})
-        <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-icon--right lls-icon">
+        <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-item--right lls-icon">
           <use [attr.href]="featherIconPath + '#arrow-right'"></use>
         </svg>
       </button>
@@ -44,7 +44,7 @@
           <use [attr.href]="featherIconPath + '#' + eventIcon('census')"></use>
         </svg>
         Folketællinger ({{ filtersCategories.census.length }})
-        <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-icon--right lls-icon">
+        <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-item--right lls-icon">
           <use [attr.href]="featherIconPath + '#arrow-right'"></use>
         </svg>
       </button>
@@ -57,12 +57,12 @@
         [class]="activeFilter(option.value) ? 'lls-filter-sidebar__option--active' : ''"
       >
         <svg class="lls-icon lls-icon--left u-mr-2">
-          <use [attr.href]="featherIconPath + '#' + option.icon"></use>
+          <use [attr.href]="featherIconPath + '#' + (activeFilter(option.value) ? 'check-square' : 'square')"></use>
         </svg>
-        {{ option.label }} ({{ option.count }})
-        <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-icon--right lls-filter-sidebar__option-icon--delete lls-icon">
-          <use [attr.href]="featherIconPath + '#x'"></use>
-        </svg>
+        {{ option.label }}
+        <span class="lls-filter-sidebar__option-count lls-filter-sidebar__option-item--right">
+          {{ option.count }}
+        </span>
       </button>
     </ng-container>
     <ng-container *ngIf="sidebarCategoryOpen === 'census'">
@@ -73,12 +73,12 @@
         [class]="activeFilter(option.value) ? 'lls-filter-sidebar__option--active' : ''"
       >
         <svg class="lls-icon lls-icon--left u-mr-2">
-          <use [attr.href]="featherIconPath + '#' + option.icon"></use>
+          <use [attr.href]="featherIconPath + '#' + (activeFilter(option.value) ? 'check-square' : 'square')"></use>
         </svg>
-        {{ option.label }} ({{ option.count }})
-        <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-icon--right lls-filter-sidebar__option-icon--delete lls-icon">
-          <use [attr.href]="featherIconPath + '#x'"></use>
-        </svg>
+        {{ option.label }}
+        <span class="lls-filter-sidebar__option-count lls-filter-sidebar__option-item--right">
+          {{ option.count }}
+        </span>
       </button>
     </ng-container>
   </div>

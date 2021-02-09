@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { eventIcon, eventType } from '../display-helpers';
+import { eventIcon, eventType, prettyNumbers } from '../display-helpers';
 
 export interface Option {
   label: string;
@@ -89,7 +89,7 @@ export class FilterSidebar implements OnInit {
         type: prettyEventType,
         icon: eventIcon(x.event_type),
         value: `${x.event_type}_${x.source_year}`,
-        count: x.count,
+        count: prettyNumbers(x.count),
         chosen: false,
       };
       if(x.event_type === "burial") {
