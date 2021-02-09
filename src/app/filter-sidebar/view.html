@@ -23,63 +23,38 @@
     </svg>
       Tilbage
     </button>
-    <ng-container *ngIf="!sidebarCategoryOpen">
-      <button
-        class="lls-filter-sidebar__option lls-sidebar__item"
-        (click)="toggleCategory('burials')"
-      >
-        <svg class="lls-icon lls-icon--left u-mr-2">
-          <use [attr.href]="featherIconPath + '#' + eventIcon('burial')"></use>
-        </svg>
-        Begravelser ({{ filtersCategories.burials.length }})
-        <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-item--right lls-icon">
-          <use [attr.href]="featherIconPath + '#arrow-right'"></use>
-        </svg>
-      </button>
-      <button
-        class="lls-filter-sidebar__option lls-sidebar__item"
-        (click)="toggleCategory('census')"
-      >
-        <svg class="lls-icon lls-icon--left u-mr-2">
-          <use [attr.href]="featherIconPath + '#' + eventIcon('census')"></use>
-        </svg>
-        Folketællinger ({{ filtersCategories.census.length }})
-        <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-item--right lls-icon">
-          <use [attr.href]="featherIconPath + '#arrow-right'"></use>
-        </svg>
-      </button>
-    </ng-container>
-    <ng-container *ngIf="sidebarCategoryOpen === 'burials'">
-      <button
-        *ngFor="let option of filtersCategories.burials, index as i"
-        class="lls-filter-sidebar__option lls-sidebar__item"
-        (click)="addFilter(option)"
-        [class]="activeFilter(option.value) ? 'lls-filter-sidebar__option--active' : ''"
-      >
-        <svg class="lls-icon lls-icon--left u-mr-2">
-          <use [attr.href]="featherIconPath + '#' + (activeFilter(option.value) ? 'check-square' : 'square')"></use>
-        </svg>
-        {{ option.label }}
-        <span class="lls-filter-sidebar__option-count lls-filter-sidebar__option-item--right">
-          {{ option.count }}
-        </span>
-      </button>
-    </ng-container>
-    <ng-container *ngIf="sidebarCategoryOpen === 'census'">
-      <button
-        *ngFor="let option of filtersCategories.census, index as i"
-        class="lls-filter-sidebar__option lls-sidebar__item"
-        (click)="addFilter(option)"
-        [class]="activeFilter(option.value) ? 'lls-filter-sidebar__option--active' : ''"
-      >
-        <svg class="lls-icon lls-icon--left u-mr-2">
-          <use [attr.href]="featherIconPath + '#' + (activeFilter(option.value) ? 'check-square' : 'square')"></use>
-        </svg>
-        {{ option.label }}
-        <span class="lls-filter-sidebar__option-count lls-filter-sidebar__option-item--right">
-          {{ option.count }}
-        </span>
-      </button>
+    <ng-container *ngFor="let category of filtersCategories | keyvalue">
+      <ng-container *ngIf="!sidebarCategoryOpen">
+        <button
+          class="lls-filter-sidebar__option lls-sidebar__item"
+          (click)="toggleCategory(category.key)"
+         >
+          <svg class="lls-icon lls-icon--left u-mr-2">
+            <use [attr.href]="featherIconPath + '#' + eventIcon(category.key)"></use>
+          </svg>
+          {{ eventType({event_type: category.key}) }}
+          <span class="lls-filter-sidebar__option-count">{{'\u00A0'}} ({{ filtersCategories[category.key].length }})</span>
+          <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-item--right lls-icon">
+            <use [attr.href]="featherIconPath + '#arrow-right'"></use>
+          </svg>
+        </button>
+      </ng-container>
+      <ng-container *ngIf="sidebarCategoryOpen === category.key">
+        <button
+          *ngFor="let option of category.value, index as i"
+          class="lls-filter-sidebar__option lls-sidebar__item"
+          (click)="addFilter(option)"
+          [class]="activeFilter(option.value) ? 'lls-filter-sidebar__option--active' : ''"
+        >
+          <svg class="lls-icon lls-icon--left u-mr-2">
+            <use [attr.href]="featherIconPath + '#' + (activeFilter(option.value) ? 'check-square' : 'square')"></use>
+          </svg>
+          {{ option.label }}
+          <span class="lls-filter-sidebar__option-count lls-filter-sidebar__option-item--right">
+            {{ option.count }}
+          </span>
+        </button>
+      </ng-container>
     </ng-container>
   </div>
 </aside>

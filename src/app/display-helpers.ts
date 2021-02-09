@@ -146,7 +146,8 @@ function thousandSeparator(str) {
     i -= 3;
   }
   return output;
-};
+}
+
 export function prettyNumbers(num, decimals = 0) {
   num = parseFloat(num);
   const [ integer, decimalNumbers ] = num.toFixed(decimals).split(".");
@@ -154,4 +155,4 @@ export function prettyNumbers(num, decimals = 0) {
     return `${thousandSeparator(integer)},${decimalNumbers}`;
   }
   return thousandSeparator(integer);
-};
+}

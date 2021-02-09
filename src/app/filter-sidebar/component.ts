@@ -35,6 +35,7 @@ export class FilterSidebar implements OnInit {
   @Output() closeSidebar: EventEmitter<any> = new EventEmitter();
   @Output() removeFilter: EventEmitter<any> = new EventEmitter();
   eventIcon = eventIcon;
+  eventType = eventType;
 
   // Start ControlValueAccessor
   registerOnChange(fn: Function) {
@@ -52,7 +53,7 @@ export class FilterSidebar implements OnInit {
 
   filtersWithLabels = [];
   sidebarCategoryOpen: String = undefined;
-  filtersCategories = { burials: [], census: [] };
+  filtersCategories = {};
   _filters: number[] = [];
   onChange: Function = () => {};
   onTouched: Function = () => {};
@@ -92,12 +93,10 @@ export class FilterSidebar implements OnInit {
         count: prettyNumbers(x.count),
         chosen: false,
       };
-      if(x.event_type === "burial") {
-        this.filtersCategories.burials.push(filter);
+      if(!this.filtersCategories[x.event_type]) {
+        this.filtersCategories[x.event_type] = [];
       }
-      if(x.event_type === "census") {
-        this.filtersCategories.census.push(filter);
-      }
+      this.filtersCategories[x.event_type].push(filter);
     });
   }
 
