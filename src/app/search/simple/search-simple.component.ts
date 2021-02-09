@@ -71,6 +71,14 @@ export class SimpleSearchComponent implements OnInit {
     this.searchTerms.push({ field, value: "" });
   }
 
+  clearSearchTerms() {
+    this.searchTerms = [
+      { field: "firstName", value: "" },
+      { field: "lastName", value: "" },
+      { field: "birthPlace", value: "" },
+    ];
+  }
+
   searchAdvanced(): void {
     const searchParams: AdvancedSearchQuery = {};
 

@@ -14,6 +14,19 @@
   margin-bottom: 0.25rem;
 }
 
+.lls-results-header__field-label--actions {
+  display: flex;
+}
+
+.lls-results-header__clear-search {
+  padding: 0.5rem 1rem;
+  color: white;
+  background-color: transparent;
+  border: none;
+  font-weight: inherit;
+  white-space: nowrap;
+}
+
 .lls-results-header__right-section {
   display: flex;
   align-items: flex-end;

@@ -46,7 +46,7 @@
                             </button>
                         </div>
                     </label>
-                    <div class="lls-results-header__field-label lls-columns-12 lls-columns-6--md lls-columns-4--lg lls-columns-2--xl">
+                    <div class="lls-results-header__field-label lls-results-header__field-label--actions lls-columns-6 lls-columns-6--md lls-columns-4--lg">
                         <lls-dropdown
                             class="lls-dropdown--option-adder"
                             [options]="fieldOptions"
@@ -57,6 +57,16 @@
                             dropdownIconOpen="plus-circle"
                             (change)="addField($event)"
                         ></lls-dropdown>
+                        <button
+                            type="button"
+                            class="lls-results-header__clear-search"
+                            (click)="clearSearchTerms()"
+                        >
+                            Nulstil
+                            <svg class="lls-icon lls-icon--right">
+                                <use [attr.href]="featherSpriteUrl + '#x-circle'"></use>
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>
