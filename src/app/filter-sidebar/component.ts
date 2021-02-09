@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { eventIcon, eventType } from '../display-helpers';
+import { eventIcon, eventType, prettyNumbers } from '../display-helpers';
 
 export interface Option {
   label: string;
@@ -22,7 +22,7 @@ export interface Option {
 
 export class FilterSidebar implements OnInit {
   @Input() featherIconPath: string;
-  @Input() possibleSources: Array<{ source_year: number, event_type: string }>;
+  @Input() possibleSources: Array<{ source_year: number, event_type: string, count: number }>;
   @Input() openSidebar: boolean;
   @Input()
   get filters() {
@@ -34,6 +34,8 @@ export class FilterSidebar implements OnInit {
 
   @Output() closeSidebar: EventEmitter<any> = new EventEmitter();
   @Output() removeFilter: EventEmitter<any> = new EventEmitter();
+  eventIcon = eventIcon;
+  eventType = eventType;
 
   // Start ControlValueAccessor
   registerOnChange(fn: Function) {
@@ -50,6 +52,8 @@ export class FilterSidebar implements OnInit {
   // End ControlValueAccessor
 
   filtersWithLabels = [];
+  sidebarCategoryOpen: String = undefined;
+  filtersCategories = {};
   _filters: number[] = [];
   onChange: Function = () => {};
   onTouched: Function = () => {};
@@ -74,15 +78,25 @@ export class FilterSidebar implements OnInit {
     return this.filters.some((filterValue) => filterValue === optionValue)
   }
 
+  toggleCategory(type) {
+    this.sidebarCategoryOpen = type;
+  }
+
   ngOnInit(): void {
-    this.filtersWithLabels = this.possibleSources.map(x => {
+    this.possibleSources.forEach(x => {
       const prettyEventType = eventType({ event_type: x.event_type });
-      return {
+      const filter =  {
         label: `${prettyEventType} ${x.source_year}`,
+        type: prettyEventType,
         icon: eventIcon(x.event_type),
         value: `${x.event_type}_${x.source_year}`,
+        count: prettyNumbers(x.count),
         chosen: false,
       };
+      if(!this.filtersCategories[x.event_type]) {
+        this.filtersCategories[x.event_type] = [];
+      }
+      this.filtersCategories[x.event_type].push(filter);
     });
   }
 

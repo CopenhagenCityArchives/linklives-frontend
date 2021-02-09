@@ -136,3 +136,23 @@ export function prettyYearRange(personAppearances) {
   const sortedYears = personAppearances.map(pa => pa.source_year).sort();
   return `${sortedYears[0]} - ${sortedYears[sortedYears.length - 1]}`;
 }
+
+function thousandSeparator(str) {
+  const sep = ".";
+  let output = str.slice(Math.max(0, str.length - 3));
+  let i = str.length - 3;
+  while (i > 0) {
+    output = str.slice(Math.max(0, i - 3), i) + sep + output;
+    i -= 3;
+  }
+  return output;
+}
+
+export function prettyNumbers(num, decimals = 0) {
+  num = parseFloat(num);
+  const [ integer, decimalNumbers ] = num.toFixed(decimals).split(".");
+  if(decimalNumbers) {
+    return `${thousandSeparator(integer)},${decimalNumbers}`;
+  }
+  return thousandSeparator(integer);
+}

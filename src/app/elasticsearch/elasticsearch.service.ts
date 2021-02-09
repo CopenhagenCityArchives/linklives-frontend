@@ -132,7 +132,7 @@ export class ElasticsearchService {
       indexHits: {},
       hits: [],
       meta: {
-        possibleSources: elasticResult.aggregations?.person_appearance?.sources?.buckets.map((bucket) => bucket.key) ?? [],
+        possibleSources: elasticResult.aggregations?.person_appearance?.sources?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
       },
     };
 
