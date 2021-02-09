@@ -2,6 +2,7 @@ import { Category, Option } from './form-elements/dropdown/component';
 
 export const mapQueryMustKey = {
   sourceYear: "source_year",
+  deathYear: "dateOfDeath",
 };
 
 export const mapQueryShouldKey = {
@@ -67,7 +68,7 @@ export const searchFieldPlaceholders = {
   //deathPlace: "Indtast dødssted",
   //birthYear: "Indtast fødeår",
   sourceYear: "Indtast kildeår",
-  //deathYear: "Indtast dødsår",
+  deathYear: "Indtast dødsår",
   //maritalStatus: "Indtast civilstand",
 };
 

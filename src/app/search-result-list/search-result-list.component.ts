@@ -14,7 +14,7 @@ interface SearchQueryParams {
   //deathPlace?: string,
   //birthYear?: string
   sourceYear?: string,
-  //deathYear?: string,
+  deathYear?: string,
   //maritalStatus?: string,
 }
 
