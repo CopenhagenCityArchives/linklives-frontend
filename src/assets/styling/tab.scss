@@ -13,6 +13,7 @@
         border-bottom-color: $off-black;
     }
 }
+
 .lls-tabs__item--active {
     background: white;
 }
@@ -22,6 +23,7 @@
     padding-bottom: 0.125rem;
     transition: border-bottom-color 0.2s;
 }
+
 .lls-tabs__item--active .lls-tabs__item-text,
 .lls-tabs__item:hover .lls-tabs__item-text {
     border-bottom-color: $off-black;

@@ -65,7 +65,7 @@ lls-dropdown {
   left: 0;
   width: calc(100% + 3px);
   transform: translateY($dropdownPaddingY - 0.4rem) translateX(-2px);
-  border: 2px solid rgb(99, 95, 95);
+  border: 1px solid $grey;
   border-top-width: 0;
 }
 
