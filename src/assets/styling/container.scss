@@ -14,3 +14,11 @@
     }
   }
 }
+
+.lls-data-view-container {
+  margin-top: 3rem;
+
+  @media(max-width: $breakpointSm) {
+    margin-top: 0.5rem;
+  }
+}
