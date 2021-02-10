@@ -29,3 +29,21 @@
 .lls-icon--left {
   margin-right: 0.25rem;
 }
+
+.lls-icon--large {
+  width: 1.5em;
+  height: 1.5em;
+  margin: 1em;
+}
+
+.lls-icon--census {
+  stroke: $yellow;
+}
+
+.lls-icon--burial {
+  stroke: $burial-grey;
+}
+
+.lls-icon--lifecourse {
+  stroke: white;
+}

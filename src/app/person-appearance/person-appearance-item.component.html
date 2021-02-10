@@ -1,4 +1,4 @@
-<div class="lls-source" [class]="'lls-source--' + personAppearance.event_type">
+<div class="lls-source" [class]="computedClass">
     <div class="lls-source__header lls-source__section">
         <div class="lls-source__symbol">
             <svg class="lls-icon">
@@ -56,13 +56,18 @@
     </div>
     
     <div class="lls-source__section lls-source__section--cta">
-        <div>
+        <div *ngIf="!selected">
             <a [routerLink]="['/pa', personAppearance.source_id + '-' + personAppearance.pa_id]" class="lls-btn lls-btn--link">
                 <span>Se kilde</span>
                 <svg class="lls-icon lls-icon--right">
                     <use [attr.href]="featherSpriteUrl + '#arrow-right'"></use>
                 </svg>
             </a>
+        </div>
+        <div *ngIf="selected">
+            <svg class="lls-icon lls-icon--large" [class]="'lls-icon--' + personAppearance.event_type">
+                <use [attr.href]="featherSpriteUrl + '#flag'"></use>
+            </svg>
         </div>
     </div>
 </div>

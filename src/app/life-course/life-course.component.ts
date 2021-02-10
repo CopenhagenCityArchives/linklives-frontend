@@ -27,6 +27,10 @@ export class LifeCourseComponent implements OnInit {
     return [ ...this.pas ].reverse();
   }
 
+  get aboutLifeCourseText() {
+    return this.config.aboutLifeCourseText;
+  }
+
   get drawableLinks() {
     //These represent gaps, not PAs, so there is one less than there are PAs in order.
     const maxTiers = Array(this.pas.length - 1).fill(-1);

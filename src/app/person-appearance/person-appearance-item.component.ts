@@ -10,6 +10,7 @@ export class PersonAppearanceItemComponent implements OnInit {
 
   @Input("item") personAppearance: PersonAppearance;
   @Input("truncatableName") showTitleOnName: boolean = false;
+  @Input("selected") selected: boolean = false;
 
   get config() {
     return window["lls"];
@@ -19,6 +20,16 @@ export class PersonAppearanceItemComponent implements OnInit {
 
   get eventType() {
     return eventType(this.personAppearance);
+  }
+
+  get computedClass() {
+    const classList = [ 'lls-source--' + this.personAppearance.event_type ];
+
+    if(this.selected) {
+      classList.push('lls-source--selected');
+    }
+
+    return classList.join(" ");
   }
 
   get eventIcon() {
