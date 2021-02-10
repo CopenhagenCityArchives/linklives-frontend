@@ -117,7 +117,10 @@
                 (closeSidebar)="closeSidebar($event)"
                 (removeFilter)="removeFilter($event)"
             ></lls-filter-sidebar>
-            <div class="lls-results-filter__items">
+            <div
+                *ngIf="sourceFilter.length"
+                class="lls-results-filter__items"
+            >
                 <div
                     *ngFor="let filterItem of sourceFilter; index as i;"
                     class="lls-btn lls-btn--grey u-mr-2 u-mt-2 u-text-capitalize"
