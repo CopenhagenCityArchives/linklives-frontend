@@ -1,8 +1,15 @@
-<div class="lls-container mt-5">
+<div class="lls-container lls-data-view-container">
     <div class="lls-data-page-header">
         <div class="lls-data-page-header__utility-links">
             <a
-                class="lls-data-page-header__utility-link u-mr-2"
+                *ngIf="previousSearchHistoryEntryIsConnectedLifecourse()"
+                class="lls-data-page-header__utility-link"
+                [routerLink]="['/life-course', previousSearchHistoryEntry.lifecourse.id]"
+            >
+                Tilbage til livsforløb
+            </a>
+            <a
+                class="lls-data-page-header__utility-link"
                 [routerLink]="['/results']"
                 [queryParams]="getLatestSearchQuery()"
             >
