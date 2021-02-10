@@ -29,6 +29,13 @@ export class PersonAppearanceComponent implements OnInit {
     return prettyDate(this.pa.last_updated);
   }
 
+  get relatedPersonsTitle() {
+    if(this.pa.event_type === "census") {
+      return "Husstand";
+    }
+    return "Relaterede personer";
+  }
+
   ngOnInit(): void {
     this.route.data.subscribe((resolve) => {
       this.pa = resolve.item.pa as PersonAppearance;
