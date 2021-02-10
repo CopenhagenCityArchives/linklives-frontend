@@ -33,6 +33,13 @@ export class PersonAppearanceComponent implements OnInit {
     return getSearchHistory()[1];
   }
 
+  get relatedPersonsTitle() {
+    if(this.pa.event_type === "census") {
+      return "Husstand";
+    }
+    return "Relaterede personer";
+  }
+
   previousSearchHistoryEntryIsConnectedLifecourse() {
     const entry = this.previousSearchHistoryEntry;
 
