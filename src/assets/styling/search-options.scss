@@ -10,6 +10,12 @@
   }
 }
 
+.lls-search-options__result-type {
+  @media (max-width: $breakpointSm) {
+    margin-top: 0.825rem;
+  }
+}
+
 .lls-search-options__result-type-checkboxes {
   display: flex;
 }
