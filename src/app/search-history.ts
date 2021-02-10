@@ -15,6 +15,7 @@ export interface SearchHistoryEntry {
   index?: string[],
   lifecourse?: LifecourseSearchHistoryEntry,
   personAppearance?: PersonAppearance,
+  timestamp?: Date,
 }
 
 export interface LifecourseSearchHistoryEntry {
@@ -33,6 +34,8 @@ export function onSearchHistoryEntry(listener: SearchHistoryEntryListener): void
 }
 
 export function addSearchHistoryEntry(entry: SearchHistoryEntry): void {
+  entry.timestamp = new Date();
+
   const existingHistory = getSearchHistory();
   const history = [
     entry,
@@ -49,18 +52,21 @@ export function getSearchHistory(): SearchHistoryEntry[] {
     return [];
   }
 
+  let history;
   try {
-    return JSON.parse(raw) as SearchHistoryEntry[];
+    history = JSON.parse(raw) as SearchHistoryEntry[];
   }
   catch(error) {
     console.error("Invalid values (non-JSON) in local storage for search history --- cleaning up!");
     localStorage.removeItem(LOCAL_STORAGE_KEY);
     return [];
   }
+
+  return history.filter((entry) => entry.timestamp);
 }
 
 export function getLatestSearchQuery() {
-  const latestSearch = getSearchHistory().filter(item => item.type === "search_result")[0];
+  const latestSearch = getSearchHistory().find(item => item.type === "search_result");
   if(latestSearch) {
     return { ...latestSearch.query, index: latestSearch.index.join(",") };
   }
