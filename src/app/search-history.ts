@@ -37,9 +37,14 @@ export function addSearchHistoryEntry(entry: SearchHistoryEntry): void {
   entry.timestamp = new Date();
 
   const existingHistory = getSearchHistory();
+
+  const entryData = unpick(entry, "timestamp");
+
   const history = [
     entry,
-    ...existingHistory.filter((existingEntry) => !isEqual(entry, existingEntry))
+    ...existingHistory.filter((existingEntry) => {
+      return !isEqual(entryData, unpick(existingEntry, "timestamp"));
+    })
   ].slice(0, 50);
 
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(history));
@@ -71,4 +76,12 @@ export function getLatestSearchQuery() {
     return { ...latestSearch.query, index: latestSearch.index.join(",") };
   }
   return { query: "" };
+}
+
+function unpick(obj, key) {
+  const result = {};
+  Object.keys(obj)
+    .filter((objKey) => objKey != key)
+    .forEach((objKey) => result[objKey] = obj[objKey]);
+  return result;
 }
