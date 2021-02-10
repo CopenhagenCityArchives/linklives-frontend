@@ -12,6 +12,7 @@ export class RelatedPeopleComponent implements OnInit {
   constructor(private route: ActivatedRoute, private router: Router) { }
 
   relatedPas: Array<PersonAppearance>;
+  currentPa: PersonAppearance;
 
   ngOnInit(): void {
     this.route.parent.data.subscribe((resolve) => {
@@ -20,6 +21,7 @@ export class RelatedPeopleComponent implements OnInit {
         return;
       }
       this.relatedPas = resolve.item.hh as PersonAppearance[];
+      this.currentPa = resolve.item.pa;
     });
   }
 
