@@ -20,9 +20,20 @@ export class RelatedPeopleComponent implements OnInit {
         this.router.navigate([ "pa", resolve.item.pa.id, "source-data" ]);
         return;
       }
-      this.relatedPas = resolve.item.hh as PersonAppearance[];
+      this.relatedPas = this.sortBy(resolve.item.hh, "transcription_id") as PersonAppearance[];
       this.currentPa = resolve.item.pa;
     });
   }
 
+  sortBy(list, key: string) {
+    return list.sort((a, b) => {
+      if(a[key] < b[key]) {
+        return -1;
+      }
+      if(a[key] > b[key]) {
+        return 1;
+      }
+      return 0;
+    })
+  }
 }
