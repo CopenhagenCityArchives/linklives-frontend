@@ -1,4 +1,7 @@
-<div [class]="openSearchHistory ? 'lls-overlay' : ''"></div>
+<div
+    [class]="openSearchHistory ? 'lls-overlay' : ''"
+    (click)="closeSearchHistory()"
+></div>
 <aside class="lls-search-history lls-sidebar lls-sidebar--right" [class]="openSearchHistory ? 'lls-sidebar--open' : ''">
     <div class="lls-sidebar__header">
         <h3 class="u-margin-0">

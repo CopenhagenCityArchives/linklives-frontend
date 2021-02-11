@@ -1,4 +1,7 @@
-<div [class]="openSidebar ? 'lls-overlay' : ''"></div>
+<div
+  [class]="openSidebar ? 'lls-overlay' : ''"
+  (click)="close()"
+></div>
 <aside class="lls-filter-sidebar lls-sidebar" [class]="openSidebar ? 'lls-sidebar--open' : ''">
   <div class="lls-sidebar__header">
     <h3 class="u-margin-0">Vælg kilder</h3>
