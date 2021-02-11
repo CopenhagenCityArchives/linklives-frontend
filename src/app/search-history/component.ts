@@ -54,7 +54,7 @@ export class SearchHistoryComponent implements OnInit {
 
   handleKeyboardEvent(event: KeyboardEvent) {
     // Close sidebar on escape keypress
-    if(event.key === "Escape" && this.openSearchHistory) {
+    if(this.openSearchHistory && event.key === "Escape") {
       this.closeSearchHistory();
     }
   }

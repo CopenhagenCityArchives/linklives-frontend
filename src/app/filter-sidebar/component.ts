@@ -87,7 +87,7 @@ export class FilterSidebar implements OnInit {
 
   handleKeyboardEvent(event: KeyboardEvent) {
     // Close sidebar on escape keypress
-    if(event.key === "Escape" && this.openSidebar) {
+    if(this.openSidebar && event.key === "Escape") {
       this.close();
     }
   }
