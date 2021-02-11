@@ -10,7 +10,7 @@ import { PersonAppearance } from '../search/search.service';
   selector: 'app-search-history',
   templateUrl: './component.html',
   host: {
-    '(document:keyup)': 'handleKeyboardEvent($event)'
+    '(document:keyup.escape)': 'closeOnEsc()'
   }
 })
 
@@ -52,9 +52,9 @@ export class SearchHistoryComponent implements OnInit {
     this.close.emit(null);
   }
 
-  handleKeyboardEvent(event: KeyboardEvent) {
+  closeOnEsc() {
     // Close sidebar on escape keypress
-    if(this.openSearchHistory && event.key === "Escape") {
+    if(this.openSearchHistory) {
       this.closeSearchHistory();
     }
   }

@@ -19,7 +19,7 @@ export interface Option {
     },
   ],
   host: {
-    '(document:keyup)': 'handleKeyboardEvent($event)'
+    '(document:keyup.escape)': 'closeOnEsc()'
   }
 })
 
@@ -85,9 +85,9 @@ export class FilterSidebar implements OnInit {
     this.sidebarCategoryOpen = type;
   }
 
-  handleKeyboardEvent(event: KeyboardEvent) {
+  closeOnEsc() {
     // Close sidebar on escape keypress
-    if(this.openSidebar && event.key === "Escape") {
+    if(this.openSidebar) {
       this.close();
     }
   }
