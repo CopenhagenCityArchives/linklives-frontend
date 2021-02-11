@@ -8,7 +8,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "dev-remote-api": "ng serve --configuration=dev-remote-api"
+    "start-dev-with-remote-api": "ng serve --configuration=dev-remote-api",
+    "proxy-remote-api": "node production-api-proxy",
+    "dev-remote-api": "run-p proxy-remote-api start-dev-with-remote-api"
   },
   "private": true,
   "dependencies": {
@@ -37,6 +39,7 @@
     "@types/jasminewd2": "~2.0.3",
     "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
+    "http-proxy": "^1.18.1",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
     "karma": "^5.2.3",
@@ -44,6 +47,7 @@
     "karma-coverage-istanbul-reporter": "~2.1.0",
     "karma-jasmine": "~2.0.1",
     "karma-jasmine-html-reporter": "^1.4.2",
+    "npm-run-all": "^4.1.5",
     "protractor": "^7.0.0",
     "ts-node": "~8.3.0",
     "tslint": "~5.18.0",
