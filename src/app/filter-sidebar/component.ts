@@ -18,6 +18,9 @@ export interface Option {
       multi: true
     },
   ],
+  host: {
+    '(document:keyup)': 'handleKeyboardEvent($event)'
+  }
 })
 
 export class FilterSidebar implements OnInit {
@@ -80,6 +83,13 @@ export class FilterSidebar implements OnInit {
 
   toggleCategory(type) {
     this.sidebarCategoryOpen = type;
+  }
+
+  handleKeyboardEvent(event: KeyboardEvent) {
+    // Close sidebar on escape keypress
+    if(event.key === "Escape" && this.openSidebar) {
+      this.close();
+    }
   }
 
   ngOnInit(): void {

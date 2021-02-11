@@ -4,9 +4,14 @@ import { searchFieldLabels } from '../search-term-values';
 import { eventType, prettyBirthLocation, prettyBirthYear, prettyYearRange, prettyFullName, eventIcon } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 
+
+
 @Component({
   selector: 'app-search-history',
   templateUrl: './component.html',
+  host: {
+    '(document:keyup)': 'handleKeyboardEvent($event)'
+  }
 })
 
 export class SearchHistoryComponent implements OnInit {
@@ -45,5 +50,12 @@ export class SearchHistoryComponent implements OnInit {
 
   closeSearchHistory() {
     this.close.emit(null);
+  }
+
+  handleKeyboardEvent(event: KeyboardEvent) {
+    // Close sidebar on escape keypress
+    if(event.key === "Escape" && this.openSearchHistory) {
+      this.closeSearchHistory();
+    }
   }
 }
