@@ -38,7 +38,7 @@
                                 type="button"
                                 class="lls-input-group__floating-action"
                                 [class]="searchTerms.length < 2 ? 'lls-input-group__floating-action--disabled' : ''"
-                                aria-label="Fjern søgeterm"
+                                aria-label="Fjern søgning på felt"
                                 (click)="removeSearchTerm(i, $event)"
                             >
                                 <svg class="lls-icon lls-icon--right">
@@ -189,13 +189,13 @@
         </div>
     </div>
 
-    <nav aria-label="paginering">
+    <nav aria-label="Navigation mellem sider">
         <div class="lls-pagination">
             <a
                 class="lls-pagination__item"
                 [ngClass]="{ 'lls-pagination__item--disabled': pagination.current === 1}" 
                 [tabindex]=" pagination.current === 1 ? -1 : 0"
-                aria-label="gå til forrige resultater"
+                aria-label="gå til forrige side"
                 [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current - 1 } ]"
                 [queryParams]="queryParams"
             >
@@ -207,7 +207,7 @@
             <ng-container *ngIf="pagination.firstInOrder > 1">
                 <a
                     class="lls-pagination__item"
-                    aria-label="gå til første resultater"
+                    aria-label="gå til første side"
                     [routerLink]="['./', { 'size': pagination.size, 'page': 1 } ]"
                     [queryParams]="queryParams"
                 >
@@ -253,7 +253,7 @@
             <a
                 class="lls-pagination__item"
                 [ngClass]="{ 'lls-pagination__item--disabled': pagination.current >= pagination.last }"
-                aria-label="gå til næste resultater"
+                aria-label="gå til næste side"
                 [tabindex]="pagination.current >= pagination.last ? -1 : 0"
                 [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current + 1 } ]"
                 [queryParams]="queryParams"
