@@ -55,7 +55,7 @@ export class SimpleSearchComponent implements OnInit {
     this.router.navigate(['/results'], {
       queryParams: {
         query: this.query,
-        index: Object.keys(this.indices).join(","),
+        index: this.computedIndex,
       },
     });
   }
