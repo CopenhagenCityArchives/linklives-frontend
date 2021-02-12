@@ -7,7 +7,7 @@
 
 .lls-source-graph__circle-background {
   fill: $grey-bg;
-  stroke: rgb(224, 224, 224);
+  stroke: $grey-bg;
   stroke-width: 0;
   transition: stroke-width 0.4s;
 
@@ -20,12 +20,15 @@
   stroke: white;
   stroke-width: 2;
 }
+
 .lls-source-graph__circle--census {
   fill: $yellow;
 }
+
 .lls-source-graph__circle--burial {
   fill: $burial-grey;
 }
+
 .lls-source-graph__circle--action {
   stroke-width: 5;
 }
@@ -56,13 +59,16 @@
     pointer-events: all;
   }
 }
+
 .lls-source-graph__tooltip-box {
   fill: rgb(6, 40, 81);
 }
+
 .lls-source-graph__tooltip-label {
   font-weight: normal;
-  fill: rgb(224, 224, 224);
+  fill: $grey-bg;
 }
+
 .lls-soruce-graph__tooltip-text--large {
   font-size: 2rem;
 }

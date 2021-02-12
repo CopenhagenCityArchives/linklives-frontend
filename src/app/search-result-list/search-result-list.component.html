@@ -1,10 +1,16 @@
 <section class="lls-results-header">
     <div class="lls-container">
-        <div class="lls-results-header__right-section">
+        <div class="lls-results-header__link-section">
+            <a routerLink="/" class="lls-results-header__link">
+                <svg class="lls-icon">
+                    <use [attr.href]="featherSpriteUrl + '#arrow-left'"></use>
+                </svg>
+                Tilbage til forsiden
+            </a>
             <a
                 (click)="openSearchHistory = true"
                 (keyup.enter)="openSearchHistory = true"
-                class="lls-results-header__history-link"
+                class="lls-results-header__link lls-results-header__history-link"
                 tabindex="0"
             >
                 Min søgehistorik
@@ -41,7 +47,7 @@
                             </button>
                         </div>
                     </label>
-                    <div class="lls-results-header__field-label lls-columns-12 lls-columns-6--md lls-columns-4--lg lls-columns-2--xl">
+                    <div class="lls-results-header__field-label lls-results-header__field-label--actions lls-columns-6 lls-columns-6--md lls-columns-4--lg">
                         <lls-dropdown
                             class="lls-dropdown--option-adder"
                             [options]="fieldOptions"
@@ -52,6 +58,16 @@
                             dropdownIconOpen="plus-circle"
                             (change)="addField($event)"
                         ></lls-dropdown>
+                        <button
+                            type="button"
+                            class="lls-results-header__clear-search"
+                            (click)="clearSearchTerms()"
+                        >
+                            Nulstil
+                            <svg class="lls-icon lls-icon--right">
+                                <use [attr.href]="featherSpriteUrl + '#x-circle'"></use>
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -102,7 +118,10 @@
                 (closeSidebar)="closeSidebar($event)"
                 (removeFilter)="removeFilter($event)"
             ></lls-filter-sidebar>
-            <div class="lls-results-filter__items">
+            <div
+                *ngIf="sourceFilter.length"
+                class="lls-results-filter__items"
+            >
                 <div
                     *ngFor="let filterItem of sourceFilter; index as i;"
                     class="lls-btn lls-btn--grey u-mr-2 u-mt-2 u-text-capitalize"

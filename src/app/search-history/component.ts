@@ -4,9 +4,14 @@ import { searchFieldLabels } from '../search-term-values';
 import { eventType, prettyBirthLocation, prettyBirthYear, prettyYearRange, prettyFullName, eventIcon } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 
+
+
 @Component({
   selector: 'app-search-history',
   templateUrl: './component.html',
+  host: {
+    '(document:keyup.escape)': 'closeOnEsc()'
+  }
 })
 
 export class SearchHistoryComponent implements OnInit {
@@ -30,10 +35,13 @@ export class SearchHistoryComponent implements OnInit {
   }
 
   queryParams(entry) {
-    return {
+    let queryParams = {
       ...entry.query,
-      index: entry.index
-    };
+    }
+    if(Array.isArray(entry.index)) {
+      queryParams.index = entry.index.join(",");
+    }
+    return queryParams;
   }
 
   ngOnInit(): void {
@@ -42,5 +50,12 @@ export class SearchHistoryComponent implements OnInit {
 
   closeSearchHistory() {
     this.close.emit(null);
+  }
+
+  closeOnEsc() {
+    // Close sidebar on escape keypress
+    if(this.openSearchHistory) {
+      this.closeSearchHistory();
+    }
   }
 }

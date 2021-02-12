@@ -6,12 +6,10 @@ import { AdvancedSearchComponent } from './advanced/search-advanced.component';
 
 const routes: Routes = [
   {
-    path: 'search',
+    path: '',
     component: SearchComponent,
     children: [
-      { path: 'simple', component: SimpleSearchComponent },
-      { path: 'advanced', component: AdvancedSearchComponent },
-      { path: '', redirectTo: 'simple', pathMatch: 'full' }
+      { path: '', component: SimpleSearchComponent }
     ]
   }
 ];

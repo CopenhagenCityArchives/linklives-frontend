@@ -14,7 +14,7 @@ interface SearchQueryParams {
   //deathPlace?: string,
   //birthYear?: string
   sourceYear?: string,
-  //deathYear?: string,
+  deathYear?: string,
   //maritalStatus?: string,
 }
 
@@ -141,6 +141,8 @@ export class SearchResultListComponent implements OnInit {
 
       const indices = queryParamMap.get('index');
       if(indices) {
+        // Reset index checkbox values
+        Object.keys(this.indices).forEach(index => this.indices[index].value = false);
         indices.split(",").forEach((index) => this.indices[index].value = true);
       }
       this.sortBy = queryParamMap.get('sortBy') || "relevance";
@@ -232,6 +234,12 @@ export class SearchResultListComponent implements OnInit {
     if(this.searchTerms.length > 1) {
       this.searchTerms.splice(i, 1);
     }
+  }
+
+  clearSearchTerms() {
+    this.searchTerms = [
+      { field: "query", value: "" }
+    ];
   }
 
   search(): void {

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Link } from '../elasticsearch/elasticsearch.service';
-import { prettyBirthLocation, prettyBirthYear, prettyDate } from '../display-helpers';
+import { prettyFullName, prettyBirthLocation, prettyBirthYear, prettyDeathYear, prettyDate } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 import { getLatestSearchQuery } from '../search-history';
 
@@ -25,6 +25,10 @@ export class LifeCourseComponent implements OnInit {
 
   get pasReversed() {
     return [ ...this.pas ].reverse();
+  }
+
+  get aboutLifeCourseText() {
+    return this.config.aboutLifeCourseText;
   }
 
   get drawableLinks() {
@@ -120,12 +124,24 @@ export class LifeCourseComponent implements OnInit {
     return sortedByYear[sortedByYear.length - 1];
   }
 
+  get personName() {
+    return prettyFullName(this.latestPersonAppearance);
+  }
+
   get birthLocation() {
+    if(this.latestPersonAppearance.event_type === "burial") {
+      // Burials does not have birth location data so we use another PA.
+      return prettyBirthLocation(this.pas[0]);
+    }
     return prettyBirthLocation(this.latestPersonAppearance);
   }
 
   get birthYear() {
     return prettyBirthYear(this.latestPersonAppearance);
+  }
+
+  get deathYear() {
+    return prettyDeathYear(this.latestPersonAppearance);
   }
 
   get lastUpdated() {

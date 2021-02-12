@@ -2,9 +2,11 @@
   display: flex;
   flex-direction: column;
   background-color: white;
-  border-left: 10px solid;
-  border-left-color: $blue;
-  
+  border-style: solid;
+  border-width: 0;
+  border-left-width: 10px;
+  border-color: $blue;
+  overflow: hidden;
 
   @media(min-width: $breakpointMd) {
     flex-direction: row;
@@ -16,14 +18,18 @@
     content: "";
     width: 16px;
     background-color: $blue;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
     flex-shrink: 0
   }
 }
 
+.lls-source--selected {
+  border-top-width: 3px;
+  border-right-width: 3px;
+  border-bottom-width: 3px;
+}
+
 .lls-source--census {
-  border-left-color: $yellow;
+  border-color: $yellow;
 
   &::before {
     background-color: $yellow;
@@ -31,7 +37,7 @@
 }
 
 .lls-source--burial {
-  border-left-color: $burial-grey;
+  border-color: $burial-grey;
 
   &::before {
     background-color: $burial-grey;
@@ -40,7 +46,7 @@
 
 .lls-source--lifecourse {
   background-color: $blue--dark;
-  border-left-color: $blue--darker;
+  border-color: $blue--darker;
   color: white;
 
   &::before {
@@ -72,7 +78,7 @@
 }
 
 .lls-source__section--bordered {
-  border-color: #d7d7d7;
+  border-color: $grey-border;
   border-top-width: 1px;
   border-bottom-width: 1px;
   border-right-width: 0;

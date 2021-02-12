@@ -55,7 +55,7 @@ export class SimpleSearchComponent implements OnInit {
     this.router.navigate(['/results'], {
       queryParams: {
         query: this.query,
-        index: Object.keys(this.indices).join(","),
+        index: this.computedIndex,
       },
     });
   }
@@ -69,6 +69,14 @@ export class SimpleSearchComponent implements OnInit {
 
   addField(field) {
     this.searchTerms.push({ field, value: "" });
+  }
+
+  clearSearchTerms() {
+    this.searchTerms = [
+      { field: "firstName", value: "" },
+      { field: "lastName", value: "" },
+      { field: "birthPlace", value: "" },
+    ];
   }
 
   searchAdvanced(): void {
