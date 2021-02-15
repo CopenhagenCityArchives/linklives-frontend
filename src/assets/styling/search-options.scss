@@ -1,19 +1,8 @@
 .lls-search-options {
   display: flex;
-  flex-direction: column-reverse;
   padding: 0.5rem 0;
-
-  @media(min-width: $breakpointSm) {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
-
-.lls-search-options__result-type {
-  @media (max-width: $breakpointSm) {
-    margin-top: 0.825rem;
-  }
+  justify-content: space-between;
+  align-items: center;
 }
 
 .lls-search-options__result-type-checkboxes {
@@ -33,11 +22,9 @@
 }
 
 .lls-search-options__add-field {
-  @media(min-width: $breakpointSm) {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-  }
 }
 
 .lls-search-options__clear-search {
