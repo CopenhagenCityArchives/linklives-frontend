@@ -121,3 +121,15 @@
 .lls-icon--right {
   margin-left: 0.5rem;
 }
+
+.lls-btn--desktop {
+  @media(max-width: $breakpointMd) {
+    display: none;
+  }
+}
+
+.lls-btn--mobile {
+  @media(min-width: $breakpointMd) {
+    display: none;
+  }
+}

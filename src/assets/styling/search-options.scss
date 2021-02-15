@@ -18,6 +18,10 @@
 
 .lls-search-options__result-type-checkboxes {
   display: flex;
+
+  @media(max-width: $breakpointSm) {
+    flex-direction: column;
+  }
 }
 
 .lls-search-options__checkbox-container {
@@ -41,4 +45,17 @@
   background-color: transparent;
   border: none;
   font-weight: inherit;
+}
+
+.lls-simple-search__options {
+  align-items: center;
+
+  @media(min-width: $breakpointMd) {
+    margin-left: 1.25rem;
+    display: flex;
+  }
+}
+
+.lls-simple-search__mobile-button {
+  margin-left: auto;
 }
