@@ -1,23 +1,16 @@
 .lls-search-options {
   display: flex;
-  flex-direction: column-reverse;
   padding: 0.5rem 0;
-
-  @media(min-width: $breakpointSm) {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
-
-.lls-search-options__result-type {
-  @media (max-width: $breakpointSm) {
-    margin-top: 0.825rem;
-  }
+  justify-content: space-between;
+  align-items: center;
 }
 
 .lls-search-options__result-type-checkboxes {
   display: flex;
+
+  @media(max-width: $breakpointSm) {
+    flex-direction: column;
+  }
 }
 
 .lls-search-options__checkbox-container {
@@ -29,11 +22,9 @@
 }
 
 .lls-search-options__add-field {
-  @media(min-width: $breakpointSm) {
     display: flex;
     flex-direction: column;
     align-items: flex-end;
-  }
 }
 
 .lls-search-options__clear-search {
@@ -41,4 +32,17 @@
   background-color: transparent;
   border: none;
   font-weight: inherit;
+}
+
+.lls-simple-search__options {
+  align-items: center;
+
+  @media(min-width: $breakpointMd) {
+    margin-left: 1.25rem;
+    display: flex;
+  }
+}
+
+.lls-simple-search__mobile-button {
+  margin-left: auto;
 }
