@@ -155,8 +155,12 @@
 
 .lls-source__subtitle {
   font-size: 16px;
-  color: #96a3b4;
+  color: $grey--light;
   margin-bottom: 0;
+
+  .lls-source--lifecourse & {
+    color: #acbac3;
+  }
 }
 
 .lls-source__person {

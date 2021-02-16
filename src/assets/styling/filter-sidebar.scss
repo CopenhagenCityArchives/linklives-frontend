@@ -34,3 +34,13 @@
 .lls-filter-sidebar__option-icon--delete {
   display: none;
 }
+
+.lls-filter-chip__remove-filter {
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
+}
