@@ -35,12 +35,16 @@ export class SearchHistoryComponent implements OnInit {
   }
 
   queryParams(entry) {
-    let queryParams = {
-      ...entry.query,
+    let queryParams = { ...entry.query };
+
+    if(entry.pagination) {
+      queryParams = { ...queryParams, ...entry.pagination };
     }
+
     if(Array.isArray(entry.index)) {
       queryParams.index = entry.index.join(",");
     }
+
     return queryParams;
   }
 

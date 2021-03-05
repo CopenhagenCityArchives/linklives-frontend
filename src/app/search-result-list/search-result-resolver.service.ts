@@ -70,6 +70,7 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       type: SearchHistoryEntryType.SearchResult,
       query: actualSearchTerms,
       index,
+      pagination: { page, size },
     });
 
     return this.service.advancedSearch(actualSearchTerms, index, (page - 1) * size, size, sortBy, sortOrder, sourceFilter);

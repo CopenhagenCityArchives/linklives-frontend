@@ -9,6 +9,11 @@ export enum SearchHistoryEntryType {
   Census = "census",
 }
 
+export interface SearchResultPagination {
+  page: Number,
+  size: Number,
+}
+
 export interface SearchHistoryEntry {
   type: SearchHistoryEntryType,
   query?: AdvancedSearchQuery,
@@ -16,6 +21,7 @@ export interface SearchHistoryEntry {
   lifecourse?: LifecourseSearchHistoryEntry,
   personAppearance?: PersonAppearance,
   timestamp?: Date,
+  pagination?: SearchResultPagination,
 }
 
 export interface LifecourseSearchHistoryEntry {
@@ -38,12 +44,12 @@ export function addSearchHistoryEntry(entry: SearchHistoryEntry): void {
 
   const existingHistory = getSearchHistory();
 
-  const entryData = unpick(entry, "timestamp");
+  const entryData = unpick(entry, "timestamp", "pagination");
 
   const history = [
     entry,
     ...existingHistory.filter((existingEntry) => {
-      return !isEqual(entryData, unpick(existingEntry, "timestamp"));
+      return !isEqual(entryData, unpick(existingEntry, "timestamp", "pagination"));
     })
   ].slice(0, 50);
 
@@ -78,10 +84,10 @@ export function getLatestSearchQuery() {
   return { query: "" };
 }
 
-function unpick(obj, key) {
+function unpick(obj, ...keys) {
   const result = {};
   Object.keys(obj)
-    .filter((objKey) => objKey != key)
+    .filter((objKey) => !keys.includes(objKey))
     .forEach((objKey) => result[objKey] = obj[objKey]);
   return result;
 }
