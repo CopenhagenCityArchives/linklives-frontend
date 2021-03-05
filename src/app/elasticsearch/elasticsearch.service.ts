@@ -3,7 +3,7 @@ import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery, Source,
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { mapQueryMustKey, mapQueryShouldKey, sortValues } from 'src/app/search-term-values';
+import { mapQueryMustKey, mapQueryExactKey, mapQueryShouldKey, sortValues } from 'src/app/search-term-values';
 
 export interface ElasticDocResult {
   _index: "lifecourses" | "pas" | "links",
@@ -244,6 +244,17 @@ export class ElasticsearchService {
       if(mustKey) {
         must.push({
           match: { [`person_appearance.${mustKey}`]: value }
+        });
+
+        return;
+      }
+
+      const exactKey = mapQueryExactKey[queryKey];
+
+      if(exactKey) {
+        console.warn("EXACT", exactKey);
+        must.push({
+          term: { [`person_appearance.${exactKey}`]: value }
         });
 
         return;

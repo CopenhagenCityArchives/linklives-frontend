@@ -15,6 +15,8 @@ interface SearchQueryParams {
   //birthYear?: string
   sourceYear?: string,
   deathYear?: string,
+  id?: string,
+  // lifeCourseId?: String,
   //maritalStatus?: string,
 }
 

@@ -5,6 +5,10 @@ export const mapQueryMustKey = {
   deathYear: "dateOfDeath",
 };
 
+export const mapQueryExactKey = {
+  id: "id",
+};
+
 export const mapQueryShouldKey = {
   firstName: [
     "first_names",
@@ -69,6 +73,8 @@ export const searchFieldPlaceholders = {
   //birthYear: "Indtast fødeår",
   sourceYear: "Indtast kildeår",
   deathYear: "Indtast dødsår",
+  id: "Kilde ID",
+  // lifeCourseId: "Livsforløbs ID",
   //maritalStatus: "Indtast civilstand",
 };
 
@@ -92,8 +98,10 @@ export const searchFieldLabels = {
   birthYear: "Fødselsår",
   sourceYear: "Kildeår",
   deathYear: "Dødsår",
+  id: "Kilde ID",
+  // life_course_id: "Livsforløbs ID",
   // index: "Resultattype",
-  //maritalStatus: "Civilstand",
+  // maritalStatus: "Civilstand",
 };
 
 export function toFieldOption(key) {
@@ -123,7 +131,9 @@ export const allYearFields: Array<Option | Category> = [
 ].map((f) => toFieldOption(f));
 
 export const allOtherFields: Array<Option | Category> = [
-  "query"
+  "query",
+  "id",
+  // "life_course_id",
 ].map((f) => toFieldOption(f));
 
 export const fieldOptions = [
