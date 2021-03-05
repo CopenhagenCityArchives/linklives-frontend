@@ -123,14 +123,22 @@ export class SearchResultListComponent implements OnInit {
     return num.toLocaleString("da-DK");
   }
 
+  lastReceivedQueryParamMap = null;
+
   constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     this.route.data.subscribe((data: { searchResult: SearchResult }) => {
       this.searchResult = data.searchResult;
+
+      if(this.lastReceivedQueryParamMap) {
+        this.calculatePagination(this.lastReceivedQueryParamMap);
+      }
     });
 
     this.route.queryParamMap.subscribe((queryParamMap) => {
+      this.lastReceivedQueryParamMap = queryParamMap;
+
       this.searchQueryParams = null;
       this.searchTerms = [];
       const searchQueryParams = {};
@@ -162,40 +170,51 @@ export class SearchResultListComponent implements OnInit {
       if(!this.searchResult) {
         return;
       }
-      // page defaults to 1
-      let page = Number(queryParamMap.get('page'));
-      if (page < 1 || page == NaN) {
-        page = 1;
-      }
 
-      let size = Number(queryParamMap.get('size'));
-      if (size < 1 ||page == NaN) {
-        size = 10;
-      }
-
-      let pageStart = Math.max(1, page - 2);
-      let totalPages = Math.ceil(this.searchResult.totalHits / size);
-      let pageEnd = Math.min(pageStart + 4, totalPages);
-
-      // if there are less than two pages after current, expand pagination
-      // in the lower direction
-      if (pageEnd - page < 2) {
-        pageStart = Math.max(1, pageEnd - 4);
-      }
-
-      this.pagination = {
-        current: page,
-        firstInOrder: pageStart,
-        lastInOrder: pageEnd,
-        last: totalPages,
-        size: size,
-        navigationPages: []
-      }
-
-      for (let page = pageStart; page <= pageEnd; page ++) {
-        this.pagination.navigationPages.push(page);
-      }
+      this.calculatePagination(queryParamMap);
     });
+  }
+
+  calculatePagination(queryParamMap) {
+    let size = Number(queryParamMap.get('size'));
+    if (size < 1 || !size) {
+      size = 10;
+    }
+
+    let totalPages = Math.ceil(this.searchResult.totalHits / size);
+
+    // page defaults to 1
+    let page = Number(queryParamMap.get('page'));
+    if (page < 1 || !page) {
+      page = 1;
+    }
+
+    let pageStart = Math.max(1, page - 2);
+    let pageEnd = Math.min(pageStart + 4, totalPages);
+
+    // if there are less than two pages after current, expand pagination
+    // in the lower direction
+    if (pageEnd - page < 2) {
+      pageStart = Math.max(1, pageEnd - 4);
+    }
+
+    this.pagination = {
+      current: page,
+      firstInOrder: pageStart,
+      lastInOrder: pageEnd,
+      last: totalPages,
+      size: size,
+      navigationPages: []
+    };
+
+    for (let page = pageStart; page <= pageEnd; page ++) {
+      this.pagination.navigationPages.push(page);
+    }
+
+    if(page > totalPages) {
+      this.pagination.current = 1;
+      return this.search();
+    }
   }
 
   getIconFromSourceFilterValue(filterValue: string) {
