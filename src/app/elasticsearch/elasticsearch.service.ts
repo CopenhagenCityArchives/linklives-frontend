@@ -132,7 +132,7 @@ export class ElasticsearchService {
       indexHits: {},
       hits: [],
       meta: {
-        possibleSources: elasticResult.aggregations?.person_appearance?.sources?.buckets.map((bucket) => bucket.key) ?? [],
+        possibleSources: elasticResult.aggregations?.person_appearance?.sources?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
       },
     };
 
@@ -187,7 +187,8 @@ export class ElasticsearchService {
 
     return sortKeys.map((key: string) => {
       if(key == "_score") {
-        return { _score: { order: sortOrder } };
+        //Magic: flip the relevance score ordering to fit expected mental model
+        return { _score: { order: sortOrder === "asc" ? "desc" : "asc" } };
       }
 
       const qualifiedKey = `person_appearance.${key}`;

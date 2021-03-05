@@ -38,11 +38,22 @@
 
   @media(max-width: $breakpointSm) {
     margin-bottom: 1rem;
-    text-align: left;
   }
 }
 
 .lls-data-page-header__utility-link {
   cursor: pointer;
   white-space: nowrap;
+  display: inline-block;
+  margin-right: 0.625rem;
+
+  @media(min-width: $breakpointSm) {
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+
+  @media(max-width: $breakpointSm) {
+    display: block;
+  }
 }

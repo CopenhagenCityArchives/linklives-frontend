@@ -12,18 +12,35 @@
 }
 
 .lls-filter-sidebar__option--active {
-  background-color: $grey-bg;
+  background-color: $grey-bg--light;
 
   &:hover {
-    background-color: darken($grey-bg, 5%);
+    background-color: darken($grey-bg--light, 5%);
   }
 
-  .lls-filter-sidebar__option-icon--delete {
-    display: inline;
+  .lls-icon {
+    stroke: $blue;
   }
+}
+
+.lls-filter-sidebar__option-count {
+  font-weight: 400;
+}
+
+.lls-filter-sidebar__option-item--right {
+  margin-left: auto;
 }
 
 .lls-filter-sidebar__option-icon--delete {
   display: none;
-  margin-left: auto;
+}
+
+.lls-filter-chip__remove-filter {
+  background-color: transparent;
+  margin: 0;
+  padding: 0;
+  border: none;
+  color: white;
+  display: flex;
+  align-items: center;
 }

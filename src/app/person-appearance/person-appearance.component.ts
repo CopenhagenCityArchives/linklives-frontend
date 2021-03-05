@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PersonAppearance } from '../search/search.service';
 import { eventType, prettyDate, prettySourceLocation } from '../display-helpers';
-import { getLatestSearchQuery } from '../search-history';
+import { getLatestSearchQuery, getSearchHistory, SearchHistoryEntryType } from '../search-history';
 
 @Component({
   selector: 'app-person-appearance',
@@ -27,6 +27,27 @@ export class PersonAppearanceComponent implements OnInit {
 
   get prettyLastUpdatedDate() {
     return prettyDate(this.pa.last_updated);
+  }
+
+  get previousSearchHistoryEntry() {
+    return getSearchHistory()[1];
+  }
+
+  get relatedPersonsTitle() {
+    if(this.pa.event_type === "census") {
+      return "Husstand";
+    }
+    return "Relaterede personer";
+  }
+
+  previousSearchHistoryEntryIsConnectedLifecourse() {
+    const entry = this.previousSearchHistoryEntry;
+
+    if(entry.type !== SearchHistoryEntryType.Lifecourse) {
+      return false;
+    }
+
+    return entry.lifecourse.personAppearances.some((pa) => pa.id === this.pa.id);
   }
 
   ngOnInit(): void {

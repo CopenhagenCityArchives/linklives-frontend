@@ -86,7 +86,7 @@ export class SourceDataComponent implements OnInit {
         }
         return !isUndef;
       })
-      .map((key) => ({ label: this.standardizedDataFields[this.pa.event_type][key], value: this.pa[key] }));
+      .map((key) => ({ label: this.standardizedDataFields[this.pa.event_type][key], value: this.cleanValue(this.pa[key]) }));
   }
 
   sourceDataFields = {
@@ -115,7 +115,7 @@ export class SourceDataComponent implements OnInit {
         }
         return !isUndef;
       })
-      .map((key) => ({ label: this.sourceDataFields[this.pa.event_type][key], value: this.pa[key] }));
+      .map((key) => ({ label: this.sourceDataFields[this.pa.event_type][key], value: this.cleanValue(this.pa[key]) }));
   }
 
   excludeDataFields = [
@@ -135,7 +135,7 @@ export class SourceDataComponent implements OnInit {
 
     return Object.keys(this.pa)
       .filter((key) => !alreadyUsedFields.includes(key))
-      .map((key) => ({ label: key, value: this.pa[key] }));
+      .map((key) => ({ label: key, value: this.cleanValue(this.pa[key]) }));
   }
 
   originalDataFields = {
@@ -205,7 +205,14 @@ export class SourceDataComponent implements OnInit {
         }
         return !isUndef;
       })
-      .map((key) => ({ label: this.originalDataFields[this.pa.event_type][key], value: this.pa[key] }));
+      .map((key) => ({ label: this.originalDataFields[this.pa.event_type][key], value: this.cleanValue(this.pa[key]) }));
+  }
+
+  cleanValue(value) {
+    if(Array.isArray(value)) {
+      return value.join(", ");
+    }
+    return value;
   }
 
   ngOnInit(): void {

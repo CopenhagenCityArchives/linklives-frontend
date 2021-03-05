@@ -2,8 +2,10 @@
     <div class="lls-row lls-row--gap-3--md lls-row--gap-5--lg lls-row--gap-6--xl">
         <div class="lls-columns-12 lls-columns-6--md">
             <div class="data-section">
-                <h2>Original komplet indtastning</h2>
-                <table>
+                <h2 class="data-section__header">
+                    Original komplet indtastning
+                </h2>
+                <table class="data-section__table">
                     <tr *ngFor="let line of originalDataLines">
                         <th>{{ line.label }}</th>
                         <td>{{ line.value || '—' }}</td>
@@ -11,8 +13,10 @@
                 </table>
             </div>
             <div class="data-section">
-                <h2>Processeret data brugt til linking</h2>
-                <table>
+                <h2 class="data-section__header">
+                    Processeret data brugt til linking
+                </h2>
+                <table class="data-section__table">
                     <tr *ngFor="let line of standardizedDataLines">
                         <th>{{ line.label }}</th>
                         <td>{{ line.value || '—' }}</td>
@@ -22,8 +26,10 @@
         </div>
         <div class="lls-columns-12 lls-columns-6--md">
             <div class="data-section">
-                <h2>Om kilden</h2>
-                <table>
+                <h2 class="data-section__header">
+                    Om kilden
+                </h2>
+                <table class="data-section__table">
                     <tr *ngFor="let line of sourceDataLines">
                         <th>{{ line.label }}</th>
                         <td>{{ line.value || '—' }}</td>
@@ -31,8 +37,10 @@
                 </table>
             </div>
             <!--div class="data-section">
-                <h2>Anden data (rå)</h2>
-                <table>
+                <h2 class="data-section__header">
+                    Anden data (rå)
+                </h2>
+                <table class="data-section__table">
                     <tr *ngFor="let line of otherDataLines">
                         <th>{{ line.label }}</th>
                         <td>{{ line.value || '—' }}</td>

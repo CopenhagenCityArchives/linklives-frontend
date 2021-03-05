@@ -15,6 +15,7 @@ export interface SearchHistoryEntry {
   index?: string[],
   lifecourse?: LifecourseSearchHistoryEntry,
   personAppearance?: PersonAppearance,
+  timestamp?: Date,
 }
 
 export interface LifecourseSearchHistoryEntry {
@@ -33,10 +34,17 @@ export function onSearchHistoryEntry(listener: SearchHistoryEntryListener): void
 }
 
 export function addSearchHistoryEntry(entry: SearchHistoryEntry): void {
+  entry.timestamp = new Date();
+
   const existingHistory = getSearchHistory();
+
+  const entryData = unpick(entry, "timestamp");
+
   const history = [
     entry,
-    ...existingHistory.filter((existingEntry) => !isEqual(entry, existingEntry))
+    ...existingHistory.filter((existingEntry) => {
+      return !isEqual(entryData, unpick(existingEntry, "timestamp"));
+    })
   ].slice(0, 50);
 
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(history));
@@ -49,20 +57,31 @@ export function getSearchHistory(): SearchHistoryEntry[] {
     return [];
   }
 
+  let history;
   try {
-    return JSON.parse(raw) as SearchHistoryEntry[];
+    history = JSON.parse(raw) as SearchHistoryEntry[];
   }
   catch(error) {
     console.error("Invalid values (non-JSON) in local storage for search history --- cleaning up!");
     localStorage.removeItem(LOCAL_STORAGE_KEY);
     return [];
   }
+
+  return history.filter((entry) => entry.timestamp);
 }
 
 export function getLatestSearchQuery() {
-  const latestSearch = getSearchHistory().filter(item => item.type === "search_result")[0];
+  const latestSearch = getSearchHistory().find(item => item.type === "search_result");
   if(latestSearch) {
-    return { ...latestSearch.query, index: latestSearch.index };
+    return { ...latestSearch.query, index: latestSearch.index.join(",") };
   }
   return { query: "" };
+}
+
+function unpick(obj, key) {
+  const result = {};
+  Object.keys(obj)
+    .filter((objKey) => objKey != key)
+    .forEach((objKey) => result[objKey] = obj[objKey]);
+  return result;
 }

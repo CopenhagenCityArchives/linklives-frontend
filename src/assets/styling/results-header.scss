@@ -14,11 +14,30 @@
   margin-bottom: 0.25rem;
 }
 
+.lls-results-header__field-label--actions {
+  display: flex;
+}
+
+.lls-results-header__clear-search {
+  padding: 0.5rem 1rem;
+  color: white;
+  background-color: transparent;
+  border: none;
+  font-weight: inherit;
+  white-space: nowrap;
+}
+
 .lls-results-header__right-section {
   display: flex;
   align-items: flex-end;
   justify-content: flex-end;
   text-align: right;
+}
+
+.lls-results-header__link-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
 }
 
 .lls-results-header__checkboxes {
@@ -37,16 +56,19 @@
   margin-right: 5px;
 }
 
-.lls-results-header__history-link {
+.lls-results-header__link {
   color: white;
-  display: inline-block;
+  display: flex;
+  align-items: center;
   font-size: 1rem;
   cursor: pointer;
 
   &:hover {
     color: white;
   }
+}
 
+.lls-results-header__history-link {
   @media(max-width: $breakpointMd) {
     border: 1px solid white;
     padding: 0.5rem 1rem;

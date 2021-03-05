@@ -1,23 +1,28 @@
-// TODO: Fix naming and clean syling in this file
-.data-section h2 {
+.data-section__header {
   font-family: founders, Helvetica, Arial, sans-serif;
   font-size: 1.25em;
 }
 
-.data-section table {
-  border-top: 1px solid rgb(213, 213, 213);
+.data-section__table {
+  border-top: 1px solid $grey-border;
   font-size: 1.0625rem;
   margin: 1.25rem 0 5rem;
   width: 100%;
-}
-.data-section table tr {
-  border-bottom: 1px solid rgb(213, 213, 213);
-}
-.data-section table tr, .data-section table td {
-  padding: 0.75rem 0;
-}
-.data-section table th {
-  font-weight: 400;
-  padding-right: 1rem;
-  width: 33%;
+
+  tr,
+  td {
+    padding: 0.75rem 0;
+  }
+  
+  tr {
+    border-bottom: 1px solid $grey-border;
+  }
+  
+  th {
+    font-weight: 400;
+    padding-right: 1rem;
+    padding-top: 0.75rem;
+    width: 33%;
+    vertical-align: top;
+  }
 }
