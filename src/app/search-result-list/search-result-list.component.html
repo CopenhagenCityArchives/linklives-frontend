@@ -200,8 +200,8 @@
                 [ngClass]="{ 'lls-pagination__item--disabled': pagination.current === 1}" 
                 [tabindex]=" pagination.current === 1 ? -1 : 0"
                 aria-label="gå til forrige side"
-                [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current - 1 } ]"
-                [queryParams]="queryParams"
+                [routerLink]="['./']"
+                [queryParams]="paginationQueryParams(pagination.current - 1)"
             >
                 <svg class="lls-icon">
                     <use [attr.href]="featherSpriteUrl + '#arrow-left'"></use>
@@ -212,8 +212,8 @@
                 <a
                     class="lls-pagination__item"
                     aria-label="gå til første side"
-                    [routerLink]="['./', { 'size': pagination.size, 'page': 1 } ]"
-                    [queryParams]="queryParams"
+                    [routerLink]="['./']"
+                    [queryParams]="paginationQueryParams(1)"
                 >
                     <span class="lls-pagination__item-text">1</span>
                 </a>
@@ -228,8 +228,8 @@
             <a class="lls-pagination__item"
                 *ngFor="let page of pagination.navigationPages"
                 [ngClass]="{ 'lls-pagination__item--selected': pagination.current === page }"
-                [routerLink]="['./', { 'size': pagination.size, 'page': page } ]"
-                [queryParams]="queryParams"
+                [routerLink]="['./']"
+                [queryParams]="paginationQueryParams(page)"
             >
                 <span class="lls-pagination__item-text">
                     {{ prettyPaginationNumber(page) }}
@@ -245,8 +245,8 @@
                 </div>
                 <a
                     class="lls-pagination__item"
-                    [routerLink]="['./', { 'size': pagination.size, 'page': pagination.last } ]"
-                    [queryParams]="queryParams"
+                    [routerLink]="['./']"
+                    [queryParams]="paginationQueryParams(pagination.last)"
                 >
                     <span class="lls-pagination__item-text">
                         {{ prettyPaginationNumber(pagination.last) }}
@@ -259,8 +259,8 @@
                 [ngClass]="{ 'lls-pagination__item--disabled': pagination.current >= pagination.last }"
                 aria-label="gå til næste side"
                 [tabindex]="pagination.current >= pagination.last ? -1 : 0"
-                [routerLink]="['./', { 'size': pagination.size, 'page': pagination.current + 1 } ]"
-                [queryParams]="queryParams"
+                [routerLink]="['./']"
+                [queryParams]="paginationQueryParams(pagination.current + 1)"
             >
                 <svg class="lls-icon">
                     <use [attr.href]="featherSpriteUrl + '#arrow-right'"></use>
