@@ -292,7 +292,7 @@ export class ElasticsearchService {
       })
     }
 
-    let elasticSearchQuery: { bool?, nested? } = {
+    let elasticSearchQuery: Record<string, any> = {
       nested: {
         path: "person_appearance",
         query: {
