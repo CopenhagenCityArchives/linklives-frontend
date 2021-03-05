@@ -156,7 +156,7 @@ export class ElasticsearchService {
   search(indices: string[], body: any): Observable<SearchResult> {
     // TODO: Prettifiy the loading overlay code.
     this.loading.emit(true);
-    var result = new Observable<SearchResult>(observer => {
+    const result = new Observable<SearchResult>(observer => {
       this.http.post<ElasticSearchResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, body)
         .subscribe(next => {
           try {

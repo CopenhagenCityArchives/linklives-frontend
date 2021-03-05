@@ -1,5 +1,5 @@
-import { Component, OnInit, ElementRef, EventEmitter, forwardRef, Input, Output } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, OnInit, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { eventIcon, eventType, prettyNumbers } from '../display-helpers';
 
 export interface Option {
@@ -78,7 +78,7 @@ export class FilterSidebar implements OnInit {
   }
 
   activeFilter(optionValue) {
-    return this.filters.some((filterValue) => filterValue === optionValue)
+    return this.filters.some((filterValue) => filterValue === optionValue);
   }
 
   toggleCategory(type) {
