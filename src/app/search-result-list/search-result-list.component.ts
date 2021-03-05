@@ -222,7 +222,7 @@ export class SearchResultListComponent implements OnInit {
     this.search();
   }
 
-  closeSidebar(event) {
+  closeSidebar() {
     this.openSidebar = false;
     this.search();
   }
