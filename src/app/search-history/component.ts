@@ -41,6 +41,19 @@ export class SearchHistoryComponent implements OnInit {
       queryParams = { ...queryParams, ...entry.pagination };
     }
 
+    if(entry.sort) {
+      queryParams = { ...queryParams, ...entry.sort };
+    }
+
+    if(entry.sourceFilter) {
+      queryParams = {
+        ...queryParams,
+        sourceFilter: entry.sourceFilter
+          .map(({ event_type, source_year }) => `${event_type}_${source_year}`)
+          .join(",")
+      };
+    }
+
     if(Array.isArray(entry.index)) {
       queryParams.index = entry.index.join(",");
     }

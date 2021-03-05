@@ -1,5 +1,5 @@
 import isEqual from 'lodash.isequal';
-import { AdvancedSearchQuery, PersonAppearance } from './search/search.service';
+import { AdvancedSearchQuery, PersonAppearance, SourceIdentifier } from './search/search.service';
 
 const LOCAL_STORAGE_KEY = "lls_search_history";
 
@@ -14,14 +14,21 @@ export interface SearchResultPagination {
   size: Number,
 }
 
+export interface SearchResultSorting {
+  sortBy: string,
+  sortOrder: "asc" | "desc",
+}
+
 export interface SearchHistoryEntry {
   type: SearchHistoryEntryType,
   query?: AdvancedSearchQuery,
+  sourceFilter?: SourceIdentifier[],
   index?: string[],
   lifecourse?: LifecourseSearchHistoryEntry,
   personAppearance?: PersonAppearance,
   timestamp?: Date,
   pagination?: SearchResultPagination,
+  sort?: SearchResultSorting,
 }
 
 export interface LifecourseSearchHistoryEntry {
@@ -44,12 +51,12 @@ export function addSearchHistoryEntry(entry: SearchHistoryEntry): void {
 
   const existingHistory = getSearchHistory();
 
-  const entryData = unpick(entry, "timestamp", "pagination");
+  const entryData = unpick(entry, "timestamp", "pagination", "sort", "sourceFilter");
 
   const history = [
     entry,
     ...existingHistory.filter((existingEntry) => {
-      return !isEqual(entryData, unpick(existingEntry, "timestamp", "pagination"));
+      return !isEqual(entryData, unpick(existingEntry, "timestamp", "pagination", "sort", "sourceFilter"));
     })
   ].slice(0, 50);
 
