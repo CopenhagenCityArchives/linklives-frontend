@@ -1,9 +1,10 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery, Source, SourceIdentifier } from '../search/search.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { forkJoin, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { mapQueryMustKey, mapQueryShouldKey, sortValues } from 'src/app/search-term-values';
+import { map } from 'rxjs/operators';
 
 export interface ElasticDocResult {
   _index: "lifecourses" | "pas" | "links",
@@ -54,6 +55,11 @@ export interface ElasticSearchResult {
         doc_count: number
       }[]
     },
+  }
+}
+
+export interface ElasticSourceLookupResult {
+  aggregations?: {
     person_appearance: {
       sources: {
         buckets: {
@@ -125,20 +131,20 @@ export class ElasticsearchService {
     };
   }
 
-  private handleResult(elasticResult: ElasticSearchResult): SearchResult {
-    let result: SearchResult = {
-      took: elasticResult.took,
+  private handleResult(searchResult: ElasticSearchResult, sourceLookupResult?: ElasticSourceLookupResult): SearchResult {
+    const result: SearchResult = {
+      took: searchResult.took,
       totalHits: 0,
       indexHits: {},
       hits: [],
       meta: {
-        possibleSources: elasticResult.aggregations?.person_appearance?.sources?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+        possibleSources: sourceLookupResult?.aggregations?.person_appearance?.sources?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
       },
     };
 
-    result.hits = elasticResult.hits.hits.map<SearchHit>(this.handleHit);
+    result.hits = searchResult.hits.hits.map<SearchHit>(this.handleHit);
 
-    elasticResult.aggregations?.count.buckets.forEach(value => {
+    searchResult.aggregations?.count.buckets.forEach(value => {
       result.totalHits += value.doc_count;
       if (value.key == "pas") {
         result.indexHits.pas = value.doc_count;
@@ -153,28 +159,42 @@ export class ElasticsearchService {
 
   loading = new EventEmitter<boolean>();
 
-  search(indices: string[], body: any): Observable<SearchResult> {
-    // TODO: Prettifiy the loading overlay code.
-    this.loading.emit(true);
-    const result = new Observable<SearchResult>(observer => {
-      this.http.post<ElasticSearchResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, body)
-        .subscribe(next => {
-          try {
-            observer.next(this.handleResult(next));
-          } catch (error) {
-            observer.error(error);
-          }
-        }, error => {
-          window.setTimeout(function() {
-            this.loading.emit(false);
-          }, 3000);
-          observer.error(error);
-        }, () => {
-          observer.complete();
-            this.loading.emit(false);
-        });
+  search(indices: string[], body: any, sourceFilterBody?: any): Observable<SearchResult> {
+    const loadingEmitter = this.loading;
+    loadingEmitter.emit(true);
+
+    interface SearchRequests {
+      search: Observable<ElasticSearchResult>,
+      sourceLookup?: Observable<ElasticSourceLookupResult>,
+    };
+    const requests: SearchRequests = {
+      search: this.http.post<ElasticSearchResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, body),
+    };
+
+    if(sourceFilterBody) {
+      requests.sourceLookup = this.http.post<ElasticSourceLookupResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, sourceFilterBody);
+    }
+
+    // Prep observable that will send both requests and merge results in handleResult
+    const observable = forkJoin(requests)
+      .pipe(map(({ search, sourceLookup }) => {
+        loadingEmitter.emit(false);
+        return this.handleResult(search, sourceLookup);
+      }));
+
+    // Handle loading by listening to the observable
+    observable.subscribe({
+      error() {
+        window.setTimeout(() => loadingEmitter.emit(false), 3000);
+      },
+
+      complete() {
+        loadingEmitter.emit(false);
+      }
     });
-    return result;
+
+    // Return observable so the caller of this function can listen to it
+    return observable;
   }
 
   createSortClause(sortBy: string, sortOrder: string) {
@@ -224,6 +244,7 @@ export class ElasticsearchService {
     const sort = this.createSortClause(sortBy, sortOrder);
 
     const must = [];
+    let sourceLookupFilter = must;
 
     Object.keys(query).filter((queryKey) => query[queryKey]).forEach((queryKey) => {
       const value = query[queryKey];
@@ -266,6 +287,10 @@ export class ElasticsearchService {
     });
 
     if(sourceFilter.length) {
+      // Copy must into sourceLookupFilter to avoid the following push being added to this list, too
+      sourceLookupFilter = [ ...must ];
+
+      // Add source filter to only the must filter (but not the source lookup filter)
       must.push({
         bool: {
           should: sourceFilter.map(({ source_year, event_type }) => {
@@ -297,12 +322,34 @@ export class ElasticsearchService {
           score_mode: "max",
         },
       },
+      post_filter: {
+        terms: {
+          _index: indices
+        }
+      },
       aggs: {
         count: {
           terms: {
             field: "_index"
           }
         },
+      },
+      sort,
+    };
+
+    const sourceFilterBody = {
+      from: from,
+      size: size,
+      query: {
+        nested: {
+          path: "person_appearance",
+          query: {
+            bool: { must: sourceLookupFilter },
+          },
+          score_mode: "max",
+        },
+      },
+      aggs: {
         person_appearance: {
           nested: { path: "person_appearance" },
           aggs:{
@@ -323,10 +370,9 @@ export class ElasticsearchService {
           _index: indices
         }
       },
-      sort,
     };
 
-    return this.search(indices, body);
+    return this.search(indices, body, sourceFilterBody);
   }
 
   getDocument(index: string, id: string|number): Observable<Source|PersonAppearance|PersonAppearance[]> {
