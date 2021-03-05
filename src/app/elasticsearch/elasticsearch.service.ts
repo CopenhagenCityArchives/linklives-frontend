@@ -252,7 +252,6 @@ export class ElasticsearchService {
       const exactKey = mapQueryExactKey[queryKey];
 
       if(exactKey) {
-        console.warn("EXACT", exactKey);
         must.push({
           term: { [`person_appearance.${exactKey}`]: value }
         });
@@ -293,21 +292,34 @@ export class ElasticsearchService {
       })
     }
 
+    let elasticSearchQuery: { bool?, nested? } = {
+      nested: {
+        path: "person_appearance",
+        query: {
+          bool: { must },
+        },
+        score_mode: "max",
+      },
+    };
+
+    if(query.lifeCourseId) {
+      elasticSearchQuery = {
+        bool: {
+          must: [
+            { term: { life_course_id: query.lifeCourseId } },
+            elasticSearchQuery,
+          ]
+        }
+      };
+    }
+
     const body = {
       from: from,
       size: size,
       indices_boost: [
         { 'lifecourses': 1.05 },
       ],
-      query: {
-        nested: {
-          path: "person_appearance",
-          query: {
-            bool: { must },
-          },
-          score_mode: "max",
-        },
-      },
+      query: elasticSearchQuery,
       aggs: {
         count: {
           terms: {

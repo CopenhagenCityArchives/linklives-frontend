@@ -74,7 +74,7 @@ export const searchFieldPlaceholders = {
   sourceYear: "Indtast kildeår",
   deathYear: "Indtast dødsår",
   id: "Kilde ID",
-  // lifeCourseId: "Livsforløbs ID",
+  lifeCourseId: "Livsforløbs ID",
   //maritalStatus: "Indtast civilstand",
 };
 
@@ -99,7 +99,7 @@ export const searchFieldLabels = {
   sourceYear: "Kildeår",
   deathYear: "Dødsår",
   id: "Kilde ID",
-  // life_course_id: "Livsforløbs ID",
+  lifeCourseId: "Livsforløbs ID",
   // index: "Resultattype",
   // maritalStatus: "Civilstand",
 };
@@ -133,7 +133,7 @@ export const allYearFields: Array<Option | Category> = [
 export const allOtherFields: Array<Option | Category> = [
   "query",
   "id",
-  // "life_course_id",
+  "lifeCourseId",
 ].map((f) => toFieldOption(f));
 
 export const fieldOptions = [

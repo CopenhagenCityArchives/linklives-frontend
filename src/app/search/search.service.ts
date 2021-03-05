@@ -127,6 +127,7 @@ export interface AdvancedSearchQuery {
   county?: string,
   birthPlace?: string,
   maritalStatus?: string,
+  lifeCourseId?: string,
 }
 
 @Injectable({
