@@ -339,7 +339,7 @@ export class ElasticsearchService {
 
     const sourceFilterBody = {
       from: from,
-      size: size,
+      size: 0,
       query: {
         nested: {
           path: "person_appearance",
