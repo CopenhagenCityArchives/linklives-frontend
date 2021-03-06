@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { mapQueryMustKey, mapQueryShouldKey, sortValues } from 'src/app/search-term-values';
-import { map } from 'rxjs/operators';
+import { map, share } from 'rxjs/operators';
 
 export interface ElasticDocResult {
   _index: "lifecourses" | "pas" | "links",
@@ -168,11 +168,11 @@ export class ElasticsearchService {
       sourceLookup?: Observable<ElasticSourceLookupResult>,
     };
     const requests: SearchRequests = {
-      search: this.http.post<ElasticSearchResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, body),
+      search: this.http.post<ElasticSearchResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, body).pipe(share()),
     };
 
     if(sourceFilterBody) {
-      requests.sourceLookup = this.http.post<ElasticSourceLookupResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, sourceFilterBody);
+      requests.sourceLookup = this.http.post<ElasticSourceLookupResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, sourceFilterBody).pipe(share());
     }
 
     // Prep observable that will send both requests and merge results in handleResult
