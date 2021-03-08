@@ -18,8 +18,13 @@ export const mapSearchKeys = {
     default: "sourceplace_searchable",
   },
   //birthYear: {}, //not implemented in elasticsearch yet
-  sourceYear: "source_year",
-  deathYear: "dateOfDeath",
+  sourceYear: {
+    default: "source_year_agg"
+  },
+  deathYear: {
+    default: "deathyear_searchable",
+    fuzzy: "deathyear_searchable_fz",
+  },
 };
 
 export const sortValues = {
