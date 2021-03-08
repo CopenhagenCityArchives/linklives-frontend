@@ -255,6 +255,7 @@ export class ElasticsearchService {
             query: value,
             fields: ["*"],
             default_operator: "and",
+            analyze_wildcard: true,
           },
         });
         return;
