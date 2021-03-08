@@ -267,6 +267,12 @@ export class ElasticsearchService {
 
       const searchKey = searchKeyConfig[mode] || searchKeyConfig.default;
 
+      if(/[\?\*]/.test(value)) {
+        must.push({
+          wildcard: { [`person_appearance.${searchKey}`]: value }
+        });
+        return;
+      }
       must.push({
         match: { [`person_appearance.${searchKey}`]: value }
       });
