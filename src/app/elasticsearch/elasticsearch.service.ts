@@ -283,7 +283,7 @@ export class ElasticsearchService {
             return {
               bool: {
                 must: [
-                  { match: { [`person_appearance.source_year`]: source_year } },
+                  { match: { [`person_appearance.source_year_agg`]: source_year } },
                   { match: { [`person_appearance.event_type_agg`]: event_type } },
                 ]
               }
@@ -342,7 +342,7 @@ export class ElasticsearchService {
             sources: {
               composite: {
                 sources: [
-                  { source_year: { terms: { field: "person_appearance.source_year" } } },
+                  { source_year: { terms: { field: "person_appearance.source_year_agg" } } },
                   { event_type: { terms: { field: "person_appearance.event_type_agg" } } },
                 ],
                 size: 10000
