@@ -15,28 +15,31 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
     state: RouterStateSnapshot
   ) : Observable<SearchResult> | Observable<never> {
 
-    let page: number = Number(route.paramMap.get('page'))
+    let page: number = Number(route.queryParamMap.get('page'))
     if (page < 1 || page == NaN) {
       page = 1;
     }
 
-    let size: number = Number(route.paramMap.get('size'));
+    let size: number = Number(route.queryParamMap.get('size'));
     if (size < 1 || page == NaN) {
       size = 10;
     }
 
     let sortBy: string = route.queryParamMap.get('sortBy') || "relevance";
-    let sortOrder: string = route.queryParamMap.get('sortOrder') === "desc" ? "desc" : "asc";
+    let sortOrder: "asc" | "desc" = route.queryParamMap.get('sortOrder') === "desc" ? "desc" : "asc";
     const sourceFilterRaw = route.queryParamMap.get("sourceFilter");
 
-    let sourceFilter = [];
+    let sourceFilter: SourceIdentifier[] = [];
     if(sourceFilterRaw) {
       sourceFilter = sourceFilterRaw
         .split(",")
         .filter(x => x)
         .map((id) => {
           const [ event_type, source_year ] = id.split("_");
-          return { event_type, source_year };
+          return {
+            event_type,
+            source_year: Number(source_year),
+          };
         });
     }
 
@@ -71,7 +74,10 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
     addSearchHistoryEntry({
       type: SearchHistoryEntryType.SearchResult,
       query: actualSearchTerms,
+      sourceFilter,
       index,
+      pagination: { page, size },
+      sort: { sortBy, sortOrder },
     });
 
     return this.service.advancedSearch(actualSearchTerms, index, (page - 1) * size, size, sortBy, sortOrder, sourceFilter);
