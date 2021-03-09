@@ -396,23 +396,18 @@ export class ElasticsearchService {
       return { resultLookupQuery, sourceLookupQuery };
     }
 
-    return {
-      resultLookupQuery: {
-        bool: {
-          must: [
-            { term: { life_course_id: query.lifeCourseId } },
-            resultLookupQuery,
-          ]
-        }
-      },
-      sourceLookupQuery: {
-        bool: {
-          must: [
-            { term: { life_course_id: query.lifeCourseId } },
-            sourceLookupQuery,
-          ]
-        }
+    const includeLifeCouseInQuery = (query) => ({
+      bool: {
+        must: [
+          { term: { life_course_id: query.lifeCourseId } },
+          query,
+        ]
       }
+    });
+
+    return {
+      resultLookupQuery: includeLifeCouseInQuery(resultLookupQuery),
+      sourceLookupQuery: includeLifeCouseInQuery(sourceLookupQuery),
     };
   }
 
