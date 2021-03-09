@@ -26,7 +26,7 @@ export const sortValues = {
   relevance: [ "_score" ],
   firstName: [ "first_names_sortable" ],
   lastName: [ "family_names_sortable" ],
-  birthYear: [ "birth_year" ],
+  birthYear: [ "birth_year" ], //TODO: field only exists on burials right now
 };
 
 // Advanced search

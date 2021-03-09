@@ -1,13 +1,11 @@
 import { PersonAppearance } from './search/search.service';
 
-export function prettySourceLocation({ parish, parish_type, district, county, event_type }: PersonAppearance) {
+export function prettySourceLocation({ sourceplace_display, event_type }: PersonAppearance) {
   return [
     ...new Set(
       [
         event_type === "burial" ? "Københavns begravelsesprotokoller" : null,
-        parish_type === "Sogn" ? `${parish} sogn` : parish,
-        district ? `${district} herred` : null,
-        county ? `${county} amt` : null,
+        sourceplace_display
       ].filter((x) => x)
     )
   ].join(", ");
@@ -15,43 +13,18 @@ export function prettySourceLocation({ parish, parish_type, district, county, ev
 
 export function prettyBirthLocation(
   {
-    birth_place_parish,
-    birth_place_district,
-    birth_place_county,
-    birth_place_koebstad,
-    birth_place_town,
-    birth_place_place,
-    birth_place_island,
-    birth_place_other,
-    birth_place_clean,
+    birthplace_display,
   }: PersonAppearance
 ) {
-  const location = [
-    ...new Set(
-      [
-        birth_place_parish,
-        birth_place_district,
-        birth_place_county,
-        birth_place_koebstad,
-        birth_place_town,
-        birth_place_place,
-        birth_place_island,
-        birth_place_other,
-      ].filter((x) => x)
-    )
-  ].join(", ");
-
-  return location || birth_place_clean;
+  return birthplace_display;
 };
 
 export function prettyBirthYear(
   {
-    source_year,
-    age_clean,
-    birth_year,
+    birthyear_display,
   }: PersonAppearance
 ) {
-  return birth_year || `ca. ${source_year - age_clean}`;
+  return birthyear_display;
 };
 
 export function prettyDeathYear(
@@ -66,7 +39,7 @@ export function prettyDeathYear(
 };
 
 export function prettyFullName(personAppearance: PersonAppearance) {
-  return personAppearance.name_clean || `${prettyFirstName(personAppearance)} ${prettyLastName(personAppearance)}`;
+  return personAppearance.name_display;
 }
 
 export function prettyFirstName(
