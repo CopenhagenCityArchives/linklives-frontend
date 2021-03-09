@@ -3,7 +3,7 @@ import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery, Source,
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { mapQueryMustKey, mapQueryShouldKey, sortValues } from 'src/app/search-term-values';
+import { mapQueryMustKey, mapQueryExactKey, mapQueryShouldKey, sortValues } from 'src/app/search-term-values';
 
 export interface ElasticDocResult {
   _index: "lifecourses" | "pas" | "links",
@@ -249,6 +249,16 @@ export class ElasticsearchService {
         return;
       }
 
+      const exactKey = mapQueryExactKey[queryKey];
+
+      if(exactKey) {
+        must.push({
+          term: { [`person_appearance.${exactKey}`]: value }
+        });
+
+        return;
+      }
+
       const shouldKeys = mapQueryShouldKey[queryKey];
 
       if(shouldKeys) {
@@ -282,21 +292,34 @@ export class ElasticsearchService {
       })
     }
 
+    let elasticSearchQuery: Record<string, any> = {
+      nested: {
+        path: "person_appearance",
+        query: {
+          bool: { must },
+        },
+        score_mode: "max",
+      },
+    };
+
+    if(query.lifeCourseId) {
+      elasticSearchQuery = {
+        bool: {
+          must: [
+            { term: { life_course_id: query.lifeCourseId } },
+            elasticSearchQuery,
+          ]
+        }
+      };
+    }
+
     const body = {
       from: from,
       size: size,
       indices_boost: [
         { 'lifecourses': 1.05 },
       ],
-      query: {
-        nested: {
-          path: "person_appearance",
-          query: {
-            bool: { must },
-          },
-          score_mode: "max",
-        },
-      },
+      query: elasticSearchQuery,
       aggs: {
         count: {
           terms: {

@@ -53,6 +53,8 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       //"birthYear",
       "sourceYear",
       "deathYear",
+      "id",
+      "lifeCourseId",
       //"maritalStatus",
     ];
 
