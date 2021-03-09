@@ -349,7 +349,9 @@ export class ElasticsearchService {
         return;
       }
 
-      console.warn("[elasticsearch.service] key we don't know how to search on provided", queryKey);
+      if(queryKey != "lifeCourseId") {
+        console.warn("[elasticsearch.service] key we don't know how to search on provided", queryKey);
+      }
     });
 
     if(sourceFilter.length) {
