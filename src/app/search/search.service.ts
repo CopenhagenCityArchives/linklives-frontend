@@ -123,11 +123,14 @@ export interface AdvancedSearchQuery {
   query?: string,
   firstName?: string,
   lastName?: string,
-  parish?: string,
-  county?: string,
+  birthName?: string,
   birthPlace?: string,
-  maritalStatus?: string,
+  sourcePlace?: string,
+  sourceYear?: string,
+  deathYear?: string,
+  id?: string,
   lifeCourseId?: string,
+  // maritalStatus?: string,
 }
 
 @Injectable({
