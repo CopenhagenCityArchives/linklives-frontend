@@ -304,6 +304,7 @@ export class ElasticsearchService {
     Object.keys(query).filter((queryKey) => query[queryKey]).forEach((queryKey) => {
       const value = query[queryKey];
 
+      // Special case: query
       if(queryKey === "query") {
         must.push({
           simple_query_string: {
@@ -389,6 +390,7 @@ export class ElasticsearchService {
       return { resultLookupQuery, sourceLookupQuery };
     }
 
+    // Special case: life_course_id
     const includeLifeCouseInQuery = (query) => ({
       bool: {
         must: [
