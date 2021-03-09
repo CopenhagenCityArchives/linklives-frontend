@@ -3,7 +3,7 @@ import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery, Source,
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { mapQueryMustKey, mapQueryShouldKey, sortValues } from 'src/app/search-term-values';
+import { mapQueryMustKey, mapQueryExactKey, mapQueryShouldKey, sortValues } from 'src/app/search-term-values';
 import { map, share } from 'rxjs/operators';
 
 export interface ElasticDocResult {
@@ -270,6 +270,16 @@ export class ElasticsearchService {
         return;
       }
 
+      const exactKey = mapQueryExactKey[queryKey];
+
+      if(exactKey) {
+        must.push({
+          term: { [`person_appearance.${exactKey}`]: value }
+        });
+
+        return;
+      }
+
       const shouldKeys = mapQueryShouldKey[queryKey];
 
       if(shouldKeys) {
@@ -307,21 +317,53 @@ export class ElasticsearchService {
       })
     }
 
+    let resultLookupQuery: Record<string, any> = {
+      nested: {
+        path: "person_appearance",
+        query: {
+          bool: { must },
+        },
+        score_mode: "max",
+      },
+    };
+    
+    let sourceLookupQuery: Record<string, any> = {
+      nested: {
+        path: "person_appearance",
+        query: {
+          bool: { must: sourceLookupFilter },
+        },
+        score_mode: "max",
+      },
+    };
+
+    if(query.lifeCourseId) {
+      resultLookupQuery = {
+        bool: {
+          must: [
+            { term: { life_course_id: query.lifeCourseId } },
+            resultLookupQuery,
+          ]
+        }
+      };
+
+      sourceLookupQuery = {
+        bool: {
+          must: [
+            { term: { life_course_id: query.lifeCourseId } },
+            sourceLookupQuery,
+          ]
+        }
+      };
+    }
+
     const body = {
       from: from,
       size: size,
       indices_boost: [
         { 'lifecourses': 1.05 },
       ],
-      query: {
-        nested: {
-          path: "person_appearance",
-          query: {
-            bool: { must },
-          },
-          score_mode: "max",
-        },
-      },
+      query: resultLookupQuery,
       post_filter: {
         terms: {
           _index: indices
@@ -340,15 +382,7 @@ export class ElasticsearchService {
     const sourceFilterBody = {
       from: from,
       size: 0,
-      query: {
-        nested: {
-          path: "person_appearance",
-          query: {
-            bool: { must: sourceLookupFilter },
-          },
-          score_mode: "max",
-        },
-      },
+      query: sourceLookupQuery,
       aggs: {
         person_appearance: {
           nested: { path: "person_appearance" },
