@@ -1,5 +1,5 @@
-import { Component, OnInit, ElementRef, EventEmitter, forwardRef, Input, Output } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, OnInit, EventEmitter, forwardRef, Input, Output } from '@angular/core';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { eventIcon, eventType, prettyNumbers } from '../display-helpers';
 
 export interface Option {
@@ -56,10 +56,31 @@ export class FilterSidebar implements OnInit {
 
   filtersWithLabels = [];
   sidebarCategoryOpen: String = undefined;
-  filtersCategories = {};
   _filters: number[] = [];
   onChange: Function = () => {};
   onTouched: Function = () => {};
+
+  get filtersCategories() {
+    const result = {};
+
+    this.possibleSources.forEach(x => {
+      const prettyEventType = eventType({ event_type: x.event_type });
+      const filter =  {
+        label: `${prettyEventType} ${x.source_year}`,
+        type: prettyEventType,
+        icon: eventIcon(x.event_type),
+        value: `${x.event_type}_${x.source_year}`,
+        count: prettyNumbers(x.count),
+        chosen: false,
+      };
+      if(!result[x.event_type]) {
+        result[x.event_type] = [];
+      }
+      result[x.event_type].push(filter);
+    });
+
+    return result;
+  }
 
   close() {
     this.onChange([...this.filters]);
@@ -78,7 +99,7 @@ export class FilterSidebar implements OnInit {
   }
 
   activeFilter(optionValue) {
-    return this.filters.some((filterValue) => filterValue === optionValue)
+    return this.filters.some((filterValue) => filterValue === optionValue);
   }
 
   toggleCategory(type) {
@@ -92,22 +113,6 @@ export class FilterSidebar implements OnInit {
     }
   }
 
-  ngOnInit(): void {
-    this.possibleSources.forEach(x => {
-      const prettyEventType = eventType({ event_type: x.event_type });
-      const filter =  {
-        label: `${prettyEventType} ${x.source_year}`,
-        type: prettyEventType,
-        icon: eventIcon(x.event_type),
-        value: `${x.event_type}_${x.source_year}`,
-        count: prettyNumbers(x.count),
-        chosen: false,
-      };
-      if(!this.filtersCategories[x.event_type]) {
-        this.filtersCategories[x.event_type] = [];
-      }
-      this.filtersCategories[x.event_type].push(filter);
-    });
-  }
+  ngOnInit(): void {}
 
 }
