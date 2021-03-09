@@ -243,6 +243,61 @@ export class ElasticsearchService {
 
     const sort = this.createSortClause(sortBy, sortOrder);
 
+    const { resultLookupQuery, sourceLookupQuery } = this.createQueries(query, sourceFilter);
+
+    const body = {
+      from: from,
+      size: size,
+      indices_boost: [
+        { 'lifecourses': 1.05 },
+      ],
+      query: resultLookupQuery,
+      post_filter: {
+        terms: {
+          _index: indices
+        }
+      },
+      aggs: {
+        count: {
+          terms: {
+            field: "_index"
+          }
+        },
+      },
+      sort,
+    };
+
+    const sourceFilterBody = {
+      from: from,
+      size: 0,
+      query: sourceLookupQuery,
+      aggs: {
+        person_appearance: {
+          nested: { path: "person_appearance" },
+          aggs:{
+            sources: {
+              composite: {
+                sources: [
+                  { source_year: { terms: { field: "person_appearance.source_year" } } },
+                  { event_type: { terms: { field: "person_appearance.event_type" } } },
+                ],
+                size: 10000
+              }
+            },
+          }
+        },
+      },
+      post_filter: {
+        terms: {
+          _index: indices
+        }
+      },
+    };
+
+    return this.search(indices, body, sourceFilterBody);
+  }
+
+  createQueries(query: AdvancedSearchQuery, sourceFilter: SourceIdentifier[]) {
     const must = [];
     let sourceLookupFilter = must;
 
@@ -317,7 +372,7 @@ export class ElasticsearchService {
       })
     }
 
-    let resultLookupQuery: Record<string, any> = {
+    const resultLookupQuery: Record<string, any> = {
       nested: {
         path: "person_appearance",
         query: {
@@ -327,7 +382,7 @@ export class ElasticsearchService {
       },
     };
     
-    let sourceLookupQuery: Record<string, any> = {
+    const sourceLookupQuery: Record<string, any> = {
       nested: {
         path: "person_appearance",
         query: {
@@ -337,76 +392,28 @@ export class ElasticsearchService {
       },
     };
 
-    if(query.lifeCourseId) {
-      resultLookupQuery = {
+    if(!query.lifeCourseId) {
+      return { resultLookupQuery, sourceLookupQuery };
+    }
+
+    return {
+      resultLookupQuery: {
         bool: {
           must: [
             { term: { life_course_id: query.lifeCourseId } },
             resultLookupQuery,
           ]
         }
-      };
-
-      sourceLookupQuery = {
+      },
+      sourceLookupQuery: {
         bool: {
           must: [
             { term: { life_course_id: query.lifeCourseId } },
             sourceLookupQuery,
           ]
         }
-      };
-    }
-
-    const body = {
-      from: from,
-      size: size,
-      indices_boost: [
-        { 'lifecourses': 1.05 },
-      ],
-      query: resultLookupQuery,
-      post_filter: {
-        terms: {
-          _index: indices
-        }
-      },
-      aggs: {
-        count: {
-          terms: {
-            field: "_index"
-          }
-        },
-      },
-      sort,
+      }
     };
-
-    const sourceFilterBody = {
-      from: from,
-      size: 0,
-      query: sourceLookupQuery,
-      aggs: {
-        person_appearance: {
-          nested: { path: "person_appearance" },
-          aggs:{
-            sources: {
-              composite: {
-                sources: [
-                  { source_year: { terms: { field: "person_appearance.source_year" } } },
-                  { event_type: { terms: { field: "person_appearance.event_type" } } },
-                ],
-                size: 10000
-              }
-            },
-          }
-        },
-      },
-      post_filter: {
-        terms: {
-          _index: indices
-        }
-      },
-    };
-
-    return this.search(indices, body, sourceFilterBody);
   }
 
   getDocument(index: string, id: string|number): Observable<Source|PersonAppearance|PersonAppearance[]> {
