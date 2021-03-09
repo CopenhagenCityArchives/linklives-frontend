@@ -391,11 +391,11 @@ export class ElasticsearchService {
     }
 
     // Special case: life_course_id
-    const includeLifeCouseInQuery = (query) => ({
+    const includeLifeCouseInQuery = (oldQuery) => ({
       bool: {
         must: [
           { term: { life_course_id: query.lifeCourseId } },
-          query,
+          oldQuery,
         ]
       }
     });
