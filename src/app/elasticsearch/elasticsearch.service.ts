@@ -372,7 +372,7 @@ export class ElasticsearchService {
       })
     }
 
-    const resultLookupQuery: Record<string, any> = {
+    const getFullPersonAppearanceQueryFromMustQuery = (must) => ({
       nested: {
         path: "person_appearance",
         query: {
@@ -380,17 +380,10 @@ export class ElasticsearchService {
         },
         score_mode: "max",
       },
-    };
-    
-    const sourceLookupQuery: Record<string, any> = {
-      nested: {
-        path: "person_appearance",
-        query: {
-          bool: { must: sourceLookupFilter },
-        },
-        score_mode: "max",
-      },
-    };
+    });
+
+    const resultLookupQuery: Record<string, any> = getFullPersonAppearanceQueryFromMustQuery(must);
+    const sourceLookupQuery: Record<string, any> = getFullPersonAppearanceQueryFromMustQuery(sourceLookupFilter);
 
     if(!query.lifeCourseId) {
       return { resultLookupQuery, sourceLookupQuery };
