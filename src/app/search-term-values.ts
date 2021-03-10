@@ -1,6 +1,9 @@
 import { Category, Option } from './form-elements/dropdown/component';
 
 export const mapSearchKeys = {
+  id: {
+    exact: "id",
+  },
   firstName: {
     default: "firstnames_searchable",
     fuzzy: "firstnames_searchable_fz",
@@ -46,6 +49,8 @@ export const searchFieldPlaceholders = {
   //birthYear: "Indtast fødeår",
   sourceYear: "Indtast kildeår",
   deathYear: "Indtast dødsår",
+  id: "Kilde ID",
+  lifeCourseId: "Livsforløbs ID",
   //maritalStatus: "Indtast civilstand",
 };
 
@@ -69,8 +74,10 @@ export const searchFieldLabels = {
   birthYear: "Fødselsår",
   sourceYear: "Kildeår",
   deathYear: "Dødsår",
+  id: "Kilde ID",
+  lifeCourseId: "Livsforløbs ID",
   // index: "Resultattype",
-  //maritalStatus: "Civilstand",
+  // maritalStatus: "Civilstand",
 };
 
 export function toFieldOption(key) {
@@ -100,7 +107,9 @@ export const allYearFields: Array<Option | Category> = [
 ].map((f) => toFieldOption(f));
 
 export const allOtherFields: Array<Option | Category> = [
-  "query"
+  "query",
+  "id",
+  "lifeCourseId",
 ].map((f) => toFieldOption(f));
 
 export const fieldOptions = [
