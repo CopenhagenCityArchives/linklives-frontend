@@ -40,6 +40,7 @@
 .lls-pagination__item--disabled {
   color: rgba(0,0,0,0.2);
   cursor: default;
+  pointer-events: none;
 
   &:hover {
     color: rgba(0,0,0,0.2);
