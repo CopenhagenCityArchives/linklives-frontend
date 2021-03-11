@@ -1,6 +1,9 @@
 import { Category, Option } from './form-elements/dropdown/component';
 
 export const mapSearchKeys = {
+  id: {
+    exact: "id",
+  },
   firstName: {
     default: "firstnames_searchable",
     fuzzy: "firstnames_searchable_fz",
@@ -17,16 +20,24 @@ export const mapSearchKeys = {
   sourcePlace: {
     default: "sourceplace_searchable",
   },
-  //birthYear: {}, //not implemented in elasticsearch yet
-  sourceYear: "source_year",
-  deathYear: "dateOfDeath",
+  birthYear: {
+    default: "birthyear_searchable",
+    fuzzy: "birthyear_searchable_fz",
+  },
+  sourceYear: {
+    default: "source_year_agg"
+  },
+  deathYear: {
+    default: "deathyear_searchable",
+    fuzzy: "deathyear_searchable_fz",
+  },
 };
 
 export const sortValues = {
   relevance: [ "_score" ],
   firstName: [ "first_names_sortable" ],
   lastName: [ "family_names_sortable" ],
-  birthYear: [ "birth_year" ],
+  birthYear: [ "birthyear_sortable" ],
 };
 
 // Advanced search
@@ -38,9 +49,11 @@ export const searchFieldPlaceholders = {
   birthPlace: "Indtast fødested",
   sourcePlace: "Indtast kildested",
   //deathPlace: "Indtast dødssted",
-  //birthYear: "Indtast fødeår",
+  birthYear: "Indtast fødeår",
   sourceYear: "Indtast kildeår",
   deathYear: "Indtast dødsår",
+  id: "Kilde ID",
+  lifeCourseId: "Livsforløbs ID",
   //maritalStatus: "Indtast civilstand",
 };
 
@@ -50,7 +63,7 @@ export const sortByOptions = [
   { label: "Relevans", value: "relevance" },
   { label: "Fornavn", value: "firstName" },
   { label: "Efternavn", value: "lastName" },
-  { label: "Fødselsår", value: "birthYear", disabled: true },
+  { label: "Fødselsår", value: "birthYear" },
 ];
 
 export const searchFieldLabels = {
@@ -64,8 +77,10 @@ export const searchFieldLabels = {
   birthYear: "Fødselsår",
   sourceYear: "Kildeår",
   deathYear: "Dødsår",
+  id: "Kilde ID",
+  lifeCourseId: "Livsforløbs ID",
   // index: "Resultattype",
-  //maritalStatus: "Civilstand",
+  // maritalStatus: "Civilstand",
 };
 
 export function toFieldOption(key) {
@@ -95,7 +110,9 @@ export const allYearFields: Array<Option | Category> = [
 ].map((f) => toFieldOption(f));
 
 export const allOtherFields: Array<Option | Category> = [
-  "query"
+  "query",
+  "id",
+  "lifeCourseId",
 ].map((f) => toFieldOption(f));
 
 export const fieldOptions = [

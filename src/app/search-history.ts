@@ -1,5 +1,5 @@
 import isEqual from 'lodash.isequal';
-import { AdvancedSearchQuery, PersonAppearance } from './search/search.service';
+import { AdvancedSearchQuery, PersonAppearance, SourceIdentifier } from './search/search.service';
 
 const LOCAL_STORAGE_KEY = "lls_search_history";
 
@@ -9,13 +9,26 @@ export enum SearchHistoryEntryType {
   Census = "census",
 }
 
+export interface SearchResultPagination {
+  page: Number,
+  size: Number,
+}
+
+export interface SearchResultSorting {
+  sortBy: string,
+  sortOrder: "asc" | "desc",
+}
+
 export interface SearchHistoryEntry {
   type: SearchHistoryEntryType,
   query?: AdvancedSearchQuery,
+  sourceFilter?: SourceIdentifier[],
   index?: string[],
   lifecourse?: LifecourseSearchHistoryEntry,
   personAppearance?: PersonAppearance,
   timestamp?: Date,
+  pagination?: SearchResultPagination,
+  sort?: SearchResultSorting,
 }
 
 export interface LifecourseSearchHistoryEntry {
@@ -38,12 +51,12 @@ export function addSearchHistoryEntry(entry: SearchHistoryEntry): void {
 
   const existingHistory = getSearchHistory();
 
-  const entryData = unpick(entry, "timestamp");
+  const entryData = unpick(entry, "timestamp", "pagination", "sort", "sourceFilter");
 
   const history = [
     entry,
     ...existingHistory.filter((existingEntry) => {
-      return !isEqual(entryData, unpick(existingEntry, "timestamp"));
+      return !isEqual(entryData, unpick(existingEntry, "timestamp", "pagination", "sort", "sourceFilter"));
     })
   ].slice(0, 50);
 
@@ -71,17 +84,40 @@ export function getSearchHistory(): SearchHistoryEntry[] {
 }
 
 export function getLatestSearchQuery() {
-  const latestSearch = getSearchHistory().find(item => item.type === "search_result");
-  if(latestSearch) {
-    return { ...latestSearch.query, index: latestSearch.index.join(",") };
+  const entry = getSearchHistory().find(item => item.type === "search_result");
+  if(entry) {
+    let queryParams: any = { ...entry.query };
+
+    if(entry.pagination) {
+      queryParams = { ...queryParams, ...entry.pagination };
+    }
+
+    if(entry.sort) {
+      queryParams = { ...queryParams, ...entry.sort };
+    }
+
+    if(entry.sourceFilter) {
+      queryParams = {
+        ...queryParams,
+        sourceFilter: entry.sourceFilter
+          .map(({ event_type, source_year }) => `${event_type}_${source_year}`)
+          .join(",")
+      };
+    }
+
+    if(Array.isArray(entry.index)) {
+      queryParams.index = entry.index.join(",");
+    }
+
+    return queryParams;
   }
   return { query: "" };
 }
 
-function unpick(obj, key) {
+function unpick(obj, ...keys) {
   const result = {};
   Object.keys(obj)
-    .filter((objKey) => objKey != key)
+    .filter((objKey) => !keys.includes(objKey))
     .forEach((objKey) => result[objKey] = obj[objKey]);
   return result;
 }

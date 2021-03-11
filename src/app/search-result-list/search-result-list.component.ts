@@ -15,6 +15,8 @@ interface SearchQueryParams {
   //birthYear?: string
   sourceYear?: string,
   deathYear?: string,
+  id?: string,
+  lifeCourseId?: String,
   //maritalStatus?: string,
 }
 
@@ -125,10 +127,22 @@ export class SearchResultListComponent implements OnInit {
     return num.toLocaleString("da-DK");
   }
 
+  lastReceivedQueryParamMap = null;
+
   constructor(private router: Router, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.route.data.subscribe((data: { searchResult: SearchResult }) => {
+      this.searchResult = data.searchResult;
+
+      if(this.lastReceivedQueryParamMap) {
+        this.calculatePagination(this.lastReceivedQueryParamMap);
+      }
+    });
+
     this.route.queryParamMap.subscribe((queryParamMap) => {
+      this.lastReceivedQueryParamMap = queryParamMap;
+
       this.searchQueryParams = null;
       this.searchTerms = [];
       const searchQueryParams = {};
@@ -156,47 +170,56 @@ export class SearchResultListComponent implements OnInit {
           .split(",")
           .filter(x => x);
       }
+
+      // Pagination
+      if(!this.searchResult) {
+        return;
+      }
+
+      this.calculatePagination(queryParamMap);
     });
+  }
 
-    this.route.data.subscribe((data: { searchResult: SearchResult }) => {
-      this.searchResult = data.searchResult;
+  calculatePagination(queryParamMap) {
+    let size = Number(queryParamMap.get('size'));
+    if (size < 1 || !size) {
+      size = 10;
+    }
 
-      this.route.paramMap.subscribe(paramMap => {
-        // page defaults to 1
-        let page = Number(paramMap.get('page'));
-        if (page < 1 || page == NaN) {
-          page = 1;
-        }
+    let totalPages = Math.ceil(this.searchResult.totalHits / size);
 
-        let size = Number(paramMap.get('size'));
-        if (size < 1 ||page == NaN) {
-          size = 10;
-        }
-        
-        let pageStart = Math.max(1, page - 2);
-        let totalPages = Math.ceil(this.searchResult.totalHits / size);
-        let pageEnd = Math.min(pageStart + 4, totalPages);
+    // page defaults to 1
+    let page = Number(queryParamMap.get('page'));
+    if (page < 1 || !page) {
+      page = 1;
+    }
 
-        // if there are less than two pages after current, expand pagination
-        // in the lower direction
-        if (pageEnd - page < 2) {
-          pageStart = Math.max(1, pageEnd - 4);
-        }
+    let pageStart = Math.max(1, page - 2);
+    let pageEnd = Math.min(pageStart + 4, totalPages);
 
-        this.pagination = {
-          current: page,
-          firstInOrder: pageStart,
-          lastInOrder: pageEnd,
-          last: totalPages,
-          size: size,
-          navigationPages: []
-        }
+    // if there are less than two pages after current, expand pagination
+    // in the lower direction
+    if (pageEnd - page < 2) {
+      pageStart = Math.max(1, pageEnd - 4);
+    }
 
-        for (let page = pageStart; page <= pageEnd; page ++) {
-          this.pagination.navigationPages.push(page);
-        }
-      });
-    });
+    this.pagination = {
+      current: page,
+      firstInOrder: pageStart,
+      lastInOrder: pageEnd,
+      last: totalPages,
+      size: size,
+      navigationPages: []
+    };
+
+    for (let page = pageStart; page <= pageEnd; page ++) {
+      this.pagination.navigationPages.push(page);
+    }
+
+    if(page > totalPages) {
+      this.pagination.current = 1;
+      return this.search();
+    }
   }
 
   getIconFromSourceFilterValue(filterValue: string) {
@@ -223,7 +246,7 @@ export class SearchResultListComponent implements OnInit {
     this.search();
   }
 
-  closeSidebar(event) {
+  closeSidebar() {
     this.openSidebar = false;
     this.search();
   }
@@ -245,11 +268,19 @@ export class SearchResultListComponent implements OnInit {
     ];
   }
 
+  paginationQueryParams(page) {
+    return {
+      ...this.queryParams,
+      size: this.pagination.size,
+      page,
+    };
+  }
+
   search(): void {
     const searchParams: AdvancedSearchQuery = {};
     this.searchTerms.forEach((term) => searchParams[term.field] = term.value);
 
-    this.router.navigate(['/results', { page: 1, size: this.pagination.size }], {
+    this.router.navigate(['/results'], {
       queryParams: {
         ...searchParams,
         index: this.queryParams.index,
@@ -257,6 +288,8 @@ export class SearchResultListComponent implements OnInit {
         sortOrder: this.queryParams.sortOrder,
         sourceFilter: this.queryParams.sourceFilter,
         mode: this.modeFuzzy ? "fuzzy" : "default",
+        page: this.pagination.current || 1,
+        size: this.pagination.size,
       },
     });
   }
