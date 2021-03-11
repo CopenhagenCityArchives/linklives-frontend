@@ -57,18 +57,11 @@ export class PersonAppearanceItemComponent implements OnInit {
   }
 
   get personRole() {
-    if(this.personAppearance.role != "unknown" && this.personAppearance.role) {
-      if(this.personAppearance.role === "deceased") {
-        return "afdøde";
-      }
-      return this.personAppearance.role;
-    }
-
-    return null;
+    return this.personAppearance.role_display;
   }
 
   get occupation() {
-    return this.personAppearance.occupation || this.personAppearance.positions || "";
+    return this.personAppearance.occupation_display;
   }
 
   constructor() { }
