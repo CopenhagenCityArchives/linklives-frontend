@@ -199,7 +199,8 @@
                 class="lls-pagination__item"
                 [ngClass]="{ 'lls-pagination__item--disabled': pagination.current <= 10 }"
                 [tabindex]=" pagination.current <= 10 ? -1 : 0"
-                aria-label="spring 10 sider tilbage"
+                aria-label="Spring 10 sider tilbage"
+                title="Spring 10 sider tilbage"
                 [routerLink]="['./']"
                 [queryParams]="paginationQueryParams(pagination.current - 10)"
             >
@@ -212,7 +213,8 @@
                 class="lls-pagination__item"
                 [ngClass]="{ 'lls-pagination__item--disabled': pagination.current === 1 }"
                 [tabindex]=" pagination.current === 1 ? -1 : 0"
-                aria-label="gå til forrige side"
+                aria-label="Gå til forrige side"
+                title="Gå til forrige side"
                 [routerLink]="['./']"
                 [queryParams]="paginationQueryParams(pagination.current - 1)"
             >
@@ -235,7 +237,8 @@
             <a
                 class="lls-pagination__item"
                 [ngClass]="{ 'lls-pagination__item--disabled': pagination.current >= pagination.last }"
-                aria-label="gå til næste side"
+                aria-label="Gå til næste side"
+                title="Gå til næste side"
                 [tabindex]="pagination.current >= pagination.last ? -1 : 0"
                 [routerLink]="['./']"
                 [queryParams]="paginationQueryParams(pagination.current + 1)"
@@ -248,7 +251,8 @@
             <a
                 class="lls-pagination__item"
                 [ngClass]="{ 'lls-pagination__item--disabled': pagination.current >= pagination.last - 10 }"
-                aria-label="spring 10 sider frem"
+                aria-label="Spring 10 sider frem"
+                title="Spring 10 sider frem"
                 [tabindex]="pagination.current >= pagination.last - 10 ? -1 : 0"
                 [routerLink]="['./']"
                 [queryParams]="paginationQueryParams(pagination.current + 10)"
