@@ -22,9 +22,16 @@ export function prettyBirthLocation(
 export function prettyBirthYear(
   {
     birthyear_display,
+    birthyear_calculated_display,
   }: PersonAppearance
 ) {
-  return birthyear_display;
+  if(birthyear_display) {
+    return birthyear_display;
+  }
+  if(birthyear_calculated_display) {
+    return `ca. ${birthyear_calculated_display}`;
+  }
+  return "";
 };
 
 export function prettyDeathYear(

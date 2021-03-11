@@ -59,6 +59,7 @@ export interface PersonAppearance {
   birth_place_town: string,
   birth_year: string,
   birthyear_display: string,
+  birthyear_calculated_display: string,
   county: string,
   dateOfDeath: string,
   district: string,
