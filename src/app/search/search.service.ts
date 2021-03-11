@@ -129,10 +129,14 @@ export interface AdvancedSearchQuery {
   query?: string,
   firstName?: string,
   lastName?: string,
-  parish?: string,
-  county?: string,
+  birthName?: string,
   birthPlace?: string,
-  maritalStatus?: string,
+  sourcePlace?: string,
+  sourceYear?: string,
+  deathYear?: string,
+  id?: string,
+  lifeCourseId?: string,
+  // maritalStatus?: string,
 }
 
 @Injectable({
@@ -142,7 +146,7 @@ export class SearchService {
 
   constructor(private elasticsearch: ElasticsearchService) { }
 
-  advancedSearch(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: SourceIdentifier[], mode: String = "default"): Observable<SearchResult> {
+  advancedSearch(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: SourceIdentifier[], mode: string = "default"): Observable<SearchResult> {
     return this.elasticsearch.searchAdvanced(query, indices, from, size, sortBy, sortOrder, sourceFilter, mode);
   }
 }
