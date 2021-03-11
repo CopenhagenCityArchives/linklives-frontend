@@ -20,7 +20,10 @@ export const mapSearchKeys = {
   sourcePlace: {
     default: "sourceplace_searchable",
   },
-  //birthYear: {}, //not implemented in elasticsearch yet
+  birthYear: {
+    default: "birthyear_searchable",
+    fuzzy: "birthyear_searchable_fz",
+  },
   sourceYear: {
     default: "source_year_agg"
   },
@@ -34,7 +37,7 @@ export const sortValues = {
   relevance: [ "_score" ],
   firstName: [ "first_names_sortable" ],
   lastName: [ "family_names_sortable" ],
-  birthYear: [ "birth_year" ],
+  birthYear: [ "birthyear_sortable" ],
 };
 
 // Advanced search
@@ -46,7 +49,7 @@ export const searchFieldPlaceholders = {
   birthPlace: "Indtast fødested",
   sourcePlace: "Indtast kildested",
   //deathPlace: "Indtast dødssted",
-  //birthYear: "Indtast fødeår",
+  birthYear: "Indtast fødeår",
   sourceYear: "Indtast kildeår",
   deathYear: "Indtast dødsår",
   id: "Kilde ID",
@@ -60,7 +63,7 @@ export const sortByOptions = [
   { label: "Relevans", value: "relevance" },
   { label: "Fornavn", value: "firstName" },
   { label: "Efternavn", value: "lastName" },
-  { label: "Fødselsår", value: "birthYear", disabled: true },
+  { label: "Fødselsår", value: "birthYear" },
 ];
 
 export const searchFieldLabels = {
