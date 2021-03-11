@@ -185,6 +185,9 @@ export class SearchResultListComponent implements OnInit {
 
     let totalPages = Math.ceil(this.searchResult.totalHits / size);
 
+    // Adjust total pages so we max include 10.000 items (limit in elasticsearch)
+    totalPages = Math.min(totalPages, Math.ceil(10000 / size));
+
     // page defaults to 1
     let page = Number(queryParamMap.get('page'));
     if (page < 1 || !page) {
