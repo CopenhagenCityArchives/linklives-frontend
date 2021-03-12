@@ -16,7 +16,6 @@ export class SourceDataComponent implements OnInit {
 
   standardizedDataFields = {
     census: {
-      id: "id",
       event_type: "event_type",
       role: "role",
       name_clean: "name_clean",
@@ -91,7 +90,7 @@ export class SourceDataComponent implements OnInit {
 
   sourceDataFields = {
     census: {
-      source_id: "Kilde ID",
+      source_id: "Kilde nr.",
       source_year: "Kildeår",
       source_reference: "Kildehenvisning",
       transcription_code: "Transskriptionskode",
@@ -99,7 +98,7 @@ export class SourceDataComponent implements OnInit {
       household_family_no: "Husstands nr.",
     },
     burial: {
-      source_id: "Kilde ID",
+      source_id: "Kilde nr.",
       source_year: "Kildeår",
       id_cph: "ID",
       number: "Nummer",
