@@ -16,7 +16,6 @@ export class SourceDataComponent implements OnInit {
 
   standardizedDataFields = {
     census: {
-      id: "id",
       event_type: "event_type",
       role: "role",
       name_clean: "name_clean",
@@ -91,15 +90,15 @@ export class SourceDataComponent implements OnInit {
 
   sourceDataFields = {
     census: {
-      source_id: "Kilde ID",
+      source_id: "Kilde nr.",
       source_year: "Kildeår",
-      source_reference: "source_reference",
-      transcription_code: "transcription_code",
-      transcription_id: "transcription_id",
+      source_reference: "Kildehenvisning",
+      transcription_code: "Transskriptionskode",
+      transcription_id: "Transskriptions ID",
       household_family_no: "Husstands nr.",
     },
     burial: {
-      source_id: "Kilde ID",
+      source_id: "Kilde nr.",
       source_year: "Kildeår",
       id_cph: "ID",
       number: "Nummer",
@@ -147,14 +146,14 @@ export class SourceDataComponent implements OnInit {
       birth_place: "Fødested",
       household_position: "Stilling i husstanden",
       marital_status: "Civilstand",
-      address: "? (address)",
+      address: "Adresse",
       place_name: "Stednavn",
-      land_register_address: "? (land_register_address)",
-      land_register: "? (land_register)",
+      land_register_address: "Land adresse",
+      land_register: "Land register",
       parish: "Bopæl sogn",
       district: "Bopæl herred",
       county: "Bopæl amt",
-      parish_type: "parish_type",
+      parish_type: "Sogn type",
       state_region: "Land",
       transcriber_comments: "Indtasters kommentar",
     },
