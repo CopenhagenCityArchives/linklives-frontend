@@ -84,11 +84,16 @@ export class SearchResultListComponent implements OnInit {
   }
   
   get queryParams() {
+    let sortOrder = this.sortAscending ? "asc" : "desc";
+    if(this.sortBy === "relevance") {
+      sortOrder = this.sortAscending ? "desc" : "asc";
+    }
+
     return {
       ...this.searchQueryParams,
       index: this.computedIndex,
       sortBy: this.sortBy,
-      sortOrder: this.sortAscending ? "asc" : "desc",
+      sortOrder: sortOrder,
       sourceFilter: this.sourceFilter.join(",") || undefined,
     };
   }
@@ -160,7 +165,10 @@ export class SearchResultListComponent implements OnInit {
         indices.split(",").forEach((index) => this.indices[index].value = true);
       }
       this.sortBy = queryParamMap.get('sortBy') || "relevance";
-      this.sortAscending = !(queryParamMap.get('sortOrder') === "desc");
+
+      const sortOrder = queryParamMap.get('sortOrder');
+      this.sortAscending = this.sortBy === "relevance" ? sortOrder !== "asc" : sortOrder !== "desc";
+
       const sourceFilters = queryParamMap.get('sourceFilter');
       if(sourceFilters) {
         this.sourceFilter = sourceFilters

@@ -207,10 +207,9 @@ export class ElasticsearchService {
 
     return sortKeys.map((key: string) => {
       if(key == "_score") {
-        //Magic: flip the relevance score ordering to fit expected mental model
-        return { _score: { order: sortOrder === "asc" ? "desc" : "asc" } };
+        // Special case: _score is top-level, not on person_appearance
+        return { _score: { order: sortOrder } };
       }
-
       const qualifiedKey = `person_appearance.${key}`;
 
       return {
