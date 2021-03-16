@@ -51,6 +51,8 @@ export class SearchResultListComponent implements OnInit {
 
   sortAscending = false;
 
+  modeFuzzy = false;
+
   searchTerms = [];
   searchFieldPlaceholders = searchFieldPlaceholders;
   searchFieldLabels = searchFieldLabels;
@@ -165,10 +167,10 @@ export class SearchResultListComponent implements OnInit {
         indices.split(",").forEach((index) => this.indices[index].value = true);
       }
       this.sortBy = queryParamMap.get('sortBy') || "relevance";
-
       const sortOrder = queryParamMap.get('sortOrder');
       this.sortAscending = this.sortBy === "relevance" ? sortOrder !== "asc" : sortOrder !== "desc";
 
+      this.modeFuzzy = queryParamMap.get('mode') === "fuzzy";
       const sourceFilters = queryParamMap.get('sourceFilter');
       if(sourceFilters) {
         this.sourceFilter = sourceFilters
@@ -295,6 +297,7 @@ export class SearchResultListComponent implements OnInit {
         sortBy: this.queryParams.sortBy,
         sortOrder: this.queryParams.sortOrder,
         sourceFilter: this.queryParams.sourceFilter,
+        mode: this.modeFuzzy ? "fuzzy" : "default",
         page: page || this.pagination.current || 1,
         size: this.pagination.size,
       },

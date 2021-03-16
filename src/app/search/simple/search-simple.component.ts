@@ -18,6 +18,7 @@ export class SimpleSearchComponent implements OnInit {
   query = "";
 
   // Advanced search
+  modeFuzzy = false;
   searchFieldPlaceholders = searchFieldPlaceholders;
   searchFieldLabels = searchFieldLabels;
 
@@ -86,6 +87,12 @@ export class SimpleSearchComponent implements OnInit {
       .filter((term) => term.value !== "")
       .forEach((term) => searchParams[term.field] = term.value);
 
-    this.router.navigate(['/results'], { queryParams: { ...searchParams, index: this.computedIndex } });
+    this.router.navigate(['/results'], {
+      queryParams: {
+        ...searchParams,
+        index: this.computedIndex,
+        mode: this.modeFuzzy ? "fuzzy" : "default",
+      }
+    });
   }
 }

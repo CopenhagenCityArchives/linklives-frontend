@@ -1,64 +1,43 @@
 import { Category, Option } from './form-elements/dropdown/component';
 
-export const mapQueryMustKey = {
-  sourceYear: "source_year",
-  deathYear: "dateOfDeath",
-};
-
-export const mapQueryExactKey = {
-  id: "id",
-};
-
-export const mapQueryShouldKey = {
-  firstName: [
-    "first_names",
-    "first_names_clean",
-    "first_names_std",
-  ],
-  birthPlace: [
-    "birth_place",
-    "birth_place_clean",
-    "birth_place_county",
-    "birth_place_county_std",
-    "birth_place_district",
-    "birth_place_island",
-    "birth_place_koebstad",
-    "birth_place_koebstad_std",
-    "birth_place_other",
-    "birth_place_parish",
-    "birth_place_parish_std",
-    "birth_place_place",
-    "birth_place_town",
-  ],
-  lastName: [
-    "all_possible_family_names",
-    "all_possible_patronyms",
-    "family_names",
-    "patronyms",
-    "lastname_clean",
-  ],
-  birthName: [
-    "maiden_family_names",
-    "maiden_patronyms",
-    "birthname_clean",
-  ],
-  sourcePlace: [
-    "parish",
-    "county",
-    "district",
-  ],
-  maritalStatus: [
-    "marital_status",
-    "marital_status_clean",
-    "marital_status_std",
-  ],
+export const mapSearchKeys = {
+  id: {
+    exact: "id",
+  },
+  firstName: {
+    default: "firstnames_searchable",
+    fuzzy: "firstnames_searchable_fz",
+  },
+  lastName: {
+    default: "lastname_searchable",
+    fuzzy: "lastname_searchable_fz",
+  },
+  //birthName: {}, //no appropriate fields in frontend yet
+  birthPlace: {
+    default: "birthplace_searchable",
+    fuzzy: "birthplace_searchable_fz",
+  },
+  sourcePlace: {
+    default: "sourceplace_searchable",
+  },
+  birthYear: {
+    default: "birthyear_searchable",
+    fuzzy: "birthyear_searchable_fz",
+  },
+  sourceYear: {
+    default: "source_year_agg"
+  },
+  deathYear: {
+    default: "deathyear_searchable",
+    fuzzy: "deathyear_searchable_fz",
+  },
 };
 
 export const sortValues = {
   relevance: [ "_score" ],
   firstName: [ "first_names_sortable" ],
   lastName: [ "family_names_sortable" ],
-  birthYear: [ "birth_year" ],
+  birthYear: [ "birthyear_sortable" ],
 };
 
 // Advanced search
@@ -70,7 +49,7 @@ export const searchFieldPlaceholders = {
   birthPlace: "Indtast fødested",
   sourcePlace: "Indtast kildested",
   //deathPlace: "Indtast dødssted",
-  //birthYear: "Indtast fødeår",
+  birthYear: "Indtast fødeår",
   sourceYear: "Indtast kildeår",
   deathYear: "Indtast dødsår",
   id: "Kilde ID",
@@ -84,7 +63,7 @@ export const sortByOptions = [
   { label: "Relevans", value: "relevance" },
   { label: "Fornavn", value: "firstName" },
   { label: "Efternavn", value: "lastName" },
-  { label: "Fødselsår", value: "birthYear", disabled: true },
+  { label: "Fødselsår", value: "birthYear" },
 ];
 
 export const searchFieldLabels = {

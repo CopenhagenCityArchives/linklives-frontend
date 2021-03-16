@@ -3,7 +3,7 @@ import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery, Source,
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { mapQueryMustKey, mapQueryExactKey, mapQueryShouldKey, sortValues } from 'src/app/search-term-values';
+import { mapSearchKeys, sortValues } from 'src/app/search-term-values';
 import { map, share } from 'rxjs/operators';
 
 export interface ElasticDocResult {
@@ -224,7 +224,7 @@ export class ElasticsearchService {
     });
   }
 
-  searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: SourceIdentifier[]) {
+  searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: SourceIdentifier[], mode: string = "default") {
     if(indices.length < 1) {
       const emptySearchResult = new Observable<SearchResult>((observer) => {
         observer.next({
@@ -242,7 +242,7 @@ export class ElasticsearchService {
 
     const sort = this.createSortClause(sortBy, sortOrder);
 
-    const { resultLookupQuery, sourceLookupQuery } = this.createQueries(query, sourceFilter);
+    const { resultLookupQuery, sourceLookupQuery } = this.createQueries(query, sourceFilter, mode);
 
     const body = {
       from: from,
@@ -277,8 +277,8 @@ export class ElasticsearchService {
             sources: {
               composite: {
                 sources: [
-                  { source_year: { terms: { field: "person_appearance.source_year" } } },
-                  { event_type: { terms: { field: "person_appearance.event_type" } } },
+                  { source_year: { terms: { field: "person_appearance.source_year_agg" } } },
+                  { event_type: { terms: { field: "person_appearance.event_type_agg" } } },
                 ],
                 size: 10000
               }
@@ -296,7 +296,7 @@ export class ElasticsearchService {
     return this.search(indices, body, sourceFilterBody);
   }
 
-  createQueries(query: AdvancedSearchQuery, sourceFilter: SourceIdentifier[]) {
+  createQueries(query: AdvancedSearchQuery, sourceFilter: SourceIdentifier[], mode: string) {
     const must = [];
     let sourceLookupFilter = must;
 
@@ -310,46 +310,38 @@ export class ElasticsearchService {
             query: value,
             fields: ["*"],
             default_operator: "and",
+            analyze_wildcard: true,
           },
         });
         return;
       }
 
-      const mustKey = mapQueryMustKey[queryKey];
+      const searchKeyConfig = mapSearchKeys[queryKey];
 
-      if(mustKey) {
-        must.push({
-          match: { [`person_appearance.${mustKey}`]: value }
-        });
-
-        return;
+      if(!searchKeyConfig && queryKey != "lifeCourseId") {
+        return console.warn("[elasticsearch.service] key we don't know how to search on provided", queryKey);
       }
 
-      const exactKey = mapQueryExactKey[queryKey];
+      const searchKey = searchKeyConfig[mode] || searchKeyConfig.default;
 
-      if(exactKey) {
+      if(searchKey) {
+        if(/[\?\*]/.test(value)) {
+          must.push({
+            wildcard: { [`person_appearance.${searchKey}`]: value }
+          });
+          return;
+        }
+
         must.push({
-          term: { [`person_appearance.${exactKey}`]: value }
-        });
-
-        return;
-      }
-
-      const shouldKeys = mapQueryShouldKey[queryKey];
-
-      if(shouldKeys) {
-        must.push({
-          bool: {
-            should: shouldKeys.map((shouldKey) => {
-              return { match: { [`person_appearance.${shouldKey}`]: value } };
-            }),
-          },
+          match: { [`person_appearance.${searchKey}`]: value }
         });
         return;
       }
 
-      if(queryKey != "lifeCourseId") {
-        console.warn("[elasticsearch.service] key we don't know how to search on provided", queryKey);
+      if(searchKeyConfig.exact) {
+        must.push({
+          term: { [`person_appearance.${searchKeyConfig.exact}`]: value }
+        });
       }
     });
 
@@ -364,8 +356,8 @@ export class ElasticsearchService {
             return {
               bool: {
                 must: [
-                  { match: { [`person_appearance.source_year`]: source_year } },
-                  { match: { [`person_appearance.event_type`]: event_type } },
+                  { match: { [`person_appearance.source_year_agg`]: source_year } },
+                  { match: { [`person_appearance.event_type_agg`]: event_type } },
                 ]
               }
             };
