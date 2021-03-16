@@ -311,6 +311,7 @@ export class ElasticsearchService {
             query: value,
             fields: ["*"],
             default_operator: "and",
+            analyze_wildcard: true,
           },
         });
         return;
@@ -325,12 +326,20 @@ export class ElasticsearchService {
       const searchKey = searchKeyConfig[mode] || searchKeyConfig.default;
 
       if(searchKey) {
+        if(/[\?\*]/.test(value)) {
+          must.push({
+            wildcard: { [`person_appearance.${searchKey}`]: value }
+          });
+          return;
+        }
+
         must.push({
           match: { [`person_appearance.${searchKey}`]: value }
         });
+        return;
       }
 
-      if(!searchKey && searchKeyConfig.exact) {
+      if(searchKeyConfig.exact) {
         must.push({
           term: { [`person_appearance.${searchKeyConfig.exact}`]: value }
         });
