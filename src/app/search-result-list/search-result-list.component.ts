@@ -205,7 +205,7 @@ export class SearchResultListComponent implements OnInit {
     totalPages = Math.min(totalPages, Math.ceil(10000 / size));
 
     // page defaults to 1
-    let page = Number(queryParamMap.get('page'));
+    let page = Number(queryParamMap.get('pg'));
     if (page < 1 || !page) {
       page = 1;
     }
@@ -288,7 +288,7 @@ export class SearchResultListComponent implements OnInit {
     return {
       ...this.queryParams,
       size: this.pagination.size,
-      page,
+      pg: page,
     };
   }
 
@@ -304,7 +304,7 @@ export class SearchResultListComponent implements OnInit {
         sortOrder: this.queryParams.sortOrder,
         sourceFilter: this.queryParams.sourceFilter,
         mode: this.modeFuzzy ? "fuzzy" : "default",
-        page: page || this.pagination.current || 1,
+        pg: page || this.pagination.current || 1,
         size: this.pagination.size,
       },
     });
