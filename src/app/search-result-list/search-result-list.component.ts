@@ -158,6 +158,12 @@ export class SearchResultListComponent implements OnInit {
           searchQueryParams[key] = value;
           this.searchTerms.push({ field: key, value });
         });
+
+      if(Object.keys(searchQueryParams).length < 1) {
+        this.router.navigate([ "" ]);
+        return;
+      }
+
       this.searchQueryParams = searchQueryParams;
 
       const indices = queryParamMap.get('index');
