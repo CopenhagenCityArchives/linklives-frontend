@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdvancedSearchQuery } from '../search.service';
 import { searchFieldPlaceholders, fieldOptions, searchFieldLabels, getFieldOptions } from 'src/app/search-term-values';
@@ -48,7 +48,7 @@ export class SimpleSearchComponent implements OnInit {
     return getFieldOptions(isNotUsed);
   }
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private elements: ElementRef) { }
 
   ngOnInit(): void {}
 
@@ -70,6 +70,9 @@ export class SimpleSearchComponent implements OnInit {
 
   addField(field) {
     this.searchTerms.push({ field, value: "" });
+    setTimeout(() => {
+      this.elements.nativeElement.querySelector("#searchTerm__" + field).focus();
+    }, 0);
   }
 
   clearSearchTerms() {
