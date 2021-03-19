@@ -322,9 +322,19 @@ export class ElasticsearchService {
         return console.warn("[elasticsearch.service] key we don't know how to search on provided", queryKey);
       }
 
-      const searchKey = searchKeyConfig[mode] || searchKeyConfig.default;
+      if(searchKeyConfig.exact) {
+        must.push({
+          term: { [`person_appearance.${searchKeyConfig.exact}`]: value }
+        });
+        return;
+      }
 
-      if(searchKey) {
+      const searchKeys = [ searchKeyConfig.default ];
+      if(mode !== "default" && searchKeyConfig[mode]) {
+        searchKeys.push(searchKeyConfig[mode]);
+      }
+
+      searchKeys.forEach((searchKey) => {
         if(/[\?\*]/.test(value)) {
           must.push({
             wildcard: { [`person_appearance.${searchKey}`]: value }
@@ -336,13 +346,7 @@ export class ElasticsearchService {
           match: { [`person_appearance.${searchKey}`]: value }
         });
         return;
-      }
-
-      if(searchKeyConfig.exact) {
-        must.push({
-          term: { [`person_appearance.${searchKeyConfig.exact}`]: value }
-        });
-      }
+      });
     });
 
     if(sourceFilter.length) {
