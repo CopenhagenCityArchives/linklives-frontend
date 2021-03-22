@@ -79,6 +79,7 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       index,
       pagination: { page, size },
       sort: { sortBy, sortOrder },
+      mode,
     });
 
     return this.service.advancedSearch(actualSearchTerms, index, (page - 1) * size, size, sortBy, sortOrder, sourceFilter, mode);
