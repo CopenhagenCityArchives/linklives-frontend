@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
 import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
 import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, possibleSearchQueryParams, getFieldOptions } from 'src/app/search-term-values';
@@ -134,7 +134,7 @@ export class SearchResultListComponent implements OnInit {
 
   lastReceivedQueryParamMap = null;
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute, private elements: ElementRef) { }
 
   ngOnInit(): void {
     this.route.data.subscribe((data: { searchResult: SearchResult }) => {
@@ -158,6 +158,12 @@ export class SearchResultListComponent implements OnInit {
           searchQueryParams[key] = value;
           this.searchTerms.push({ field: key, value });
         });
+
+      if(Object.keys(searchQueryParams).length < 1) {
+        this.router.navigate([ "" ]);
+        return;
+      }
+
       this.searchQueryParams = searchQueryParams;
 
       const indices = queryParamMap.get('index');
@@ -199,7 +205,7 @@ export class SearchResultListComponent implements OnInit {
     totalPages = Math.min(totalPages, Math.ceil(10000 / size));
 
     // page defaults to 1
-    let page = Number(queryParamMap.get('page'));
+    let page = Number(queryParamMap.get('pg'));
     if (page < 1 || !page) {
       page = 1;
     }
@@ -249,6 +255,9 @@ export class SearchResultListComponent implements OnInit {
 
   addField(field) {
     this.searchTerms.push({ field, value: "" });
+    setTimeout(() => {
+      this.elements.nativeElement.querySelector(`[data-search-term=${field}]`).focus();
+    }, 0);
   }
 
   removeFilter(option) {
@@ -282,7 +291,7 @@ export class SearchResultListComponent implements OnInit {
     return {
       ...this.queryParams,
       size: this.pagination.size,
-      page,
+      pg: page,
     };
   }
 
@@ -298,7 +307,7 @@ export class SearchResultListComponent implements OnInit {
         sortOrder: this.queryParams.sortOrder,
         sourceFilter: this.queryParams.sourceFilter,
         mode: this.modeFuzzy ? "fuzzy" : "default",
-        page: page || this.pagination.current || 1,
+        pg: page || this.pagination.current || 1,
         size: this.pagination.size,
       },
     });
