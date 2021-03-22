@@ -71,7 +71,7 @@ export class SimpleSearchComponent implements OnInit {
   addField(field) {
     this.searchTerms.push({ field, value: "" });
     setTimeout(() => {
-      this.elements.nativeElement.querySelector("#searchTerm__" + field).focus();
+      this.elements.nativeElement.querySelector(`[data-search-term=${field}]`).focus();
     }, 0);
   }
 
