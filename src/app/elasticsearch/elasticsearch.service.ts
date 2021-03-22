@@ -327,13 +327,24 @@ export class ElasticsearchService {
       if(searchKey) {
         if(/[\?\*]/.test(value)) {
           must.push({
-            wildcard: { [`person_appearance.${searchKey}`]: value }
+            wildcard: {
+              [`person_appearance.${searchKey}`]: {
+                value: value,
+              }
+            }
           });
           return;
         }
 
         must.push({
-          match: { [`person_appearance.${searchKey}`]: value }
+          match: {
+            [`person_appearance.${searchKey}`]: {
+              query: value,
+              fuzziness: "AUTO",
+              max_expansions: 250,
+              operator: "AND"
+            }
+          }
         });
         return;
       }
