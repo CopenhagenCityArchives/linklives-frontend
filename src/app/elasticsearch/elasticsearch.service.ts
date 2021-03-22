@@ -334,19 +334,20 @@ export class ElasticsearchService {
         searchKeys.push(searchKeyConfig[mode]);
       }
 
-      searchKeys.forEach((searchKey) => {
+      const searchKeyQuery = searchKeys.map((searchKey) => {
         if(/[\?\*]/.test(value)) {
-          must.push({
-            wildcard: { [`person_appearance.${searchKey}`]: value }
-          });
-          return;
+          return { wildcard: { [`person_appearance.${searchKey}`]: value } };
         }
 
-        must.push({
-          match: { [`person_appearance.${searchKey}`]: value }
-        });
-        return;
+        return { match: { [`person_appearance.${searchKey}`]: value } };
       });
+
+      if(searchKeyQuery.length == 1) {
+        must.push(searchKeyQuery[0]);
+        return;
+      }
+
+      must.push({ bool: { should: searchKeyQuery } });
     });
 
     if(sourceFilter.length) {
