@@ -90,7 +90,8 @@ export function getLatestSearchQuery() {
     let queryParams: any = { ...entry.query };
 
     if(entry.pagination) {
-      queryParams = { ...queryParams, ...entry.pagination };
+      const { page: pg, size } = entry.pagination;
+      queryParams = { ...queryParams, pg, size };
     }
 
     if(entry.sort) {

@@ -336,10 +336,21 @@ export class ElasticsearchService {
 
       const searchKeyQuery = searchKeys.map((searchKey) => {
         if(/[\?\*]/.test(value)) {
-          return { wildcard: { [`person_appearance.${searchKey}`]: value } };
+          return { wildcard: {
+            [`person_appearance.${searchKey}`]: {
+              value: value,
+            },
+          } };
         }
 
-        return { match: { [`person_appearance.${searchKey}`]: value } };
+        return { match: {
+          [`person_appearance.${searchKey}`]: {
+            query: value,
+            fuzziness: "AUTO",
+            max_expansions: 250,
+            operator: "AND",
+          },
+        } };
       });
 
       if(searchKeyQuery.length == 1) {

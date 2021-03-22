@@ -73,6 +73,7 @@ export class SourceDataComponent implements OnInit {
       lastname_std: "lastname_std",
       birthname_clean: "birthname_clean",
       birthname_std: "birthname_std",
+      street_unique: "street_unique",
     },
   };
 
@@ -179,7 +180,6 @@ export class SourceDataComponent implements OnInit {
       parish: "Sogn",
       street: "Gade",
       hood: "Kvarter",
-      street_unique: "street_unique",
       street_number: "Gadenummer",
       letter: "Bogstav",
       floor: "Etage",

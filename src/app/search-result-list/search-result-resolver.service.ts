@@ -15,7 +15,7 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
     state: RouterStateSnapshot
   ) : Observable<SearchResult> | Observable<never> {
 
-    let page: number = Number(route.queryParamMap.get('page'))
+    let page: number = Number(route.queryParamMap.get('pg'))
     if (page < 1 || page == NaN) {
       page = 1;
     }
