@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
 import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
 import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, possibleSearchQueryParams, getFieldOptions } from 'src/app/search-term-values';
@@ -134,7 +134,7 @@ export class SearchResultListComponent implements OnInit {
 
   lastReceivedQueryParamMap = null;
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute, private elements: ElementRef) { }
 
   ngOnInit(): void {
     this.route.data.subscribe((data: { searchResult: SearchResult }) => {
@@ -255,6 +255,9 @@ export class SearchResultListComponent implements OnInit {
 
   addField(field) {
     this.searchTerms.push({ field, value: "" });
+    setTimeout(() => {
+      this.elements.nativeElement.querySelector(`[data-search-term=${field}]`).focus();
+    }, 0);
   }
 
   removeFilter(option) {
