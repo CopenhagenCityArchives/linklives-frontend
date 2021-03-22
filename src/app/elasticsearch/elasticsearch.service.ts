@@ -339,8 +339,6 @@ export class ElasticsearchService {
         if(value.includes('"')) {
           const parts = value.split('"');
 
-          console.log("val", value, value.includes('"'), value.split('"'), parts.length, parts.length % 2);
-
           // If there are less than 3 parts, there is only one quotation mark
           // Likewise, the number of parts must be uneven if there is an even number of quotation marks
           if(parts.length >= 3 && parts.length % 2 == 1) {
