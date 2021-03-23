@@ -181,11 +181,10 @@
                         (change)="search()"
                     ></lls-dropdown>
                 </label>
-                <label
-                    class="lls-search-modifier-inputs__entry lls-search-modifier-inputs__entry--flex-0"
-                    attr.aria-label="Sorteringsrækkefølge"
-                >
-                    <span class="lls-search-modifier-inputs__label">&nbsp;</span>
+                <label class="lls-search-modifier-inputs__entry lls-search-modifier-inputs__entry--flex-0">
+                    <span class="lls-search-modifier-inputs__label lls-search-modifier-inputs__label--invisible">
+                        Sorteringsrækkefølge
+                    </span>
                     <lls-boolean
                         [(ngModel)]="sortAscending"
                         [featherIconPath]="featherSpriteUrl"
