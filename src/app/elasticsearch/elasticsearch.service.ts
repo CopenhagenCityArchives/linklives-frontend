@@ -15,7 +15,8 @@ export interface ElasticDocResult {
   found: boolean,
   _source: {
     life_course_id?: number,
-    person_appearance: PersonAppearance | PersonAppearance[]
+    source?: Source,
+    person_appearance?: PersonAppearance | PersonAppearance[]
   }
 }
 
@@ -500,8 +501,7 @@ export class ElasticsearchService {
       observer => {
         this.http.get<ElasticDocResult>(`${environment.apiUrl}/sources/_doc/${id}`)
         .subscribe(next => {
-            const typeKey = Object.keys(next._source).find((key) => !key.includes("id"));
-            observer.next(next._source[typeKey]);
+            observer.next(next._source.source as Source);
           }, error => {
             observer.error(error);
           }, () => {
@@ -517,8 +517,7 @@ export class ElasticsearchService {
       observer => {
         this.http.get<ElasticDocResult>(`${environment.apiUrl}/pas/_doc/${id}`)
         .subscribe(next => {
-            const typeKey = Object.keys(next._source).find((key) => !key.includes("id"));
-            observer.next(next._source[typeKey]);
+            observer.next(next._source.person_appearance as PersonAppearance);
           }, error => {
             observer.error(error);
           }, () => {
