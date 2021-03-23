@@ -362,9 +362,6 @@ export class ElasticsearchService {
             // We send the unquoted parts back to normal value handling.
             // If there are none, we don't need to continue.
             value = unquoted.join(" ").trim();
-            if(!value) {
-              return;
-            }
           }
         }
 
