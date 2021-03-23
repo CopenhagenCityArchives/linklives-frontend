@@ -13,7 +13,7 @@
 .lls-input-field {
   width: 100%;
   padding: 0.5rem 1rem;
-  border: 1px solid $grey-border;
+  border: 2px solid $grey-border;
   border-radius: 3px;
   flex-grow: 1;
 
@@ -77,21 +77,10 @@
 
 .lls-input-group__field {
   display: inline-block;
-  border: 2px solid $grey-border;
-  border-radius: 3px;
-  flex-grow: 1;
-  width: 100%;
   margin: 0.125rem 0;
 
   @media (min-width: $breakpointMd) {
     margin: 0;
-  }
-
-  &:focus {
-    border-color: $blue;
-    outline: 1px solid $blue;
-    border-radius: 0;
-    outline-offset: 0;
   }
 }
 
