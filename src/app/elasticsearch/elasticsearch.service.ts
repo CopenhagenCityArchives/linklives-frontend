@@ -305,10 +305,15 @@ export class ElasticsearchService {
 
       // Special case: query
       if(queryKey === "query") {
+        const fields = ["*_searchable"];
+        if(mode === "fuzzy") {
+          fields.push("*_searchable_fz");
+        }
+
         must.push({
           simple_query_string: {
             query: value,
-            fields: ["*"],
+            fields,
             default_operator: "and",
             analyze_wildcard: true,
           },
