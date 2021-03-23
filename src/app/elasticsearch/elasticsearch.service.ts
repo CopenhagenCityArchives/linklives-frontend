@@ -301,7 +301,7 @@ export class ElasticsearchService {
     let sourceLookupFilter = must;
 
     Object.keys(query).filter((queryKey) => query[queryKey]).forEach((queryKey) => {
-      const value = query[queryKey];
+      let value = query[queryKey];
 
       // Special case: query
       if(queryKey === "query") {
@@ -335,22 +335,78 @@ export class ElasticsearchService {
       }
 
       const searchKeyQuery = searchKeys.map((searchKey) => {
-        if(/[\?\*]/.test(value)) {
-          return { wildcard: {
-            [`person_appearance.${searchKey}`]: {
-              value: value,
-            },
-          } };
+        const searchKeySubQuery = [];
+
+        if(value.includes('"')) {
+          const parts = value.split('"');
+
+          // If there are less than 3 parts, there is only one quotation mark
+          // Likewise, the number of parts must be uneven if there is an even number of quotation marks
+          if(parts.length >= 3 && parts.length % 2 == 1) {
+            // Quoted parts are every other part starting at index 1
+            const quoted = parts.filter((_, i) => i % 2 == 1);
+
+            // Unquoted parts are the opposite
+            const unquoted = parts.filter((_, i) => i % 2 == 0);
+
+            quoted.forEach((quotedValue) => {
+              searchKeySubQuery.push({
+                match_phrase: {
+                  [`person_appearance.${searchKey}`]: {
+                    query: quotedValue,
+                  },
+                },
+              });
+            });
+
+            // We send the unquoted parts back to normal value handling.
+            // If there are none, we don't need to continue.
+            value = unquoted.join(" ").trim();
+          }
         }
 
-        return { match: {
-          [`person_appearance.${searchKey}`]: {
-            query: value,
-            fuzziness: "AUTO",
-            max_expansions: 250,
-            operator: "AND",
-          },
-        } };
+        if(!value) {
+          // Everything was quoted
+          if(searchKeySubQuery.length > 1) {
+            return { bool: { must: searchKeySubQuery } };
+          }
+
+          return searchKeySubQuery[0];
+        }
+
+        const terms = value.split(/\s+/g);
+        const wildcardTerms = terms.filter((value) => /[\?\*]/.test(value));
+        const nonWildcardTerms = terms.filter((value) => !/[\?\*]/.test(value));
+
+        wildcardTerms.forEach((value) => {
+          searchKeySubQuery.push({
+            wildcard: {
+              [`person_appearance.${searchKey}`]: {
+                value,
+              }
+            }
+          });
+        });
+
+        if(nonWildcardTerms.length) {
+          searchKeySubQuery.push({
+            match: {
+              [`person_appearance.${searchKey}`]: {
+                // Match query splits into terms on space, so we can simplify the query here
+                query: nonWildcardTerms.join(" "),
+                fuzziness: "AUTO",
+                max_expansions: 250,
+                operator: "AND"
+              }
+            }
+          });
+        }
+
+        if(searchKeySubQuery.length > 1) {
+          return { bool: { must: searchKeySubQuery } };
+        }
+
+        return searchKeySubQuery[0];
       });
 
       if(searchKeyQuery.length == 1) {
@@ -382,12 +438,19 @@ export class ElasticsearchService {
       })
     }
 
+    const simplifiedQueryFromMust = (must) => {
+      if(must.length == 1) {
+        return must[0];
+      }
+      return {
+        bool: { must },
+      };
+    };
+
     const getFullPersonAppearanceQueryFromMustQuery = (must) => ({
       nested: {
         path: "person_appearance",
-        query: {
-          bool: { must },
-        },
+        query: simplifiedQueryFromMust(must),
         score_mode: "max",
       },
     });
