@@ -349,8 +349,6 @@ export class ElasticsearchService {
             // Unquoted parts are the opposite
             const unquoted = parts.filter((_, i) => i % 2 == 0);
 
-            console.log("Q", quoted, unquoted);
-
             quoted.forEach((quotedValue) => {
               searchKeySubQuery.push({
                 match_phrase: {
@@ -397,8 +395,6 @@ export class ElasticsearchService {
             }
           });
         }
-
-        console.log("searchKeySubQuery", searchKeySubQuery);
 
         if(searchKeySubQuery.length > 1) {
           return { bool: { must: searchKeySubQuery } };
