@@ -112,14 +112,9 @@
   }
 }
 
-.lls-icon {
-  width: 1rem;
-  height: 1rem;
+.lls-btn .lls-icon {
+  margin-top: 4px;
   transition: transform 0.2s;
-}
-
-.lls-icon--right {
-  margin-left: 0.5rem;
 }
 
 .lls-btn--desktop {

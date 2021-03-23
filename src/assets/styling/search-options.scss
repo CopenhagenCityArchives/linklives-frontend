@@ -30,8 +30,14 @@
 .lls-search-options__clear-search {
   padding: 0.5rem 1rem;
   background-color: transparent;
-  border: none;
+  border: 2px solid transparent;
   font-weight: inherit;
+  white-space: nowrap;
+  display: flex;
+
+  .lls-icon {
+    margin-top: 4px;
+  }
 }
 
 .lls-simple-search__options {

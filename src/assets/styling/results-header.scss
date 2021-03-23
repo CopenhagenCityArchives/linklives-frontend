@@ -25,6 +25,11 @@
   border: none;
   font-weight: inherit;
   white-space: nowrap;
+  display: flex;
+
+  .lls-icon {
+    margin-top: 4px;
+  }
 }
 
 .lls-results-header__right-section {
