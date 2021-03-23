@@ -53,4 +53,10 @@
 .lls-search-modifier-inputs__label {
   display: block;
   margin-bottom: 0.25rem;
+
+  &--invisible {
+    color: transparent;
+    width: 0;
+    overflow: hidden;
+  }
 }

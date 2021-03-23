@@ -72,19 +72,21 @@
                     </div>
                 </div>
             </div>
-            <div class="lls-results-header__field-label lls-columns-12 lls-columns-3--md lls-columns-2--lg lls-columns-2--xl">
-                <span class="lls-results-header__field-label-text">Resultattype</span>
-                <div class="lls-results-header__checkboxes">
-                    <label class="lls-results-header__checkbox-container" *ngFor="let index of indexKeys">
-                        <input
-                            [(ngModel)]="indices[index].value"
-                            type="checkbox"
-                            class="lls-results-header__checkbox"
-                            [name]="'index_' + index"
-                        >
-                        <span>{{ indices[index].label }}</span>
-                    </label>
-                </div>
+            <div class="lls-columns-12 lls-columns-3--md lls-columns-2--lg lls-columns-2--xl">
+                <fieldset class="lls-results-header__field-label">
+                    <legend class="lls-results-header__field-label-text">Resultattype</legend>
+                    <div class="lls-results-header__checkboxes">
+                        <label class="lls-results-header__checkbox-container" *ngFor="let index of indexKeys">
+                            <input
+                                [(ngModel)]="indices[index].value"
+                                type="checkbox"
+                                class="lls-results-header__checkbox"
+                                [name]="'index_' + index"
+                            >
+                            <span>{{ indices[index].label }}</span>
+                        </label>
+                    </div>
+                </fieldset>
                 <div class="lls-results-header__checkboxes">
                     <label class="lls-results-header__checkbox-container">
                         <input
@@ -180,13 +182,16 @@
                     ></lls-dropdown>
                 </label>
                 <label class="lls-search-modifier-inputs__entry lls-search-modifier-inputs__entry--flex-0">
-                    <span class="lls-search-modifier-inputs__label">&nbsp;</span>
+                    <span class="lls-search-modifier-inputs__label lls-search-modifier-inputs__label--invisible">
+                        Sorteringsrækkefølge
+                    </span>
                     <lls-boolean
                         [(ngModel)]="sortAscending"
                         [featherIconPath]="featherSpriteUrl"
                         iconFalse="arrow-up"
                         iconTrue="arrow-down"
                         (change)="search()"
+                        [attr.aria-label]="sortAscending ? 'Første til sidste' : 'Sidste til første'"
                     ></lls-boolean>
                 </label>
             </div>

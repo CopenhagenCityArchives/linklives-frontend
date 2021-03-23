@@ -329,9 +329,14 @@ export class ElasticsearchService {
         return;
       }
 
-      const searchKey = searchKeyConfig[mode] || searchKeyConfig.default;
+      const searchKeys = [ searchKeyConfig.default ];
+      if(mode !== "default" && searchKeyConfig[mode]) {
+        searchKeys.push(searchKeyConfig[mode]);
+      }
 
-      if(searchKey) {
+      const searchKeyQuery = searchKeys.map((searchKey) => {
+        const searchKeySubQuery = [];
+
         if(value.includes('"')) {
           const parts = value.split('"');
 
@@ -347,7 +352,7 @@ export class ElasticsearchService {
             console.log("Q", quoted, unquoted);
 
             quoted.forEach((quotedValue) => {
-              must.push({
+              searchKeySubQuery.push({
                 match_phrase: {
                   [`person_appearance.${searchKey}`]: {
                     query: quotedValue,
@@ -370,20 +375,17 @@ export class ElasticsearchService {
         const nonWildcardTerms = terms.filter((value) => !/[\?\*]/.test(value));
 
         wildcardTerms.forEach((value) => {
-          if(/[\?\*]/.test(value)) {
-            must.push({
-              wildcard: {
-                [`person_appearance.${searchKey}`]: {
-                  value,
-                }
+          searchKeySubQuery.push({
+            wildcard: {
+              [`person_appearance.${searchKey}`]: {
+                value,
               }
-            });
-            return;
-          }
+            }
+          });
         });
 
         if(nonWildcardTerms.length) {
-          must.push({
+          searchKeySubQuery.push({
             match: {
               [`person_appearance.${searchKey}`]: {
                 // Match query splits into terms on space, so we can simplify the query here
@@ -395,7 +397,22 @@ export class ElasticsearchService {
             }
           });
         }
+
+        console.log("searchKeySubQuery", searchKeySubQuery);
+
+        if(searchKeySubQuery.length > 1) {
+          return { bool: { must: searchKeySubQuery } };
+        }
+
+        return searchKeySubQuery[0];
+      });
+
+      if(searchKeyQuery.length == 1) {
+        must.push(searchKeyQuery[0]);
+        return;
       }
+
+      must.push({ bool: { should: searchKeyQuery } });
     });
 
     if(sourceFilter.length) {
