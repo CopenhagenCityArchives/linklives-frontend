@@ -322,38 +322,43 @@ export class ElasticsearchService {
         return console.warn("[elasticsearch.service] key we don't know how to search on provided", queryKey);
       }
 
-      const searchKey = searchKeyConfig[mode] || searchKeyConfig.default;
-
-      if(searchKey) {
-        if(/[\?\*]/.test(value)) {
-          must.push({
-            wildcard: {
-              [`person_appearance.${searchKey}`]: {
-                value: value,
-              }
-            }
-          });
-          return;
-        }
-
-        must.push({
-          match: {
-            [`person_appearance.${searchKey}`]: {
-              query: value,
-              fuzziness: "AUTO",
-              max_expansions: 250,
-              operator: "AND"
-            }
-          }
-        });
-        return;
-      }
-
       if(searchKeyConfig.exact) {
         must.push({
           term: { [`person_appearance.${searchKeyConfig.exact}`]: value }
         });
+        return;
       }
+
+      const searchKeys = [ searchKeyConfig.default ];
+      if(mode !== "default" && searchKeyConfig[mode]) {
+        searchKeys.push(searchKeyConfig[mode]);
+      }
+
+      const searchKeyQuery = searchKeys.map((searchKey) => {
+        if(/[\?\*]/.test(value)) {
+          return { wildcard: {
+            [`person_appearance.${searchKey}`]: {
+              value: value,
+            },
+          } };
+        }
+
+        return { match: {
+          [`person_appearance.${searchKey}`]: {
+            query: value,
+            fuzziness: "AUTO",
+            max_expansions: 250,
+            operator: "AND",
+          },
+        } };
+      });
+
+      if(searchKeyQuery.length == 1) {
+        must.push(searchKeyQuery[0]);
+        return;
+      }
+
+      must.push({ bool: { should: searchKeyQuery } });
     });
 
     if(sourceFilter.length) {

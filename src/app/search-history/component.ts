@@ -55,6 +55,10 @@ export class SearchHistoryComponent implements OnInit {
       };
     }
 
+    if(entry.mode) {
+      queryParams.mode = entry.mode;
+    }
+
     if(Array.isArray(entry.index)) {
       queryParams.index = entry.index.join(",");
     }

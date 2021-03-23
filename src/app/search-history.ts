@@ -29,6 +29,7 @@ export interface SearchHistoryEntry {
   timestamp?: Date,
   pagination?: SearchResultPagination,
   sort?: SearchResultSorting,
+  mode?: string,
 }
 
 export interface LifecourseSearchHistoryEntry {
@@ -104,6 +105,10 @@ export function getLatestSearchQuery() {
           .map(({ event_type, source_year }) => `${event_type}_${source_year}`)
           .join(",")
       };
+    }
+
+    if(entry.mode) {
+      queryParams.mode = entry.mode;
     }
 
     if(Array.isArray(entry.index)) {
