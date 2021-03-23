@@ -382,17 +382,19 @@ export class ElasticsearchService {
           }
         });
 
-        must.push({
-          match: {
-            [`person_appearance.${searchKey}`]: {
-              // Match query splits into terms on space, so we can simplify the query here
-              query: nonWildcardTerms.join(" "),
-              fuzziness: "AUTO",
-              max_expansions: 250,
-              operator: "AND"
+        if(nonWildcardTerms.length) {
+          must.push({
+            match: {
+              [`person_appearance.${searchKey}`]: {
+                // Match query splits into terms on space, so we can simplify the query here
+                query: nonWildcardTerms.join(" "),
+                fuzziness: "AUTO",
+                max_expansions: 250,
+                operator: "AND"
+              }
             }
-          }
-        });
+          });
+        }
       }
     });
 
