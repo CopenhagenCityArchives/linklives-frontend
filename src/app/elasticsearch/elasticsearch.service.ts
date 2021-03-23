@@ -366,8 +366,10 @@ export class ElasticsearchService {
         }
 
         const terms = value.split(/\s+/g);
+        const wildcardTerms = terms.filter((value) => /[\?\*]/.test(value));
+        const nonWildcardTerms = terms.filter((value) => !/[\?\*]/.test(value));
 
-        terms.forEach((value) => {
+        wildcardTerms.forEach((value) => {
           if(/[\?\*]/.test(value)) {
             must.push({
               wildcard: {
@@ -378,18 +380,18 @@ export class ElasticsearchService {
             });
             return;
           }
+        });
 
-          must.push({
-            match: {
-              [`person_appearance.${searchKey}`]: {
-                query: value,
-                fuzziness: "AUTO",
-                max_expansions: 250,
-                operator: "AND"
-              }
+        must.push({
+          match: {
+            [`person_appearance.${searchKey}`]: {
+              // Match query splits into terms on space, so we can simplify the query here
+              query: nonWildcardTerms.join(" "),
+              fuzziness: "AUTO",
+              max_expansions: 250,
+              operator: "AND"
             }
-          });
-          return;
+          }
         });
       }
     });
