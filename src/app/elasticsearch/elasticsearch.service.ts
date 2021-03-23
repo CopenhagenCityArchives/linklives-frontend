@@ -436,12 +436,19 @@ export class ElasticsearchService {
       })
     }
 
+    const simplifiedQueryFromMust = (must) => {
+      if(must.length == 1) {
+        return must[0];
+      }
+      return {
+        bool: { must },
+      };
+    };
+
     const getFullPersonAppearanceQueryFromMustQuery = (must) => ({
       nested: {
         path: "person_appearance",
-        query: {
-          bool: { must },
-        },
+        query: simplifiedQueryFromMust(must),
         score_mode: "max",
       },
     });
