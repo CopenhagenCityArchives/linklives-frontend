@@ -478,10 +478,10 @@ export class ElasticsearchService {
     };
   }
 
-  getDocument(index: string, id: string|number): Observable<Source|PersonAppearance|PersonAppearance[]> {
-    return new Observable<Source|PersonAppearance|PersonAppearance[]>(
+  getLifecourse(id: string|number): Observable<PersonAppearance[]> {
+    return new Observable(
       observer => {
-        this.http.get<ElasticDocResult>(`${environment.apiUrl}/${index}/_doc/${id}`)
+        this.http.get<ElasticDocResult>(`${environment.apiUrl}/lifecourses/_doc/${id}`)
         .subscribe(next => {
             const typeKey = Object.keys(next._source).find((key) => !key.includes("id"));
             observer.next(next._source[typeKey]);
@@ -494,24 +494,39 @@ export class ElasticsearchService {
       }
     );
   }
-  
-  getDocuments(documents: {index: string, id: string|number}[]) {
-    let body = {
-      docs: documents.map(doc => { return { _index: doc.index, _id: doc.id } })
-    };
 
-    return new Observable<PersonAppearance[]>(
+  getSource(id: string|number): Observable<Source> {
+    return new Observable(
       observer => {
-        this.http.post<{ docs: ElasticDocResult[] }>(`${environment.apiUrl}/mget`, body)
+        this.http.get<ElasticDocResult>(`${environment.apiUrl}/sources/_doc/${id}`)
         .subscribe(next => {
-          observer.next(next.docs.map(doc => doc._source.person_appearance as PersonAppearance));
-        }, error => {
-          observer.error(error);
-        }, () => {
-          observer.complete();
-        })
+            const typeKey = Object.keys(next._source).find((key) => !key.includes("id"));
+            observer.next(next._source[typeKey]);
+          }, error => {
+            observer.error(error);
+          }, () => {
+            observer.complete();
+          }
+        )
       }
-    )
+    );
+  }
+
+  getPersonAppearance(id: string|number): Observable<PersonAppearance> {
+    return new Observable(
+      observer => {
+        this.http.get<ElasticDocResult>(`${environment.apiUrl}/pas/_doc/${id}`)
+        .subscribe(next => {
+            const typeKey = Object.keys(next._source).find((key) => !key.includes("id"));
+            observer.next(next._source[typeKey]);
+          }, error => {
+            observer.error(error);
+          }, () => {
+            observer.complete();
+          }
+        )
+      }
+    );
   }
 
   searchLinks(pas: PersonAppearance[]): Observable<Link[]> {

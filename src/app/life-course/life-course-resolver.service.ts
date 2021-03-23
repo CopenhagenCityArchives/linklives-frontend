@@ -16,7 +16,7 @@ export class LifeCourseResolverService implements Resolve<{lifecourseId:number, 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ lifecourseId: number; personAppearances: PersonAppearance[]; links: Link[]; }> {
     const lifecourseId = route.params['id'];
 
-    return this.elasticsearch.getDocument('lifecourses', lifecourseId)
+    return this.elasticsearch.getLifecourse(lifecourseId)
       .pipe(map(pas => pas as PersonAppearance[]))
       .pipe(mergeMap((pas: PersonAppearance[], index) => {
         addSearchHistoryEntry({
