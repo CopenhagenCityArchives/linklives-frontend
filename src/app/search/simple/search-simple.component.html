@@ -41,8 +41,8 @@
           </button>
         </div>
         <div class="lls-simple-search__options lls-columns-12 lls-columns-4--md lls-row">
-          <div class="lls-search-options__result-type lls-columns-6 lls-columns-12--md">
-            <span class="lls-input-label">Resultattype</span>
+          <fieldset class="lls-search-options__result-type lls-columns-6 lls-columns-12--md">
+            <legend class="lls-input-label">Resultattype</legend>
             <div class="lls-search-options__result-type-checkboxes">
               <label class="lls-search-options__checkbox-container" *ngFor="let index of indexKeys">
                 <input
@@ -54,7 +54,7 @@
                 <span>{{ indices[index].label }}</span>
               </label>
             </div>
-          </div>
+          </fieldset>
           <div class="lls-simple-search__mobile-button lls-columns-6 lls-columns-12--md">
             <button
               type="submit"
@@ -101,8 +101,8 @@
         </label>
 
         <div class="lls-search-options">
-          <div class="lls-search-options__result-type">
-            <span class="lls-input-label">Resultattype</span>
+          <fieldset class="lls-search-options__result-type">
+            <legend class="lls-input-label">Resultattype</legend>
             <div class="lls-search-options__result-type-checkboxes">
               <label class="lls-search-options__checkbox-container" *ngFor="let index of indexKeys">
                 <input
@@ -114,7 +114,7 @@
                 <span>{{ indices[index].label }}</span>
               </label>
             </div>
-          </div>
+          </fieldset>
           <div class="lls-search-options__add-field">
             <lls-dropdown
               class="lls-dropdown--option-adder"
