@@ -179,7 +179,10 @@
                         (change)="search()"
                     ></lls-dropdown>
                 </label>
-                <label class="lls-search-modifier-inputs__entry lls-search-modifier-inputs__entry--flex-0">
+                <label
+                    class="lls-search-modifier-inputs__entry lls-search-modifier-inputs__entry--flex-0"
+                    attr.aria-label="Sorteringsrækkefølge"
+                >
                     <span class="lls-search-modifier-inputs__label">&nbsp;</span>
                     <lls-boolean
                         [(ngModel)]="sortAscending"
@@ -187,6 +190,7 @@
                         iconFalse="arrow-up"
                         iconTrue="arrow-down"
                         (change)="search()"
+                        [attr.aria-label]="sortAscending ? 'Første til sidste' : 'Sidste til første'"
                     ></lls-boolean>
                 </label>
             </div>
