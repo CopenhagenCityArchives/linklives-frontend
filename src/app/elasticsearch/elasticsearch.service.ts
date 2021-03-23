@@ -322,20 +322,16 @@ export class ElasticsearchService {
         return console.warn("[elasticsearch.service] key we don't know how to search on provided", queryKey);
       }
 
+      if(searchKeyConfig.exact) {
+        must.push({
+          term: { [`person_appearance.${searchKeyConfig.exact}`]: value }
+        });
+        return;
+      }
+
       const searchKey = searchKeyConfig[mode] || searchKeyConfig.default;
 
       if(searchKey) {
-        if(/[\?\*]/.test(value)) {
-          must.push({
-            wildcard: {
-              [`person_appearance.${searchKey}`]: {
-                value: value,
-              }
-            }
-          });
-          return;
-        }
-
         if(value.includes('"')) {
           const parts = value.split('"');
 
@@ -369,22 +365,31 @@ export class ElasticsearchService {
           }
         }
 
-        must.push({
-          match: {
-            [`person_appearance.${searchKey}`]: {
-              query: value,
-              fuzziness: "AUTO",
-              max_expansions: 250,
-              operator: "AND"
-            }
-          }
-        });
-        return;
-      }
+        const terms = value.split(/\s+/g);
 
-      if(searchKeyConfig.exact) {
-        must.push({
-          term: { [`person_appearance.${searchKeyConfig.exact}`]: value }
+        terms.forEach((value) => {
+          if(/[\?\*]/.test(value)) {
+            must.push({
+              wildcard: {
+                [`person_appearance.${searchKey}`]: {
+                  value,
+                }
+              }
+            });
+            return;
+          }
+
+          must.push({
+            match: {
+              [`person_appearance.${searchKey}`]: {
+                query: value,
+                fuzziness: "AUTO",
+                max_expansions: 250,
+                operator: "AND"
+              }
+            }
+          });
+          return;
         });
       }
     });
