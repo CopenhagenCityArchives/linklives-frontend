@@ -41,9 +41,22 @@ export interface SearchHistoryEntryListener {
   (entry: SearchHistoryEntry[]) : void;
 }
 
+let localStorageEnabled = true;
+
+if(!("localStorage" in window)) {
+  localStorageEnabled = false;
+}
+
+try {
+  window.localStorage.getItem("sagk8h2ldlakncl2llsæ");
+}
+catch(error) {
+  localStorageEnabled = false;
+}
+
 const inMemoryStore = {};
 
-const storeValue = window.localStorage ?
+const storeValue = localStorageEnabled ?
   (key, value) => localStorage.setItem(key, JSON.stringify(value)) :
   (key, value) => inMemoryStore[key] = value;
 
@@ -65,7 +78,7 @@ const retrieveValueFromLocalStorage = (key) => {
   return result;
 };
 
-const retrieveValue = window.localStorage ?
+const retrieveValue = localStorageEnabled ?
   retrieveValueFromLocalStorage :
   (key) => inMemoryStore[key];
 
