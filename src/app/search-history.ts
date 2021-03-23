@@ -41,6 +41,34 @@ export interface SearchHistoryEntryListener {
   (entry: SearchHistoryEntry[]) : void;
 }
 
+const inMemoryStore = {};
+
+const storeValue = window.localStorage ?
+  (key, value) => localStorage.setItem(key, JSON.stringify(value)) :
+  (key, value) => inMemoryStore[key] = value;
+
+const retrieveValueFromLocalStorage = (key) => {
+  const raw = localStorage.getItem(key);
+  if(!raw) {
+    return null;
+  }
+
+  let result;
+  try {
+    result = JSON.parse(raw);
+  }
+  catch(error) {
+    console.error("Tried to read value from localStorage that was not JSON; removed it!");
+    localStorage.removeItem(key);
+    return null;
+  }
+  return result;
+};
+
+const retrieveValue = window.localStorage ?
+  retrieveValueFromLocalStorage :
+  (key) => inMemoryStore[key];
+
 const listeners: SearchHistoryEntryListener[] = [];
 
 export function onSearchHistoryEntry(listener: SearchHistoryEntryListener): void {
@@ -61,26 +89,12 @@ export function addSearchHistoryEntry(entry: SearchHistoryEntry): void {
     })
   ].slice(0, 50);
 
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(history));
+  storeValue(LOCAL_STORAGE_KEY, history);
   listeners.forEach((listener) => listener([ ...history ]));
 }
 
 export function getSearchHistory(): SearchHistoryEntry[] {
-  const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
-  if(!raw) {
-    return [];
-  }
-
-  let history;
-  try {
-    history = JSON.parse(raw) as SearchHistoryEntry[];
-  }
-  catch(error) {
-    console.error("Invalid values (non-JSON) in local storage for search history --- cleaning up!");
-    localStorage.removeItem(LOCAL_STORAGE_KEY);
-    return [];
-  }
-
+  const history = retrieveValue(LOCAL_STORAGE_KEY) || [];
   return history.filter((entry) => entry.timestamp);
 }
 
