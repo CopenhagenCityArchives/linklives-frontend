@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery, Source, SourceIdentifier } from '../search/search.service';
+import { PersonAppearance, Lifecourse, SearchResult, SearchHit, AdvancedSearchQuery, Source, SourceIdentifier } from '../search/search.service';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -14,6 +14,7 @@ export interface ElasticDocResult {
   _seq_no: number,
   found: boolean,
   _source: {
+    life_course_id?: number,
     person_appearance: PersonAppearance | PersonAppearance[]
   }
 }
@@ -478,13 +479,12 @@ export class ElasticsearchService {
     };
   }
 
-  getLifecourse(id: string|number): Observable<PersonAppearance[]> {
+  getLifecourse(id: string|number): Observable<Lifecourse> {
     return new Observable(
       observer => {
         this.http.get<ElasticDocResult>(`${environment.apiUrl}/lifecourses/_doc/${id}`)
         .subscribe(next => {
-            const typeKey = Object.keys(next._source).find((key) => !key.includes("id"));
-            observer.next(next._source[typeKey]);
+            observer.next(next._source as Lifecourse);
           }, error => {
             observer.error(error);
           }, () => {
