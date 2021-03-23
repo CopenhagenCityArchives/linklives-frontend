@@ -365,6 +365,15 @@ export class ElasticsearchService {
           }
         }
 
+        if(!value) {
+          // Everything was quoted
+          if(searchKeySubQuery.length > 1) {
+            return { bool: { must: searchKeySubQuery } };
+          }
+
+          return searchKeySubQuery[0];
+        }
+
         const terms = value.split(/\s+/g);
         const wildcardTerms = terms.filter((value) => /[\?\*]/.test(value));
         const nonWildcardTerms = terms.filter((value) => !/[\?\*]/.test(value));
