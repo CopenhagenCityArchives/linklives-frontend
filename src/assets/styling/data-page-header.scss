@@ -35,9 +35,11 @@
   font-size: 1rem;
   font-weight: 400;
   text-align: right;
+  white-space: nowrap;
 
   @media(max-width: $breakpointSm) {
     margin-bottom: 1rem;
+    white-space: normal;
   }
 }
 

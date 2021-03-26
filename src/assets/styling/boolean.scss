@@ -25,6 +25,7 @@ $booleanFontSize: 1.125rem;
     margin-top: 1px;
     transition: transform 0.2s;
     transform: translateY(-0.125rem);
+    vertical-align: bottom;
   }
 
   &:hover .lls-icon {

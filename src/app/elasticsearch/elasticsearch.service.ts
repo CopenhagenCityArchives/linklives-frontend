@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery, Source, SourceIdentifier } from '../search/search.service';
+import { PersonAppearance, Lifecourse, SearchResult, SearchHit, AdvancedSearchQuery, Source, SourceIdentifier } from '../search/search.service';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -14,7 +14,9 @@ export interface ElasticDocResult {
   _seq_no: number,
   found: boolean,
   _source: {
-    person_appearance: PersonAppearance | PersonAppearance[]
+    life_course_id?: number,
+    source?: Source,
+    person_appearance?: PersonAppearance | PersonAppearance[]
   }
 }
 
@@ -481,13 +483,12 @@ export class ElasticsearchService {
     };
   }
 
-  getDocument(index: string, id: string|number): Observable<Source|PersonAppearance|PersonAppearance[]> {
-    return new Observable<Source|PersonAppearance|PersonAppearance[]>(
+  getLifecourse(id: string|number): Observable<Lifecourse> {
+    return new Observable(
       observer => {
-        this.http.get<ElasticDocResult>(`${environment.apiUrl}/${index}/_doc/${id}`)
+        this.http.get<ElasticDocResult>(`${environment.apiUrl}/lifecourses/_doc/${id}`)
         .subscribe(next => {
-            const typeKey = Object.keys(next._source).find((key) => !key.includes("id"));
-            observer.next(next._source[typeKey]);
+            observer.next(next._source as Lifecourse);
           }, error => {
             observer.error(error);
           }, () => {
@@ -497,24 +498,37 @@ export class ElasticsearchService {
       }
     );
   }
-  
-  getDocuments(documents: {index: string, id: string|number}[]) {
-    let body = {
-      docs: documents.map(doc => { return { _index: doc.index, _id: doc.id } })
-    };
 
-    return new Observable<PersonAppearance[]>(
+  getSource(id: string|number): Observable<Source> {
+    return new Observable(
       observer => {
-        this.http.post<{ docs: ElasticDocResult[] }>(`${environment.apiUrl}/mget`, body)
+        this.http.get<ElasticDocResult>(`${environment.apiUrl}/sources/_doc/${id}`)
         .subscribe(next => {
-          observer.next(next.docs.map(doc => doc._source.person_appearance as PersonAppearance));
-        }, error => {
-          observer.error(error);
-        }, () => {
-          observer.complete();
-        })
+            observer.next(next._source.source as Source);
+          }, error => {
+            observer.error(error);
+          }, () => {
+            observer.complete();
+          }
+        )
       }
-    )
+    );
+  }
+
+  getPersonAppearance(id: string|number): Observable<PersonAppearance> {
+    return new Observable(
+      observer => {
+        this.http.get<ElasticDocResult>(`${environment.apiUrl}/pas/_doc/${id}`)
+        .subscribe(next => {
+            observer.next(next._source.person_appearance as PersonAppearance);
+          }, error => {
+            observer.error(error);
+          }, () => {
+            observer.complete();
+          }
+        )
+      }
+    );
   }
 
   searchLinks(pas: PersonAppearance[]): Observable<Link[]> {

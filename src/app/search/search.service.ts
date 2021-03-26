@@ -111,6 +111,11 @@ export interface PersonAppearance {
   uncat_names: string
 }
 
+export interface Lifecourse {
+  life_course_id: number,
+  person_appearance: PersonAppearance[]
+}
+
 export interface Source {
   id: string,
   source_id: number,

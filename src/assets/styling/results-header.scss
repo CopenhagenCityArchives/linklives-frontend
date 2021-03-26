@@ -22,9 +22,18 @@
   padding: 0.5rem 1rem;
   color: white;
   background-color: transparent;
-  border: none;
+  border: 2px solid transparent;
   font-weight: inherit;
   white-space: nowrap;
+  display: flex;
+
+  .lls-icon {
+    margin-top: 4px;
+  }
+}
+
+.lls-results-header__clear-search-text {
+  padding-right: 0.125rem;
 }
 
 .lls-results-header__right-section {

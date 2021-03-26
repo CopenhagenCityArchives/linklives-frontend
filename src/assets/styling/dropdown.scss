@@ -105,8 +105,7 @@ lls-dropdown {
 Option adder styling / a different type of dropdown
 */
 .lls-dropdown--option-adder {
-  border: none;
-  padding: 0.5rem 1rem;
+  border: 2px solid transparent;
   width: auto;
 
   .lls-dropdown__current-item {
