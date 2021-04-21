@@ -56,8 +56,8 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
                     "query": {
                       "bool" : {
                         "must": [
-                          { "match": { "person_appearance.hh_id": pa.hh_id } },
-                          { "match": { "person_appearance.source_id": pa.source_id } },
+                          { "match": { "person_appearance.hh_id": pa.hh_id[0] } },
+                          { "match": { "person_appearance.source_id": pa.source_id[0] } },
                         ]
                       }
                     }
