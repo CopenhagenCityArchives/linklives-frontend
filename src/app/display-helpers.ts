@@ -79,6 +79,21 @@ export function prettyLastName(
   return "";
 }
 
+export function eventMetaType({ event_type }) {
+  const pr = [
+    'baptism',
+    'birth',
+    'confirmation',
+    'death',
+    'departure',
+    'marriage',
+  ]
+  if(pr.includes(event_type)) {
+    return 'pr';
+  }
+  return event_type;
+};
+
 export function eventType({ event_type }) {
   return {
     "census": "Folketælling",
