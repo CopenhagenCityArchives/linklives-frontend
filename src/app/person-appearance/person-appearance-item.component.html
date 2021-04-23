@@ -6,52 +6,52 @@
             </svg>
         </div>
         <h3 class="lls-source__title">
-            {{ eventType }}
+            {{ personAppearance.event_type_display }}
         </h3>
-        <p *ngIf="personAppearance.source_year" class="u-margin-0">
-            {{ personAppearance.source_year }}
+        <p *ngIf="personAppearance.event_year_display" class="u-margin-0">
+            {{ personAppearance.event_year_display }}
         </p>
     </div>
     
     <div class="lls-source__section lls-source__section--bordered">
-        <p class="lls-source__subtitle u-text-capitalize" *ngIf="personRole">
-            {{ personRole }}
+        <p class="lls-source__subtitle u-text-capitalize" *ngIf="personAppearance.role_display">
+            {{ personAppearance.role_display }}
         </p>
         <div class="lls-source__person">
             <p
                 class="lls-source__person-name u-bold u-text-capitalize"
-                [attr.title]="showTitleOnName ? personAppearance.name_clean : null"
+                [attr.title]="showTitleOnName ? personAppearance.name_display : null"
             >
-                {{ personName }}
+                {{ personAppearance.name_display }}
             </p>
             <p class="lls-source__person-age">
                 <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left">
                     <use [attr.href]="featherSpriteUrl + '#star'"></use>
                 </svg>
-                {{ birthYear }}
-                <ng-container *ngIf="deathYear">
+                {{ personAppearance.birthyear_display }}
+                <ng-container *ngIf="personAppearance.deathyear_display">
                     <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left u-ml-2">
                         <use [attr.href]="featherSpriteUrl + '#ll-dead'"></use>
                     </svg>
-                    {{ deathYear }}
+                    {{ personAppearance.deathyear_display }}
                 </ng-container>
             </p>
         </div>
-        <p *ngIf="occupation">
-            {{ occupation }}
+        <p *ngIf="personAppearance.occupation_display">
+            {{ personAppearance.occupation_display }}
         </p>
-        <p class="u-text-capitalize u-margin-0" *ngIf="birthLocation">
-            {{ birthLocation }}
+        <p class="u-text-capitalize u-margin-0" *ngIf="personAppearance.birthplace_display">
+            {{ personAppearance.birthplace_display }}
         </p>
     </div>
 
     <div class="lls-source__section">
         <p class="lls-source__subtitle">Kilde</p>
         <p class="u-margin-0">
-            {{ eventType }} {{ personAppearance.source_year }}
+            {{ personAppearance.source_type_display }} {{ personAppearance.source_year_display }}
         </p>
         <p class="u-text-capitalize u-margin-0">
-            {{ sourceLocation }}
+            {{ personAppearance.sourceplace_display }}
         </p>
     </div>
     
