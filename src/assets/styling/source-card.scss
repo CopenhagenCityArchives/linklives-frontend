@@ -38,7 +38,8 @@
   }
 }
 
-.lls-source--burial {
+.lls-source--burial,
+.lls-source--death {
   border-color: $burial-grey;
 
   &::before {
@@ -60,6 +61,14 @@
 
   &::before {
     background-color: $marriage-red;
+  }
+}
+
+.lls-source--confirmation {
+  border-color: $blue;
+
+  &::before {
+    background-color: $blue;
   }
 }
 
