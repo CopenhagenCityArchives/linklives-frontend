@@ -535,8 +535,8 @@ export class ElasticsearchService {
     const idMatches = pas.map((pa) => ({
       bool: {
         must: [
-          { match: { "person_appearance.pa_id": pa.pa_id[0] } },
-          { match: { "person_appearance.source_id": pa.source_id[0] } },
+          { match: { "person_appearance.pa_id": pa.pa_id } },
+          { match: { "person_appearance.source_id": pa.source_id } },
         ]
       }
     }));
