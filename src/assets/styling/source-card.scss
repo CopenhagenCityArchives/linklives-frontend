@@ -28,7 +28,9 @@
   border-bottom-width: 3px;
 }
 
-.lls-source--census, .lls-source--departure, .lls-source--arrival {
+.lls-source--census,
+.lls-source--departure,
+.lls-source--arrival {
   border-color: $yellow;
 
   &::before {
@@ -44,7 +46,8 @@
   }
 }
 
-.lls-source--baptism, .lls-source--birth {
+.lls-source--baptism,
+.lls-source--birth {
   border-color: $baptism-green;
 
   &::before {
