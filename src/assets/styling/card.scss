@@ -9,7 +9,7 @@
   }
 }
 
-.lls-card--census {
+.lls-card--source-data {
   position: relative;
 
   &:before {
@@ -19,21 +19,41 @@
     left: 0;
     bottom: 0;
     width: 1.125rem;
+    background-color: $blue;
+  }
+}
+
+.lls-card--census,
+.lls-card--departure,
+.lls-card--arrival  {
+  &:before {
     background-color: $yellow;
   }
 }
 
-.lls-card--burial {
-  position: relative;
-
+.lls-card--burial,
+.lls-card--death {
   &:before {
-    position: absolute;
-    content: '';
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 1.125rem;
     background-color: $burial-grey;
+  }
+}
+
+.lls-card--baptism,
+.lls-card--birth {
+  &:before {
+    background-color: $baptism-green;
+  }
+}
+
+.lls-card--marriage {
+  &:before {
+    background-color: $marriage-red;
+  }
+}
+
+.lls-card--confirmation {
+  &:before {
+    background-color: $blue;
   }
 }
 

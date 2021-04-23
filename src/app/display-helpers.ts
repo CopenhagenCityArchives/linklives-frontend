@@ -79,10 +79,33 @@ export function prettyLastName(
   return "";
 }
 
+export function eventMetaType({ event_type }) {
+  const pr = [ // kirkebøger
+    'arrival',
+    'baptism',
+    'birth',
+    'confirmation',
+    'death',
+    'departure',
+    'marriage',
+  ]
+  if(pr.includes(event_type)) {
+    return 'pr';
+  }
+  return event_type;
+};
+
 export function eventType({ event_type }) {
   return {
     "census": "Folketælling",
     "burial": "Begravelse",
+    'arrival': 'Arrival',
+    'baptism': "Dåb",
+    'birth': "Fødsel",
+    'confirmation': "Konfirmation",
+    'death': "Death",
+    'departure': "Departure",
+    'marriage': "Vielse",
   }[event_type] || "Kilde"
 };
 
@@ -90,6 +113,13 @@ export function eventIcon(eventType: string) {
   return {
     "census": "archive",
     "burial": "ll-funeral",
+    'arrival': 'clipboard',
+    'baptism': "ll-baptism",
+    'birth': "ll-baptism",
+    'confirmation': "ll-confirmation",
+    'death': "ll-funeral",
+    'departure': "clipboard",
+    'marriage': "heart",
   }[eventType] || "circle";
 };
 
