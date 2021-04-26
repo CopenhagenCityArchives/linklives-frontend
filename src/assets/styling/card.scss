@@ -23,9 +23,14 @@
   }
 }
 
-.lls-card--census,
-.lls-card--departure,
-.lls-card--arrival  {
+.lls-card--arrival,
+.lls-card--departure {
+  &:before {
+    background-color: $departure-green;
+  }
+}
+
+.lls-card--census {
   &:before {
     background-color: $yellow;
   }
@@ -53,7 +58,7 @@
 
 .lls-card--confirmation {
   &:before {
-    background-color: $blue;
+    background-color: $confirmation-blue;
   }
 }
 
