@@ -111,7 +111,7 @@ export class LifeCourseComponent implements OnInit {
     });
   }
 
-  get latestPersonAppearance() {
+  get personAppearancesSortedByYear() {
     const sortedByYear = this.pas.sort(function(a, b) {
       if (a.source_year > b.source_year) {
         return 1;
@@ -121,27 +121,40 @@ export class LifeCourseComponent implements OnInit {
       }
       return 0;
     });
-    return sortedByYear[sortedByYear.length - 1];
+    return sortedByYear;
+  }
+
+  get firstPersonAppearance() {
+    return this.personAppearancesSortedByYear[0];
+  }
+
+  get latestPersonAppearance() {
+    return this.personAppearancesSortedByYear[this.personAppearancesSortedByYear.length - 1];
   }
 
   get personName() {
-    return prettyFullName(this.latestPersonAppearance);
+    return this.latestPersonAppearance.name_display;
   }
 
-  get birthLocation() {
-    if(this.latestPersonAppearance.event_type === "burial") {
-      // Burials does not have birth location data so we use another PA.
-      return prettyBirthLocation(this.pas[0]);
+  get birthPlace() {
+    let count = 0;
+    while(count < this.personAppearancesSortedByYear.length) {
+      // get first pa with a birthplace display field set
+      const currentPa = this.personAppearancesSortedByYear[count];
+      if(currentPa.birthplace_display) {
+        return currentPa.birthplace_display;
+      }
+      count++;
     }
-    return prettyBirthLocation(this.latestPersonAppearance);
+    return "";
   }
 
   get birthYear() {
-    return prettyBirthYear(this.latestPersonAppearance);
+    return prettyBirthYear(this.firstPersonAppearance);
   }
 
   get deathYear() {
-    return prettyDeathYear(this.latestPersonAppearance);
+    return this.latestPersonAppearance.deathyear_display || "";
   }
 
   get lastUpdated() {
