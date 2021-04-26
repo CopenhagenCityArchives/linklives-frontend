@@ -30,10 +30,10 @@
 
 .lls-source--arrival,
 .lls-source--departure {
-  border-color: $departure_green;
+  border-color: $departure-green;
 
   &::before {
-    background-color: $departure_green;
+    background-color: $departure-green;
   }
 }
 
@@ -73,10 +73,10 @@
 }
 
 .lls-source--confirmation {
-  border-color: $confirmation_blue;
+  border-color: $confirmation-blue;
 
   &::before {
-    background-color: $confirmation_blue;
+    background-color: $confirmation-blue;
   }
 }
 

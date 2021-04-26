@@ -26,7 +26,7 @@
 .lls-card--arrival,
 .lls-card--departure {
   &:before {
-    background-color: $departure_green;
+    background-color: $departure-green;
   }
 }
 
@@ -58,7 +58,7 @@
 
 .lls-card--confirmation {
   &:before {
-    background-color: $confirmation_blue;
+    background-color: $confirmation-blue;
   }
 }
 
