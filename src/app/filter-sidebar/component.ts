@@ -25,7 +25,7 @@ export interface Option {
 
 export class FilterSidebar implements OnInit {
   @Input() featherIconPath: string;
-  @Input() possibleSources: Array<{ source_year: number, event_type: string, count: number }>;
+  @Input() possibleSources: Array<{ source_year_display: string, event_type: string, event_type_display: string, count: number }>;
   @Input() openSidebar: boolean;
   @Input()
   get filters() {
@@ -64,21 +64,22 @@ export class FilterSidebar implements OnInit {
     const result = {};
 
     this.possibleSources.forEach(x => {
-      const prettyEventType = eventType({ event_type: x.event_type });
       const filter =  {
-        label: `${prettyEventType} ${x.source_year}`,
-        type: prettyEventType,
+        label: `${x.event_type_display} ${x.source_year_display}`,
+        type: x.event_type,
         icon: eventIcon(x.event_type),
-        value: `${x.event_type}_${x.source_year}`,
+        value: `${x.event_type}_${x.event_type_display}_${x.source_year_display}`,
         count: prettyNumbers(x.count),
         chosen: false,
       };
       if(!result[x.event_type]) {
-        result[x.event_type] = [];
+        result[x.event_type] = {
+          display: x.event_type_display,
+          filters: [],
+        }
       }
-      result[x.event_type].push(filter);
+      result[x.event_type].filters.push(filter);
     });
-
     return result;
   }
 

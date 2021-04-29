@@ -102,10 +102,10 @@ export class SearchResultListComponent implements OnInit {
 
   get possibleSources() {
     return this.searchResult.meta.possibleSources.sort((a, b) => {
-      if(a.source_year < b.source_year) {
+      if(a.source_year_display < b.source_year_display) {
         return -1;
       }
-      if(a.source_year > b.source_year) {
+      if(a.source_year_display > b.source_year_display) {
         return 1;
       }
       return 0;
@@ -239,18 +239,18 @@ export class SearchResultListComponent implements OnInit {
   }
 
   getIconFromSourceFilterValue(filterValue: string) {
-    const [event_type, _] = filterValue.split("_");
+    const [event_type, _, __] = filterValue.split("_");
     return eventIcon(event_type);
   }
 
   getYearFromSourceFilterValue(filterValue: string) {
-    const [_, source_year] = filterValue.split("_");
-    return source_year;
+    const [_, __, source_year_display] = filterValue.split("_");
+    return source_year_display;
   }
 
   getEventTypeFromSourceFilterValue(filterValue: string) {
-    const [event_type, _] = filterValue.split("_");
-    return eventType({ event_type });
+    const [_, event_type_display, __] = filterValue.split("_");
+    return event_type_display;
   }
 
   addField(field) {
