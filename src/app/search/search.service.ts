@@ -106,6 +106,7 @@ export interface PersonAppearance {
   role_display: string,
   source_id: number,
   source_reference: string,
+  source_type_wp4: string,
   source_type_display: string,
   source_year: number,
   source_year_display: string,
