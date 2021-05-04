@@ -33,7 +33,7 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
           personAppearance: pa,
         });
 
-        if(!pa.hh_id) {
+        if(!pa.hh_id && (!pa.event_id || pa.event_persons < 2)) {
           return new Observable<PersonAppearanceResolverResult>(observer => {
             observer.next({
               pa,
@@ -57,6 +57,7 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
                       "bool" : {
                         "must": [
                           { "match": { "person_appearance.hh_id": pa.hh_id } },
+                          { "match": { "person_appearance.event_id": pa.event_id } },
                           { "match": { "person_appearance.source_id": pa.source_id } },
                         ]
                       }
@@ -67,6 +68,11 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
             }
           }
         }
+        // remove hh_id or event_id if they are undefined.
+        // we will never have both of them set, so we will always filter out one of them.
+        body.query.bool.must[0].nested.query.bool.must = body.query.bool.must[0].nested.query.bool.must
+          .filter((match) => !Object.values(match.match).some(value => value == undefined));
+
         return this.elasticsearch.search(['pas'], body).pipe(
           map((searchResult, index) => {
             return {
