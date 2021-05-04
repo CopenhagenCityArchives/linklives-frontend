@@ -4,7 +4,7 @@
 ></div>
 <aside class="lls-filter-sidebar lls-sidebar" [class]="openSidebar ? 'lls-sidebar--open' : ''">
   <div class="lls-sidebar__header">
-    <h3 class="u-margin-0">Vælg kilder</h3>
+    <h3 class="u-margin-0">Alle filtre</h3>
     <button
       [tabindex]="openSidebar ? 0 : -1"
       class="lls-btn lls-btn--outline"
@@ -15,6 +15,9 @@
         <use [attr.href]="featherIconPath + '#x'"></use>
       </svg>
     </button>
+  </div>
+  <div class="lls-sidebar__subheader">
+    <h4>Hændelser</h4>
   </div>
   <div class="lls-filter-sidebar__options">
     <button
