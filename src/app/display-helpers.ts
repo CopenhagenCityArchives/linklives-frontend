@@ -1,58 +1,5 @@
 import { PersonAppearance } from './search/search.service';
 
-export function prettyBirthLocation(
-  {
-    birthplace_display,
-  }: PersonAppearance
-) {
-  return birthplace_display;
-};
-
-export function prettyDeathYear(
-  {
-    dateOfDeath,
-  }: PersonAppearance
-) {
-  if(dateOfDeath) {
-    return dateOfDeath.split("-")[0];
-  }
-  return null;
-};
-
-export function prettyFullName(personAppearance: PersonAppearance) {
-  return personAppearance.name_display;
-}
-
-export function prettyFirstName(
-  {
-    first_names_clean,
-    first_names,
-  }: PersonAppearance
-) {
-  if(first_names_clean) {
-    return first_names_clean;
-  }
-  if(first_names?.length) {
-    return first_names.join(" ");
-  }
-  return "";
-}
-
-export function prettyLastName(
-  {
-    lastname_clean,
-    patronyms,
-  }: PersonAppearance
-) {
-  if(lastname_clean) {
-    return lastname_clean;
-  }
-  if(patronyms?.length) {
-    return patronyms.join(" ");
-  }
-  return "";
-}
-
 export function eventType({ event_type }) {
   return {
     "census": "Folketælling",

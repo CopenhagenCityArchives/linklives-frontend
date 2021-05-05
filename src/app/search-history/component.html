@@ -65,13 +65,13 @@
                     </span>
                 </h3>
                 <p class="u-text-capitalize u-margin-0">
-                    <strong class="u-mr-2">Navn</strong> {{ prettyFullName(entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1]) }}
+                    <strong class="u-mr-2">Navn</strong> {{ entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1].name_display }}
                 </p>
                 <p class="u-margin-0">
                     <strong class="u-mr-2">Født</strong> {{ entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1].birthyear_display }}
                 </p>
                 <p class="u-text-capitalize u-margin-0">
-                    <strong class="u-mr-2">Fødested</strong> {{ prettyBirthLocation(entry.lifecourse.personAppearances[0]) }}
+                    <strong class="u-mr-2">Fødested</strong> {{ entry.lifecourse.personAppearances[0].birthplace_display }}
                 </p>
             </div>
         </a>
@@ -88,17 +88,17 @@
                         <use [attr.href]="featherIconPath + '#' + eventIcon(entry.personAppearance.event_type)"></use>
                     </svg>
                     <span>
-                        {{ eventType(entry.personAppearance) }} {{ entry.personAppearance.source_year }}
+                        {{ entry.personAppearance.event_type_display }} {{ entry.personAppearance.source_year_display }}
                     </span>
                 </h3>
-                <p class="u-text-capitalize u-margin-0" *ngIf="prettyFullName(entry.personAppearance)">
-                    <strong class="u-mr-2">Navn</strong> {{ prettyFullName(entry.personAppearance) }}
+                <p class="u-text-capitalize u-margin-0" *ngIf="entry.personAppearance.name_display">
+                    <strong class="u-mr-2">Navn</strong> {{ entry.personAppearance.name_display }}
                 </p>
                 <p class="u-margin-0" *ngIf="entry.personAppearance.birthyear_display">
                     <strong class="u-mr-2">Født</strong> {{ entry.personAppearance.birthyear_display }}
                 </p>
-                <p class="u-text-capitalize u-margin-0" *ngIf="prettyBirthLocation(entry.personAppearance)">
-                    <strong class="u-mr-2">Fødested</strong> {{ prettyBirthLocation(entry.personAppearance) }}
+                <p class="u-text-capitalize u-margin-0" *ngIf="entry.personAppearance.birthplace_display">
+                    <strong class="u-mr-2">Fødested</strong> {{ entry.personAppearance.birthplace_display }}
                 </p>
             </div>
         </a>
