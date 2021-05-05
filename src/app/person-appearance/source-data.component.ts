@@ -119,6 +119,7 @@ export class SourceDataComponent implements OnInit {
 
   sourceDataFields = {
     Folketælling: {
+      source_archive_display: "Kilde",
       source_id: "Kilde nr.",
       source_year: "Kildeår",
       source_reference: "Kildehenvisning",
@@ -127,12 +128,14 @@ export class SourceDataComponent implements OnInit {
       household_family_no: "Husstands nr.",
     },
     Begravelsesprotokol: {
+      source_archive_display: "Kilde",
       source_id: "Kilde nr.",
       source_year: "Kildeår",
       id_cph: "ID",
       number: "Nummer",
     },
     Kirkebog: {
+      source_archive_display: "Kilde",
       EventParish: "Sogn",
       EventCounty: "Herred",
       EventState: "Amt",
