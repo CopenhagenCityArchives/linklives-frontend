@@ -121,7 +121,7 @@ export class SourceDataComponent implements OnInit {
     Folketælling: {
       source_archive_display: "Kilde",
       source_id: "Kilde nr.",
-      source_year: "Kildeår",
+      source_year_display: "Kildeår",
       source_reference: "Kildehenvisning",
       transcription_code: "Transskriptionskode",
       transcription_id: "Transskriptions ID",
@@ -130,7 +130,7 @@ export class SourceDataComponent implements OnInit {
     Begravelsesprotokol: {
       source_archive_display: "Kilde",
       source_id: "Kilde nr.",
-      source_year: "Kildeår",
+      source_year_display: "Kildeår",
       id_cph: "ID",
       number: "Nummer",
     },
