@@ -9,6 +9,7 @@ import { PersonAppearance, Source } from '../search/search.service';
 export class SourceDataComponent implements OnInit {
   featherSpriteUrl = window["lls"].featherIconPath;
 
+
   constructor(private route: ActivatedRoute) { }
 
   pa: PersonAppearance;
