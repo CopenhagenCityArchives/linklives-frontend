@@ -113,10 +113,10 @@ export class LifeCourseComponent implements OnInit {
 
   get personAppearancesSortedByYear() {
     const sortedByYear = this.pas.sort(function(a, b) {
-      if (a.source_year > b.source_year) {
+      if (a.event_year_display > b.event_year_display) {
         return 1;
       }
-      if (a.source_year < b.source_year) {
+      if (a.event_year_display < b.event_year_display) {
         return -1;
       }
       return 0;
