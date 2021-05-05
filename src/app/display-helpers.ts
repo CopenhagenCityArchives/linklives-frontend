@@ -116,7 +116,7 @@ export function prettyDate(rawDate) {
 }
 
 export function prettyYearRange(personAppearances) {
-  const sortedYears = personAppearances.map(pa => pa.source_year).sort();
+  const sortedYears = personAppearances.map(pa => pa.event_year_display).sort();
   return `${sortedYears[0]} - ${sortedYears[sortedYears.length - 1]}`;
 }
 
