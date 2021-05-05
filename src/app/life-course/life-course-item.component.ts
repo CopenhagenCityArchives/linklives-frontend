@@ -31,10 +31,6 @@ export class LifeCourseItemComponent implements OnInit {
     return sortedByYear;
   }
 
-  get firstPersonAppearance() {
-    return this.personAppearancesSortedByYear[0];
-  }
-
   get latestPersonAppearance() {
     return this.personAppearancesSortedByYear[this.personAppearancesSortedByYear.length - 1];
   }
@@ -44,11 +40,7 @@ export class LifeCourseItemComponent implements OnInit {
   }
 
   get sourceList() {
-    const eventNamesByType = {
-      "census": "Folke&shy;tælling",
-      "burial": "Begravelse",
-    };
-    const sources = this.personAppearances.map(pa => `${eventNamesByType[pa.event_type]} ${pa.source_year}`);
+    const sources = this.personAppearances.map(pa => `${pa.source_type_display} ${pa.source_year_display}`);
     const formattedSources = sources.join(", ");
     return formattedSources;
   }
@@ -68,7 +60,7 @@ export class LifeCourseItemComponent implements OnInit {
   }
 
   get personName() {
-    return this.latestPersonAppearance.name_display;
+    return this.latestPersonAppearance.name_display || "";
   }
 
   constructor() { }
