@@ -26,9 +26,9 @@
         </div>
         <div class="lls-data-page-header__classification">
             <div class="lls-data-page-header__source-type">Kilde</div>
-            <h1 class="lls-data-page-header__title">{{ eventType }} {{ pa.source_year }}</h1>
+            <h1 class="lls-data-page-header__title">{{ pa.event_type_display }} {{ pa.event_year_display }}</h1>
             <div class="lls-data-page-header__data-summary">
-                <span class="u-text-capitalize">{{ sourceLocation }}</span>
+                <span class="u-text-capitalize">{{ pa.source_type_display }}, {{ pa.sourceplace_display }}, {{ pa.source_year_display }}, {{ pa.source_archive_display }}</span>
             </div>
         </div>
     </div>

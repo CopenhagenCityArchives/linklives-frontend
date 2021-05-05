@@ -1,16 +1,5 @@
 import { PersonAppearance } from './search/search.service';
 
-export function prettySourceLocation({ sourceplace_display, event_type }: PersonAppearance) {
-  return [
-    ...new Set(
-      [
-        event_type === "burial" ? "Københavns begravelsesprotokoller" : null,
-        sourceplace_display
-      ].filter((x) => x)
-    )
-  ].join(", ");
-};
-
 export function prettyBirthLocation(
   {
     birthplace_display,
