@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Link } from '../elasticsearch/elasticsearch.service';
-import { prettyFullName, prettyBirthLocation, prettyBirthYear, prettyDeathYear, prettyDate } from '../display-helpers';
+import { prettyDate } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 import { getLatestSearchQuery } from '../search-history';
 
@@ -137,20 +137,13 @@ export class LifeCourseComponent implements OnInit {
   }
 
   get birthPlace() {
-    let count = 0;
-    while(count < this.personAppearancesSortedByYear.length) {
-      // get first pa with a birthplace display field set
-      const currentPa = this.personAppearancesSortedByYear[count];
-      if(currentPa.birthplace_display) {
-        return currentPa.birthplace_display;
-      }
-      count++;
-    }
-    return "";
+    const firstPaWithBirthPlace = this.personAppearancesSortedByYear.find((pa) => pa.birthplace_display);
+    return firstPaWithBirthPlace ? firstPaWithBirthPlace.birthplace_display : "";
   }
 
   get birthYear() {
-    return prettyBirthYear(this.firstPersonAppearance);
+    const firstPaWithBirthYear = this.personAppearancesSortedByYear.find((pa) => pa.birthyear_display);
+    return firstPaWithBirthYear ? firstPaWithBirthYear.birthyear_display : "";
   }
 
   get deathYear() {
