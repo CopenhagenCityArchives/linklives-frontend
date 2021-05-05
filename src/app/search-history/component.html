@@ -68,7 +68,7 @@
                     <strong class="u-mr-2">Navn</strong> {{ prettyFullName(entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1]) }}
                 </p>
                 <p class="u-margin-0">
-                    <strong class="u-mr-2">Født</strong> {{ prettyBirthYear(entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1]) }}
+                    <strong class="u-mr-2">Født</strong> {{ entry.lifecourse.personAppearances[entry.lifecourse.personAppearances.length - 1].birthyear_display }}
                 </p>
                 <p class="u-text-capitalize u-margin-0">
                     <strong class="u-mr-2">Fødested</strong> {{ prettyBirthLocation(entry.lifecourse.personAppearances[0]) }}
@@ -94,8 +94,8 @@
                 <p class="u-text-capitalize u-margin-0" *ngIf="prettyFullName(entry.personAppearance)">
                     <strong class="u-mr-2">Navn</strong> {{ prettyFullName(entry.personAppearance) }}
                 </p>
-                <p class="u-margin-0" *ngIf="prettyBirthYear(entry.personAppearance)">
-                    <strong class="u-mr-2">Født</strong> {{ prettyBirthYear(entry.personAppearance) }}
+                <p class="u-margin-0" *ngIf="entry.personAppearance.birthyear_display">
+                    <strong class="u-mr-2">Født</strong> {{ entry.personAppearance.birthyear_display }}
                 </p>
                 <p class="u-text-capitalize u-margin-0" *ngIf="prettyBirthLocation(entry.personAppearance)">
                     <strong class="u-mr-2">Fødested</strong> {{ prettyBirthLocation(entry.personAppearance) }}

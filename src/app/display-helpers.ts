@@ -8,21 +8,6 @@ export function prettyBirthLocation(
   return birthplace_display;
 };
 
-export function prettyBirthYear(
-  {
-    birthyear_display,
-    birthyear_calculated_display,
-  }: PersonAppearance
-) {
-  if(birthyear_display) {
-    return birthyear_display;
-  }
-  if(birthyear_calculated_display) {
-    return `ca. ${birthyear_calculated_display}`;
-  }
-  return "";
-};
-
 export function prettyDeathYear(
   {
     dateOfDeath,
