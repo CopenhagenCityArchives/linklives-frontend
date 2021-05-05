@@ -1,16 +1,5 @@
 import { PersonAppearance } from './search/search.service';
 
-export function prettySourceLocation({ sourceplace_display, event_type }: PersonAppearance) {
-  return [
-    ...new Set(
-      [
-        event_type === "burial" ? "Københavns begravelsesprotokoller" : null,
-        sourceplace_display
-      ].filter((x) => x)
-    )
-  ].join(", ");
-};
-
 export function prettyBirthLocation(
   {
     birthplace_display,
@@ -78,22 +67,6 @@ export function prettyLastName(
   }
   return "";
 }
-
-export function eventMetaType({ event_type }) {
-  const pr = [ // kirkebøger
-    'arrival',
-    'baptism',
-    'birth',
-    'confirmation',
-    'death',
-    'departure',
-    'marriage',
-  ]
-  if(pr.includes(event_type)) {
-    return 'pr';
-  }
-  return event_type;
-};
 
 export function eventType({ event_type }) {
   return {

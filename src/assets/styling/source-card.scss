@@ -28,9 +28,17 @@
   border-bottom-width: 3px;
 }
 
-.lls-source--census,
-.lls-source--departure,
-.lls-source--arrival {
+.lls-source--arrival,
+.lls-source--departure {
+  border-color: $departure-green;
+
+  &::before {
+    background-color: $departure-green;
+  }
+}
+
+.lls-source--census
+ {
   border-color: $yellow;
 
   &::before {
@@ -65,10 +73,10 @@
 }
 
 .lls-source--confirmation {
-  border-color: $blue;
+  border-color: $confirmation-blue;
 
   &::before {
-    background-color: $blue;
+    background-color: $confirmation-blue;
   }
 }
 
