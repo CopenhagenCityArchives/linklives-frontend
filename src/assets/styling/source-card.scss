@@ -46,12 +46,20 @@
   }
 }
 
-.lls-source--burial,
-.lls-source--death {
+.lls-source--burial-cph {
   border-color: $burial-grey;
 
   &::before {
     background-color: $burial-grey;
+  }
+}
+
+.lls-source--burial-pr,
+.lls-source--death {
+  border-color: $burial-black;
+
+  &::before {
+    background-color: $burial-black;
   }
 }
 
