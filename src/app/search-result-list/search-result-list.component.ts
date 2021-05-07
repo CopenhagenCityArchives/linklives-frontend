@@ -101,8 +101,6 @@ export class SearchResultListComponent implements OnInit {
   }
 
   get possibleSources() {
-    console.log('this.searchResult.meta.possibleSources', this.searchResult.meta.possibleSources);
-
     return this.searchResult.meta.possibleSources.sort((a, b) => {
       if(a.event_year_display < b.event_year_display) {
         return -1;
