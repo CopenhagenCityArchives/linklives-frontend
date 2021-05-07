@@ -36,10 +36,16 @@
   }
 }
 
-.lls-card--burial,
-.lls-card--death {
+.lls-card--burial-cph {
   &:before {
     background-color: $burial-grey;
+  }
+}
+
+.lls-card--burial-pr,
+.lls-card--death {
+  &:before {
+    background-color: $burial-black;
   }
 }
 
