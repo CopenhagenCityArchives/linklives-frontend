@@ -66,7 +66,7 @@ export interface ElasticSourceLookupResult {
       sources: {
         buckets: {
           key: {
-            source_year_display: string,
+            event_year_display: string,
             event_type: string
             event_type_display: string // only used for displaying
           },
@@ -283,7 +283,7 @@ export class ElasticsearchService {
             sources: {
               composite: {
                 sources: [
-                  { source_year_display: { terms: { field: "person_appearance.source_year_display" } } },
+                  { event_year_display: { terms: { field: "person_appearance.event_year_display" } } },
                   { event_type: { terms: { field: "person_appearance.event_type" } } },
                   { event_type_display: { terms: { field: "person_appearance.event_type_display" } } },
                 ],
@@ -433,11 +433,11 @@ export class ElasticsearchService {
       // Add source filter to only the must filter (but not the source lookup filter)
       must.push({
         bool: {
-          should: sourceFilter.map(({ source_year_display, event_type, event_type_display }) => {
+          should: sourceFilter.map(({ event_year_display, event_type, event_type_display }) => {
             return {
               bool: {
                 must: [
-                  { match: { [`person_appearance.source_year_display`]: source_year_display } },
+                  { match: { [`person_appearance.event_year_display`]: event_year_display } },
                   { match: { [`person_appearance.event_type`]: event_type } },
                   { match: { [`person_appearance.event_type_display`]: event_type_display } },
                 ]
