@@ -36,7 +36,7 @@ export class PersonAppearanceItemComponent implements OnInit {
     if(this.personAppearance.event_type !== 'burial') {
       return this.personAppearance.event_type;
     }
-    if(this.personAppearance.source_type_wp4 == "Kirkebog") {
+    if(this.personAppearance.source_type_wp4 == "parish") {
       return `${this.personAppearance.event_type}-pr`
     }
     return `${this.personAppearance.event_type}-cph`
