@@ -33,7 +33,7 @@ export interface SearchResult {
   },
   hits: SearchHit[],
   meta: {
-    possibleSources: Array<{ source_year_display: string, event_type: string, event_type_display: string, count: number }>,
+    possibleSources: Array<{ event_year_display: string, event_type: string, event_type_display: string, count: number }>,
   }
 }
 
@@ -64,6 +64,8 @@ export interface PersonAppearance {
   dateOfDeath: string,
   deathyear_display: string,
   district: string,
+  event_id: number,
+  event_persons: number,
   event_type: string,
   event_type_display: string,
   event_year: string,
@@ -104,9 +106,11 @@ export interface PersonAppearance {
   positions: string,
   role: string,
   role_display: string,
+  source_archive_display: string,
   source_id: number,
   source_reference: string,
   source_type_display: string,
+  source_type_wp4: string,
   source_year: number,
   source_year_display: string,
   sourceplace_display: string,
@@ -135,7 +139,7 @@ export interface Source {
 export interface SourceIdentifier {
   event_type: string,
   event_type_display: string,
-  source_year_display: string,
+  event_year_display: string,
 };
 
 export interface AdvancedSearchQuery {

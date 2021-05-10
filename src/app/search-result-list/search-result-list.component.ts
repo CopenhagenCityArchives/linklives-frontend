@@ -102,10 +102,10 @@ export class SearchResultListComponent implements OnInit {
 
   get possibleSources() {
     return this.searchResult.meta.possibleSources.sort((a, b) => {
-      if(a.source_year_display < b.source_year_display) {
+      if(a.event_year_display < b.event_year_display) {
         return -1;
       }
-      if(a.source_year_display > b.source_year_display) {
+      if(a.event_year_display > b.event_year_display) {
         return 1;
       }
       return 0;
@@ -244,8 +244,8 @@ export class SearchResultListComponent implements OnInit {
   }
 
   getYearFromSourceFilterValue(filterValue: string) {
-    const [_, __, source_year_display] = filterValue.split("_");
-    return source_year_display;
+    const [_, __, event_year_display] = filterValue.split("_");
+    return event_year_display;
   }
 
   getEventTypeFromSourceFilterValue(filterValue: string) {

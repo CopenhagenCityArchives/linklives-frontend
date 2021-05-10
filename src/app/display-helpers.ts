@@ -1,100 +1,5 @@
 import { PersonAppearance } from './search/search.service';
 
-export function prettySourceLocation({ sourceplace_display, event_type }: PersonAppearance) {
-  return [
-    ...new Set(
-      [
-        event_type === "burial" ? "Københavns begravelsesprotokoller" : null,
-        sourceplace_display
-      ].filter((x) => x)
-    )
-  ].join(", ");
-};
-
-export function prettyBirthLocation(
-  {
-    birthplace_display,
-  }: PersonAppearance
-) {
-  return birthplace_display;
-};
-
-export function prettyBirthYear(
-  {
-    birthyear_display,
-    birthyear_calculated_display,
-  }: PersonAppearance
-) {
-  if(birthyear_display) {
-    return birthyear_display;
-  }
-  if(birthyear_calculated_display) {
-    return `ca. ${birthyear_calculated_display}`;
-  }
-  return "";
-};
-
-export function prettyDeathYear(
-  {
-    dateOfDeath,
-  }: PersonAppearance
-) {
-  if(dateOfDeath) {
-    return dateOfDeath.split("-")[0];
-  }
-  return null;
-};
-
-export function prettyFullName(personAppearance: PersonAppearance) {
-  return personAppearance.name_display;
-}
-
-export function prettyFirstName(
-  {
-    first_names_clean,
-    first_names,
-  }: PersonAppearance
-) {
-  if(first_names_clean) {
-    return first_names_clean;
-  }
-  if(first_names?.length) {
-    return first_names.join(" ");
-  }
-  return "";
-}
-
-export function prettyLastName(
-  {
-    lastname_clean,
-    patronyms,
-  }: PersonAppearance
-) {
-  if(lastname_clean) {
-    return lastname_clean;
-  }
-  if(patronyms?.length) {
-    return patronyms.join(" ");
-  }
-  return "";
-}
-
-export function eventMetaType({ event_type }) {
-  const pr = [ // kirkebøger
-    'arrival',
-    'baptism',
-    'birth',
-    'confirmation',
-    'death',
-    'departure',
-    'marriage',
-  ]
-  if(pr.includes(event_type)) {
-    return 'pr';
-  }
-  return event_type;
-};
-
 export function eventType({ event_type }) {
   return {
     "census": "Folketælling",
@@ -143,7 +48,7 @@ export function prettyDate(rawDate) {
 }
 
 export function prettyYearRange(personAppearances) {
-  const sortedYears = personAppearances.map(pa => pa.source_year).sort();
+  const sortedYears = personAppearances.map(pa => pa.event_year_display).sort();
   return `${sortedYears[0]} - ${sortedYears[sortedYears.length - 1]}`;
 }
 

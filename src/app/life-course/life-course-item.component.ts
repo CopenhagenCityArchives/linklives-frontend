@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { prettyBirthLocation, prettyBirthYear, prettyDeathYear, prettyFullName, prettyYearRange } from '../display-helpers';
+import { prettyYearRange } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({
@@ -17,17 +17,22 @@ export class LifeCourseItemComponent implements OnInit {
 
   featherSpriteUrl = this.config.featherIconPath;
 
-  get latestPersonAppearance() {
+
+  get personAppearancesSortedByYear() {
     const sortedByYear = this.personAppearances.sort(function(a, b) {
-      if (a.source_year > b.source_year) {
+      if (a.event_year_display > b.event_year_display) {
         return 1;
       }
-      if (a.source_year < b.source_year) {
+      if (a.event_year_display < b.event_year_display) {
         return -1;
       }
       return 0;
     });
-    return sortedByYear[sortedByYear.length - 1];
+    return sortedByYear;
+  }
+
+  get latestPersonAppearance() {
+    return this.personAppearancesSortedByYear[this.personAppearancesSortedByYear.length - 1];
   }
 
   get sourceYearRange() {
@@ -35,29 +40,27 @@ export class LifeCourseItemComponent implements OnInit {
   }
 
   get sourceList() {
-    const eventNamesByType = {
-      "census": "Folke&shy;tælling",
-      "burial": "Begravelse",
-    };
-    const sources = this.personAppearances.map(pa => `${eventNamesByType[pa.event_type]} ${pa.source_year}`);
+    const sources = this.personAppearances.map(pa => `${pa.source_type_display} ${pa.source_year_display}`);
     const formattedSources = sources.join(", ");
     return formattedSources;
   }
 
-  get birthLocation() {
-    return prettyBirthLocation(this.latestPersonAppearance);
+  get birthPlace() {
+    const firstPaWithBirthPlace = this.personAppearancesSortedByYear.find((pa) => pa.birthplace_display);
+    return firstPaWithBirthPlace ? firstPaWithBirthPlace.birthplace_display : "";
   }
 
   get birthYear() {
-    return prettyBirthYear(this.latestPersonAppearance);
+    const firstPaWithBirthYear = this.personAppearancesSortedByYear.find((pa) => pa.birthyear_display);
+    return firstPaWithBirthYear ? firstPaWithBirthYear.birthyear_display : "";
   }
 
   get deathYear() {
-    return prettyDeathYear(this.latestPersonAppearance);
+    return this.latestPersonAppearance.deathyear_display || "";
   }
 
   get personName() {
-    return prettyFullName(this.latestPersonAppearance);
+    return this.latestPersonAppearance.name_display || "";
   }
 
   constructor() { }

@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PersonAppearance, Source } from '../search/search.service';
-import { eventMetaType } from '../display-helpers';
 
 @Component({
   selector: 'app-source-data',
@@ -14,7 +13,6 @@ export class SourceDataComponent implements OnInit {
 
   pa: PersonAppearance;
   source: Source;
-  event_meta_type: string;
 
   standardizedDataFields = {
     census: {
@@ -77,7 +75,7 @@ export class SourceDataComponent implements OnInit {
       birthname_std: "birthname_std",
       street_unique: "street_unique",
     },
-    pr: {
+    parish: {
       id: 'id',
       birth_year: 'birth_year',
       gender_std: "gender_std",
@@ -108,7 +106,7 @@ export class SourceDataComponent implements OnInit {
   };
 
   get standardizedDataLines() {
-    return Object.keys(this.standardizedDataFields[this.event_meta_type])
+    return Object.keys(this.standardizedDataFields[this.pa.source_type_wp4])
       .filter((key) => {
         const isUndef = typeof this.pa[key] === "undefined";
         if(isUndef) {
@@ -116,25 +114,28 @@ export class SourceDataComponent implements OnInit {
         }
         return !isUndef;
       })
-      .map((key) => ({ label: this.standardizedDataFields[this.event_meta_type][key], value: this.cleanValue(this.pa[key]) }));
+      .map((key) => ({ label: this.standardizedDataFields[this.pa.source_type_wp4][key], value: this.cleanValue(this.pa[key]) }));
   }
 
   sourceDataFields = {
     census: {
+      source_archive_display: "Arkiv",
       source_id: "Kilde nr.",
-      source_year: "Kildeår",
+      source_year_display: "Kildeår",
       source_reference: "Kildehenvisning",
       transcription_code: "Transskriptionskode",
       transcription_id: "Transskriptions ID",
       household_family_no: "Husstands nr.",
     },
     burial: {
+      source_archive_display: "Arkiv",
       source_id: "Kilde nr.",
-      source_year: "Kildeår",
+      source_year_display: "Kildeår",
       id_cph: "ID",
       number: "Nummer",
     },
-    pr: {
+    parish: {
+      source_archive_display: "Arkiv",
       EventParish: "Sogn",
       EventCounty: "Herred",
       EventState: "Amt",
@@ -146,7 +147,7 @@ export class SourceDataComponent implements OnInit {
   };
 
   get sourceDataLines() {
-    return Object.keys(this.sourceDataFields[this.event_meta_type])
+    return Object.keys(this.sourceDataFields[this.pa.source_type_wp4])
       .filter((key) => {
         const isUndef = typeof this.pa[key] === "undefined";
         if(isUndef) {
@@ -154,7 +155,7 @@ export class SourceDataComponent implements OnInit {
         }
         return !isUndef;
       })
-      .map((key) => ({ label: this.sourceDataFields[this.event_meta_type][key], value: this.cleanValue(this.pa[key]) }));
+      .map((key) => ({ label: this.sourceDataFields[this.pa.source_type_wp4][key], value: this.cleanValue(this.pa[key]) }));
   }
 
   excludeDataFields = [
@@ -167,9 +168,9 @@ export class SourceDataComponent implements OnInit {
   ];
 
   get otherDataLines() {
-    const alreadyUsedFields = Object.keys(this.standardizedDataFields[this.pa.event_type])
-      .concat(Object.keys(this.sourceDataFields[this.pa.event_type]))
-      .concat(Object.keys(this.originalDataFields[this.pa.event_type]))
+    const alreadyUsedFields = Object.keys(this.standardizedDataFields[this.pa.source_type_wp4])
+      .concat(Object.keys(this.sourceDataFields[this.pa.source_type_wp4]))
+      .concat(Object.keys(this.originalDataFields[this.pa.source_type_wp4]))
       .concat(this.excludeDataFields);
 
     return Object.keys(this.pa)
@@ -232,7 +233,7 @@ export class SourceDataComponent implements OnInit {
       workplaces: "Arbejdssted",
       deathcauses: "Dødsårsag",
     },
-    pr: {
+    parish: {
       gender: "Køn",
       GivenName: "Navn",
       Surname: "Efternavn",
@@ -253,7 +254,7 @@ export class SourceDataComponent implements OnInit {
   };
 
   get originalDataLines() {
-    return Object.keys(this.originalDataFields[this.event_meta_type])
+    return Object.keys(this.originalDataFields[this.pa.source_type_wp4])
       .filter((key) => {
         const isUndef = typeof this.pa[key] === "undefined";
         if(isUndef) {
@@ -261,7 +262,7 @@ export class SourceDataComponent implements OnInit {
         }
         return !isUndef;
       })
-      .map((key) => ({ label: this.originalDataFields[this.event_meta_type][key], value: this.cleanValue(this.pa[key]) }));
+      .map((key) => ({ label: this.originalDataFields[this.pa.source_type_wp4][key], value: this.cleanValue(this.pa[key]) }));
   }
 
   cleanValue(value) {
@@ -271,11 +272,20 @@ export class SourceDataComponent implements OnInit {
     return value;
   }
 
+  get eventTypeClass() {
+    if(this.pa.event_type !== 'burial') {
+      return this.pa.event_type;
+    }
+    if(this.pa.source_type_wp4 === 'parish') {
+      return `${this.pa.event_type}-pr`
+    }
+    return `${this.pa.event_type}-cph`
+  }
+
   ngOnInit(): void {
     this.route.parent.data.subscribe((resolve) => {
       this.pa = resolve.item.pa as PersonAppearance;
       this.source = resolve.item.source as Source;
-      this.event_meta_type = eventMetaType({ event_type: this.pa.event_type });
     });
   }
 
