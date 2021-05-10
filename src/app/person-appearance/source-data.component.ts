@@ -15,7 +15,7 @@ export class SourceDataComponent implements OnInit {
   source: Source;
 
   standardizedDataFields = {
-    Folketælling: {
+    census: {
       event_type: "event_type",
       role: "role",
       name_clean: "name_clean",
@@ -49,7 +49,7 @@ export class SourceDataComponent implements OnInit {
       birth_place_county_std: "birth_place_county_std",
       birth_place_koebstad_std: "birth_place_koebstad_std",
     },
-    Begravelsesprotokol: {
+    burial: {
       gender_clean: "gender_clean",
       gender_std: "gender_std",
       age_clean: "age_clean",
@@ -75,7 +75,7 @@ export class SourceDataComponent implements OnInit {
       birthname_std: "birthname_std",
       street_unique: "street_unique",
     },
-    Kirkebog: {
+    parish: {
       id: 'id',
       birth_year: 'birth_year',
       gender_std: "gender_std",
@@ -118,7 +118,7 @@ export class SourceDataComponent implements OnInit {
   }
 
   sourceDataFields = {
-    Folketælling: {
+    census: {
       source_archive_display: "Arkiv",
       source_id: "Kilde nr.",
       source_year_display: "Kildeår",
@@ -127,14 +127,14 @@ export class SourceDataComponent implements OnInit {
       transcription_id: "Transskriptions ID",
       household_family_no: "Husstands nr.",
     },
-    Begravelsesprotokol: {
+    burial: {
       source_archive_display: "Arkiv",
       source_id: "Kilde nr.",
       source_year_display: "Kildeår",
       id_cph: "ID",
       number: "Nummer",
     },
-    Kirkebog: {
+    parish: {
       source_archive_display: "Arkiv",
       EventParish: "Sogn",
       EventCounty: "Herred",
@@ -179,7 +179,7 @@ export class SourceDataComponent implements OnInit {
   }
 
   originalDataFields = {
-    Folketælling: {
+    census: {
       name: "Navn",
       occupation: "Erhverv",
       age: "Alder",
@@ -198,7 +198,7 @@ export class SourceDataComponent implements OnInit {
       state_region: "Land",
       transcriber_comments: "Indtasters kommentar",
     },
-    Begravelsesprotokol: {
+    burial: {
       gender: "Køn",
       marital_status: "Civilstand",
       ageYears: "Alder, år",
@@ -233,7 +233,7 @@ export class SourceDataComponent implements OnInit {
       workplaces: "Arbejdssted",
       deathcauses: "Dødsårsag",
     },
-    Kirkebog: {
+    parish: {
       gender: "Køn",
       GivenName: "Navn",
       Surname: "Efternavn",
