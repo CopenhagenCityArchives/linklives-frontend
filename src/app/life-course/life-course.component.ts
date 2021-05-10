@@ -124,10 +124,6 @@ export class LifeCourseComponent implements OnInit {
     return sortedByYear;
   }
 
-  get firstPersonAppearance() {
-    return this.personAppearancesSortedByYear[0];
-  }
-
   get latestPersonAppearance() {
     return this.personAppearancesSortedByYear[this.personAppearancesSortedByYear.length - 1];
   }
