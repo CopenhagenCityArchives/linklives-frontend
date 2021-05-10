@@ -19,7 +19,7 @@ export class PersonAppearanceItemComponent implements OnInit {
   featherSpriteUrl = this.config.featherIconPath;
 
   get computedClass() {
-    const classList = [ 'lls-source--' + this.personAppearance.event_type ];
+    const classList = [ 'lls-source--' + this.eventTypeClass ];
 
     if(this.selected) {
       classList.push('lls-source--selected');
@@ -30,6 +30,16 @@ export class PersonAppearanceItemComponent implements OnInit {
 
   get eventIcon() {
     return eventIcon(this.personAppearance.event_type);
+  }
+
+  get eventTypeClass() {
+    if(this.personAppearance.event_type !== 'burial') {
+      return this.personAppearance.event_type;
+    }
+    if(this.personAppearance.source_type_wp4 == "Kirkebog") {
+      return `${this.personAppearance.event_type}-pr`
+    }
+    return `${this.personAppearance.event_type}-cph`
   }
 
   constructor() { }

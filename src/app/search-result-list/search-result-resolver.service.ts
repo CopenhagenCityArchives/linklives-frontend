@@ -36,10 +36,11 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
         .split(",")
         .filter(x => x)
         .map((id) => {
-          const [ event_type, source_year ] = id.split("_");
+          const [ event_type, event_type_display, event_year_display ] = id.split("_");
           return {
             event_type,
-            source_year: Number(source_year),
+            event_type_display,
+            event_year_display,
           };
         });
     }
