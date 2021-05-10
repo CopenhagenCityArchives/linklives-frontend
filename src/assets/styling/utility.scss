@@ -76,4 +76,8 @@
 // transformations
 .u-rotate-90 {
   transform: rotate(90deg);
+
+  .lls-btn:hover &.lls-icon {
+    transform: rotate(90deg) translateX(-2px);
+  }
 }
