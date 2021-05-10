@@ -336,12 +336,9 @@ export class ElasticsearchService {
         return;
       }
 
-      const searchKeys = [ searchKeyConfig.default ];
-      if(mode !== "default" && searchKeyConfig[mode]) {
-        searchKeys.push(searchKeyConfig[mode]);
-      }
+      const searchKey = searchKeyConfig[mode];
 
-      const searchKeyQuery = searchKeys.map((searchKey) => {
+      const getSearchKeyQuery = (searchKey, value) => {
         const searchKeySubQuery = [];
 
         if(value.includes('"')) {
@@ -417,14 +414,10 @@ export class ElasticsearchService {
         }
 
         return searchKeySubQuery[0];
-      });
-
-      if(searchKeyQuery.length == 1) {
-        must.push(searchKeyQuery[0]);
-        return;
       }
 
-      must.push({ bool: { should: searchKeyQuery } });
+      const searchKeyQuery = getSearchKeyQuery(searchKey, value);
+      must.push(searchKeyQuery);
     });
 
     if(sourceFilter.length) {
