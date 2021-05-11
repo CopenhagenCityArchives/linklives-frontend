@@ -19,13 +19,15 @@ export const mapSearchKeys = {
   },
   sourcePlace: {
     default: "sourceplace_searchable",
+    fuzzy: "sourceplace_searchable",
   },
   birthYear: {
     default: "birthyear_searchable",
     fuzzy: "birthyear_searchable_fz",
   },
   sourceYear: {
-    default: "source_year_agg"
+    default: "source_year_searchable",
+    fuzzy: "source_year_searchable_fz",
   },
   deathYear: {
     default: "deathyear_searchable",
