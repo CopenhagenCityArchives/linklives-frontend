@@ -398,9 +398,6 @@ export class ElasticsearchService {
               [`person_appearance.${searchKey}`]: {
                 // Match query splits into terms on space, so we can simplify the query here
                 query: nonWildcardTerms.join(" "),
-
-                // Fuzziness disabled for now, until we figure out how exactly we want it to work
-                fuzziness: 0, //"AUTO",
                 //max_expansions: 250,
 
                 operator: "AND"
