@@ -18,7 +18,7 @@ export class PersonAppearanceComponent implements OnInit {
   hh: PersonAppearance[];
 
   get prettyLastUpdatedDate() {
-    return prettyDate(this.pa.last_updated);
+    return prettyDate(this.pa.last_updated_wp4);
   }
 
   get previousSearchHistoryEntry() {
