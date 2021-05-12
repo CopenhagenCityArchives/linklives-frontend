@@ -148,7 +148,7 @@ export class LifeCourseComponent implements OnInit {
 
   get lastUpdated() {
     const dates = this.pas
-      .map((pa) => pa.last_updated)
+      .map((pa) => pa.last_updated_wp4)
       .sort();
     const date = dates[dates.length - 1];
 
