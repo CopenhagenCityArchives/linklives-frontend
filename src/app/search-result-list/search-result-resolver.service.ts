@@ -49,17 +49,19 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
 
     const possibleSearchQueryParams = [
       "query",
+      "name",
       "firstName",
       "lastName",
       "birthName",
       "birthPlace",
       "sourcePlace",
       //"deathPlace",
-      //"birthYear",
+      "birthYear",
       "sourceYear",
       "deathYear",
       "id",
       "lifeCourseId",
+      "gender",
       //"maritalStatus",
     ];
 

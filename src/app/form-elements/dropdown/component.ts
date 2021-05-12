@@ -35,6 +35,7 @@ export class Dropdown implements ControlValueAccessor {
   @Input() dropdownIcon: string;
   @Input() dropdownIconOpen: string;
   @Input() label: string = "";
+  @Input() showCurrentValue: boolean = false;
 
   @Input()
   get value() {

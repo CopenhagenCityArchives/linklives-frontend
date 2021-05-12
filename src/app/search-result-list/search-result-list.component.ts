@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
 import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
-import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, possibleSearchQueryParams, getFieldOptions } from 'src/app/search-term-values';
+import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, possibleSearchQueryParams, getFieldOptions, genderOptions } from 'src/app/search-term-values';
 import { eventIcon, eventType } from '../display-helpers';
 
 interface SearchQueryParams {
@@ -258,6 +258,10 @@ export class SearchResultListComponent implements OnInit {
     setTimeout(() => {
       this.elements.nativeElement.querySelector(`[data-search-term=${field}]`).focus();
     }, 0);
+  }
+
+  get genderOptions() {
+    return genderOptions;
   }
 
   removeFilter(option) {

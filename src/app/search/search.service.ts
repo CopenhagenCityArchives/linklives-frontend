@@ -144,6 +144,7 @@ export interface SourceIdentifier {
 
 export interface AdvancedSearchQuery {
   query?: string,
+  name?: string,
   firstName?: string,
   lastName?: string,
   birthName?: string,
@@ -152,6 +153,7 @@ export interface AdvancedSearchQuery {
   sourceYear?: string,
   deathYear?: string,
   id?: string,
+  gender?: string,
   lifeCourseId?: string,
   // maritalStatus?: string,
 }

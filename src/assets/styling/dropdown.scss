@@ -118,10 +118,6 @@ Option adder styling / a different type of dropdown
     white-space: nowrap;
   }
 
-  .lls-dropdown__current-option-label {
-    display: none;
-  }
-
   &:hover .lls-icon {
     transform: none;
   }
@@ -135,7 +131,7 @@ Option adder styling / a different type of dropdown
     box-shadow: 0 0 3px rgba(0,0,0,0.15);
 
     @media (min-width: $breakpointMd) {
-      transform: translateY(1rem - 0.4rem) translateX(-1.5rem);
+      transform: translateY(1rem - 0.4rem);
     }
   }
 
