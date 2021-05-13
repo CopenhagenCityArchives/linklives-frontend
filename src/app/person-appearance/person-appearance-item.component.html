@@ -25,10 +25,12 @@
                 {{ personAppearance.name_display }}
             </p>
             <p class="lls-source__person-age">
-                <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left">
-                    <use [attr.href]="featherSpriteUrl + '#star'"></use>
-                </svg>
-                {{ personAppearance.birthyear_display }}
+                <ng-container *ngIf="personAppearance.birthyear_display">
+                    <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left">
+                        <use [attr.href]="featherSpriteUrl + '#star'"></use>
+                    </svg>
+                    {{ personAppearance.birthyear_display }}
+                </ng-container>
                 <ng-container *ngIf="personAppearance.deathyear_display">
                     <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left u-ml-2">
                         <use [attr.href]="featherSpriteUrl + '#ll-dead'"></use>
