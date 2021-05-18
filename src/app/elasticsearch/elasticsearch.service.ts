@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { PersonAppearance, SearchResult, SearchHit, AdvancedSearchQuery, Source, SourceIdentifier } from '../search/search.service';
+import { PersonAppearance, Lifecourse, SearchResult, SearchHit, AdvancedSearchQuery, Source, SourceIdentifier } from '../search/search.service';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -14,7 +14,9 @@ export interface ElasticDocResult {
   _seq_no: number,
   found: boolean,
   _source: {
-    person_appearance: PersonAppearance | PersonAppearance[]
+    life_course_id?: number,
+    source?: Source,
+    person_appearance?: PersonAppearance | PersonAppearance[]
   }
 }
 
@@ -63,7 +65,11 @@ export interface ElasticSourceLookupResult {
     person_appearance: {
       sources: {
         buckets: {
-          key: { source_year: number, event_type: string },
+          key: {
+            event_year_display: string,
+            event_type: string
+            event_type_display: string // only used for displaying
+          },
           doc_count: number
         }[]
       }
@@ -277,8 +283,9 @@ export class ElasticsearchService {
             sources: {
               composite: {
                 sources: [
-                  { source_year: { terms: { field: "person_appearance.source_year_agg" } } },
-                  { event_type: { terms: { field: "person_appearance.event_type_agg" } } },
+                  { event_year_display: { terms: { field: "person_appearance.event_year_display" } } },
+                  { event_type: { terms: { field: "person_appearance.event_type" } } },
+                  { event_type_display: { terms: { field: "person_appearance.event_type_display" } } },
                 ],
                 size: 10000
               }
@@ -334,12 +341,9 @@ export class ElasticsearchService {
         return;
       }
 
-      const searchKeys = [ searchKeyConfig.default ];
-      if(mode !== "default" && searchKeyConfig[mode]) {
-        searchKeys.push(searchKeyConfig[mode]);
-      }
+      const searchKey = searchKeyConfig[mode];
 
-      const searchKeyQuery = searchKeys.map((searchKey) => {
+      const getSearchKeyQuery = (searchKey, value) => {
         const searchKeySubQuery = [];
 
         if(value.includes('"')) {
@@ -399,8 +403,8 @@ export class ElasticsearchService {
               [`person_appearance.${searchKey}`]: {
                 // Match query splits into terms on space, so we can simplify the query here
                 query: nonWildcardTerms.join(" "),
-                fuzziness: "AUTO",
-                max_expansions: 250,
+                //max_expansions: 250,
+
                 operator: "AND"
               }
             }
@@ -412,29 +416,25 @@ export class ElasticsearchService {
         }
 
         return searchKeySubQuery[0];
-      });
-
-      if(searchKeyQuery.length == 1) {
-        must.push(searchKeyQuery[0]);
-        return;
       }
 
-      must.push({ bool: { should: searchKeyQuery } });
+      const searchKeyQuery = getSearchKeyQuery(searchKey, value);
+      must.push(searchKeyQuery);
     });
 
     if(sourceFilter.length) {
       // Copy must into sourceLookupFilter to avoid the following push being added to this list, too
       sourceLookupFilter = [ ...must ];
-
       // Add source filter to only the must filter (but not the source lookup filter)
       must.push({
         bool: {
-          should: sourceFilter.map(({ source_year, event_type }) => {
+          should: sourceFilter.map(({ event_year_display, event_type, event_type_display }) => {
             return {
               bool: {
                 must: [
-                  { match: { [`person_appearance.source_year_agg`]: source_year } },
-                  { match: { [`person_appearance.event_type_agg`]: event_type } },
+                  { match: { [`person_appearance.event_year_display`]: event_year_display } },
+                  { match: { [`person_appearance.event_type`]: event_type } },
+                  { match: { [`person_appearance.event_type_display`]: event_type_display } },
                 ]
               }
             };
@@ -483,13 +483,12 @@ export class ElasticsearchService {
     };
   }
 
-  getDocument(index: string, id: string|number): Observable<Source|PersonAppearance|PersonAppearance[]> {
-    return new Observable<Source|PersonAppearance|PersonAppearance[]>(
+  getLifecourse(id: string|number): Observable<Lifecourse> {
+    return new Observable(
       observer => {
-        this.http.get<ElasticDocResult>(`${environment.apiUrl}/${index}/_doc/${id}`)
+        this.http.get<ElasticDocResult>(`${environment.apiUrl}/lifecourses/_doc/${id}`)
         .subscribe(next => {
-            const typeKey = Object.keys(next._source).find((key) => !key.includes("id"));
-            observer.next(next._source[typeKey]);
+            observer.next(next._source as Lifecourse);
           }, error => {
             observer.error(error);
           }, () => {
@@ -499,24 +498,37 @@ export class ElasticsearchService {
       }
     );
   }
-  
-  getDocuments(documents: {index: string, id: string|number}[]) {
-    let body = {
-      docs: documents.map(doc => { return { _index: doc.index, _id: doc.id } })
-    };
 
-    return new Observable<PersonAppearance[]>(
+  getSource(id: string|number): Observable<Source> {
+    return new Observable(
       observer => {
-        this.http.post<{ docs: ElasticDocResult[] }>(`${environment.apiUrl}/mget`, body)
+        this.http.get<ElasticDocResult>(`${environment.apiUrl}/sources/_doc/${id}`)
         .subscribe(next => {
-          observer.next(next.docs.map(doc => doc._source.person_appearance as PersonAppearance));
-        }, error => {
-          observer.error(error);
-        }, () => {
-          observer.complete();
-        })
+            observer.next(next._source.source as Source);
+          }, error => {
+            observer.error(error);
+          }, () => {
+            observer.complete();
+          }
+        )
       }
-    )
+    );
+  }
+
+  getPersonAppearance(id: string|number): Observable<PersonAppearance> {
+    return new Observable(
+      observer => {
+        this.http.get<ElasticDocResult>(`${environment.apiUrl}/pas/_doc/${id}`)
+        .subscribe(next => {
+            observer.next(next._source.person_appearance as PersonAppearance);
+          }, error => {
+            observer.error(error);
+          }, () => {
+            observer.complete();
+          }
+        )
+      }
+    );
   }
 
   searchLinks(pas: PersonAppearance[]): Observable<Link[]> {

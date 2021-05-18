@@ -24,9 +24,9 @@
         <form (ngSubmit)="search(1)" class="lls-row">
             <div class="lls-columns-12 lls-columns-6--md lls-columns-8--lg lls-columns-9--xl">
                 <div class="lls-row lls-row--align-bottom">
-                    <label class="lls-results-header__field-label lls-columns-12 lls-columns-6--md lls-columns-4--lg lls-columns-2--xl" *ngFor="let searchTerm of searchTerms; index as i;">
+                    <div class="lls-results-header__field-label lls-columns-12 lls-columns-6--md lls-columns-4--lg lls-columns-2--xl" *ngFor="let searchTerm of searchTerms; index as i;">
                         <span class="lls-results-header__field-label-text">{{ searchFieldLabels[searchTerm.field] }}</span>
-                        <div class="lls-input-group">
+                        <div class="lls-input-group" *ngIf="searchTerm.field !== 'gender'">
                             <input
                                 [(ngModel)]="searchTerm.value"
                                 type="text"
@@ -47,7 +47,29 @@
                                 </svg>
                             </button>
                         </div>
-                    </label>
+                        <div class="lls-input-group" *ngIf="searchTerm.field === 'gender'">
+                            <lls-dropdown
+                                class="lls-input-field lls-dropdown--option-adder "
+                                [options]="genderOptions"
+                                label="Vælg køn"
+                                showCurrentValue="true"
+                                [name]="'searchterm-value-' + i"
+                                [attr.data-search-term]="searchTerm.field"
+                                [(ngModel)]="searchTerm.value"
+                            ></lls-dropdown>
+                            <button
+                                type="button"
+                                class="lls-input-group__floating-action"
+                                [class]="searchTerms.length < 2 ? 'lls-input-group__floating-action--disabled' : ''"
+                                aria-label="Fjern søgning på felt"
+                                (click)="removeSearchTerm(i, $event)"
+                            >
+                                <svg class="lls-icon lls-icon--right">
+                                    <use [attr.href]="featherSpriteUrl + '#minus-circle'"></use>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
                     <div class="lls-results-header__field-label lls-results-header__field-label--actions lls-columns-6 lls-columns-6--md lls-columns-4--lg">
                         <lls-dropdown
                             class="lls-dropdown--option-adder"
@@ -64,7 +86,7 @@
                             class="lls-results-header__clear-search"
                             (click)="clearSearchTerms()"
                         >
-                            Nulstil
+                            <span class="lls-results-header__clear-search-text">Nulstil</span>
                             <svg class="lls-icon lls-icon--right">
                                 <use [attr.href]="featherSpriteUrl + '#x-circle'"></use>
                             </svg>
@@ -118,11 +140,11 @@
         <div class="lls-columns-12 lls-columns-7--md lls-columns-8--lg lls-search-modifiers">
             <!-- Filtering -->
             <span class="lls-search-modifier-inputs__label">Filter resultater</span>
-            <button class="lls-btn lls-btn--outline lls-btn--link" (click)="openSidebar = true">
-                <span>Kilder</span>
-                <svg class="lls-icon lls-icon--right">
-                    <use [attr.href]="featherSpriteUrl + '#chevron-right'"></use>
+            <button class="lls-btn lls-btn--outline" (click)="openSidebar = true">
+                <svg class="lls-icon lls-icon--left u-rotate-90 u-mr-2">
+                    <use [attr.href]="featherSpriteUrl + '#sliders'"></use>
                 </svg>
+                <span>Alle filtre</span>
             </button>
             <lls-filter-sidebar
                 [(ngModel)]="sourceFilter"
@@ -167,6 +189,7 @@
                         class="lls-dropdown--grey"
                         [options]="sizeOptions"
                         [(ngModel)]="pagination.size"
+                        showCurrentValue="true"
                         [featherIconPath]="featherSpriteUrl"
                         (change)="search(1)"
                     ></lls-dropdown>
@@ -177,6 +200,7 @@
                         class="lls-dropdown--grey"
                         [options]="sortByOptions"
                         [(ngModel)]="sortBy"
+                        showCurrentValue="true"
                         [featherIconPath]="featherSpriteUrl"
                         (change)="search()"
                     ></lls-dropdown>

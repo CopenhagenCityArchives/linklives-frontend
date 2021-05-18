@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
 import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
-import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, possibleSearchQueryParams, getFieldOptions } from 'src/app/search-term-values';
+import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, possibleSearchQueryParams, getFieldOptions, genderOptions } from 'src/app/search-term-values';
 import { eventIcon, eventType } from '../display-helpers';
 
 interface SearchQueryParams {
@@ -102,10 +102,10 @@ export class SearchResultListComponent implements OnInit {
 
   get possibleSources() {
     return this.searchResult.meta.possibleSources.sort((a, b) => {
-      if(a.source_year < b.source_year) {
+      if(a.event_year_display < b.event_year_display) {
         return -1;
       }
-      if(a.source_year > b.source_year) {
+      if(a.event_year_display > b.event_year_display) {
         return 1;
       }
       return 0;
@@ -239,18 +239,18 @@ export class SearchResultListComponent implements OnInit {
   }
 
   getIconFromSourceFilterValue(filterValue: string) {
-    const [event_type, _] = filterValue.split("_");
+    const [event_type, _, __] = filterValue.split("_");
     return eventIcon(event_type);
   }
 
   getYearFromSourceFilterValue(filterValue: string) {
-    const [_, source_year] = filterValue.split("_");
-    return source_year;
+    const [_, __, event_year_display] = filterValue.split("_");
+    return event_year_display;
   }
 
   getEventTypeFromSourceFilterValue(filterValue: string) {
-    const [event_type, _] = filterValue.split("_");
-    return eventType({ event_type });
+    const [_, event_type_display, __] = filterValue.split("_");
+    return event_type_display;
   }
 
   addField(field) {
@@ -258,6 +258,10 @@ export class SearchResultListComponent implements OnInit {
     setTimeout(() => {
       this.elements.nativeElement.querySelector(`[data-search-term=${field}]`).focus();
     }, 0);
+  }
+
+  get genderOptions() {
+    return genderOptions;
   }
 
   removeFilter(option) {
@@ -290,6 +294,7 @@ export class SearchResultListComponent implements OnInit {
   paginationQueryParams(page) {
     return {
       ...this.queryParams,
+      mode: this.modeFuzzy ? "fuzzy" : "default",
       size: this.pagination.size,
       pg: page,
     };

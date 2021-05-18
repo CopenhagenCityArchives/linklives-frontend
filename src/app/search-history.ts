@@ -41,6 +41,47 @@ export interface SearchHistoryEntryListener {
   (entry: SearchHistoryEntry[]) : void;
 }
 
+let localStorageEnabled = true;
+
+if(!("localStorage" in window)) {
+  localStorageEnabled = false;
+}
+
+try {
+  window.localStorage.getItem("sagk8h2ldlakncl2llsæ");
+}
+catch(error) {
+  localStorageEnabled = false;
+}
+
+const inMemoryStore = {};
+
+const storeValue = localStorageEnabled ?
+  (key, value) => localStorage.setItem(key, JSON.stringify(value)) :
+  (key, value) => inMemoryStore[key] = value;
+
+const retrieveValueFromLocalStorage = (key) => {
+  const raw = localStorage.getItem(key);
+  if(!raw) {
+    return null;
+  }
+
+  let result;
+  try {
+    result = JSON.parse(raw);
+  }
+  catch(error) {
+    console.error("Tried to read value from localStorage that was not JSON; removed it!");
+    localStorage.removeItem(key);
+    return null;
+  }
+  return result;
+};
+
+const retrieveValue = localStorageEnabled ?
+  retrieveValueFromLocalStorage :
+  (key) => inMemoryStore[key];
+
 const listeners: SearchHistoryEntryListener[] = [];
 
 export function onSearchHistoryEntry(listener: SearchHistoryEntryListener): void {
@@ -61,26 +102,12 @@ export function addSearchHistoryEntry(entry: SearchHistoryEntry): void {
     })
   ].slice(0, 50);
 
-  localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(history));
+  storeValue(LOCAL_STORAGE_KEY, history);
   listeners.forEach((listener) => listener([ ...history ]));
 }
 
 export function getSearchHistory(): SearchHistoryEntry[] {
-  const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
-  if(!raw) {
-    return [];
-  }
-
-  let history;
-  try {
-    history = JSON.parse(raw) as SearchHistoryEntry[];
-  }
-  catch(error) {
-    console.error("Invalid values (non-JSON) in local storage for search history --- cleaning up!");
-    localStorage.removeItem(LOCAL_STORAGE_KEY);
-    return [];
-  }
-
+  const history = retrieveValue(LOCAL_STORAGE_KEY) || [];
   return history.filter((entry) => entry.timestamp);
 }
 
@@ -102,7 +129,7 @@ export function getLatestSearchQuery() {
       queryParams = {
         ...queryParams,
         sourceFilter: entry.sourceFilter
-          .map(({ event_type, source_year }) => `${event_type}_${source_year}`)
+          .map(({ event_type, event_type_display, event_year_display }) => `${event_type}_${event_type_display}_${event_year_display}`)
           .join(",")
       };
     }

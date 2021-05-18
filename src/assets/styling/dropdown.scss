@@ -105,8 +105,7 @@ lls-dropdown {
 Option adder styling / a different type of dropdown
 */
 .lls-dropdown--option-adder {
-  border: none;
-  padding: 0.5rem 1rem;
+  border: 2px solid transparent;
   width: auto;
 
   .lls-dropdown__current-item {
@@ -117,10 +116,6 @@ Option adder styling / a different type of dropdown
     display: block;
     padding-right: 0.25rem;
     white-space: nowrap;
-  }
-
-  .lls-dropdown__current-option-label {
-    display: none;
   }
 
   &:hover .lls-icon {
@@ -136,7 +131,7 @@ Option adder styling / a different type of dropdown
     box-shadow: 0 0 3px rgba(0,0,0,0.15);
 
     @media (min-width: $breakpointMd) {
-      transform: translateY(1rem - 0.4rem) translateX(-1.5rem);
+      transform: translateY(1rem - 0.4rem);
     }
   }
 

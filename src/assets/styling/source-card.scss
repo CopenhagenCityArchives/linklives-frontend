@@ -28,7 +28,17 @@
   border-bottom-width: 3px;
 }
 
-.lls-source--census {
+.lls-source--arrival,
+.lls-source--departure {
+  border-color: $departure-green;
+
+  &::before {
+    background-color: $departure-green;
+  }
+}
+
+.lls-source--census
+ {
   border-color: $yellow;
 
   &::before {
@@ -36,11 +46,45 @@
   }
 }
 
-.lls-source--burial {
+.lls-source--burial-cph {
   border-color: $burial-grey;
 
   &::before {
     background-color: $burial-grey;
+  }
+}
+
+.lls-source--burial-pr,
+.lls-source--death {
+  border-color: $burial-black;
+
+  &::before {
+    background-color: $burial-black;
+  }
+}
+
+.lls-source--baptism,
+.lls-source--birth {
+  border-color: $baptism-green;
+
+  &::before {
+    background-color: $baptism-green;
+  }
+}
+
+.lls-source--marriage {
+  border-color: $marriage-red;
+
+  &::before {
+    background-color: $marriage-red;
+  }
+}
+
+.lls-source--confirmation {
+  border-color: $confirmation-blue;
+
+  &::before {
+    background-color: $confirmation-blue;
   }
 }
 

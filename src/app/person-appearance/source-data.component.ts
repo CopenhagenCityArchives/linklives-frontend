@@ -75,10 +75,38 @@ export class SourceDataComponent implements OnInit {
       birthname_std: "birthname_std",
       street_unique: "street_unique",
     },
+    parish: {
+      id: 'id',
+      birth_year: 'birth_year',
+      gender_std: "gender_std",
+      age_clean: "age_clean",
+      name_std: "name_std",
+      first_names: "first_names",
+      family_names: "family_names",
+      patronyms: "patronyms",
+      uncat_names: "uncat_names",
+      maiden_family_names: "maiden_family_names",
+      maiden_patronyms: "maiden_patronyms",
+      all_possible_family_names: "all_possible_family_names",
+      all_possible_patronyms: "all_possible_patronyms",
+      role: "role",
+      event_id: "event_id",
+      event_persons: "event_persons",
+      main_person_id: "main_person_id",
+      date_of_birth: "date_of_birth",
+      bpl: "bpl",
+      bpl_place: "bpl_place",
+      bpl_parish: "bpl_parish",
+      bpl_town: "bpl_town",
+      bpl_county: "bpl_county",
+      bpl_country: "bpl_country",
+      bpl_foreign_place: "bpl_foreign_place",
+      date_of_event: "date_of_event",
+    },
   };
 
   get standardizedDataLines() {
-    return Object.keys(this.standardizedDataFields[this.pa.event_type])
+    return Object.keys(this.standardizedDataFields[this.pa.source_type_wp4])
       .filter((key) => {
         const isUndef = typeof this.pa[key] === "undefined";
         if(isUndef) {
@@ -86,28 +114,40 @@ export class SourceDataComponent implements OnInit {
         }
         return !isUndef;
       })
-      .map((key) => ({ label: this.standardizedDataFields[this.pa.event_type][key], value: this.cleanValue(this.pa[key]) }));
+      .map((key) => ({ label: this.standardizedDataFields[this.pa.source_type_wp4][key], value: this.cleanValue(this.pa[key]) }));
   }
 
   sourceDataFields = {
     census: {
+      source_archive_display: "Arkiv",
       source_id: "Kilde nr.",
-      source_year: "Kildeår",
+      source_year_display: "Kildeår",
       source_reference: "Kildehenvisning",
       transcription_code: "Transskriptionskode",
       transcription_id: "Transskriptions ID",
       household_family_no: "Husstands nr.",
     },
     burial: {
+      source_archive_display: "Arkiv",
       source_id: "Kilde nr.",
-      source_year: "Kildeår",
+      source_year_display: "Kildeår",
       id_cph: "ID",
       number: "Nummer",
     },
+    parish: {
+      source_archive_display: "Arkiv",
+      EventParish: "Sogn",
+      EventCounty: "Herred",
+      EventState: "Amt",
+      EventCountry: "Land",
+      BrowseLevel: "Kilde - herred",
+      BrowseLevel1: "Kilde - sogn",
+      BrowseLevel2: "Periode",
+    }
   };
 
   get sourceDataLines() {
-    return Object.keys(this.sourceDataFields[this.pa.event_type])
+    return Object.keys(this.sourceDataFields[this.pa.source_type_wp4])
       .filter((key) => {
         const isUndef = typeof this.pa[key] === "undefined";
         if(isUndef) {
@@ -115,7 +155,7 @@ export class SourceDataComponent implements OnInit {
         }
         return !isUndef;
       })
-      .map((key) => ({ label: this.sourceDataFields[this.pa.event_type][key], value: this.cleanValue(this.pa[key]) }));
+      .map((key) => ({ label: this.sourceDataFields[this.pa.source_type_wp4][key], value: this.cleanValue(this.pa[key]) }));
   }
 
   excludeDataFields = [
@@ -123,14 +163,14 @@ export class SourceDataComponent implements OnInit {
     "pa_id",
     "first_names_sortable",
     "family_names_sortable",
-    "last_updated",
-    "pa_entry_permalink",
+    "last_updated_wp4",
+    "pa_entry_permalink_wp4",
   ];
 
   get otherDataLines() {
-    const alreadyUsedFields = Object.keys(this.standardizedDataFields[this.pa.event_type])
-      .concat(Object.keys(this.sourceDataFields[this.pa.event_type]))
-      .concat(Object.keys(this.originalDataFields[this.pa.event_type]))
+    const alreadyUsedFields = Object.keys(this.standardizedDataFields[this.pa.source_type_wp4])
+      .concat(Object.keys(this.sourceDataFields[this.pa.source_type_wp4]))
+      .concat(Object.keys(this.originalDataFields[this.pa.source_type_wp4]))
       .concat(this.excludeDataFields);
 
     return Object.keys(this.pa)
@@ -192,11 +232,29 @@ export class SourceDataComponent implements OnInit {
       relationstypes: "Relation til erhverv",
       workplaces: "Arbejdssted",
       deathcauses: "Dødsårsag",
+    },
+    parish: {
+      gender: "Køn",
+      GivenName: "Navn",
+      Surname: "Efternavn",
+      GivenNameAlias: "Alternativt navn",
+      SurnameAlias: "Alternativt efternavn",
+      NamePrefix: "Titel",
+      NameSuffix: "Tilføjelser til navn",
+      EventAge: "Alder",
+      BirthDay: "Fødselsdato",
+      BirthMonth: "Fødselsdato",
+      BirthYear: "Fødselsdato",
+      BirthPlace: "Fødested",
+      EventDay: "Dato i kirkebog",
+      EventMonth: "Dato i kirkebog",
+      EventYear: "Dato i kirkebog",
+      EventPlace: "Sted",
     }
   };
 
   get originalDataLines() {
-    return Object.keys(this.originalDataFields[this.pa.event_type])
+    return Object.keys(this.originalDataFields[this.pa.source_type_wp4])
       .filter((key) => {
         const isUndef = typeof this.pa[key] === "undefined";
         if(isUndef) {
@@ -204,7 +262,7 @@ export class SourceDataComponent implements OnInit {
         }
         return !isUndef;
       })
-      .map((key) => ({ label: this.originalDataFields[this.pa.event_type][key], value: this.cleanValue(this.pa[key]) }));
+      .map((key) => ({ label: this.originalDataFields[this.pa.source_type_wp4][key], value: this.cleanValue(this.pa[key]) }));
   }
 
   cleanValue(value) {
@@ -212,6 +270,16 @@ export class SourceDataComponent implements OnInit {
       return value.join(", ");
     }
     return value;
+  }
+
+  get eventTypeClass() {
+    if(this.pa.event_type !== 'burial') {
+      return this.pa.event_type;
+    }
+    if(this.pa.source_type_wp4 === 'parish') {
+      return `${this.pa.event_type}-pr`
+    }
+    return `${this.pa.event_type}-cph`
   }
 
   ngOnInit(): void {

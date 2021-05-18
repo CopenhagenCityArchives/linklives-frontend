@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdvancedSearchQuery } from '../search.service';
-import { searchFieldPlaceholders, fieldOptions, searchFieldLabels, getFieldOptions } from 'src/app/search-term-values';
+import { searchFieldPlaceholders, searchFieldLabels, getFieldOptions, genderOptions } from 'src/app/search-term-values';
 
 @Component({
   selector: 'app-search-simple',
@@ -46,6 +46,10 @@ export class SimpleSearchComponent implements OnInit {
   get fieldOptions() {
     const isNotUsed = (option) => !this.searchTerms.some((term) => option.value && term.field == option.value);
     return getFieldOptions(isNotUsed);
+  }
+
+  get genderOptions() {
+    return genderOptions;
   }
 
   constructor(private router: Router, private elements: ElementRef) { }

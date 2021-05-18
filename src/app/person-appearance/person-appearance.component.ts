@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PersonAppearance } from '../search/search.service';
-import { eventType, prettyDate, prettySourceLocation } from '../display-helpers';
+import { prettyDate } from '../display-helpers';
 import { getLatestSearchQuery, getSearchHistory, SearchHistoryEntryType } from '../search-history';
 
 @Component({
@@ -17,16 +17,8 @@ export class PersonAppearanceComponent implements OnInit {
   pa: PersonAppearance;
   hh: PersonAppearance[];
 
-  get eventType() {
-    return eventType(this.pa);
-  }
-
-  get sourceLocation() {
-    return prettySourceLocation(this.pa);
-  }
-
   get prettyLastUpdatedDate() {
-    return prettyDate(this.pa.last_updated);
+    return prettyDate(this.pa.last_updated_wp4);
   }
 
   get previousSearchHistoryEntry() {

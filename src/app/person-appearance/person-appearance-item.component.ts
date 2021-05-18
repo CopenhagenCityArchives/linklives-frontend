@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { eventType, prettyBirthLocation, prettyBirthYear, prettyDeathYear, prettySourceLocation, prettyFullName, eventIcon } from '../display-helpers';
+import { eventIcon } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({
@@ -18,12 +18,8 @@ export class PersonAppearanceItemComponent implements OnInit {
 
   featherSpriteUrl = this.config.featherIconPath;
 
-  get eventType() {
-    return eventType(this.personAppearance);
-  }
-
   get computedClass() {
-    const classList = [ 'lls-source--' + this.personAppearance.event_type ];
+    const classList = [ 'lls-source--' + this.eventTypeClass ];
 
     if(this.selected) {
       classList.push('lls-source--selected');
@@ -36,32 +32,14 @@ export class PersonAppearanceItemComponent implements OnInit {
     return eventIcon(this.personAppearance.event_type);
   }
 
-  get birthLocation() {
-    return prettyBirthLocation(this.personAppearance);
-  }
-
-  get birthYear() {
-    return prettyBirthYear(this.personAppearance);
-  }
-
-  get deathYear() {
-    return prettyDeathYear(this.personAppearance);
-  }
-
-  get sourceLocation() {
-    return prettySourceLocation(this.personAppearance);
-  }
-
-  get personName() {
-    return prettyFullName(this.personAppearance);
-  }
-
-  get personRole() {
-    return this.personAppearance.role_display;
-  }
-
-  get occupation() {
-    return this.personAppearance.occupation_display;
+  get eventTypeClass() {
+    if(this.personAppearance.event_type !== 'burial') {
+      return this.personAppearance.event_type;
+    }
+    if(this.personAppearance.source_type_wp4 == "parish") {
+      return `${this.personAppearance.event_type}-pr`
+    }
+    return `${this.personAppearance.event_type}-cph`
   }
 
   constructor() { }

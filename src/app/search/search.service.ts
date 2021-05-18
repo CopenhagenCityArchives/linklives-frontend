@@ -33,7 +33,7 @@ export interface SearchResult {
   },
   hits: SearchHit[],
   meta: {
-    possibleSources: Array<{ source_year: number, event_type: string, count: number }>,
+    possibleSources: Array<{ event_year_display: string, event_type: string, event_type_display: string, count: number }>,
   }
 }
 
@@ -62,8 +62,14 @@ export interface PersonAppearance {
   birthyear_calculated_display: string,
   county: string,
   dateOfDeath: string,
+  deathyear_display: string,
   district: string,
+  event_id: number,
+  event_persons: number,
   event_type: string,
+  event_type_display: string,
+  event_year: string,
+  event_year_display: string,
   family_names: string,
   first_names: string[],
   first_names_clean: string,
@@ -79,7 +85,7 @@ export interface PersonAppearance {
   land_register: string,
   land_register_address: string,
   lastname_clean: string,
-  last_updated: string,
+  last_updated_wp4: string,
   maiden_family_names: string,
   maiden_patronyms: string,
   marital_status: string,
@@ -92,7 +98,7 @@ export interface PersonAppearance {
   occupation: string,
   occupation_display: string,
   pa_id: number,
-  pa_entry_permalink: string,
+  pa_entry_permalink_wp4: string,
   parish: string,
   parish_type: string,
   patronyms: string[],
@@ -100,15 +106,24 @@ export interface PersonAppearance {
   positions: string,
   role: string,
   role_display: string,
-  sourceplace_display: string,
+  source_archive_display: string,
   source_id: number,
   source_reference: string,
+  source_type_display: string,
+  source_type_wp4: string,
   source_year: number,
+  source_year_display: string,
+  sourceplace_display: string,
   state_region: string,
   transcriber_comments: string,
   transcription_code: string,
   transcription_id: number,
   uncat_names: string
+}
+
+export interface Lifecourse {
+  life_course_id: number,
+  person_appearance: PersonAppearance[]
 }
 
 export interface Source {
@@ -123,11 +138,13 @@ export interface Source {
 
 export interface SourceIdentifier {
   event_type: string,
-  source_year: number,
+  event_type_display: string,
+  event_year_display: string,
 };
 
 export interface AdvancedSearchQuery {
   query?: string,
+  name?: string,
   firstName?: string,
   lastName?: string,
   birthName?: string,
@@ -136,6 +153,7 @@ export interface AdvancedSearchQuery {
   sourceYear?: string,
   deathYear?: string,
   id?: string,
+  gender?: string,
   lifeCourseId?: string,
   // maritalStatus?: string,
 }

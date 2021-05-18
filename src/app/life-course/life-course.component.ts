@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Link } from '../elasticsearch/elasticsearch.service';
-import { prettyFullName, prettyBirthLocation, prettyBirthYear, prettyDeathYear, prettyDate } from '../display-helpers';
+import { prettyDate } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 import { getLatestSearchQuery } from '../search-history';
 
@@ -111,42 +111,44 @@ export class LifeCourseComponent implements OnInit {
     });
   }
 
-  get latestPersonAppearance() {
+  get personAppearancesSortedByYear() {
     const sortedByYear = this.pas.sort(function(a, b) {
-      if (a.source_year > b.source_year) {
+      if (a.event_year_display > b.event_year_display) {
         return 1;
       }
-      if (a.source_year < b.source_year) {
+      if (a.event_year_display < b.event_year_display) {
         return -1;
       }
       return 0;
     });
-    return sortedByYear[sortedByYear.length - 1];
+    return sortedByYear;
+  }
+
+  get latestPersonAppearance() {
+    return this.personAppearancesSortedByYear[this.personAppearancesSortedByYear.length - 1];
   }
 
   get personName() {
-    return prettyFullName(this.latestPersonAppearance);
+    return this.latestPersonAppearance.name_display;
   }
 
-  get birthLocation() {
-    if(this.latestPersonAppearance.event_type === "burial") {
-      // Burials does not have birth location data so we use another PA.
-      return prettyBirthLocation(this.pas[0]);
-    }
-    return prettyBirthLocation(this.latestPersonAppearance);
+  get birthPlace() {
+    const firstPaWithBirthPlace = this.personAppearancesSortedByYear.find((pa) => pa.birthplace_display);
+    return firstPaWithBirthPlace ? firstPaWithBirthPlace.birthplace_display : "";
   }
 
   get birthYear() {
-    return prettyBirthYear(this.latestPersonAppearance);
+    const firstPaWithBirthYear = this.personAppearancesSortedByYear.find((pa) => pa.birthyear_display);
+    return firstPaWithBirthYear ? firstPaWithBirthYear.birthyear_display : "";
   }
 
   get deathYear() {
-    return prettyDeathYear(this.latestPersonAppearance);
+    return this.latestPersonAppearance.deathyear_display || "";
   }
 
   get lastUpdated() {
     const dates = this.pas
-      .map((pa) => pa.last_updated)
+      .map((pa) => pa.last_updated_wp4)
       .sort();
     const date = dates[dates.length - 1];
 

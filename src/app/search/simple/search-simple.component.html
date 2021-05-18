@@ -75,9 +75,9 @@
     <h3 class="lls-card__title">Specifik søgning</h3>
     <form (ngSubmit)="searchAdvanced()" class="lls-row">
       <div class="lls-columns-12 lls-columns-8--md">
-        <label *ngFor="let searchTerm of searchTerms; index as i;" class="lls-input-entry">
+        <div *ngFor="let searchTerm of searchTerms; index as i;" class="lls-input-entry">
           <span class="lls-input-label">{{ searchFieldLabels[searchTerm.field] }}</span>
-          <div class="lls-input-group">
+          <div class="lls-input-group" *ngIf="searchTerm.field !== 'gender'">
             <input
               type="text"
               [placeholder]="searchFieldPlaceholders[searchTerm.field] || ''"
@@ -87,18 +87,40 @@
               [attr.data-search-term]="searchTerm.field"
             />
             <button
-              type="button"
-              class="lls-input-group__floating-action"
-              [class]="searchTerms.length < 2 ? 'lls-input-group__floating-action--disabled' : ''"
-              aria-label="Fjern søgning på felt"
-              (click)="removeSearchTerm(i, $event)"
+                type="button"
+                class="lls-input-group__floating-action"
+                [class]="searchTerms.length < 2 ? 'lls-input-group__floating-action--disabled' : ''"
+                aria-label="Fjern søgning på felt"
+                (click)="removeSearchTerm(i, $event)"
             >
-              <svg class="lls-icon lls-icon--right">
-                <use [attr.href]="featherSpriteUrl + '#minus-circle'"></use>
-              </svg>
+                <svg class="lls-icon lls-icon--right">
+                    <use [attr.href]="featherSpriteUrl + '#minus-circle'"></use>
+                </svg>
             </button>
-          </div>
-        </label>
+        </div>
+        <div class="lls-input-group" *ngIf="searchTerm.field === 'gender'">
+            <lls-dropdown
+                class="lls-input-field lls-dropdown--option-adder "
+                [options]="genderOptions"
+                label="Vælg køn"
+                showCurrentValue="true"
+                [name]="'searchterm-value-' + i"
+                [attr.data-search-term]="searchTerm.field"
+                [(ngModel)]="searchTerm.value"
+            ></lls-dropdown>
+            <button
+                type="button"
+                class="lls-input-group__floating-action"
+                [class]="searchTerms.length < 2 ? 'lls-input-group__floating-action--disabled' : ''"
+                aria-label="Fjern søgning på felt"
+                (click)="removeSearchTerm(i, $event)"
+            >
+                <svg class="lls-icon lls-icon--right">
+                    <use [attr.href]="featherSpriteUrl + '#minus-circle'"></use>
+                </svg>
+            </button>
+        </div>
+      </div>
 
         <div class="lls-search-options">
           <fieldset class="lls-search-options__result-type">
@@ -131,7 +153,7 @@
               class="lls-search-options__clear-search"
               (click)="clearSearchTerms()"
             >
-                Nulstil
+                <span class="lls-search-options__clear-search-text">Nulstil</span>
                 <svg class="lls-icon lls-icon--right">
                   <use [attr.href]="featherSpriteUrl + '#x-circle'"></use>
                 </svg>

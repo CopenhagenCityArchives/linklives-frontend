@@ -24,14 +24,16 @@
             </h1>
             <div class="lls-data-page-header__data-summary">
                 <p class="u-text-capitalize u-mr-2">
-                    <span class="u-text-grey--light u-mr-2">Fødested</span> {{ birthLocation }}
+                    <span class="u-text-grey--light u-mr-2">Fødested</span> {{ birthPlace }}
                 </p>
-                <p class="u-align-icon">
-                    <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left">
-                        <use [attr.href]="featherSpriteUrl + '#star'"></use>
-                    </svg>
-                    {{ birthYear }}
-                </p>
+                <ng-container *ngIf="birthYear">
+                    <p class="u-align-icon">
+                        <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left">
+                            <use [attr.href]="featherSpriteUrl + '#star'"></use>
+                        </svg>
+                        {{ birthYear }}
+                    </p>
+                </ng-container>
                 <ng-container *ngIf="deathYear">
                     <p class="u-align-icon">
                         <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left">
@@ -66,7 +68,7 @@
                     class="lls-source-graph__source"
                 >
                     <text x="40" dy=".3em">
-                        {{ pa.source_year }}
+                        {{ pa.source_year_display }}
                     </text>
                     <circle
                         class="lls-source-graph__circle-background"

@@ -4,6 +4,10 @@ export const mapSearchKeys = {
   id: {
     exact: "id",
   },
+  name: {
+    default: "name_searchable",
+    fuzzy: "name_searchable_fz",
+  },
   firstName: {
     default: "firstnames_searchable",
     fuzzy: "firstnames_searchable_fz",
@@ -12,24 +16,33 @@ export const mapSearchKeys = {
     default: "lastname_searchable",
     fuzzy: "lastname_searchable_fz",
   },
-  //birthName: {}, //no appropriate fields in frontend yet
+  birthName: {
+    default: "birthname_searchable",
+    fuzzy: "birthname_searchable_fz",
+  },
   birthPlace: {
     default: "birthplace_searchable",
     fuzzy: "birthplace_searchable_fz",
   },
   sourcePlace: {
     default: "sourceplace_searchable",
+    fuzzy: "sourceplace_searchable",
   },
   birthYear: {
     default: "birthyear_searchable",
     fuzzy: "birthyear_searchable_fz",
   },
   sourceYear: {
-    default: "source_year_agg"
+    default: "source_year_searchable",
+    fuzzy: "source_year_searchable_fz",
   },
   deathYear: {
     default: "deathyear_searchable",
     fuzzy: "deathyear_searchable_fz",
+  },
+  gender: {
+    default: "gender_searchable",
+    fuzzy: "gender_searchable",
   },
 };
 
@@ -43,6 +56,7 @@ export const sortValues = {
 // Advanced search
 export const searchFieldPlaceholders = {
   query: "Indtast fritekstsøgning",
+  name: "Indtast navn",
   firstName: "Indtast fornavn",
   lastName: "Indtast efternavn",
   birthName: "Indtast fødenavn",
@@ -54,6 +68,7 @@ export const searchFieldPlaceholders = {
   deathYear: "Indtast dødsår",
   id: "Kilde ID",
   lifeCourseId: "Livsforløbs ID",
+  gender: "Vælg køn"
   //maritalStatus: "Indtast civilstand",
 };
 
@@ -68,6 +83,7 @@ export const sortByOptions = [
 
 export const searchFieldLabels = {
   query: "Fritekst",
+  name: "Navn",
   firstName: "Fornavn",
   lastName: "Efternavn",
   birthName: "Fødenavn",
@@ -79,6 +95,7 @@ export const searchFieldLabels = {
   deathYear: "Dødsår",
   id: "Kilde ID",
   lifeCourseId: "Livsforløbs ID",
+  gender: "Køn",
   // index: "Resultattype",
   // maritalStatus: "Civilstand",
 };
@@ -92,6 +109,7 @@ export function toFieldOption(key) {
 }
 
 export const allNameFields: Array<Option | Category> = [
+  "name",
   "firstName",
   "lastName",
   "birthName"
@@ -110,6 +128,7 @@ export const allYearFields: Array<Option | Category> = [
 ].map((f) => toFieldOption(f));
 
 export const allOtherFields: Array<Option | Category> = [
+  "gender",
   "query",
   "id",
   "lifeCourseId",
@@ -158,3 +177,8 @@ export function getFieldOptions(filter) {
     ...otherOptions
   ];
 }
+
+export const genderOptions = [
+  {label: 'Mand', value: 'mand'},
+  {label: 'Kvinde', value: 'kvinde'},
+];

@@ -6,6 +6,7 @@
   stroke-linecap: round;
   stroke-linejoin: round;
   fill: none;
+  vertical-align: initial;
 }
 
 .lls-icon--filled {
@@ -46,4 +47,8 @@
 
 .lls-icon--lifecourse {
   stroke: white;
+}
+
+.lls-icon--right {
+  margin-left: 0.5rem;
 }

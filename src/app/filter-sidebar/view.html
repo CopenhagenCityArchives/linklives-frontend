@@ -4,7 +4,7 @@
 ></div>
 <aside class="lls-filter-sidebar lls-sidebar" [class]="openSidebar ? 'lls-sidebar--open' : ''">
   <div class="lls-sidebar__header">
-    <h3 class="u-margin-0">Vælg kilder</h3>
+    <h3 class="u-margin-0">Alle filtre</h3>
     <button
       [tabindex]="openSidebar ? 0 : -1"
       class="lls-btn lls-btn--outline"
@@ -15,6 +15,9 @@
         <use [attr.href]="featherIconPath + '#x'"></use>
       </svg>
     </button>
+  </div>
+  <div class="lls-sidebar__subheader">
+    <h4>Hændelser</h4>
   </div>
   <div class="lls-filter-sidebar__options">
     <button
@@ -38,8 +41,8 @@
           <svg class="lls-icon lls-icon--left u-mr-2">
             <use [attr.href]="featherIconPath + '#' + eventIcon(category.key)"></use>
           </svg>
-          {{ eventType({event_type: category.key}) }}
-          <span class="lls-filter-sidebar__option-count">{{'\u00A0'}} ({{ filtersCategories[category.key].length }})</span>
+          {{ category.value.display }}
+          <span class="lls-filter-sidebar__option-count">{{'\u00A0'}} ({{ filtersCategories[category.key].filters.length }})</span>
           <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-item--right lls-icon">
             <use [attr.href]="featherIconPath + '#arrow-right'"></use>
           </svg>
@@ -47,7 +50,7 @@
       </ng-container>
       <ng-container *ngIf="sidebarCategoryOpen === category.key">
         <button
-          *ngFor="let option of category.value, index as i"
+          *ngFor="let option of category.value.filters, index as i"
           class="lls-filter-sidebar__option lls-sidebar__item"
           [class]="activeFilter(option.value) ? 'lls-filter-sidebar__option--active' : ''"
           [tabindex]="openSidebar ? 0 : -1"

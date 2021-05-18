@@ -20,10 +20,10 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
   constructor(private elasticsearch: ElasticsearchService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<PersonAppearanceResolverResult> {
-    return this.elasticsearch.getDocument('pas', route.params['id'])
+    return this.elasticsearch.getPersonAppearance(route.params['id'])
     .pipe(map(pa => pa as PersonAppearance))
     .pipe(mergeMap((pa: PersonAppearance, index) => {
-      return this.elasticsearch.getDocument('sources', pa.source_id)
+      return this.elasticsearch.getSource(pa.source_id)
         .pipe(map((source: Source) => ({ source, pa })));
     }))
     .pipe(
@@ -33,7 +33,7 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
           personAppearance: pa,
         });
 
-        if(!pa.hh_id) {
+        if(!pa.hh_id && (!pa.event_id || pa.event_persons < 2)) {
           return new Observable<PersonAppearanceResolverResult>(observer => {
             observer.next({
               pa,
@@ -42,6 +42,22 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
             });
             observer.complete();
           });
+        }
+
+        const matchList: Object[] = [
+          { "match": { "person_appearance.source_id": pa.source_id } },
+        ];
+
+        // we will only have either hh_id OR event_id
+        if(pa.hh_id) {
+          matchList.push(
+            { "match": { "person_appearance.hh_id": pa.hh_id } },
+          )
+        }
+        if(pa.event_id) {
+          matchList.push(
+            { "match": { "person_appearance.event_id": pa.event_id } },
+          )
         }
 
         let body = {
@@ -55,10 +71,7 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
                     "path": "person_appearance",
                     "query": {
                       "bool" : {
-                        "must": [
-                          { "match": { "person_appearance.hh_id": pa.hh_id } },
-                          { "match": { "person_appearance.source_id": pa.source_id } },
-                        ]
+                        "must": matchList
                       }
                     }
                   }
@@ -67,6 +80,7 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
             }
           }
         }
+
         return this.elasticsearch.search(['pas'], body).pipe(
           map((searchResult, index) => {
             return {
