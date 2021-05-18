@@ -294,6 +294,7 @@ export class SearchResultListComponent implements OnInit {
   paginationQueryParams(page) {
     return {
       ...this.queryParams,
+      mode: this.modeFuzzy ? "fuzzy" : "default",
       size: this.pagination.size,
       pg: page,
     };
