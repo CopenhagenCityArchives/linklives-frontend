@@ -1,10 +1,11 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { PersonAppearance, Lifecourse, SearchResult, SearchHit, AdvancedSearchQuery, Source, SourceIdentifier } from '../search/search.service';
+import { PersonAppearance, Lifecourse, SearchResult, SearchHit, AdvancedSearchQuery, Source, FilterIdentifier } from '../search/search.service';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { mapSearchKeys, sortValues } from 'src/app/search-term-values';
 import { map, share } from 'rxjs/operators';
+import groupBy from 'lodash.groupby';
 
 export interface ElasticDocResult {
   _index: "lifecourses" | "pas" | "links",
@@ -230,7 +231,7 @@ export class ElasticsearchService {
     });
   }
 
-  searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: SourceIdentifier[], mode: string = "default") {
+  searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: FilterIdentifier[], mode: string = "default") {
     if(indices.length < 1) {
       const emptySearchResult = new Observable<SearchResult>((observer) => {
         observer.next({
@@ -303,7 +304,7 @@ export class ElasticsearchService {
     return this.search(indices, body, sourceFilterBody);
   }
 
-  createQueries(query: AdvancedSearchQuery, sourceFilter: SourceIdentifier[], mode: string) {
+  createQueries(query: AdvancedSearchQuery, sourceFilter: FilterIdentifier[], mode: string) {
     const must = [];
     let sourceLookupFilter = must;
 
@@ -420,20 +421,26 @@ export class ElasticsearchService {
     if(sourceFilter.length) {
       // Copy must into sourceLookupFilter to avoid the following push being added to this list, too
       sourceLookupFilter = [ ...must ];
+
+      const addFiltersToQuery = (filters) => {
+        const grouped = groupBy(filters, 'filter_type');
+
+        return grouped['eventType'].map(({ event_year_display, event_type, event_type_display }) => {
+          return {
+            bool: {
+              must: [
+                { match: { [`person_appearance.event_year_display`]: event_year_display } },
+                { match: { [`person_appearance.event_type`]: event_type } },
+                { match: { [`person_appearance.event_type_display`]: event_type_display } },
+              ]
+            }
+          };
+        });
+      }
       // Add source filter to only the must filter (but not the source lookup filter)
       must.push({
         bool: {
-          should: sourceFilter.map(({ event_year_display, event_type, event_type_display }) => {
-            return {
-              bool: {
-                must: [
-                  { match: { [`person_appearance.event_year_display`]: event_year_display } },
-                  { match: { [`person_appearance.event_type`]: event_type } },
-                  { match: { [`person_appearance.event_type_display`]: event_type_display } },
-                ]
-              }
-            };
-          }),
+          should: addFiltersToQuery(sourceFilter),
         },
       })
     }

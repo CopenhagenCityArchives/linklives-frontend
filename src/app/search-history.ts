@@ -1,5 +1,5 @@
 import isEqual from 'lodash.isequal';
-import { AdvancedSearchQuery, PersonAppearance, SourceIdentifier } from './search/search.service';
+import { AdvancedSearchQuery, PersonAppearance, FilterIdentifier } from './search/search.service';
 
 const LOCAL_STORAGE_KEY = "lls_search_history";
 
@@ -22,7 +22,7 @@ export interface SearchResultSorting {
 export interface SearchHistoryEntry {
   type: SearchHistoryEntryType,
   query?: AdvancedSearchQuery,
-  sourceFilter?: SourceIdentifier[],
+  filters?: FilterIdentifier[],
   index?: string[],
   lifecourse?: LifecourseSearchHistoryEntry,
   personAppearance?: PersonAppearance,
@@ -93,12 +93,12 @@ export function addSearchHistoryEntry(entry: SearchHistoryEntry): void {
 
   const existingHistory = getSearchHistory();
 
-  const entryData = unpick(entry, "timestamp", "pagination", "sort", "sourceFilter");
+  const entryData = unpick(entry, "timestamp", "pagination", "sort", "filters");
 
   const history = [
     entry,
     ...existingHistory.filter((existingEntry) => {
-      return !isEqual(entryData, unpick(existingEntry, "timestamp", "pagination", "sort", "sourceFilter"));
+      return !isEqual(entryData, unpick(existingEntry, "timestamp", "pagination", "sort", "filters"));
     })
   ].slice(0, 50);
 
@@ -125,11 +125,11 @@ export function getLatestSearchQuery() {
       queryParams = { ...queryParams, ...entry.sort };
     }
 
-    if(entry.sourceFilter) {
+    if(entry.filters) {
       queryParams = {
         ...queryParams,
-        sourceFilter: entry.sourceFilter
-          .map(({ event_type, event_type_display, event_year_display }) => `${event_type}_${event_type_display}_${event_year_display}`)
+        filters: entry.filters
+          .map((filter) => Object.values(filter).join('_'))
           .join(",")
       };
     }

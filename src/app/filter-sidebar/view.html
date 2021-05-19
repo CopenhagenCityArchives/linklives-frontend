@@ -31,7 +31,7 @@
     </svg>
       Tilbage
     </button>
-    <ng-container *ngFor="let category of filtersCategories | keyvalue">
+    <ng-container *ngFor="let category of filtersCategories('eventType') | keyvalue">
       <ng-container *ngIf="!sidebarCategoryOpen">
         <button
           class="lls-filter-sidebar__option lls-sidebar__item"
@@ -42,7 +42,7 @@
             <use [attr.href]="featherIconPath + '#' + eventIcon(category.key)"></use>
           </svg>
           {{ category.value.display }}
-          <span class="lls-filter-sidebar__option-count">{{'\u00A0'}} ({{ filtersCategories[category.key].filters.length }})</span>
+          <span class="lls-filter-sidebar__option-count">{{'\u00A0'}} ({{ filtersCategories('eventType')[category.key].filters.length }})</span>
           <svg class="lls-filter-sidebar__option-icon lls-filter-sidebar__option-item--right lls-icon">
             <use [attr.href]="featherIconPath + '#arrow-right'"></use>
           </svg>
