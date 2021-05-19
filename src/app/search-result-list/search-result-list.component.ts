@@ -100,8 +100,8 @@ export class SearchResultListComponent implements OnInit {
     };
   }
 
-  get possibleSources() {
-    const possibleSources = this.searchResult.meta.possibleSources.sort((a, b) => {
+  get possibleFilters() {
+    const possibleFilters = this.searchResult.meta.possibleFilters.sort((a, b) => {
       if(a.event_year_display < b.event_year_display) {
         return -1;
       }
@@ -110,7 +110,7 @@ export class SearchResultListComponent implements OnInit {
       }
       return 0;
     });
-    return {'eventType': possibleSources};
+    return {'eventType': possibleFilters};
   }
 
   get resultRangeDescription() {

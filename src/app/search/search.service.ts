@@ -33,7 +33,7 @@ export interface SearchResult {
   },
   hits: SearchHit[],
   meta: {
-    possibleSources: Array<{ event_year_display: string, event_type: string, event_type_display: string, count: number }>,
+    possibleFilters: Array<{ event_year_display: string, event_type: string, event_type_display: string, count: number }>,
   }
 }
 

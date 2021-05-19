@@ -25,7 +25,7 @@ export interface Option {
 
 export class FilterSidebar implements OnInit {
   @Input() featherIconPath: string;
-  @Input() possibleSources: {eventType: Array<{ filter_type: string, event_year_display: string, event_type: string, event_type_display: string, count: number }>};
+  @Input() possibleFilters: {eventType: Array<{ filter_type: string, event_year_display: string, event_type: string, event_type_display: string, count: number }>};
   @Input() openSidebar: boolean;
   @Input()
   get filters() {
@@ -62,7 +62,7 @@ export class FilterSidebar implements OnInit {
 
   filtersCategories(filterType) {
     const result = {};
-    this.possibleSources[filterType].forEach(x => {
+    this.possibleFilters[filterType].forEach(x => {
       const filter =  {
         label: `${x.event_type_display} ${x.event_year_display}`,
         type: x.event_type,

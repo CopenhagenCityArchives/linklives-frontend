@@ -145,7 +145,7 @@ export class ElasticsearchService {
       indexHits: {},
       hits: [],
       meta: {
-        possibleSources: sourceLookupResult?.aggregations?.person_appearance?.sources?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+        possibleFilters: sourceLookupResult?.aggregations?.person_appearance?.sources?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
       },
     };
 
@@ -239,7 +239,7 @@ export class ElasticsearchService {
           totalHits: 0,
           indexHits: {},
           hits: [],
-          meta: { possibleSources: [] },
+          meta: { possibleFilters: [] },
         });
 
         observer.complete();
