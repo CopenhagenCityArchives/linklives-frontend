@@ -23,28 +23,15 @@ script:
   - ng build --output-hashing none --prod
 
 deploy:
-  - provider: s3
-    access_key_id: AKIAUDN3ZT2NARONFGYI
-    secret_access_key:
-      secure: "MAUckQ+Nyo8RDmW9lT06oaPKmENVdq+ee1sj0sHRnCiuKPez5JpEl/XuWIuWnlBGGIySAnwE/DOISDzc2gxa9wHe3tQwM3fhGORGAzMGuqEjKD/zC7ly1jaUJn9boHmbSflaNInGc+fKGrfK4Q6B1zGkIH/T6jaJlGWq9GbGBhHcOAoxOW6UvCLPwa8h9jjNnB4cJpelHVRBPKGMa41uZ/9EoTmGVhkfEGHBiAUjq50A4sswpcZEZcVscnc77qhZlYbx/7mkLm1uIKGuGsg6UIBq6hJ+cceNak44lw6Syopo6Z3Sl+Ass19zOXy+iLV7Zpr93sjhB+XzwL+pC/lsnEQccq9ZLhIW4vFoGPKaq/0lmKoDNmHOEV4CEOvHXf5pPUSUYLIS8supRPlPWo4kbnpN197N290AHvneSsJGT5jgBTBk5vkqV8a0DYxCVV0lTz1sHEAxVy0gBj1HDXfxSsN8FdgZOM11EagZvlSQdn7++oRrMWsVWsyNbgPo38b+zxJvH3yZn3RW+HeR1w2OpZ9RrpbbY+HNbZoeY3ENLFMK1eoo8hROaE/znEbzmyaGL+1Ez7QOnibJI+tSSgR8F17RI057oI4h3LqKmm5/OqlJt3CoxPW8TcBWuxd4gWpicaxelKLo0ZS46LTKfcsDjURk0zh6HBhNkVviO8sCi9w="
-    bucket: "static.linklives.dk"
-    local_dir: dist/linklives
-    upload-dir: frontend
-    skip_cleanup: true
-    region: eu-west-1
-    on:
-      branch: master
-  - provider: s3
-    access_key_id: AKIAUDN3ZT2NARONFGYI
-    secret_access_key:
-      secure: "MAUckQ+Nyo8RDmW9lT06oaPKmENVdq+ee1sj0sHRnCiuKPez5JpEl/XuWIuWnlBGGIySAnwE/DOISDzc2gxa9wHe3tQwM3fhGORGAzMGuqEjKD/zC7ly1jaUJn9boHmbSflaNInGc+fKGrfK4Q6B1zGkIH/T6jaJlGWq9GbGBhHcOAoxOW6UvCLPwa8h9jjNnB4cJpelHVRBPKGMa41uZ/9EoTmGVhkfEGHBiAUjq50A4sswpcZEZcVscnc77qhZlYbx/7mkLm1uIKGuGsg6UIBq6hJ+cceNak44lw6Syopo6Z3Sl+Ass19zOXy+iLV7Zpr93sjhB+XzwL+pC/lsnEQccq9ZLhIW4vFoGPKaq/0lmKoDNmHOEV4CEOvHXf5pPUSUYLIS8supRPlPWo4kbnpN197N290AHvneSsJGT5jgBTBk5vkqV8a0DYxCVV0lTz1sHEAxVy0gBj1HDXfxSsN8FdgZOM11EagZvlSQdn7++oRrMWsVWsyNbgPo38b+zxJvH3yZn3RW+HeR1w2OpZ9RrpbbY+HNbZoeY3ENLFMK1eoo8hROaE/znEbzmyaGL+1Ez7QOnibJI+tSSgR8F17RI057oI4h3LqKmm5/OqlJt3CoxPW8TcBWuxd4gWpicaxelKLo0ZS46LTKfcsDjURk0zh6HBhNkVviO8sCi9w="
-    bucket: "static.linklives.dk"
-    local_dir: dist/linklives
-    upload-dir: frontend-beta
-    skip_cleanup: true
-    region: eu-west-1  
-    on:
-      branch: beta
+  provider: s3
+  access_key_id: AKIAUDN3ZT2NARONFGYI
+  secret_access_key:
+    secure: "MAUckQ+Nyo8RDmW9lT06oaPKmENVdq+ee1sj0sHRnCiuKPez5JpEl/XuWIuWnlBGGIySAnwE/DOISDzc2gxa9wHe3tQwM3fhGORGAzMGuqEjKD/zC7ly1jaUJn9boHmbSflaNInGc+fKGrfK4Q6B1zGkIH/T6jaJlGWq9GbGBhHcOAoxOW6UvCLPwa8h9jjNnB4cJpelHVRBPKGMa41uZ/9EoTmGVhkfEGHBiAUjq50A4sswpcZEZcVscnc77qhZlYbx/7mkLm1uIKGuGsg6UIBq6hJ+cceNak44lw6Syopo6Z3Sl+Ass19zOXy+iLV7Zpr93sjhB+XzwL+pC/lsnEQccq9ZLhIW4vFoGPKaq/0lmKoDNmHOEV4CEOvHXf5pPUSUYLIS8supRPlPWo4kbnpN197N290AHvneSsJGT5jgBTBk5vkqV8a0DYxCVV0lTz1sHEAxVy0gBj1HDXfxSsN8FdgZOM11EagZvlSQdn7++oRrMWsVWsyNbgPo38b+zxJvH3yZn3RW+HeR1w2OpZ9RrpbbY+HNbZoeY3ENLFMK1eoo8hROaE/znEbzmyaGL+1Ez7QOnibJI+tSSgR8F17RI057oI4h3LqKmm5/OqlJt3CoxPW8TcBWuxd4gWpicaxelKLo0ZS46LTKfcsDjURk0zh6HBhNkVviO8sCi9w="
+  bucket: "static.linklives.dk"
+  local_dir: dist/linklives
+  upload-dir: frontend
+  skip_cleanup: true
+  region: eu-west-1
 
 after_deploy:
   - aws configure set preview.cloudfront true
