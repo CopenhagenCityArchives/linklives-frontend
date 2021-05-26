@@ -67,6 +67,22 @@ export interface ElasticSourceLookupResult {
       sources: {
         buckets: {
           key: {
+            source_year_display: string,
+            source_type_wp4: string
+            source_type_display: string // only used for displaying
+          },
+          doc_count: number
+        }[]
+      }
+    }
+  }
+}
+export interface ElasticEventLookupResult {
+  aggregations?: {
+    person_appearance: {
+      sources: {
+        buckets: {
+          key: {
             event_year_display: string,
             event_type: string
             event_type_display: string // only used for displaying
@@ -138,14 +154,18 @@ export class ElasticsearchService {
     };
   }
 
-  private handleResult(searchResult: ElasticSearchResult, sourceLookupResult?: ElasticSourceLookupResult): SearchResult {
+  private handleResult(searchResult: ElasticSearchResult, eventLookupResult?: ElasticEventLookupResult, sourceLookupResult?: ElasticSourceLookupResult): SearchResult {
+    const possibleFilters = {
+      eventType: eventLookupResult?.aggregations?.person_appearance?.sources?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+      source: sourceLookupResult?.aggregations?.person_appearance?.sources?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+    }
     const result: SearchResult = {
       took: searchResult.took,
       totalHits: 0,
       indexHits: {},
       hits: [],
       meta: {
-        possibleFilters: sourceLookupResult?.aggregations?.person_appearance?.sources?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+        possibleFilters,
       },
     };
 
@@ -166,17 +186,21 @@ export class ElasticsearchService {
 
   loading = new EventEmitter<boolean>();
 
-  search(indices: string[], body: any, sourceFilterBody?: any): Observable<SearchResult> {
+  search(indices: string[], body: any, eventFilterBody?: any, sourceFilterBody?: any): Observable<SearchResult> {
     const loadingEmitter = this.loading;
     loadingEmitter.emit(true);
 
     interface SearchRequests {
       search: Observable<ElasticSearchResult>,
+      eventLookup?: Observable<ElasticSourceLookupResult>,
       sourceLookup?: Observable<ElasticSourceLookupResult>,
     };
     const requests: SearchRequests = {
       search: this.http.post<ElasticSearchResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, body).pipe(share()),
     };
+    if(eventFilterBody) {
+      requests.eventLookup = this.http.post<ElasticSourceLookupResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, eventFilterBody).pipe(share());
+    }
 
     if(sourceFilterBody) {
       requests.sourceLookup = this.http.post<ElasticSourceLookupResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, sourceFilterBody).pipe(share());
@@ -184,9 +208,9 @@ export class ElasticsearchService {
 
     // Prep observable that will send both requests and merge results in handleResult
     const observable = forkJoin(requests)
-      .pipe(map(({ search, sourceLookup }) => {
+      .pipe(map(({ search, eventLookup, sourceLookup }) => {
         loadingEmitter.emit(false);
-        return this.handleResult(search, sourceLookup);
+        return this.handleResult(search, eventLookup, sourceLookup);
       }));
 
     // Handle loading by listening to the observable
@@ -239,7 +263,12 @@ export class ElasticsearchService {
           totalHits: 0,
           indexHits: {},
           hits: [],
-          meta: { possibleFilters: [] },
+          meta: { possibleFilters:
+            {
+              eventType: [],
+              source: []
+            }
+          },
         });
 
         observer.complete();
@@ -273,7 +302,20 @@ export class ElasticsearchService {
       sort,
     };
 
-    const sourceFilterBody = {
+    const sources = {
+      eventType: [
+          { event_year_display: { terms: { field: "person_appearance.event_year_display" } } },
+          { event_type: { terms: { field: "person_appearance.event_type" } } },
+          { event_type_display: { terms: { field: "person_appearance.event_type_display" } } },
+        ],
+      source: [
+          { source_year_display: { terms: { field: "person_appearance.source_year_display" } } },
+          { source_type_wp4: { terms: { field: "person_appearance.source_type_wp4" } } },
+          { source_type_display: { terms: { field: "person_appearance.source_type_display" } } },
+        ],
+    }
+
+    const filterBody = (filterType) => ({
       from: from,
       size: 0,
       query: sourceLookupQuery,
@@ -283,11 +325,7 @@ export class ElasticsearchService {
           aggs:{
             sources: {
               composite: {
-                sources: [
-                  { event_year_display: { terms: { field: "person_appearance.event_year_display" } } },
-                  { event_type: { terms: { field: "person_appearance.event_type" } } },
-                  { event_type_display: { terms: { field: "person_appearance.event_type_display" } } },
-                ],
+                sources: sources[filterType],
                 size: 10000
               }
             },
@@ -299,9 +337,9 @@ export class ElasticsearchService {
           _index: indices
         }
       },
-    };
+    });
 
-    return this.search(indices, body, sourceFilterBody);
+    return this.search(indices, body, filterBody('eventType'), filterBody('source'));
   }
 
   createQueries(query: AdvancedSearchQuery, sourceFilter: FilterIdentifier[], mode: string) {
@@ -422,10 +460,10 @@ export class ElasticsearchService {
       // Copy must into sourceLookupFilter to avoid the following push being added to this list, too
       sourceLookupFilter = [ ...must ];
 
-      const addFiltersToQuery = (filters) => {
-        const grouped = groupBy(filters, 'filter_type');
+      const filtersGroupedByFilterType = groupBy(sourceFilter, 'filter_type');
 
-        return grouped['eventType'].map(({ event_year_display, event_type, event_type_display }) => {
+      const eventTypeFilters = (filtersGroupedByFilterType) => {
+        return filtersGroupedByFilterType['eventType'].map(({ event_year_display, event_type, event_type_display }) => {
           return {
             bool: {
               must: [
@@ -437,12 +475,37 @@ export class ElasticsearchService {
           };
         });
       }
+
+      const sourceTypeFilters = (filtersGroupedByFilterType) => {
+        return filtersGroupedByFilterType['source'].map(({ source_year_display, source_type_wp4, source_type_display }) => {
+          return {
+            bool: {
+              must: [
+                { match: { [`person_appearance.source_year_display`]: source_year_display } },
+                { match: { [`person_appearance.source_type_wp4`]: source_type_wp4 } },
+                { match: { [`person_appearance.source_type_display`]: source_type_display } },
+              ]
+            }
+          };
+        });
+      }
+
       // Add source filter to only the must filter (but not the source lookup filter)
-      must.push({
-        bool: {
-          should: addFiltersToQuery(sourceFilter),
-        },
-      })
+      if(filtersGroupedByFilterType['eventType'] && filtersGroupedByFilterType['eventType'].length) {
+        must.push({
+          bool: {
+            should: eventTypeFilters(filtersGroupedByFilterType),
+          },
+        })
+      }
+
+      if(filtersGroupedByFilterType['source'] && filtersGroupedByFilterType['source'].length) {
+        must.push({
+          bool: {
+            should: sourceTypeFilters(filtersGroupedByFilterType),
+          },
+        })
+      }
     }
 
     const simplifiedQueryFromMust = (must) => {
@@ -478,7 +541,6 @@ export class ElasticsearchService {
         ]
       }
     });
-
     return {
       resultLookupQuery: includeLifeCouseInQuery(resultLookupQuery),
       sourceLookupQuery: includeLifeCouseInQuery(sourceLookupQuery),

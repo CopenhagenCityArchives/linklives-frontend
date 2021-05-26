@@ -101,7 +101,7 @@ export class SearchResultListComponent implements OnInit {
   }
 
   get possibleFilters() {
-    const possibleFilters = this.searchResult.meta.possibleFilters.sort((a, b) => {
+    const sortedEventTypeFilter = (filter) => (filter.sort((a, b) => {
       if(a.event_year_display < b.event_year_display) {
         return -1;
       }
@@ -109,8 +109,23 @@ export class SearchResultListComponent implements OnInit {
         return 1;
       }
       return 0;
-    });
-    return {'eventType': possibleFilters};
+    }));
+
+    const sortedSourceFilter = (filter) => (filter.sort((a, b) => {
+      if(a.source_year_display < b.source_year_display) {
+        return -1;
+      }
+      if(a.source_year_display > b.source_year_display) {
+        return 1;
+      }
+      return 0;
+    }));
+
+    const { eventType, source } = this.searchResult.meta.possibleFilters;
+    return {
+      eventType: sortedEventTypeFilter(eventType),
+      source: sortedSourceFilter(source),
+    }
   }
 
   get resultRangeDescription() {
