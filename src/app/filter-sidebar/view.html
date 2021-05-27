@@ -21,10 +21,10 @@
   </div>
   <div class="lls-filter-sidebar__options">
     <button
-      *ngIf="sidebarCategoryOpen"
+      *ngIf="sidebarCategoryOpen['source']"
       class="lls-filter-sidebar__option lls-sidebar__item"
       [tabindex]="openSidebar ? 0 : -1"
-      (click)="toggleCategory('')"
+      (click)="toggleCategory('source', '')"
     >
     <svg class="lls-filter-sidebar__option-icon lls-icon">
       <use [attr.href]="featherIconPath + '#arrow-left'"></use>
@@ -32,11 +32,11 @@
       Tilbage
     </button>
     <ng-container *ngFor="let category of filtersCategories('source') | keyvalue">
-      <ng-container *ngIf="!sidebarCategoryOpen">
+      <ng-container *ngIf="!sidebarCategoryOpen['source']">
         <button
           class="lls-filter-sidebar__option lls-sidebar__item"
           [tabindex]="openSidebar ? 0 : -1"
-          (click)="toggleCategory(category.key)"
+          (click)="toggleCategory('source', category.key)"
          >
           <svg class="lls-icon lls-icon--left u-mr-2">
             <use [attr.href]="featherIconPath + '#' + sourceIcon(category.key)"></use>
@@ -48,7 +48,7 @@
           </svg>
         </button>
       </ng-container>
-      <ng-container *ngIf="sidebarCategoryOpen === category.key">
+      <ng-container *ngIf="sidebarCategoryOpen['source'] === category.key">
         <button
           *ngFor="let option of category.value.filters, index as i"
           class="lls-filter-sidebar__option lls-sidebar__item"
@@ -72,10 +72,10 @@
   </div>
   <div class="lls-filter-sidebar__options">
     <button
-      *ngIf="sidebarCategoryOpen"
+      *ngIf="sidebarCategoryOpen['eventType']"
       class="lls-filter-sidebar__option lls-sidebar__item"
       [tabindex]="openSidebar ? 0 : -1"
-      (click)="toggleCategory('')"
+      (click)="toggleCategory('eventType', '')"
     >
     <svg class="lls-filter-sidebar__option-icon lls-icon">
       <use [attr.href]="featherIconPath + '#arrow-left'"></use>
@@ -83,12 +83,12 @@
       Tilbage
     </button>
     <ng-container *ngFor="let category of filtersCategories('eventType') | keyvalue">
-      <ng-container *ngIf="!sidebarCategoryOpen">
+      <ng-container *ngIf="!sidebarCategoryOpen['eventType']">
         <button
           class="lls-filter-sidebar__option lls-sidebar__item"
           [tabindex]="openSidebar ? 0 : -1"
-          (click)="toggleCategory(category.key)"
-         >
+          (click)="toggleCategory('eventType', category.key)"
+        >
           <svg class="lls-icon lls-icon--left u-mr-2">
             <use [attr.href]="featherIconPath + '#' + eventIcon(category.key)"></use>
           </svg>
@@ -99,7 +99,7 @@
           </svg>
         </button>
       </ng-container>
-      <ng-container *ngIf="sidebarCategoryOpen === category.key">
+      <ng-container *ngIf="sidebarCategoryOpen['eventType'] === category.key">
         <button
           *ngFor="let option of category.value.filters, index as i"
           class="lls-filter-sidebar__option lls-sidebar__item"

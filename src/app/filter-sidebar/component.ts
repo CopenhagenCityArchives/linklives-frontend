@@ -59,7 +59,14 @@ export class FilterSidebar implements OnInit {
   // End ControlValueAccessor
 
   filtersWithLabels = [];
-  sidebarCategoryOpen: String = undefined;
+  sidebarCategoryOpen: {
+    source: String,
+    eventType: String,
+  } = {
+    source: "",
+    eventType: "",
+  };
+
   _filters: number[] = [];
   onChange: Function = () => {};
   onTouched: Function = () => {};
@@ -137,8 +144,8 @@ export class FilterSidebar implements OnInit {
     return this.filters.some((filterValue) => filterValue === optionValue);
   }
 
-  toggleCategory(type) {
-    this.sidebarCategoryOpen = type;
+  toggleCategory(filter, type) {
+    this.sidebarCategoryOpen[filter] = type;
   }
 
   closeOnEsc() {
