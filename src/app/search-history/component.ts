@@ -47,7 +47,7 @@ export class SearchHistoryComponent implements OnInit {
       queryParams = {
         ...queryParams,
         sourceFilter: entry.sourceFilter
-          .map(({ filter_type, event_type, event_type_display, event_year_display }) => `${filter_type}_${event_type}_${event_type_display}_${event_year_display}`)
+          .map((filter) => Object.values(filter).join('_'))
           .join(",")
       };
     }

@@ -67,7 +67,6 @@ export interface ElasticSourceLookupResult {
       sources: {
         buckets: {
           key: {
-            source_year_display: string,
             source_type_wp4: string
             source_type_display: string // only used for displaying
           },
@@ -83,7 +82,6 @@ export interface ElasticEventLookupResult {
       sources: {
         buckets: {
           key: {
-            event_year_display: string,
             event_type: string
             event_type_display: string // only used for displaying
           },
@@ -304,12 +302,10 @@ export class ElasticsearchService {
 
     const sources = {
       eventType: [
-          { event_year_display: { terms: { field: "person_appearance.event_year_display" } } },
           { event_type: { terms: { field: "person_appearance.event_type" } } },
           { event_type_display: { terms: { field: "person_appearance.event_type_display" } } },
         ],
       source: [
-          { source_year_display: { terms: { field: "person_appearance.source_year_display" } } },
           { source_type_wp4: { terms: { field: "person_appearance.source_type_wp4" } } },
           { source_type_display: { terms: { field: "person_appearance.source_type_display" } } },
         ],
@@ -463,11 +459,10 @@ export class ElasticsearchService {
       const filtersGroupedByFilterType = groupBy(sourceFilter, 'filter_type');
 
       const eventTypeFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType['eventType'].map(({ event_year_display, event_type, event_type_display }) => {
+        return filtersGroupedByFilterType['eventType'].map(({ event_type, event_type_display }) => {
           return {
             bool: {
               must: [
-                { match: { [`person_appearance.event_year_display`]: event_year_display } },
                 { match: { [`person_appearance.event_type`]: event_type } },
                 { match: { [`person_appearance.event_type_display`]: event_type_display } },
               ]
@@ -477,11 +472,10 @@ export class ElasticsearchService {
       }
 
       const sourceTypeFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType['source'].map(({ source_year_display, source_type_wp4, source_type_display }) => {
+        return filtersGroupedByFilterType['source'].map(({ source_type_wp4, source_type_display }) => {
           return {
             bool: {
               must: [
-                { match: { [`person_appearance.source_year_display`]: source_year_display } },
                 { match: { [`person_appearance.source_type_wp4`]: source_type_wp4 } },
                 { match: { [`person_appearance.source_type_display`]: source_type_display } },
               ]

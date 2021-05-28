@@ -102,20 +102,20 @@ export class SearchResultListComponent implements OnInit {
 
   get possibleFilters() {
     const sortedEventTypeFilter = (filter) => (filter.sort((a, b) => {
-      if(a.event_year_display < b.event_year_display) {
+      if(a.event_type_display.toLowerCase() < b.event_type_display.toLowerCase()) {
         return -1;
       }
-      if(a.event_year_display > b.event_year_display) {
+      if(a.event_type_display.toLowerCase() > b.event_type_display.toLowerCase()) {
         return 1;
       }
       return 0;
     }));
 
     const sortedSourceFilter = (filter) => (filter.sort((a, b) => {
-      if(a.source_year_display < b.source_year_display) {
+      if(a.source_type_display.toLowerCase() < b.source_type_display.toLowerCase()) {
         return -1;
       }
-      if(a.source_year_display > b.source_year_display) {
+      if(a.source_type_display.toLowerCase() > b.source_type_display.toLowerCase()) {
         return 1;
       }
       return 0;
@@ -255,7 +255,7 @@ export class SearchResultListComponent implements OnInit {
   }
 
   getIconFromSourceFilterValue(filterValue: string) {
-    const [_,event_type, __, ___] = filterValue.split("_");
+    const [_,event_type, __] = filterValue.split("_");
     return eventIcon(event_type);
   }
 
@@ -265,7 +265,7 @@ export class SearchResultListComponent implements OnInit {
   }
 
   getEventTypeFromSourceFilterValue(filterValue: string) {
-    const [_,__, event_type_display, ___] = filterValue.split("_");
+    const [_,__, event_type_display] = filterValue.split("_");
     return event_type_display;
   }
 

@@ -34,8 +34,8 @@ export interface SearchResult {
   hits: SearchHit[],
   meta: {
     possibleFilters: {
-      eventType: Array<{ event_year_display: string, event_type: string, event_type_display: string, count: number }>,
-      source: Array<{ source_year_display: string, source_type_wp4: string, source_type_display: string, count: number }>
+      eventType: Array<{ event_type: string, event_type_display: string, count: number }>,
+      source: Array<{ source_type_wp4: string, source_type_display: string, count: number }>
     },
   }
 }
@@ -142,14 +142,12 @@ export interface EventTypeFilterIdentifier {
   filter_type: string,
   event_type: string,
   event_type_display: string,
-  event_year_display: string,
 };
 
 export interface SourceFilterIdentifier {
   filter_type: string,
   source_type_wp4: string,
   source_type_display: string,
-  source_year_display: string,
 };
 
 export type FilterIdentifier = EventTypeFilterIdentifier | SourceFilterIdentifier;
