@@ -16,67 +16,37 @@
       </svg>
     </button>
   </div>
-  <div class="lls-filter-sidebar__options">
-    <div class="lls-sidebar__subheader">
-      <button
-        class="lls-filter-sidebar__option lls-sidebar__item"
-        [tabindex]="openSidebar ? 0 : -1"
-        (click)="toggleCategory('source')"
-      >
-        Kilder
-        <svg class="lls-filter-sidebar__option-icon lls-icon">
-          <use [attr.href]="featherIconPath + '#arrow-right'"></use>
-        </svg>
-      </button>
+  <ng-container *ngFor="let filterType of filterTypes">
+    <div class="lls-filter-sidebar__options">
+      <div class="lls-sidebar__subheader">
+        <button
+          class="lls-filter-sidebar__option lls-sidebar__item"
+          [tabindex]="openSidebar ? 0 : -1"
+          (click)="toggleCategory(filterType)"
+        >
+          {{filterTitle(filterType)}}
+          <svg class="lls-filter-sidebar__option-icon lls-icon">
+            <use [attr.href]="featherIconPath + '#arrow-right'"></use>
+          </svg>
+        </button>
+      </div>
+      <ng-container *ngIf="sidebarCategoryOpen[filterType]">
+        <button
+          *ngFor="let option of filtersCategories(filterType), index as i"
+          class="lls-filter-sidebar__option lls-sidebar__item"
+          [class]="activeFilter(option.value) ? 'lls-filter-sidebar__option--active' : ''"
+          [tabindex]="openSidebar ? 0 : -1"
+          (click)="addFilter(option)"
+        >
+          <svg class="lls-icon lls-icon--left u-mr-2">
+            <use [attr.href]="featherIconPath + '#' + (activeFilter(option.value) ? 'check-square' : 'square')"></use>
+          </svg>
+          {{ option.label }}
+          <span class="lls-filter-sidebar__option-count lls-filter-sidebar__option-item--right">
+            {{ option.count }}
+          </span>
+        </button>
+      </ng-container>
     </div>
-    <ng-container *ngIf="sidebarCategoryOpen['source']">
-      <button
-        *ngFor="let option of filtersCategories('source'), index as i"
-        class="lls-filter-sidebar__option lls-sidebar__item"
-        [class]="activeFilter(option.value) ? 'lls-filter-sidebar__option--active' : ''"
-        [tabindex]="openSidebar ? 0 : -1"
-        (click)="addFilter(option)"
-      >
-        <svg class="lls-icon lls-icon--left u-mr-2">
-          <use [attr.href]="featherIconPath + '#' + (activeFilter(option.value) ? 'check-square' : 'square')"></use>
-        </svg>
-        {{ option.label }}
-        <span class="lls-filter-sidebar__option-count lls-filter-sidebar__option-item--right">
-          {{ option.count }}
-        </span>
-      </button>
-    </ng-container>
-  </div>
-
-  <div class="lls-filter-sidebar__options">
-    <div class="lls-sidebar__subheader">
-      <button
-        class="lls-filter-sidebar__option lls-sidebar__item"
-        [tabindex]="openSidebar ? 0 : -1"
-        (click)="toggleCategory('eventType')"
-      >
-        Hændelser
-        <svg class="lls-filter-sidebar__option-icon lls-icon">
-          <use [attr.href]="featherIconPath + '#arrow-right'"></use>
-        </svg>
-      </button>
-    </div>
-    <ng-container *ngIf="sidebarCategoryOpen['eventType']">
-      <button
-        *ngFor="let option of filtersCategories('eventType'), index as i"
-        class="lls-filter-sidebar__option lls-sidebar__item"
-        [class]="activeFilter(option.value) ? 'lls-filter-sidebar__option--active' : ''"
-        [tabindex]="openSidebar ? 0 : -1"
-        (click)="addFilter(option)"
-      >
-        <svg class="lls-icon lls-icon--left u-mr-2">
-          <use [attr.href]="featherIconPath + '#' + (activeFilter(option.value) ? 'check-square' : 'square')"></use>
-        </svg>
-        {{ option.label }}
-        <span class="lls-filter-sidebar__option-count lls-filter-sidebar__option-item--right">
-          {{ option.count }}
-        </span>
-      </button>
-    </ng-container>
-  </div>
+  </ng-container>
 </aside>

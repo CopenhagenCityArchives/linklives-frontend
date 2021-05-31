@@ -162,10 +162,10 @@
                     *ngFor="let filterItem of sourceFilter; index as i;"
                     class="lls-filter-chip lls-btn lls-btn--grey u-mr-2 u-mt-2 u-text-capitalize"
                 >
-                    <svg class="lls-icon u-mr-2" [attr.alt]="getEventTypeFromSourceFilterValue(filterItem)">
+                    <svg class="lls-icon u-mr-2" [attr.alt]="getLabelFromFilterValue(filterItem)">
                         <use [attr.href]="config.featherIconPath + '#' + getIconFromSourceFilterValue(filterItem)"></use>
                     </svg>
-                    <span>{{ getYearFromSourceFilterValue(filterItem) }}</span>
+                    <span>{{ getLabelFromFilterValue(filterItem) }}</span>
                     <button
                         class="lls-filter-chip__remove-filter"
                         tabindex="0"

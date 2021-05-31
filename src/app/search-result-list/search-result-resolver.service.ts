@@ -53,6 +53,41 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
               source_type_display,
             };
           }
+          if(filter_type == 'eventYear') {
+            const [ filter_type, event_year_display ] = id.split("_");
+            return {
+              filter_type,
+              //event_year,
+              event_year_display,
+            };
+          }
+
+          if(filter_type == 'sourceYear') {
+            const [ filter_type, source_year, source_year_display ] = id.split("_");
+            return {
+              filter_type,
+              source_year,
+              source_year_display,
+            };
+          }
+
+          if(filter_type == 'birthYear') {
+            const [ filter_type, birth_year, birthyear_display ] = id.split("_");
+            return {
+              filter_type,
+              birth_year,
+              birthyear_display,
+            };
+          }
+
+          if(filter_type == 'deathYear') {
+            const [ filter_type, deathyear_searchable, deathyear_display ] = id.split("_");
+            return {
+              filter_type,
+              deathyear_searchable,
+              deathyear_display,
+            };
+          }
         });
     }
 
