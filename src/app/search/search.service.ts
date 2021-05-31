@@ -33,7 +33,10 @@ export interface SearchResult {
   },
   hits: SearchHit[],
   meta: {
-    possibleSources: Array<{ event_year_display: string, event_type: string, event_type_display: string, count: number }>,
+    possibleFilters: {
+      eventType: Array<{ event_type: string, event_type_display: string, count: number }>,
+      source: Array<{ source_type_wp4: string, source_type_display: string, count: number }>
+    },
   }
 }
 
@@ -135,13 +138,19 @@ export interface Source {
   link: string,
   institution: string,
 };
-
-export interface SourceIdentifier {
+export interface EventTypeFilterIdentifier {
+  filter_type: string,
   event_type: string,
   event_type_display: string,
-  event_year_display: string,
 };
 
+export interface SourceFilterIdentifier {
+  filter_type: string,
+  source_type_wp4: string,
+  source_type_display: string,
+};
+
+export type FilterIdentifier = EventTypeFilterIdentifier | SourceFilterIdentifier;
 export interface AdvancedSearchQuery {
   query?: string,
   name?: string,
@@ -165,7 +174,7 @@ export class SearchService {
 
   constructor(private elasticsearch: ElasticsearchService) { }
 
-  advancedSearch(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: SourceIdentifier[], mode: string = "default"): Observable<SearchResult> {
+  advancedSearch(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: FilterIdentifier[], mode: string = "default"): Observable<SearchResult> {
     return this.elasticsearch.searchAdvanced(query, indices, from, size, sortBy, sortOrder, sourceFilter, mode);
   }
 }

@@ -100,16 +100,32 @@ export class SearchResultListComponent implements OnInit {
     };
   }
 
-  get possibleSources() {
-    return this.searchResult.meta.possibleSources.sort((a, b) => {
-      if(a.event_year_display < b.event_year_display) {
+  get possibleFilters() {
+    const sortedEventTypeFilter = (filter) => (filter.sort((a, b) => {
+      if(a.event_type_display.toLowerCase() < b.event_type_display.toLowerCase()) {
         return -1;
       }
-      if(a.event_year_display > b.event_year_display) {
+      if(a.event_type_display.toLowerCase() > b.event_type_display.toLowerCase()) {
         return 1;
       }
       return 0;
-    });
+    }));
+
+    const sortedSourceFilter = (filter) => (filter.sort((a, b) => {
+      if(a.source_type_display.toLowerCase() < b.source_type_display.toLowerCase()) {
+        return -1;
+      }
+      if(a.source_type_display.toLowerCase() > b.source_type_display.toLowerCase()) {
+        return 1;
+      }
+      return 0;
+    }));
+
+    const { eventType, source } = this.searchResult.meta.possibleFilters;
+    return {
+      eventType: sortedEventTypeFilter(eventType),
+      source: sortedSourceFilter(source),
+    }
   }
 
   get resultRangeDescription() {
@@ -239,17 +255,17 @@ export class SearchResultListComponent implements OnInit {
   }
 
   getIconFromSourceFilterValue(filterValue: string) {
-    const [event_type, _, __] = filterValue.split("_");
+    const [_,event_type, __] = filterValue.split("_");
     return eventIcon(event_type);
   }
 
   getYearFromSourceFilterValue(filterValue: string) {
-    const [_, __, event_year_display] = filterValue.split("_");
+    const [_,__, ___, event_year_display] = filterValue.split("_");
     return event_year_display;
   }
 
   getEventTypeFromSourceFilterValue(filterValue: string) {
-    const [_, event_type_display, __] = filterValue.split("_");
+    const [_,__, event_type_display] = filterValue.split("_");
     return event_type_display;
   }
 
