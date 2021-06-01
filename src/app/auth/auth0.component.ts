@@ -9,6 +9,8 @@ import { DOCUMENT } from '@angular/common';
       <button (click)="auth.logout({ returnTo: document.location.origin })">
         Log out
       </button>
+
+      <a class="button" routerLink="/my-page">Min side</a>
     </ng-container>
 
     <ng-template #loggedOut>
