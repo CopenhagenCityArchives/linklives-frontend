@@ -1,0 +1,51 @@
+<div *ngIf="auth.user$ | async as user" class="lls-container u-mt-5">
+  
+  <div class="lls-row u-space-between u-flex">
+    <div class="lls-columns-10">
+      <h3 class="u-font-handwriting u-margin-0">Min side</h3>
+      <h2>{{ user.firstname }} {{ user.lastname }}</h2>
+      <p class="lls-font-500">
+        Du har bedømt 4 links og tilføjet 2 nye links
+      </p>
+    </div>
+    <div>
+      <button type="submit" class="lls-btn lls-btn--medium">
+        <span>Log ud</span>
+        <svg class="lls-icon lls-icon--right">
+          <use [attr.href]="featherSpriteUrl + '#lock'"></use>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="lls-card lls-row u-flex u-space-between">
+    <div *ngIf="!user.picture" class="lls-profile-picture lls-columns-2 lls-gap">
+      JP
+    </div>
+    <div *ngIf="user.picture">
+      <img [src]="user.picture" class="lls-profile-picture" alt="">
+    </div>
+    <div class="lls-columns-10">
+      <h5 class="simple-search-headline">Mine oplysninger</h5>
+      <table class="user-information">
+        <tr>
+          <td class="lls-font-500">Brugernavn</td>
+          <td>{{ user.nickname }}</td>
+        </tr>
+        <tr>
+          <td class="lls-font-500">Email</td>
+          <td>{{ user.email }}</td>
+        </tr>
+      </table>
+
+    </div>
+    <div>
+      <button type="submit" class="lls-btn lls-btn--medium">
+        <span>Rediger</span>
+        <svg class="lls-icon lls-icon--right">
+          <use [attr.href]="featherSpriteUrl + '#edit-2'"></use>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>
