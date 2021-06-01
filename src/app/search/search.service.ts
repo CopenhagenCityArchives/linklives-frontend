@@ -33,7 +33,14 @@ export interface SearchResult {
   },
   hits: SearchHit[],
   meta: {
-    possibleSources: Array<{ event_year_display: string, event_type: string, event_type_display: string, count: number }>,
+    possibleFilters: {
+      eventType: Array<{ event_type: string, event_type_display: string, count: number }>,
+      source: Array<{ source_type_wp4: string, source_type_display: string, count: number }>
+      eventYear: Array<{ event_year_display: string, count: number }>,
+      sourceYear: Array<{ source_year: string, source_year_display: string, count: number }>,
+      birthYear: Array<{ birth_year: string, birthyear_display: string, count: number }>,
+      deathYear: Array<{ deathyear_searchable: string, deathyear_display: string, count: number }>,
+    },
   }
 }
 
@@ -68,7 +75,7 @@ export interface PersonAppearance {
   event_persons: number,
   event_type: string,
   event_type_display: string,
-  event_year: string,
+  //event_year: string,
   event_year_display: string,
   family_names: string,
   first_names: string[],
@@ -135,13 +142,43 @@ export interface Source {
   link: string,
   institution: string,
 };
-
-export interface SourceIdentifier {
+export interface EventTypeFilterIdentifier {
+  filter_type: string,
   event_type: string,
   event_type_display: string,
+};
+
+export interface SourceFilterIdentifier {
+  filter_type: string,
+  source_type_wp4: string,
+  source_type_display: string,
+};
+
+export interface EventYearFilterIdentifier {
+  filter_type: string,
+  //event_year: string,
   event_year_display: string,
 };
 
+export interface SourceYearFilterIdentifier {
+  filter_type: string,
+  source_year: string,
+  source_year_display: string,
+};
+
+export interface BirthYearFilterIdentifier {
+  filter_type: string,
+  birth_year: string,
+  birthyear_display: string,
+};
+
+export interface DeathYearFilterIdentifier {
+  filter_type: string,
+  deathyear_searchable: string,
+  deathyear_display: string,
+};
+
+export type FilterIdentifier = EventTypeFilterIdentifier | SourceFilterIdentifier | EventYearFilterIdentifier | SourceYearFilterIdentifier | BirthYearFilterIdentifier | DeathYearFilterIdentifier;
 export interface AdvancedSearchQuery {
   query?: string,
   name?: string,
@@ -165,7 +202,7 @@ export class SearchService {
 
   constructor(private elasticsearch: ElasticsearchService) { }
 
-  advancedSearch(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: SourceIdentifier[], mode: string = "default"): Observable<SearchResult> {
+  advancedSearch(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: FilterIdentifier[], mode: string = "default"): Observable<SearchResult> {
     return this.elasticsearch.searchAdvanced(query, indices, from, size, sortBy, sortOrder, sourceFilter, mode);
   }
 }

@@ -28,6 +28,25 @@ export function eventIcon(eventType: string) {
   }[eventType] || "circle";
 };
 
+export function sourceIcon(sourceType: string) {
+  return {
+    "census": "archive",
+  }[sourceType] || "circle";
+};
+
+export const filterTypes = ['eventType', 'source', 'eventYear', 'sourceYear', 'birthYear', 'deathYear'];
+
+export function filterTitle(filterType: string) {
+  return {
+    'eventType': "Hændelser",
+    'source': "Kilder",
+    'eventYear': "Hændelses år",
+    'sourceYear': "Kildeår",
+    'birthYear': "Fødeår",
+    'deathYear': 'Dødsår',
+  }[filterType];
+};
+
 export function prettyDate(rawDate) {
   const months = [
     "januar",
