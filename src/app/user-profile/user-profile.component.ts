@@ -7,13 +7,16 @@ import { AuthService } from '@auth0/auth0-angular';
   templateUrl: './user-profile.component.html'
 })
 
-
 export class UserProfilePage {
   constructor(public auth: AuthService) {}
 
   get config() {
     return window["lls"];
   };
+
+  logout(){
+    this.auth.logout();
+  }
 
   featherSpriteUrl = this.config.featherIconPath;
 }
