@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { eventIcon, eventType, prettyNumbers } from '../display-helpers';
+import { eventIcon, sourceIcon, eventType, prettyNumbers } from '../display-helpers';
 
 export interface Option {
   label: string;
@@ -25,7 +25,10 @@ export interface Option {
 
 export class FilterSidebar implements OnInit {
   @Input() featherIconPath: string;
-  @Input() possibleSources: Array<{ event_year_display: string, event_type: string, event_type_display: string, count: number }>;
+  @Input() possibleFilters: {
+    eventType: Array<{ event_type: string, event_type_display: string, count: number }>,
+    source: Array<{ source_type_wp4: string, source_type_display: string, count: number }>
+  };
   @Input() openSidebar: boolean;
   @Input()
   get filters() {
@@ -38,6 +41,7 @@ export class FilterSidebar implements OnInit {
   @Output() closeSidebar: EventEmitter<any> = new EventEmitter();
   @Output() removeFilter: EventEmitter<any> = new EventEmitter();
   eventIcon = eventIcon;
+  sourceIcon = sourceIcon;
   eventType = eventType;
 
   // Start ControlValueAccessor
@@ -55,32 +59,55 @@ export class FilterSidebar implements OnInit {
   // End ControlValueAccessor
 
   filtersWithLabels = [];
-  sidebarCategoryOpen: String = undefined;
+  sidebarCategoryOpen: {
+    source: Boolean,
+    eventType: Boolean,
+    year: Boolean,
+  } = {
+    source: false,
+    eventType: false,
+    year: false,
+  };
+
   _filters: number[] = [];
   onChange: Function = () => {};
   onTouched: Function = () => {};
 
-  get filtersCategories() {
-    const result = {};
-
-    this.possibleSources.forEach(x => {
-      const filter =  {
-        label: `${x.event_type_display} ${x.event_year_display}`,
-        type: x.event_type,
-        icon: eventIcon(x.event_type),
-        value: `${x.event_type}_${x.event_type_display}_${x.event_year_display}`,
+  sourceCategories(filterType) {
+    const sourceCategories = this.possibleFilters[filterType].map(x => {
+      return {
+        label: x.source_type_display,
+        type: x.source_type_wp4,
+        icon: sourceIcon(x.source_type_wp4),
+        value: `${filterType}_${x.source_type_wp4}_${x.source_type_display}`,
         count: prettyNumbers(x.count),
         chosen: false,
       };
-      if(!result[x.event_type]) {
-        result[x.event_type] = {
-          display: x.event_type_display,
-          filters: [],
-        }
-      }
-      result[x.event_type].filters.push(filter);
     });
-    return result;
+    return sourceCategories;
+  }
+
+  eventCategories(filterType) {
+    const eventCategories = this.possibleFilters[filterType].map(x => {
+      return {
+        label: x.event_type_display,
+        type: x.event_type,
+        icon: eventIcon(x.event_type),
+        value: `${filterType}_${x.event_type}_${x.event_type_display}`,
+        count: prettyNumbers(x.count),
+        chosen: false,
+      };
+    });
+    return eventCategories;
+  }
+
+  filtersCategories(filterType) {
+    if(filterType == 'eventType') {
+      return this.eventCategories(filterType);
+    }
+    if(filterType == 'source') {
+      return this.sourceCategories(filterType);
+    }
   }
 
   close() {
@@ -103,8 +130,8 @@ export class FilterSidebar implements OnInit {
     return this.filters.some((filterValue) => filterValue === optionValue);
   }
 
-  toggleCategory(type) {
-    this.sidebarCategoryOpen = type;
+  toggleCategory(filterType) {
+    this.sidebarCategoryOpen[filterType] = !this.sidebarCategoryOpen[filterType];
   }
 
   closeOnEsc() {

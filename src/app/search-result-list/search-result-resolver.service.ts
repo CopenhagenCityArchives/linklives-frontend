@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AdvancedSearchQuery, SearchResult, SearchService, SourceIdentifier } from '../search/search.service';
+import { AdvancedSearchQuery, SearchResult, SearchService, FilterIdentifier } from '../search/search.service';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable, EMPTY } from 'rxjs';
 import { addSearchHistoryEntry, SearchHistoryEntryType } from '../search-history';
@@ -30,18 +30,29 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
     let sortOrder: "asc" | "desc" = route.queryParamMap.get('sortOrder') === "desc" ? "desc" : "asc";
     const sourceFilterRaw = route.queryParamMap.get("sourceFilter");
 
-    let sourceFilter: SourceIdentifier[] = [];
+    let sourceFilter: FilterIdentifier[] = [];
     if(sourceFilterRaw) {
       sourceFilter = sourceFilterRaw
         .split(",")
         .filter(x => x)
         .map((id) => {
-          const [ event_type, event_type_display, event_year_display ] = id.split("_");
-          return {
-            event_type,
-            event_type_display,
-            event_year_display,
-          };
+          const filter_type = id.split("_")[0];
+          if(filter_type == 'eventType') {
+            const [ filter_type, event_type, event_type_display ] = id.split("_");
+            return {
+              filter_type,
+              event_type,
+              event_type_display,
+            };
+          }
+          if(filter_type == 'source') {
+            const [ filter_type, source_type_wp4, source_type_display ] = id.split("_");
+            return {
+              filter_type,
+              source_type_wp4,
+              source_type_display,
+            };
+          }
         });
     }
 
@@ -78,7 +89,7 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
     addSearchHistoryEntry({
       type: SearchHistoryEntryType.SearchResult,
       query: actualSearchTerms,
-      sourceFilter,
+      filters: sourceFilter,
       index,
       pagination: { page, size },
       sort: { sortBy, sortOrder },
