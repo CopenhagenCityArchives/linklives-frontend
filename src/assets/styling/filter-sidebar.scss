@@ -35,6 +35,12 @@
   display: none;
 }
 
+.lls-filter-chip__content-label {
+  font-size: $very-small;
+  font-weight: 400;
+  line-height: 1;
+}
+
 .lls-filter-chip__remove-filter {
   background-color: transparent;
   margin: 0;
