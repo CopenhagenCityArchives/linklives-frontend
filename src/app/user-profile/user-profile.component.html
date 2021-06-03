@@ -19,25 +19,26 @@
   </div>
 
   <div class="lls-card lls-row u-flex u-space-between">
-    <div *ngIf="!user.picture" class="lls-profile-picture lls-columns-2 lls-gap">
-      JP
-    </div>
-    <div *ngIf="user.picture">
-      <img [src]="user.picture" class="lls-profile-picture" alt="">
-    </div>
-    <div class="lls-columns-10">
-      <h5 class="simple-search-headline">Mine oplysninger</h5>
-      <table class="user-information">
-        <tr>
-          <td class="lls-font-500">Brugernavn</td>
-          <td>{{ user.nickname }}</td>
-        </tr>
-        <tr>
-          <td class="lls-font-500">Email</td>
-          <td>{{ user.email }}</td>
-        </tr>
-      </table>
-
+    <div class="lls-row">
+      <div *ngIf="!user.picture" class="lls-profile-picture lls-columns-2 lls-gap">
+        JP
+      </div>
+      <div *ngIf="user.picture">
+        <img [src]="user.picture" class="lls-profile-picture" alt="">
+      </div>
+      <div class="lls-columns-10 u-ml-8">
+        <h5 class="simple-search-headline">Mine oplysninger</h5>
+        <table class="user-information">
+          <tr>
+            <td class="lls-font-500">Brugernavn</td>
+            <td>{{ user.nickname }}</td>
+          </tr>
+          <tr>
+            <td class="lls-font-500">Email</td>
+            <td>{{ user.email }}</td>
+          </tr>
+        </table>
+      </div>
     </div>
     <div>
       <button (click)="editProfile()" type="submit" class="lls-btn lls-btn--medium">
