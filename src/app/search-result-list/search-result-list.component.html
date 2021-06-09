@@ -160,14 +160,18 @@
             >
                 <div
                     *ngFor="let filterItem of sourceFilter; index as i;"
-                    class="lls-filter-chip lls-btn lls-btn--grey u-mr-2 u-mt-2 u-text-capitalize"
+                    class="lls-filter-chip lls-btn lls-btn--outline lls-btn--outline-thin u-mr-2 u-mt-2 u-text-capitalize"
                 >
                     <!-- <svg class="lls-icon u-mr-2" [attr.alt]="getLabelFromFilterValue(filterItem)">
                         <use [attr.href]="config.featherIconPath + '#' + getIconFromSourceFilterValue(filterItem)"></use>
                     </svg> -->
                     <div>
-                        <div class="lls-filter-chip__content-label">{{ filterTitle(filterItem) }}</div>
-                        <div>{{ getLabelFromFilterValue(filterItem) }}</div>
+                        <div class="lls-filter-chip__content-label">
+                            {{ filterTitle(filterItem) }}
+                        </div>
+                        <div class="u-semi-bold">
+                            {{ getLabelFromFilterValue(filterItem) }}
+                        </div>
                     </div>
                     <button
                         class="lls-filter-chip__remove-filter"
