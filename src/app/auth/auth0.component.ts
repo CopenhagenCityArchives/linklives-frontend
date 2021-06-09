@@ -6,17 +6,24 @@ import { DOCUMENT } from '@angular/common';
   selector: 'lls-auth-button',
   template: `
     <ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
-      <a class="lls-link lls-link--white" routerLink="/my-page">
+      <a class="lls-link" routerLink="/my-page">
         Gå til min side
       </a>
-      <a (click)="auth.logout({ returnTo: document.location.origin })" class="lls-link lls-link--white u-ml-4">
+      <a
+        (click)="auth.logout({ returnTo: document.location.origin })"
+        class="lls-link u-ml-4"
+      >
         Log ud
       </a>
-
     </ng-container>
 
     <ng-template #loggedOut>
-      <button (click)="auth.loginWithRedirect()" class="lls-link lls-link--white">Log ind</button>
+      <a
+        (click)="auth.loginWithRedirect()"
+        class="lls-link"
+      >
+        Log ind
+      </a>
     </ng-template>
   `,
   styles: [],
