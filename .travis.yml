@@ -32,6 +32,8 @@ deploy:
     upload-dir: frontend
     skip_cleanup: true
     region: eu-west-1
+    on:
+      branch: master
   - provider: s3
     access_key_id: AKIAUDN3ZT2NARONFGYI
     secret_access_key:
@@ -43,7 +45,7 @@ deploy:
     region: eu-west-1  
     on:
       branch: staging
-      
+
 after_deploy:
   - aws configure set preview.cloudfront true
   - aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --paths "/*"
