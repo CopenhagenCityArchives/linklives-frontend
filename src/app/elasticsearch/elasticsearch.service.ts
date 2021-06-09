@@ -194,14 +194,14 @@ export class ElasticsearchService {
       sourceLookup?: Observable<ElasticSourceLookupResult>,
     };
     const requests: SearchRequests = {
-      search: this.http.post<ElasticSearchResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, body).pipe(share()),
+      search: this.http.post<ElasticSearchResult>(`${environment.apiUrl}/search/${indices.join(',')}`, body).pipe(share()),
     };
     if(eventFilterBody) {
-      requests.eventLookup = this.http.post<ElasticSourceLookupResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, eventFilterBody).pipe(share());
+      requests.eventLookup = this.http.post<ElasticSourceLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, eventFilterBody).pipe(share());
     }
 
     if(sourceFilterBody) {
-      requests.sourceLookup = this.http.post<ElasticSourceLookupResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, sourceFilterBody).pipe(share());
+      requests.sourceLookup = this.http.post<ElasticSourceLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, sourceFilterBody).pipe(share());
     }
 
     // Prep observable that will send both requests and merge results in handleResult
@@ -544,7 +544,7 @@ export class ElasticsearchService {
   getLifecourse(id: string|number): Observable<Lifecourse> {
     return new Observable(
       observer => {
-        this.http.get<ElasticDocResult>(`${environment.apiUrl}/lifecourses/_doc/${id}`)
+        this.http.get<ElasticDocResult>(`${environment.apiUrl}/lifecourse/${id}`)
         .subscribe(next => {
             observer.next(next._source as Lifecourse);
           }, error => {
@@ -576,7 +576,7 @@ export class ElasticsearchService {
   getPersonAppearance(id: string|number): Observable<PersonAppearance> {
     return new Observable(
       observer => {
-        this.http.get<ElasticDocResult>(`${environment.apiUrl}/pas/_doc/${id}`)
+        this.http.get<ElasticDocResult>(`${environment.apiUrl}/PersonAppearance/${id}`)
         .subscribe(next => {
             observer.next(next._source.person_appearance as PersonAppearance);
           }, error => {
