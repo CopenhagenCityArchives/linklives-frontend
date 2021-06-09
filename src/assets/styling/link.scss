@@ -1,0 +1,24 @@
+.lls-link {
+  // Reset buttons
+  background-color: transparent;
+  box-shadow: none;
+  border: none;
+
+  font-weight: 500;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.4s;
+  cursor: pointer;
+
+  &:hover {
+    border-bottom-color: currentColor;
+    text-decoration: none;
+  }
+}
+
+.lls-link--white {
+  color: white;
+
+  &:hover {
+    color: white;
+  }
+}
