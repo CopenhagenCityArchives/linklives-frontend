@@ -2,12 +2,12 @@
   
   <div class="u-flex u-space-between">
     <div>
-      <h3 class="u-font-handwriting lls-data-page-header__source-type u-margin-0">
+      <h2 class="u-font-handwriting lls-data-page-header__source-type u-margin-0">
         Min side
-      </h3>
-      <h2 class="lls-data-page-header__title">
-        {{ user.nickname }}
       </h2>
+      <h1 class="lls-data-page-header__title">
+        {{ user.nickname }}
+      </h1>
       <p class="lls-data-page-header__data-summary">
         <span>Du har bedømt X links og tilføjet X nye links</span>
       </p>
@@ -31,14 +31,16 @@
         <img [src]="user.picture" class="lls-profile-picture" alt="">
       </div>
       <div class="lls-columns-10 u-ml-8">
-        <h5 class="simple-search-headline">Mine oplysninger</h5>
-        <table class="user-information">
+        <h3 class="lls-card__title">
+          Mine oplysninger
+        </h3>
+        <table class="lls-user-information">
           <tr>
-            <td class="lls-font-500">Brugernavn</td>
+            <td class="u-semi-bold">Brugernavn</td>
             <td>{{ user.nickname }}</td>
           </tr>
           <tr>
-            <td class="lls-font-500">Email</td>
+            <td class="u-semi-bold">Email</td>
             <td>{{ user.email }}</td>
           </tr>
         </table>

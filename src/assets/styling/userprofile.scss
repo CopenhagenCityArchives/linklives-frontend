@@ -9,20 +9,17 @@
   border-radius: 50%;
 }
 
-.lls-font-500 {
-  font-weight: 500;
-}
+.lls-user-information {
+  width: 100%;
+  max-width: 400px;
 
-.user-information {
-  width: 400px;
-}
+  tr td {
+    border-top: 1px solid $grey-bg;;
+    border-bottom: 1px solid $grey-bg;
+    padding: 10px 0;
 
-.user-information tr td {
-  border-top: 1px solid $grey-bg;;
-  border-bottom: 1px solid $grey-bg;
-  padding: 10px 0;
-}
-
-.user-information tr td + td {
-  padding-left: 40px;
+    & + td {
+      padding-left: 40px;
+    }
+  }
 }
