@@ -1,11 +1,15 @@
 <div *ngIf="auth.user$ | async as user" class="lls-container u-mt-5">
   
-  <div class="lls-row u-space-between u-flex">
-    <div class="lls-columns-10">
-      <h3 class="u-font-handwriting u-margin-0">Min side</h3>
-      <h2>{{ user.firstname }} {{ user.lastname }}</h2>
-      <p class="lls-font-500">
-        Du har bedømt 4 links og tilføjet 2 nye links
+  <div class="u-flex u-space-between">
+    <div>
+      <h3 class="u-font-handwriting lls-data-page-header__source-type u-margin-0">
+        Min side
+      </h3>
+      <h2 class="lls-data-page-header__title">
+        {{ user.nickname }}
+      </h2>
+      <p class="lls-data-page-header__data-summary">
+        <span>Du har bedømt X links og tilføjet X nye links</span>
       </p>
     </div>
     <div>
@@ -18,7 +22,7 @@
     </div>
   </div>
 
-  <div class="lls-card lls-row u-flex u-space-between">
+  <div class="lls-card u-flex u-space-between">
     <div class="lls-row">
       <div *ngIf="!user.picture" class="lls-profile-picture lls-columns-2 lls-gap">
         JP

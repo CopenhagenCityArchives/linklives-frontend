@@ -23,14 +23,6 @@
   padding: 10px 0;
 }
 
-.user-information tr td+td {
+.user-information tr td + td {
   padding-left: 40px;
-}
-
-.u-space-between {
-  justify-content: space-between;
-}
-
-.u-flex {
-  display: flex;
 }
