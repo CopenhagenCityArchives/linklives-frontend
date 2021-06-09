@@ -163,8 +163,8 @@ export class SourceDataComponent implements OnInit {
     "pa_id",
     "first_names_sortable",
     "family_names_sortable",
-    "last_updated",
-    "pa_entry_permalink",
+    "last_updated_wp4",
+    "pa_entry_permalink_wp4",
   ];
 
   get otherDataLines() {

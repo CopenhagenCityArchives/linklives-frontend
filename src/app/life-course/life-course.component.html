@@ -26,12 +26,14 @@
                 <p class="u-text-capitalize u-mr-2">
                     <span class="u-text-grey--light u-mr-2">Fødested</span> {{ birthPlace }}
                 </p>
-                <p class="u-align-icon">
-                    <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left">
-                        <use [attr.href]="featherSpriteUrl + '#star'"></use>
-                    </svg>
-                    {{ birthYear }}
-                </p>
+                <ng-container *ngIf="birthYear">
+                    <p class="u-align-icon">
+                        <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left">
+                            <use [attr.href]="featherSpriteUrl + '#star'"></use>
+                        </svg>
+                        {{ birthYear }}
+                    </p>
+                </ng-container>
                 <ng-container *ngIf="deathYear">
                     <p class="u-align-icon">
                         <svg class="lls-icon lls-icon--filled lls-icon--small lls-icon--left">

@@ -52,9 +52,9 @@
     <div class="lls-card__actions">
         <a
             class="lls-btn lls-btn--big"
-            [class]="pa.pa_entry_permalink ? '' : 'lls-btn--disabled'"
-            [attr.href]="pa.pa_entry_permalink ? pa.pa_entry_permalink : null"
-            [attr.tabindex]="pa.pa_entry_permalink ? null : -1"
+            [class]="pa.pa_entry_permalink_wp4 ? '' : 'lls-btn--disabled'"
+            [attr.href]="pa.pa_entry_permalink_wp4 ? pa.pa_entry_permalink_wp4 : null"
+            [attr.tabindex]="pa.pa_entry_permalink_wp4 ? null : -1"
             target="_blank"
             rel="noopener"
         >
@@ -64,7 +64,7 @@
             </svg>
         </a>
     </div>
-    <div class="lls-card__action-hint" *ngIf="!pa.pa_entry_permalink">
+    <div class="lls-card__action-hint" *ngIf="!pa.pa_entry_permalink_wp4">
         Det er på nuværende tidspunkt ikke muligt at linke direkte til kilden hos {{ source.institution }}
     </div>
 </div>

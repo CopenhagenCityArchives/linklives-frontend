@@ -28,6 +28,12 @@ export function eventIcon(eventType: string) {
   }[eventType] || "circle";
 };
 
+export function sourceIcon(sourceType: string) {
+  return {
+    "census": "archive",
+  }[sourceType] || "circle";
+};
+
 export function prettyDate(rawDate) {
   const months = [
     "januar",

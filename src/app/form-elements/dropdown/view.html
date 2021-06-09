@@ -1,11 +1,17 @@
 <input type="hidden" [value]="value" [name]="name">
 
 <div class="lls-dropdown__current-item">
-  <div class="lls-dropdown__label">{{ label }}</div>
-  <div class="lls-dropdown__current-option-label">{{ currentOptionLabel }}&nbsp;</div>
-  <svg class="lls-icon lls-icon--right">
-    <use [attr.href]="featherIconPath + '#' + (isOpen ? (dropdownIconOpen || 'chevron-up') : (dropdownIcon || 'chevron-down'))"></use>
-  </svg>
+  <div class="lls-dropdown__label" *ngIf="!currentOptionLabel || !showCurrentValue">
+    {{ label }}
+  </div>
+  <div *ngIf="showCurrentValue && currentOptionLabel">
+    {{ currentOptionLabel }}
+  </div>
+  <div *ngIf="featherIconPath">
+    <svg class="lls-icon lls-icon--right">
+      <use [attr.href]="featherIconPath + '#' + (isOpen ? (dropdownIconOpen || 'chevron-up') : (dropdownIcon || 'chevron-down'))"></use>
+    </svg>
+  </div>
 </div>
 
 <div class="lls-dropdown__option-list" [class]="isOpen ? 'lls-dropdown__option-list--open' : ''">

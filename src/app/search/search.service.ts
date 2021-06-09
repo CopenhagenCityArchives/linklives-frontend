@@ -33,7 +33,10 @@ export interface SearchResult {
   },
   hits: SearchHit[],
   meta: {
-    possibleSources: Array<{ event_year_display: string, event_type: string, event_type_display: string, count: number }>,
+    possibleFilters: {
+      eventType: Array<{ event_type: string, event_type_display: string, count: number }>,
+      source: Array<{ source_type_wp4: string, source_type_display: string, count: number }>
+    },
   }
 }
 
@@ -85,7 +88,7 @@ export interface PersonAppearance {
   land_register: string,
   land_register_address: string,
   lastname_clean: string,
-  last_updated: string,
+  last_updated_wp4: string,
   maiden_family_names: string,
   maiden_patronyms: string,
   marital_status: string,
@@ -98,7 +101,7 @@ export interface PersonAppearance {
   occupation: string,
   occupation_display: string,
   pa_id: number,
-  pa_entry_permalink: string,
+  pa_entry_permalink_wp4: string,
   parish: string,
   parish_type: string,
   patronyms: string[],
@@ -135,15 +138,22 @@ export interface Source {
   link: string,
   institution: string,
 };
-
-export interface SourceIdentifier {
+export interface EventTypeFilterIdentifier {
+  filter_type: string,
   event_type: string,
   event_type_display: string,
-  event_year_display: string,
 };
 
+export interface SourceFilterIdentifier {
+  filter_type: string,
+  source_type_wp4: string,
+  source_type_display: string,
+};
+
+export type FilterIdentifier = EventTypeFilterIdentifier | SourceFilterIdentifier;
 export interface AdvancedSearchQuery {
   query?: string,
+  name?: string,
   firstName?: string,
   lastName?: string,
   birthName?: string,
@@ -152,6 +162,7 @@ export interface AdvancedSearchQuery {
   sourceYear?: string,
   deathYear?: string,
   id?: string,
+  gender?: string,
   lifeCourseId?: string,
   // maritalStatus?: string,
 }
@@ -163,7 +174,7 @@ export class SearchService {
 
   constructor(private elasticsearch: ElasticsearchService) { }
 
-  advancedSearch(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: SourceIdentifier[], mode: string = "default"): Observable<SearchResult> {
+  advancedSearch(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: FilterIdentifier[], mode: string = "default"): Observable<SearchResult> {
     return this.elasticsearch.searchAdvanced(query, indices, from, size, sortBy, sortOrder, sourceFilter, mode);
   }
 }
