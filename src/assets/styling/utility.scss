@@ -9,6 +9,10 @@
   font-weight: 600 !important;
 }
 
+.u-semi-bold {
+  font-weight: 500 !important;
+}
+
 .u-text-capitalize {
   text-transform: capitalize !important;
 }
@@ -51,6 +55,14 @@
   margin-left: 0.625rem !important;
 }
 
+.u-ml-4 {
+  margin-left: 1.25rem !important;
+}
+
+.u-ml-8 {
+  margin-left: 2.500rem !important;
+}
+
 .u-mr-2 {
   margin-right: 0.625rem !important;
 }
@@ -80,4 +92,13 @@
   .lls-btn:hover &.lls-icon {
     transform: rotate(90deg) translateX(-2px);
   }
+}
+
+// Flex
+.u-flex {
+  display: flex;
+}
+
+.u-space-between {
+  justify-content: space-between;
 }

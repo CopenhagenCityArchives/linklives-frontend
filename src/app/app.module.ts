@@ -1,6 +1,8 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule }   from '@angular/forms';
+// Import the module from the SDK
+import { AuthModule } from '@auth0/auth0-angular';
 
 import { SearchModule } from './search/search.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -15,9 +17,12 @@ import { PersonAppearanceItemComponent } from './person-appearance/person-appear
 import { LifeCourseItemComponent } from './life-course/life-course-item.component';
 import { FormElementsModule } from './form-elements.module';
 import { SearchHistoryComponent } from './search-history/component';
+//import { AuthButtonComponent } from './auth/auth0.component';
+import { UserProfileComponent } from './auth/user-profile/component';
 import { FilterSidebar } from './filter-sidebar/component';
 import { RelatedPeopleComponent } from './person-appearance/related-people.component';
 import { SourceDataComponent } from './person-appearance/source-data.component';
+import { UserProfilePage } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +37,10 @@ import { SourceDataComponent } from './person-appearance/source-data.component';
     PersonAppearanceItemComponent,
     LifeCourseItemComponent,
     SearchHistoryComponent,
+//    AuthButtonComponent,
+    UserProfileComponent,
     FilterSidebar,
+    UserProfilePage,
   ],
   imports: [
     BrowserModule,
@@ -40,6 +48,11 @@ import { SourceDataComponent } from './person-appearance/source-data.component';
     AppRoutingModule,
     FormsModule,
     FormElementsModule,
+    // Import the module into the application, with configuration
+    AuthModule.forRoot({
+      domain: 'linklives.eu.auth0.com',
+      clientId: '7lYbAwzUER3epciKfadgIoO8LUmhIk5x'
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent]
