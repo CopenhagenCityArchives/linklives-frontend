@@ -1,0 +1,25 @@
+.lls-profile-picture {
+  font-size: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80px;
+  width: 80px;
+  background-color: grey;
+  border-radius: 50%;
+}
+
+.lls-user-information {
+  width: 100%;
+  max-width: 400px;
+
+  tr td {
+    border-top: 1px solid $grey-bg;;
+    border-bottom: 1px solid $grey-bg;
+    padding: 10px 0;
+
+    & + td {
+      padding-left: 40px;
+    }
+  }
+}

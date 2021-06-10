@@ -35,6 +35,7 @@ export function sourceIcon(sourceType: string) {
 };
 
 export const filterTypes = ['eventType', 'source', 'eventYear', 'sourceYear', 'birthYear', 'deathYear'];
+export const yearFilterTypes = ['eventYear', 'sourceYear', 'birthYear', 'deathYear'];
 
 export function filterTitle(filterType: string) {
   return {

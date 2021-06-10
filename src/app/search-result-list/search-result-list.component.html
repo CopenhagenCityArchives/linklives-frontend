@@ -16,11 +16,11 @@
                 Min søgehistorik
             </a>
         </div>
-        <app-search-history
-            [openSearchHistory]="openSearchHistory"
-            [featherIconPath]="config.featherIconPath"
-            (close)="closeSearchHistory()"
-        ></app-search-history>
+    <app-search-history
+        [openSearchHistory]="openSearchHistory"
+        [featherIconPath]="config.featherIconPath"
+        (close)="closeSearchHistory()"
+    ></app-search-history>
         <form (ngSubmit)="search(1)" class="lls-row">
             <div class="lls-columns-12 lls-columns-6--md lls-columns-8--lg lls-columns-9--xl">
                 <div class="lls-row lls-row--align-bottom">
@@ -160,12 +160,19 @@
             >
                 <div
                     *ngFor="let filterItem of sourceFilter; index as i;"
-                    class="lls-filter-chip lls-btn lls-btn--grey u-mr-2 u-mt-2 u-text-capitalize"
+                    class="lls-filter-chip lls-btn lls-btn--outline lls-btn--outline-thin u-mr-2 u-mt-2 u-text-capitalize"
                 >
-                    <svg class="lls-icon u-mr-2" [attr.alt]="getLabelFromFilterValue(filterItem)">
+                    <!-- <svg class="lls-icon u-mr-2" [attr.alt]="getLabelFromFilterValue(filterItem)">
                         <use [attr.href]="config.featherIconPath + '#' + getIconFromSourceFilterValue(filterItem)"></use>
-                    </svg>
-                    <span>{{ getLabelFromFilterValue(filterItem) }}</span>
+                    </svg> -->
+                    <div>
+                        <div class="lls-filter-chip__content-label">
+                            {{ filterTitle(filterItem) }}
+                        </div>
+                        <div class="u-semi-bold">
+                            {{ getLabelFromFilterValue(filterItem) }}
+                        </div>
+                    </div>
                     <button
                         class="lls-filter-chip__remove-filter"
                         tabindex="0"

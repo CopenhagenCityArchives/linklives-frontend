@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
 import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
 import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, possibleSearchQueryParams, getFieldOptions, genderOptions } from 'src/app/search-term-values';
-import { eventIcon, eventType } from '../display-helpers';
+import { eventIcon, filterTitle } from '../display-helpers';
 
 interface SearchQueryParams {
   query?: string,
@@ -261,6 +261,11 @@ export class SearchResultListComponent implements OnInit {
       const [_,event_type, __] = filterValue.split("_");
       return eventIcon(event_type);
     }
+  }
+
+  filterTitle(filterValue: string) {
+    const filter_type = filterValue.split("_")[0];
+    return filterTitle(filter_type);
   }
 
   getLabelFromFilterValue(filterValue: string) {
