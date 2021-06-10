@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { eventIcon, sourceIcon, eventType, prettyNumbers, filterTitle, filterTypes } from '../display-helpers';
+import { eventIcon, sourceIcon, eventType, prettyNumbers, filterTitle, filterTypes, yearFilterTypes } from '../display-helpers';
 
 export interface Option {
   label: string;
@@ -48,6 +48,7 @@ export class FilterSidebar implements OnInit {
   sourceIcon = sourceIcon;
   eventType = eventType;
   filterTypes = filterTypes;
+  yearFilterTypes = yearFilterTypes;
   filterTitle = filterTitle;
 
   // Start ControlValueAccessor
@@ -74,6 +75,7 @@ export class FilterSidebar implements OnInit {
     eventType: false,
     year: false,
   };
+  yearCategoryOpen = false;
 
   _filters: number[] = [];
   onChange: Function = () => {};
