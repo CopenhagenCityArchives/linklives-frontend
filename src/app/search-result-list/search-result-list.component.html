@@ -7,14 +7,17 @@
                 </svg>
                 Tilbage til forsiden
             </a>
-            <a
-                (click)="openSearchHistory = true"
-                (keyup.enter)="openSearchHistory = true"
-                class="lls-results-header__link lls-results-header__history-link"
-                tabindex="0"
-            >
-                Min søgehistorik
-            </a>
+            <div class="u-flex">
+                <a
+                    (click)="openSearchHistory = true"
+                    (keyup.enter)="openSearchHistory = true"
+                    class="lls-results-header__link lls-results-header__history-link"
+                    tabindex="0"
+                >
+                    Min søgehistorik
+                </a>
+                <lls-auth-button class="u-ml-4"></lls-auth-button>
+            </div>
         </div>
     <app-search-history
         [openSearchHistory]="openSearchHistory"
