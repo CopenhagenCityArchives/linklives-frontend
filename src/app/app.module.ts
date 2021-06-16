@@ -17,6 +17,7 @@ import { PersonAppearanceItemComponent } from './person-appearance/person-appear
 import { LifeCourseItemComponent } from './life-course/life-course-item.component';
 import { FormElementsModule } from './form-elements.module';
 import { SearchHistoryComponent } from './search-history/component';
+import { LinkRatingComponent } from './link-rating/component';
 //import { AuthButtonComponent } from './auth/auth0.component';
 import { UserProfileComponent } from './auth/user-profile/component';
 import { FilterSidebar } from './filter-sidebar/component';
@@ -37,6 +38,7 @@ import { UserProfilePage } from './user-profile/user-profile.component';
     PersonAppearanceItemComponent,
     LifeCourseItemComponent,
     SearchHistoryComponent,
+    LinkRatingComponent,
 //    AuthButtonComponent,
     UserProfileComponent,
     FilterSidebar,

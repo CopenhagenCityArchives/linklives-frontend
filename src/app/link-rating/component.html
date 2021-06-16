@@ -1,0 +1,12 @@
+<div
+    [class]="openLinkRating ? 'lls-overlay' : ''"
+    (click)="closeLinkRating()"
+></div>
+<div [class]="openLinkRating ? 'lls-loading-overlay' : ''">
+    <h1 class="lls-data-page-header__title u-text-capitalize">
+      Rate Links!
+    </h1>
+  <p class="lls-loading-overlay__error-message u-text-center u-margin-0">
+    Der er sket en fejl.
+  </p>
+</div>

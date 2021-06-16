@@ -50,6 +50,10 @@
         [featherIconPath]="featherSpriteUrl"
         (close)="openSearchHistory = false"
     ></app-search-history>
+    <app-link-rating
+        [openLinkRating]="openLinkRating"
+        (close)="openLinkRating = false"
+    ></app-link-rating>
     <div class="lls-life-course-source-container">
         <section class="lls-life-course-source-container__source-list lls-row">
             <h3 class="lls-columns-12 u-margin-0">Kilder</h3>
@@ -149,7 +153,7 @@
                             {{ link.linkingMethod.short }}
                         </text>
                         <foreignObject x="0" y="100" width="80%" height="100%" style="text-align: center;">
-                            <xhtml:button class="lls-btn lls-btn--small lls-btn--blue" (click)="openSearchHistory = true">
+                            <xhtml:button class="lls-btn lls-btn--small lls-btn--blue" (click)="openLinkRating = true">
                                 Er linket troværdigt?
                             </button>
                             <xhtml:div class="u-mt-2">
