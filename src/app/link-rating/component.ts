@@ -21,7 +21,7 @@ export class LinkRatingComponent implements OnInit {
     {
       title: "Ja, det er troværdigt",
       numberOfAnswers: 5,
-      chosen: true,
+      chosen: false,
       options: [
         {
           label: "ja det ser fornuftigt ud - personinfo passer sammen.",
@@ -81,11 +81,15 @@ export class LinkRatingComponent implements OnInit {
 
   onSubmit() {
     console.log("chosen option:", this.linkRatingForm.value.option);
+    const chosenOption = this.linkRatingForm.value.option;
+    const linkOption = this.linkOptions.find(optionCategory => optionCategory.options.some(option => option.value == chosenOption));
+    linkOption.chosen = true;
     this.showForm = false;
   }
 
   closeLinkRating() {
     this.showForm = true;
+    this.linkOptions = this.linkOptions.map(option => ({...option, chosen: false}));
     this.close.emit(null);
   }
 
