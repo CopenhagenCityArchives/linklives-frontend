@@ -12,6 +12,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 
 export class LinkRatingComponent implements OnInit {
   @Input() openLinkRating: boolean;
+  @Input() featherIconPath: string;
   @Output() close: EventEmitter<any> = new EventEmitter();
 
   showForm = false;
