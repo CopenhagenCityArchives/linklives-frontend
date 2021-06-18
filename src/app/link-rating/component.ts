@@ -15,7 +15,7 @@ export class LinkRatingComponent implements OnInit {
   @Input() featherIconPath: string;
   @Output() close: EventEmitter<any> = new EventEmitter();
 
-  showForm = false;
+  showForm = true;
 
   linkOptions = [
     {
@@ -24,15 +24,15 @@ export class LinkRatingComponent implements OnInit {
       chosen: true,
       options: [
         {
-          label: "fordi jeg bare kender den",
+          label: "ja det ser fornuftigt ud - personinfo passer sammen.",
           value: 1,
         },
         {
-          label: "den er rigtig",
+          label: "Jeg kan genkende personinfo fra andre kilder, der endnu ikke er med i Link-Lives.",
           value: 2,
         },
         {
-          label: "min mor sir det",
+          label: "Jeg ved det fra min private slægtsforskning.",
           value: 3,
         }
       ]
@@ -43,15 +43,15 @@ export class LinkRatingComponent implements OnInit {
       chosen: false,
       options: [
         {
-          label: "Den er forkert",
+          label: "Det ser helt forkert ud - personinfo passer ikke sammen.",
           value: 4,
         },
         {
-          label: "øv",
+          label: "JEg ved det er forkert fra andre kilder, der endnu ikke er med i Link-Lives.",
           value: 5,
         },
         {
-          label: "ik brug den",
+          label: "Jeg ved det er forkert fra min private slægtsforskning",
           value: 6,
         }
       ]
@@ -81,6 +81,7 @@ export class LinkRatingComponent implements OnInit {
 
   onSubmit() {
     console.log("chosen option:", this.linkRatingForm.value.option);
+    this.showForm = false;
   }
 
   closeLinkRating() {
