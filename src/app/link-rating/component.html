@@ -17,37 +17,33 @@
         <use [attr.href]="featherIconPath + '#x'"></use>
       </svg> -->
     </button>
-</div>
-    <form [formGroup]="linkRatingForm" (ngSubmit)="onSubmit()">
-      <div *ngFor="let optionCategory of linkOptions">
-        <h4>
-          {{optionCategory.title}}
-        </h4>
-        <div *ngFor="let option of optionCategory.options">
-          <label>
-            <input type="radio"
-              [value]="option.value"
-              name="option"
-              formControlName="option"
-              class="u-mr-2" 
-            >
-            {{ option.label }}
-          </label>
-        </div>
+  </div>
+  <form [formGroup]="linkRatingForm" (ngSubmit)="onSubmit()">
+    <div *ngFor="let optionCategory of linkOptions">
+      <h4>
+        {{optionCategory.title}}
+      </h4>
+      <div *ngFor="let option of optionCategory.options">
+        <label>
+          <input type="radio"
+            [value]="option.value"
+            name="option"
+            formControlName="option"
+            class="u-mr-2"
+          >
+          {{ option.label }}
+        </label>
       </div>
-      <span>
-        <button class="lls-btn lls-btn--small lls-btn--blue" type="submit"> Giv feedback</button>
-        <p>{{ numberOfRatings }} brugere har givet feedback</p>
-      </span>
-    </form>
+    </div>
     <span>
-      Hvordan bruger vi din feedback og hvordan bedømmes dine links?
-
-      <a class="lls-link" href="/docs/Web/SVG/Element/text">
-        Læs mere her
-      </a>
+      <button class="lls-btn lls-btn--small lls-btn--blue" type="submit"> Giv feedback</button>
+      <p>{{ numberOfRatings }} brugere har givet feedback</p>
     </span>
-  <p class="lls-loading-overlay__error-message u-text-center u-margin-0">
-    Der er sket en fejl.
-  </p>
+  </form>
+  <span>
+    Hvordan bruger vi din feedback og hvordan bedømmes dine links?
+    <a class="lls-link" href="/docs/Web/SVG/Element/text">
+      Læs mere her
+    </a>
+  </span>
 </div>
