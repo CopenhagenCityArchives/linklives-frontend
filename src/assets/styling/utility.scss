@@ -34,6 +34,10 @@
 }
 
 .u-text-small {
+  font-size: $small;
+}
+
+.u-text-very-small {
   font-size: $very-small;
 }
 
@@ -45,6 +49,10 @@
 
 .u-mt-2 {
   margin-top: 0.625rem !important;
+}
+
+.u-mt-4 {
+  margin-top: 2rem !important;
 }
 
 .u-mt-5 {
@@ -109,4 +117,8 @@
 
 .u-align-items {
   align-items: center;
+}
+
+.u-direction-row {
+  flex-direction: row
 }
