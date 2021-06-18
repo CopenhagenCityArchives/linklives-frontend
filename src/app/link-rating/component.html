@@ -22,8 +22,8 @@
       </button>
     </div>
     <form [formGroup]="linkRatingForm" (ngSubmit)="onSubmit()">
-      <div *ngFor="let optionCategory of linkOptions">
-        <h4 class="u-mt-4">
+      <div *ngFor="let optionCategory of linkOptions" class="u-mt-4">
+        <h4>
           {{optionCategory.title}}
         </h4>
         <div *ngFor="let option of optionCategory.options">
@@ -72,8 +72,8 @@
       Her er hvad du og de {{ numberOfRatings }} brugere har svaret.
     </p>
       <div *ngFor="let optionCategory of linkOptions">
-        <div class="u-flex u-space-between u-align-items">
-          <h4 class='u-margin-0 u-mt-4'>
+        <div class="u-flex u-space-between u-align-items u-mt-4">
+          <h4 class='u-margin-0'>
             {{optionCategory.title}}
           </h4>
           <p *ngIf="optionCategory.chosen" class="u-text-grey--light u-text-very-small u-margin-0">
