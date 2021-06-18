@@ -14,9 +14,13 @@ export class LinkRatingComponent implements OnInit {
   @Input() openLinkRating: boolean;
   @Output() close: EventEmitter<any> = new EventEmitter();
 
+  showForm = false;
+
   linkOptions = [
     {
-      title: "Den ser go ud",
+      title: "Ja, det er troværdigt",
+      numberOfAnswers: 5,
+      chosen: true,
       options: [
         {
           label: "fordi jeg bare kender den",
@@ -33,7 +37,9 @@ export class LinkRatingComponent implements OnInit {
       ]
     },
     {
-      title: "Dårlig",
+      title: "Nej, det er ikke troværdigt",
+      numberOfAnswers: 2,
+      chosen: false,
       options: [
         {
           label: "Den er forkert",
@@ -48,10 +54,25 @@ export class LinkRatingComponent implements OnInit {
           value: 6,
         }
       ]
+    },
+    {
+      title: "Måske",
+      numberOfAnswers: 4,
+      chosen: false,
+      options: [
+        {
+          label: "Jeg er i tvivl om persondata passer sammen",
+          value: 7,
+        },
+      ]
     }
   ]
 
-  numberOfRatings = 4;
+  numberOfRatings = 11;
+
+  percent(numberOfAnswers) {
+    return Math.round(parseInt(numberOfAnswers) / this.numberOfRatings * 100);
+  }
 
   linkRatingForm = new FormGroup({
     option: new FormControl(''),

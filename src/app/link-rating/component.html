@@ -2,48 +2,94 @@
     [class]="openLinkRating ? 'lls-overlay' : ''"
     (click)="closeLinkRating()"
 ></div>
-<div [class]="openLinkRating ? 'lls-loading-overlay' : 'u-hide'">
-  <div class="lls-sidebar__header">
-    <h3 class="u-margin-0">
-        Er linket troværdigt?
-    </h3>
-    <button
-      class="lls-btn lls-btn--outline"
-      [tabIndex]="openLinkRating ? 0 : -1"
-      (click)="closeLinkRating()"
-    >
-      <span>Luk</span>
-      <!-- <svg class="lls-icon lls-icon--right">
-        <use [attr.href]="featherIconPath + '#x'"></use>
-      </svg> -->
-    </button>
-  </div>
-  <form [formGroup]="linkRatingForm" (ngSubmit)="onSubmit()">
-    <div *ngFor="let optionCategory of linkOptions">
-      <h4>
-        {{optionCategory.title}}
-      </h4>
-      <div *ngFor="let option of optionCategory.options">
-        <label>
-          <input type="radio"
-            [value]="option.value"
-            name="option"
-            formControlName="option"
-            class="u-mr-2"
-          >
-          {{ option.label }}
-        </label>
-      </div>
+<div [class]="openLinkRating ? 'lls-loading-overlay' : 'u-hide'" style="width: 500px;">
+
+  <!-- link rating form -->
+  <ng-container *ngIf="showForm">
+    <div class="lls-sidebar__header">
+      <h3 class="u-margin-0">
+          Er linket troværdigt?
+      </h3>
+      <button
+        class="lls-btn lls-btn--outline"
+        [tabIndex]="openLinkRating ? 0 : -1"
+        (click)="closeLinkRating()"
+      >
+        <span>Luk</span>
+        <!-- <svg class="lls-icon lls-icon--right">
+          <use [attr.href]="featherIconPath + '#x'"></use>
+        </svg> -->
+      </button>
     </div>
+    <form [formGroup]="linkRatingForm" (ngSubmit)="onSubmit()">
+      <div *ngFor="let optionCategory of linkOptions">
+        <h4>
+          {{optionCategory.title}}
+        </h4>
+        <div *ngFor="let option of optionCategory.options">
+          <label>
+            <input type="radio"
+              [value]="option.value"
+              name="option"
+              formControlName="option"
+              class="u-mr-2"
+            >
+            {{ option.label }}
+          </label>
+        </div>
+      </div>
+      <span>
+        <button class="lls-btn lls-btn--small lls-btn--blue" type="submit"> Giv feedback</button>
+        <p>{{ numberOfRatings }} brugere har givet feedback</p>
+      </span>
+    </form>
     <span>
-      <button class="lls-btn lls-btn--small lls-btn--blue" type="submit"> Giv feedback</button>
-      <p>{{ numberOfRatings }} brugere har givet feedback</p>
+      Hvordan bruger vi din feedback og hvordan bedømmes dine links?
+      <a class="lls-link" href="/docs/Web/SVG/Element/text">
+        Læs mere her
+      </a>
     </span>
-  </form>
-  <span>
-    Hvordan bruger vi din feedback og hvordan bedømmes dine links?
-    <a class="lls-link" href="/docs/Web/SVG/Element/text">
-      Læs mere her
-    </a>
-  </span>
+  </ng-container>
+
+  <!-- feedback page -->
+  <ng-container *ngIf="!showForm">
+    <div class="lls-sidebar__header">
+      <h3 class="u-margin-0">
+          Tak for din feedback
+      </h3>
+      <button
+        class="lls-btn lls-btn--outline"
+        [tabIndex]="openLinkRating ? 0 : -1"
+        (click)="closeLinkRating()"
+      >
+        <span>Luk</span>
+        <!-- <svg class="lls-icon lls-icon--right">
+          <use [attr.href]="featherIconPath + '#x'"></use>
+        </svg> -->
+      </button>
+    </div>
+    <p>
+      Her er hvad du og de {{ numberOfRatings }} brugere har svaret.
+    </p>
+      <div *ngFor="let optionCategory of linkOptions">
+        <div class="u-flex u-space-between u-align-items">
+          <h4 class='u-margin-0'>
+            {{optionCategory.title}}
+          </h4>
+          <p *ngIf="optionCategory.chosen" class="u-text-grey--light u-text-small u-margin-0">
+            Du har stemt her
+          </p>
+          <p class='u-margin-0'>
+            {{percent(optionCategory.numberOfAnswers)}} %
+          </p>
+        </div>
+        <progress class="lls-progress" id="file" [max]="numberOfRatings" [value]="optionCategory.numberOfAnswers"></progress>
+      </div>
+    <span>
+      Hvordan bruger vi din feedback og hvordan bedømmes dine links?
+      <a class="lls-link" href="/docs/Web/SVG/Element/text">
+        Læs mere her
+      </a>
+    </span>
+  </ng-container>
 </div>
