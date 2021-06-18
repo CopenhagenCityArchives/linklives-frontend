@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule }   from '@angular/forms';
+import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 // Import the module from the SDK
 import { AuthModule } from '@auth0/auth0-angular';
 
@@ -49,6 +49,7 @@ import { UserProfilePage } from './user-profile/user-profile.component';
     SearchModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     FormElementsModule,
     // Import the module into the application, with configuration
     AuthModule.forRoot({
