@@ -47,7 +47,7 @@ export class LinkRatingComponent implements OnInit {
           value: 4,
         },
         {
-          label: "JEg ved det er forkert fra andre kilder, der endnu ikke er med i Link-Lives.",
+          label: "Jeg ved det er forkert fra andre kilder, der endnu ikke er med i Link-Lives.",
           value: 5,
         },
         {
@@ -85,6 +85,7 @@ export class LinkRatingComponent implements OnInit {
   }
 
   closeLinkRating() {
+    this.showForm = true;
     this.close.emit(null);
   }
 
