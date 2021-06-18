@@ -24,7 +24,7 @@ export class LinkRatingComponent implements OnInit {
       chosen: false,
       options: [
         {
-          label: "ja det ser fornuftigt ud - personinfo passer sammen.",
+          label: "Ja det ser fornuftigt ud - personinfo passer sammen.",
           value: 1,
         },
         {

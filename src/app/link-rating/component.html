@@ -24,7 +24,7 @@
     <form [formGroup]="linkRatingForm" (ngSubmit)="onSubmit()">
       <div *ngFor="let optionCategory of linkOptions" class="u-mt-4">
         <h4>
-          {{optionCategory.title}}
+          {{ optionCategory.title }}
         </h4>
         <div *ngFor="let option of optionCategory.options">
           <label class="u-text-small u-flex u-align-items u-direction-row">
@@ -74,13 +74,13 @@
       <div *ngFor="let optionCategory of linkOptions">
         <div class="u-flex u-space-between u-align-items u-mt-4">
           <h4 class='u-margin-0'>
-            {{optionCategory.title}}
+            {{ optionCategory.title }}
           </h4>
           <p *ngIf="optionCategory.chosen" class="u-text-grey--light u-text-very-small u-margin-0">
             Du har stemt her
           </p>
           <p class='u-margin-0'>
-            {{percent(optionCategory.numberOfAnswers)}} %
+            {{ percent(optionCategory.numberOfAnswers) }}%
           </p>
         </div>
         <progress class="lls-progress" id="file" [max]="numberOfRatings" [value]="optionCategory.numberOfAnswers"></progress>
