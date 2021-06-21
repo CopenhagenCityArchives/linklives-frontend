@@ -186,6 +186,28 @@ export interface LinksSearchResult {
   }
 }
 
+export interface RatingOption {
+  id: number,
+  text: string,
+  heading: string,
+}
+
+export interface LinkRatingOptionsResult {
+  [index: number]: RatingOption;
+}
+
+export interface Option {
+  value: number,
+  label: string,
+}
+export interface LinkRatingCategegory {
+  category: string,
+  options: Option[]
+}
+export interface LinkRatingOptions {
+  [index: number]: LinkRatingCategegory;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -871,4 +893,45 @@ export class ElasticsearchService {
 
     return result;
   }
-}
+
+  getLinkRatingOptions(): Observable<LinkRatingOptions> {   
+    return new Observable<LinkRatingOptions>(    
+      observer => {
+        this.http.get<LinkRatingOptionsResult>(`${environment.apiUrl}/ratingOptions`)
+        .subscribe(responseBody => {
+          try {
+            const linkRatingOptions = [];
+
+            for (const optionFromResult of responseBody as any) {
+              const category = optionFromResult.heading;
+
+              if(!linkRatingOptions.some((optionCategory) => optionCategory.category == category)) {
+                const ratingCateogory = {
+                  category: optionFromResult.heading,
+                  chosen: false,
+                  options: []
+                }
+                linkRatingOptions.push(ratingCateogory)
+              }
+
+              const option = {
+                label: optionFromResult.text,
+                value: optionFromResult.id
+              }
+              linkRatingOptions[category].options = linkRatingOptions[category].options.concat(option);
+            }
+
+            observer.next(linkRatingOptions);
+          } catch (error) {
+            observer.error(error);
+          }
+        }, error => {
+          observer.error(error);
+        }, () => {
+          observer.complete();
+        });
+      }
+    )
+  }
+
+};
