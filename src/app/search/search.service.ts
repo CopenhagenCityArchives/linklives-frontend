@@ -36,9 +36,9 @@ export interface SearchResult {
     possibleFilters: {
       eventType: Array<{ event_type: string, event_type_display: string, count: number }>,
       source: Array<{ source_type_wp4: string, source_type_display: string, count: number }>
-      eventYear: Array<{ event_year_display: string, count: number }>,
+      eventYear: Array<{ event_year_wp4: string, event_year_display: string, count: number }>,
       sourceYear: Array<{ source_year: string, source_year_display: string, count: number }>,
-      birthYear: Array<{ birth_year: string, birthyear_display: string, count: number }>,
+      birthYear: Array<{ birthyear_searchable: string, birthyear_display: string, count: number }>,
       deathYear: Array<{ deathyear_searchable: string, deathyear_display: string, count: number }>,
     },
   }
@@ -75,7 +75,7 @@ export interface PersonAppearance {
   event_persons: number,
   event_type: string,
   event_type_display: string,
-  //event_year: string,
+  event_year_wp4: string,
   event_year_display: string,
   family_names: string,
   first_names: string[],
@@ -125,7 +125,23 @@ export interface PersonAppearance {
   transcriber_comments: string,
   transcription_code: string,
   transcription_id: number,
-  uncat_names: string
+  uncat_names: string,
+  name_searchable: string,
+  name_searchable_fz: string[],
+  lastname_searchable: string,
+  lastname_searchable_fz: string[],
+  firstnames_searchable: string,
+  firstnames_searchable_fz: string[],
+  birthyear_searchable: string,
+  birthyear_searchable_fz: string[],
+  deathyear_searchable: string,
+  deathyear_searchable_fz: string[],
+  birthplace_searchable: string,
+  birthplace_searchable_fz: string[],
+  sourceplace_searchable: string[],
+  gender_searchable: string,
+  source_year_searchable: string,
+  source_year_searchable_fz: string[],
 }
 
 export interface Lifecourse {
@@ -168,7 +184,7 @@ export interface SourceYearFilterIdentifier {
 
 export interface BirthYearFilterIdentifier {
   filter_type: string,
-  birth_year: string,
+  birthyear_searchable: string,
   birthyear_display: string,
 };
 

@@ -54,10 +54,10 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
             };
           }
           if(filter_type == 'eventYear') {
-            const [ filter_type, event_year_display ] = id.split("_");
+            const [ filter_type, event_year_wp4, event_year_display ] = id.split("_");
             return {
               filter_type,
-              //event_year,
+              event_year_wp4,
               event_year_display,
             };
           }
@@ -72,10 +72,10 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
           }
 
           if(filter_type == 'birthYear') {
-            const [ filter_type, birth_year, birthyear_display ] = id.split("_");
+            const [ filter_type, birthyear_searchable, birthyear_display ] = id.split("_");
             return {
               filter_type,
-              birth_year,
+              birthyear_searchable,
               birthyear_display,
             };
           }

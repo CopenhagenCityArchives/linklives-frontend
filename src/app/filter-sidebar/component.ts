@@ -28,9 +28,9 @@ export class FilterSidebar implements OnInit {
   @Input() possibleFilters: {
     eventType: Array<{ event_type: string, event_type_display: string, count: number }>,
     source: Array<{ source_type_wp4: string, source_type_display: string, count: number }>,
-    eventYear: Array<{ event_year_display: string, count: number }>,
+    eventYear: Array<{ event_year_wp4: string, event_year_display: string, count: number }>,
     sourceYear: Array<{ source_year: string, source_year_display: string, count: number }>,
-    birthYear: Array<{ birth_year: string, birthyear_display: string, count: number }>,
+    birthYear: Array<{ birthyear_searchable: string, birthyear_display: string, count: number }>,
     deathYear: Array<{ deathyear_searchable: string, deathyear_display: string, count: number }>,
   };
   @Input() openSidebar: boolean;
@@ -137,8 +137,8 @@ export class FilterSidebar implements OnInit {
     return this.possibleFilters[filterType].map(x => {
       return {
         label: x.birthyear_display,
-        type: x.birth_year,
-        value: `${filterType}_${x.birth_year}_${x.birthyear_display}`,
+        type: x.birthyear_searchable,
+        value: `${filterType}_${x.birthyear_searchable}_${x.birthyear_display}`,
         count: prettyNumbers(x.count),
         chosen: false,
       };

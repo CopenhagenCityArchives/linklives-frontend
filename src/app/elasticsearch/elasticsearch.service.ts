@@ -77,11 +77,11 @@ interface SourceYearLookupKeys {
 }
 
 interface EventYearLookupKeys {
-  //event_year: string
+  event_year_wp4: string
   event_year_display: string // only used for displaying
 }
 interface BirthYearLookupKeys {
-  birth_year: string
+  birthyear_searchable: string
   birthyear_display: string // only used for displaying
 }
 
@@ -425,7 +425,7 @@ export class ElasticsearchService {
         { source_year_display: { terms: { field: "person_appearance.source_year_display" } } },
       ],
       birthYear: [
-        { birth_year: { terms: { field: "person_appearance.birth_year" } } },
+        { birthyear_searchable: { terms: { field: "person_appearance.birthyear_searchable" } } },
         { birthyear_display: { terms: { field: "person_appearance.birthyear_display" } } },
       ],
       deathYear: [
@@ -655,11 +655,11 @@ export class ElasticsearchService {
       }
 
       const birthYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType['birthYear'].map(({ birth_year, birthyear_display }) => {
+        return filtersGroupedByFilterType['birthYear'].map(({ birthyear_searchable, birthyear_display }) => {
           return {
             bool: {
               must: [
-                { match: { [`person_appearance.birth_year`]: birth_year } },
+                { match: { [`person_appearance.birthyear_searchable`]: birthyear_searchable } },
                 { match: { [`person_appearance.birthyear_display`]: birthyear_display } },
               ]
             }
