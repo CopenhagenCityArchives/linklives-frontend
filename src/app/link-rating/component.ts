@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 
 
 @Component({
@@ -16,63 +17,14 @@ export class LinkRatingComponent implements OnInit {
   @Output() close: EventEmitter<any> = new EventEmitter();
 
   showForm = true;
-
-  linkOptions = [
-    {
-      title: "Ja, det er troværdigt",
-      numberOfAnswers: 5,
-      chosen: false,
-      options: [
-        {
-          label: "Ja det ser fornuftigt ud - personinfo passer sammen.",
-          value: 1,
-        },
-        {
-          label: "Jeg kan genkende personinfo fra andre kilder, der endnu ikke er med i Link-Lives.",
-          value: 2,
-        },
-        {
-          label: "Jeg ved det fra min private slægtsforskning.",
-          value: 3,
-        }
-      ]
-    },
-    {
-      title: "Nej, det er ikke troværdigt",
-      numberOfAnswers: 2,
-      chosen: false,
-      options: [
-        {
-          label: "Det ser helt forkert ud - personinfo passer ikke sammen.",
-          value: 4,
-        },
-        {
-          label: "Jeg ved det er forkert fra andre kilder, der endnu ikke er med i Link-Lives.",
-          value: 5,
-        },
-        {
-          label: "Jeg ved det er forkert fra min private slægtsforskning",
-          value: 6,
-        }
-      ]
-    },
-    {
-      title: "Måske",
-      numberOfAnswers: 4,
-      chosen: false,
-      options: [
-        {
-          label: "Jeg er i tvivl om persondata passer sammen",
-          value: 7,
-        },
-      ]
-    }
-  ]
-
+  linkOptions;
   numberOfRatings = 11;
+  chosen: string;
+  numberOfAnswers;
 
-  percent(numberOfAnswers) {
-    return Math.round(parseInt(numberOfAnswers) / this.numberOfRatings * 100);
+  percent(category) {
+    const currentNumberOfAnswers = this.numberOfAnswers[category];
+    return Math.round(parseInt(currentNumberOfAnswers) / this.numberOfRatings * 100);
   }
 
   linkRatingForm = new FormGroup({
@@ -80,10 +32,10 @@ export class LinkRatingComponent implements OnInit {
   });
 
   onSubmit() {
-    console.log("chosen option:", this.linkRatingForm.value.option);
     const chosenOption = this.linkRatingForm.value.option;
+    // update api
     const linkOption = this.linkOptions.find(optionCategory => optionCategory.options.some(option => option.value == chosenOption));
-    linkOption.chosen = true;
+    this.chosen = linkOption.category;
     this.showForm = false;
   }
 
@@ -91,6 +43,17 @@ export class LinkRatingComponent implements OnInit {
     this.showForm = true;
     this.linkOptions = this.linkOptions.map(option => ({...option, chosen: false}));
     this.close.emit(null);
+  }
+
+  fillNumerOfAnswers() {
+    // something like this should be done after fetching link rating data
+    let i = 2;
+    this.numberOfAnswers = {};
+    for (const optionCategory of this.linkOptions as any) {
+      const category = optionCategory.category;
+      i += 2;
+      this.numberOfAnswers[category] = i;
+    }
   }
 
   ngOnInit(): void {
@@ -102,4 +65,12 @@ export class LinkRatingComponent implements OnInit {
       this.closeLinkRating();
     }
   }
+
+  constructor(private elasticsearch: ElasticsearchService) {
+    this.elasticsearch.getLinkRatingOptions().subscribe(
+      linkOptions => {  
+      this.linkOptions = linkOptions;
+      this.fillNumerOfAnswers();
+      });
+  }  
 }

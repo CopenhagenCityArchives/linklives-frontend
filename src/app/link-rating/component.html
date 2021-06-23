@@ -76,14 +76,14 @@
           <h4 class='u-margin-0'>
             {{ optionCategory.category }}
           </h4>
-          <p *ngIf="optionCategory.chosen" class="u-text-grey--light u-text-very-small u-margin-0">
+          <p *ngIf="chosen == optionCategory.category" class="u-text-grey--light u-text-very-small u-margin-0">
             Du har stemt her
           </p>
           <p class='u-margin-0'>
-            {{ percent(optionCategory.numberOfAnswers) }}%
+            {{ percent(optionCategory.category) }}%
           </p>
         </div>
-        <progress class="lls-progress" id="file" [max]="numberOfRatings" [value]="optionCategory.numberOfAnswers"></progress>
+        <progress class="lls-progress" id="file" [max]="numberOfRatings" [value]="numberOfAnswers[optionCategory.category]"></progress>
       </div>
     <span>
       Hvordan bruger vi din feedback og hvordan bedømmes dine links?
