@@ -4,6 +4,7 @@ import { Link } from '../elasticsearch/elasticsearch.service';
 import { prettyDate } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 import { getLatestSearchQuery } from '../search-history';
+import { AuthService } from '@auth0/auth0-angular';
 
 @Component({
   selector: 'app-life-course',
@@ -156,7 +157,7 @@ export class LifeCourseComponent implements OnInit {
     return prettyDate(date);
   }
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, public auth: AuthService) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(next => {

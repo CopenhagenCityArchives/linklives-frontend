@@ -154,7 +154,7 @@
                             {{ link.linkingMethod.short }}
                         </text>
                         <foreignObject x="0" y="100" width="80%" height="100%" style="text-align: center;">
-                            <xhtml:button class="lls-btn lls-btn--small lls-btn--blue" (click)="openLinkRating = true">
+                            <xhtml:button class="lls-btn lls-btn--small lls-btn--blue" (click)="openLinkRating = true" *ngIf="auth.isAuthenticated$ | async">
                                 Er linket troværdigt?
                             </button>
                             <xhtml:div class="u-mt-2">
