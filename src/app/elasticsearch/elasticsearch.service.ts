@@ -906,20 +906,23 @@ export class ElasticsearchService {
             for (const optionFromResult of responseBody as any) {
               const category = optionFromResult.heading;
 
-              if(!linkRatingOptions.some((optionCategory) => optionCategory.category == category)) {
+              let index = linkRatingOptions.findIndex((option) => option.category == category);
+
+              if(index == -1) {
                 const ratingCateogory = {
                   category: optionFromResult.heading,
                   chosen: false,
                   options: []
                 }
-                linkRatingOptions.push(ratingCateogory)
+                linkRatingOptions.push(ratingCateogory);
+                index = linkRatingOptions.length -1;
               }
 
               const option = {
                 label: optionFromResult.text,
                 value: optionFromResult.id
               }
-              linkRatingOptions[category].options = linkRatingOptions[category].options.concat(option);
+              linkRatingOptions[index].options.push(option);
             }
 
             observer.next(linkRatingOptions);
