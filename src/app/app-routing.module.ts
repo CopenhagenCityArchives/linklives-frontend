@@ -12,6 +12,8 @@ import { RelatedPeopleComponent } from './person-appearance/related-people.compo
 import { SourceDataComponent } from './person-appearance/source-data.component';
 import { UserProfilePage } from './user-profile/user-profile.component'
 
+import { AuthGuard } from '@auth0/auth0-angular';
+
 
 const routes: Routes = [
   {
@@ -44,7 +46,8 @@ const routes: Routes = [
   },
   {
     path: 'my-page',
-    component: UserProfilePage
+    component: UserProfilePage,
+    canActivate: [AuthGuard],
   },
   { path: '', redirectTo: 'search', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent }
