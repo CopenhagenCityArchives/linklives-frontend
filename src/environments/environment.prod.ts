@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: "https://data-dev.link-lives.dk"
+  apiUrl: "https://api.link-lives.dk"
 };

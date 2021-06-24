@@ -19,7 +19,9 @@ import { DOCUMENT } from '@angular/common';
 
     <ng-template #loggedOut>
       <a
-        (click)="auth.loginWithRedirect()"
+        (click)="auth.loginWithRedirect({
+          redirect_uri: window.location.href
+        })"
         class="lls-link"
       >
         Log ind
@@ -29,6 +31,7 @@ import { DOCUMENT } from '@angular/common';
   styles: [],
 })
 export class AuthButtonComponent {
+  window = window;
   constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService) {
     if(this.document.location.origin) {
       console.log('document.location.origin', this.document.location.origin);

@@ -53,7 +53,12 @@
       </div>
     </div>
     <div>
-      <button (click)="editProfile()" type="submit" class="lls-btn lls-btn--medium">
+      <button
+        (click)="editProfile()"
+        type="submit"
+        disabled
+        class="lls-btn lls-btn--disabled"
+      >
         <span>Rediger</span>
         <svg class="lls-icon lls-icon--right">
           <use [attr.href]="featherSpriteUrl + '#edit-2'"></use>

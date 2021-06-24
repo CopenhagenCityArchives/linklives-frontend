@@ -186,6 +186,28 @@ export interface LinksSearchResult {
   }
 }
 
+export interface RatingOption {
+  id: number,
+  text: string,
+  heading: string,
+}
+
+export interface LinkRatingOptionsResult {
+  [index: number]: RatingOption;
+}
+
+export interface Option {
+  value: number,
+  label: string,
+}
+export interface LinkRatingCategegory {
+  category: string,
+  options: Option[]
+}
+export interface LinkRatingOptions {
+  [index: number]: LinkRatingCategegory;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -281,30 +303,30 @@ export class ElasticsearchService {
       deathYearLookup?: Observable<ElasticDeathYearLookupResult>,
     };
     const requests: SearchRequests = {
-      search: this.http.post<ElasticSearchResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, body).pipe(share()),
+      search: this.http.post<ElasticSearchResult>(`${environment.apiUrl}/search/${indices.join(',')}`, body).pipe(share()),
     };
     if(eventFilterBody) {
-      requests.eventLookup = this.http.post<ElasticEventLookupResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, eventFilterBody).pipe(share());
+      requests.eventLookup = this.http.post<ElasticEventLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, eventFilterBody).pipe(share());
     }
 
     if(sourceFilterBody) {
-      requests.sourceLookup = this.http.post<ElasticSourceLookupResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, sourceFilterBody).pipe(share());
+      requests.sourceLookup = this.http.post<ElasticSourceLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, sourceFilterBody).pipe(share());
     }
 
     if(eventYearFilterBody) {
-      requests.eventYearLookup = this.http.post<ElasticEventYearLookupResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, eventYearFilterBody).pipe(share());
+      requests.eventYearLookup = this.http.post<ElasticEventYearLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, eventYearFilterBody).pipe(share());
     }
 
     if(sourceYearFilterBody) {
-      requests.sourceYearLookup = this.http.post<ElasticSourceYearLookupResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, sourceYearFilterBody).pipe(share());
+      requests.sourceYearLookup = this.http.post<ElasticSourceYearLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, sourceYearFilterBody).pipe(share());
     }
 
     if(birthYearFilterBody) {
-      requests.birthYearLookup = this.http.post<ElasticBirthYearLookupResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, birthYearFilterBody).pipe(share());
+      requests.birthYearLookup = this.http.post<ElasticBirthYearLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, birthYearFilterBody).pipe(share());
     }
 
     if(deathYearFilterBody) {
-      requests.deathYearLookup = this.http.post<ElasticDeathYearLookupResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, deathYearFilterBody).pipe(share());
+      requests.deathYearLookup = this.http.post<ElasticDeathYearLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, deathYearFilterBody).pipe(share());
     }
 
     // Prep observable that will send both requests and merge results in handleResult
@@ -774,7 +796,8 @@ export class ElasticsearchService {
   getLifecourse(id: string|number): Observable<Lifecourse> {
     return new Observable(
       observer => {
-        this.http.get<ElasticDocResult>(`${environment.apiUrl}/lifecourses/_doc/${id}`)
+        // this.http.get<ElasticDocResult>(`${environment.apiUrl}/lifecourse/${id}`)
+        this.http.get<ElasticDocResult>(`https://data-dev.link-lives.dk/lifecourses/_doc/${id}`)
         .subscribe(next => {
             observer.next(next._source as Lifecourse);
           }, error => {
@@ -790,9 +813,9 @@ export class ElasticsearchService {
   getSource(id: string|number): Observable<Source> {
     return new Observable(
       observer => {
-        this.http.get<ElasticDocResult>(`${environment.apiUrl}/sources/_doc/${id}`)
-        .subscribe(next => {
-            observer.next(next._source.source as Source);
+        this.http.get<ElasticDocResult>(`https://data-dev.link-lives.dk/sources/_doc/${id}`)
+        .subscribe(resBody => {
+            observer.next(resBody._source.source as Source);
           }, error => {
             observer.error(error);
           }, () => {
@@ -806,7 +829,7 @@ export class ElasticsearchService {
   getPersonAppearance(id: string|number): Observable<PersonAppearance> {
     return new Observable(
       observer => {
-        this.http.get<ElasticDocResult>(`${environment.apiUrl}/pas/_doc/${id}`)
+        this.http.get<ElasticDocResult>(`${environment.apiUrl}/PersonAppearance/${id}`)
         .subscribe(next => {
             observer.next(next._source.person_appearance as PersonAppearance);
           }, error => {
@@ -843,7 +866,7 @@ export class ElasticsearchService {
     };
 
     const result = new Observable<Link[]>(observer => {
-      this.http.post<LinksSearchResult>(`${environment.apiUrl}/links/_search`, body)
+      this.http.post<LinksSearchResult>(`https://data-dev.link-lives.dk/links/_search`, body)
         .subscribe(next => {
           try {
             const links: Link[] = next.hits.hits
@@ -871,4 +894,48 @@ export class ElasticsearchService {
 
     return result;
   }
-}
+
+  getLinkRatingOptions(): Observable<LinkRatingOptions> {   
+    return new Observable<LinkRatingOptions>(    
+      observer => {
+        this.http.get<LinkRatingOptionsResult>(`${environment.apiUrl}/ratingOptions`)
+        .subscribe(responseBody => {
+          try {
+            const linkRatingOptions = [];
+
+            for (const optionFromResult of responseBody as any) {
+              const category = optionFromResult.heading;
+
+              let index = linkRatingOptions.findIndex((option) => option.category == category);
+
+              if(index == -1) {
+                const ratingCateogory = {
+                  category: optionFromResult.heading,
+                  chosen: false,
+                  options: []
+                }
+                linkRatingOptions.push(ratingCateogory);
+                index = linkRatingOptions.length -1;
+              }
+
+              const option = {
+                label: optionFromResult.text,
+                value: optionFromResult.id
+              }
+              linkRatingOptions[index].options.push(option);
+            }
+
+            observer.next(linkRatingOptions);
+          } catch (error) {
+            observer.error(error);
+          }
+        }, error => {
+          observer.error(error);
+        }, () => {
+          observer.complete();
+        });
+      }
+    )
+  }
+
+};

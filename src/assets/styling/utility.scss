@@ -33,6 +33,14 @@
   color: $grey--light;
 }
 
+.u-text-small {
+  font-size: $small;
+}
+
+.u-text-very-small {
+  font-size: $very-small;
+}
+
 
 // Spacing classes
 .u-margin-0 {
@@ -41,6 +49,10 @@
 
 .u-mt-2 {
   margin-top: 0.625rem !important;
+}
+
+.u-mt-4 {
+  margin-top: 2rem !important;
 }
 
 .u-mt-5 {
@@ -101,4 +113,12 @@
 
 .u-space-between {
   justify-content: space-between;
+}
+
+.u-align-items {
+  align-items: center;
+}
+
+.u-direction-row {
+  flex-direction: row
 }

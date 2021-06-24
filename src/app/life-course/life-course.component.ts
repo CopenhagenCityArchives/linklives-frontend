@@ -22,6 +22,7 @@ export class LifeCourseComponent implements OnInit {
 
   featherSpriteUrl = this.config.featherIconPath;
   openSearchHistory: boolean = false;
+  openLinkRating: boolean = false;
 
   get pasReversed() {
     return [ ...this.pas ].reverse();
