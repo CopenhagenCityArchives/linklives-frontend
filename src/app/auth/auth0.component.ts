@@ -1,7 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { DOCUMENT } from '@angular/common';
-import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'lls-auth-button',
@@ -21,7 +20,7 @@ import { environment } from 'src/environments/environment';
     <ng-template #loggedOut>
       <a
         (click)="auth.loginWithRedirect({
-          redirect_uri: environment.baseUrl
+          redirect_uri: window.location.href
         })"
         class="lls-link"
       >
@@ -32,7 +31,7 @@ import { environment } from 'src/environments/environment';
   styles: [],
 })
 export class AuthButtonComponent {
-  environment = environment;
+  window = window;
   constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService) {
     if(this.document.location.origin) {
       console.log('document.location.origin', this.document.location.origin);
