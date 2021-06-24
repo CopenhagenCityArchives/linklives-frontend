@@ -6,7 +6,12 @@
         Min side
       </h2>
       <h1 class="lls-data-page-header__title">
-        {{ user.nickname }}
+        <ng-container *ngIf="user.firstname; else nicknameBlock">
+          {{ user.firstname }} {{ user.lastname }}
+        </ng-container>
+        <ng-template #nicknameBlock>
+          {{ user.nickname }}
+        </ng-template>
       </h1>
       <p class="lls-data-page-header__data-summary">
         <span>Du har bedømt X links og tilføjet X nye links</span>
@@ -37,7 +42,8 @@
         <table class="lls-user-information">
           <tr>
             <td class="u-semi-bold">Brugernavn</td>
-            <td>{{ user.nickname }}</td>
+            <td>
+              {{ user.nickname }}</td>
           </tr>
           <tr>
             <td class="u-semi-bold">Email</td>
