@@ -2,7 +2,7 @@
     [class]="openLinkRating ? 'lls-overlay' : ''"
     (click)="closeLinkRating()"
 ></div>
-<div [class]="openLinkRating ? 'lls-loading-overlay' : 'u-hide'" style="width: 500px; padding: 3rem">
+<div [class]="openLinkRating ? 'lls-loading-overlay lls-modal' : 'u-hide'">
 
   <!-- link rating form -->
   <ng-container *ngIf="showForm">
