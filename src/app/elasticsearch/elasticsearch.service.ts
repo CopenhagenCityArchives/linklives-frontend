@@ -526,7 +526,12 @@ export class ElasticsearchService {
 
       const searchKeyConfig = mapSearchKeys[queryKey];
 
-      if(!searchKeyConfig && queryKey != "lifeCourseId") {
+      // special case handled at the end of this method
+      if(queryKey == "lifeCourseId") {
+        return;
+      }
+
+      if(!searchKeyConfig) {
         return console.warn("[elasticsearch.service] key we don't know how to search on provided", queryKey);
       }
 
@@ -937,5 +942,4 @@ export class ElasticsearchService {
       }
     )
   }
-
 };
