@@ -314,19 +314,19 @@ export class ElasticsearchService {
     }
 
     if(eventYearFilterBody) {
-      requests.eventYearLookup = this.http.post<ElasticEventYearLookupResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, eventYearFilterBody).pipe(share());
+      requests.eventYearLookup = this.http.post<ElasticEventYearLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, eventYearFilterBody).pipe(share());
     }
 
     if(sourceYearFilterBody) {
-      requests.sourceYearLookup = this.http.post<ElasticSourceYearLookupResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, sourceYearFilterBody).pipe(share());
+      requests.sourceYearLookup = this.http.post<ElasticSourceYearLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, sourceYearFilterBody).pipe(share());
     }
 
     if(birthYearFilterBody) {
-      requests.birthYearLookup = this.http.post<ElasticBirthYearLookupResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, birthYearFilterBody).pipe(share());
+      requests.birthYearLookup = this.http.post<ElasticBirthYearLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, birthYearFilterBody).pipe(share());
     }
 
     if(deathYearFilterBody) {
-      requests.deathYearLookup = this.http.post<ElasticDeathYearLookupResult>(`${environment.apiUrl}/${indices.join(',')}/_search`, deathYearFilterBody).pipe(share());
+      requests.deathYearLookup = this.http.post<ElasticDeathYearLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, deathYearFilterBody).pipe(share());
     }
 
     // Prep observable that will send both requests and merge results in handleResult
