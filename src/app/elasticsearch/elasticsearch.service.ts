@@ -1,11 +1,12 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { PersonAppearance, Lifecourse, SearchResult, SearchHit, AdvancedSearchQuery, Source, FilterIdentifier } from '../search/search.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse} from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { mapSearchKeys, sortValues } from 'src/app/search-term-values';
 import { map, share } from 'rxjs/operators';
 import groupBy from 'lodash.groupby';
+import { catchError, retry } from 'rxjs/operators';
 
 export interface ElasticDocResult {
   _index: "lifecourses" | "pas" | "links",
@@ -900,7 +901,7 @@ export class ElasticsearchService {
     return result;
   }
 
-  getLinkRatingOptions(): Observable<LinkRatingOptions> {   
+  getLinkRatingOptions(): Observable<LinkRatingOptions> {
     return new Observable<LinkRatingOptions>(    
       observer => {
         this.http.get<LinkRatingOptionsResult>(`${environment.apiUrl}/ratingOptions`)
@@ -941,5 +942,34 @@ export class ElasticsearchService {
         });
       }
     )
+  }
+
+  sendLinkRating(linkRating: any): Observable<any> {
+    console.log('linkRating', linkRating);
+    return this.http.post<any>(`${environment.apiUrl}/LinkRating`, linkRating);
+  }
+
+  seachLifecourses(lifeCourseIds: string[]|number[]): Observable<ElasticSearchResult> {
+    const body = {
+      query: {
+        terms: {
+          life_course_id: lifeCourseIds
+        }
+      }
+    };
+
+    return new Observable(
+      observer => {
+        return this.http.post<ElasticSearchResult>(`${environment.apiUrl}/search/lifecourses`, body).pipe(share())
+        .subscribe(next => {
+            observer.next(next);
+          }, error => {
+            observer.error(error);
+          }, () => {
+            observer.complete();
+          }
+        )
+      }
+    );
   }
 };

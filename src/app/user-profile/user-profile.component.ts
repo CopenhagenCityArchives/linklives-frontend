@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
+import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 
 
 @Component({
@@ -8,7 +9,7 @@ import { AuthService } from '@auth0/auth0-angular';
 })
 
 export class UserProfilePage {
-  constructor(public auth: AuthService) {}
+  constructor(public auth: AuthService, private elasticsearch: ElasticsearchService) { }
   isEditingProfile:boolean = true;
 
   get config() {
@@ -20,11 +21,27 @@ export class UserProfilePage {
   };
 
   logout(){
+    console.log('lolle', this.lolle);
     this.auth.logout();
   };
 
+  // get ratedLifeCources() {
+    
+  // }
+  
   featherSpriteUrl = this.config.featherIconPath;
-  ratedLifeCourses = [
+  ratedLifeCourseIds = ['3144356', '3220520'];
+  ratedLifeCourses = [];
+  lolle = this.elasticsearch.seachLifecourses(this.ratedLifeCourseIds);
+  
+  // console.log('lolle', lolle);
+  // getRatedLifeCourse() {
+  //   lolle.subscribe(next =>
+  //     ratedLifeCourses = next; 
+  //   );  
+  // }
+
+  lol = [
     {
       "type": "lifecourses",
       "life_course_id": "3220520",
