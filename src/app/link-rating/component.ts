@@ -30,9 +30,23 @@ export class LinkRatingComponent implements OnInit {
   linkRatingForm = new FormGroup({
     option: new FormControl(''),
   });
-
+  someRating = [];
   onSubmit() {
     const chosenOption = this.linkRatingForm.value.option;
+    const rating = {
+      "rating": {
+        "id": 4,
+        "text": "looool",
+        "heading": "string"
+      },
+      "rateId": 4,
+      "linkKey": "5.955306_4.981811",
+      "user": "Lone123UserId"
+    }
+    this.elasticsearch.sendLinkRating(rating).subscribe(rate => {
+      this.someRating.push(rate)
+    });
+
     // update api
     const linkOption = this.linkOptions.find(optionCategory => optionCategory.options.some(option => option.value == chosenOption));
     this.chosen = linkOption.category;
