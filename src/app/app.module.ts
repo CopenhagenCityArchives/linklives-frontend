@@ -64,7 +64,7 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
     HttpClientModule,
     AuthModule.forRoot({
       domain: 'linklives.eu.auth0.com',
-      clientId: '7lYbAwzUER3epciKfadgIoO8LUmhIk5x',
+      clientId: '7lYbAwzUER3epciKfadgIoO8LUmhIk5x', // API Application clientID: 'rGurFfutLlrd7EXDa0L3mcBEVyaRxdfW'
         // Request this audience at user authentication time
       audience: 'https://linklives.eu.auth0.com/api/v2/',
 

@@ -23,13 +23,8 @@ export class UserMetadataComponent implements OnInit {
   constructor(public auth: AuthService, private http: HttpClient) {}
 
   rating = {
-    "rating": {
-      "id": 4,
-      "text": "looool",
-      "heading": "string"
-    },
-    "rateId": 4,
-    "linkKey": "5.955306_4.981811",
+    "ratingId": 1,
+    "linkKey": "1.100006_0.70809",
     "user": "Lone123UserId"
   }
 
@@ -38,20 +33,14 @@ export class UserMetadataComponent implements OnInit {
     .pipe(
       concatMap((user) =>
         // Use HttpClient to make the call
-        this.http.post<any>(
-          `${environment.apiUrl}/LinkRating/${user.sub}`, this.rating
-        )
+        {
+          return this.http.post<any>(
+            //${user.sub}
+            `${environment.apiUrl}/LinkRating`, this.rating
+          )
+        }
       )
     )
     .subscribe(next => console.log('next', next));
-    //     this.http.get(
-          
-    //       encodeURI(`https://api.link-lives.dk/${user.sub}`)
-    //     )
-    //   ),
-    //   pluck('user_metadata'),
-    //   tap((meta) => (this.metadata = meta))
-    // )
-    //.subscribe();
   }
 }
