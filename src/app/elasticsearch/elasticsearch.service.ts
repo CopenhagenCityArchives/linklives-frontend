@@ -803,7 +803,7 @@ export class ElasticsearchService {
     return new Observable(
       observer => {
         // this.http.get<ElasticDocResult>(`${environment.apiUrl}/lifecourse/${id}`)
-        this.http.get<ElasticDocResult>(`https://data-dev.link-lives.dk/lifecourses/_doc/${id}`)
+        this.http.get<ElasticDocResult>(`https://data.link-lives.dk/lifecourses/_doc/${id}`)
         .subscribe(next => {
             observer.next(next._source as Lifecourse);
           }, error => {
@@ -819,7 +819,7 @@ export class ElasticsearchService {
   getSource(id: string|number): Observable<Source> {
     return new Observable(
       observer => {
-        this.http.get<ElasticDocResult>(`https://data-dev.link-lives.dk/sources/_doc/${id}`)
+        this.http.get<ElasticDocResult>(`https://data.link-lives.dk/sources/_doc/${id}`)
         .subscribe(resBody => {
             observer.next(resBody._source.source as Source);
           }, error => {
@@ -872,7 +872,7 @@ export class ElasticsearchService {
     };
 
     const result = new Observable<Link[]>(observer => {
-      this.http.post<LinksSearchResult>(`https://data-dev.link-lives.dk/links/_search`, body)
+      this.http.post<LinksSearchResult>(`https://data.link-lives.dk/links/_search`, body)
         .subscribe(next => {
           try {
             const links: Link[] = next.hits.hits

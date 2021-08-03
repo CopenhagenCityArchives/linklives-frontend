@@ -44,6 +44,7 @@ export class LinkRatingComponent implements OnInit {
       "user": "Lone123UserId"
     }
     this.elasticsearch.sendLinkRating(rating).subscribe(rate => {
+      console.log('rating wuhu!', rate);
       this.someRating.push(rate)
     });
 
