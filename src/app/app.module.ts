@@ -25,8 +25,6 @@ import { RelatedPeopleComponent } from './person-appearance/related-people.compo
 import { SourceDataComponent } from './person-appearance/source-data.component';
 import { UserProfilePage } from './user-profile/user-profile.component';
 
-import { UserMetadataComponent } from './test/api-caller';
-
 // Import the injector module and the HTTP client module from Angular
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
@@ -47,7 +45,6 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
     LifeCourseItemComponent,
     SearchHistoryComponent,
     LinkRatingComponent,
-    UserMetadataComponent,
 //    AuthButtonComponent,
     UserProfileComponent,
     FilterSidebar,
