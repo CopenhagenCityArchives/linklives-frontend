@@ -34,14 +34,8 @@ export class LinkRatingComponent implements OnInit {
   onSubmit() {
     const chosenOption = this.linkRatingForm.value.option;
     const rating = {
-      "rating": {
-        "id": 4,
-        "text": "looool",
-        "heading": "string"
-      },
-      "rateId": 4,
+      "ratingId": 4,
       "linkKey": "5.955306_4.981811",
-      "user": "Lone123UserId"
     }
     this.elasticsearch.sendLinkRating(rating).subscribe(rate => {
       console.log('rating wuhu!', rate);
