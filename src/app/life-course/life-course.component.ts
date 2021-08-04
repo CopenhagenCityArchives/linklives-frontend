@@ -22,7 +22,7 @@ export class LifeCourseComponent implements OnInit {
 
   featherSpriteUrl = this.config.featherIconPath;
   openSearchHistory: boolean = false;
-  openLinkRating: boolean = false;
+  currentLinkKey: string = "";
 
   get pasReversed() {
     return [ ...this.pas ].reverse();
@@ -62,7 +62,6 @@ export class LifeCourseComponent implements OnInit {
       }
       return 0;
     };
-
     return this.links.sort(shortestLinkFirst).map((link, i) => {
       const { indexDiff, firstIndex, lastIndex } = getIndexLength(link);
 
@@ -108,6 +107,7 @@ export class LifeCourseComponent implements OnInit {
         pathTierX: tier * 16 + 10,
         confidencePct: Math.round((1 - link.score) * 100),
         linkingMethod: prettyLinkMethod(link),
+        key: link.key,
       };
     });
   }

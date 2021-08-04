@@ -51,9 +51,10 @@
         (close)="openSearchHistory = false"
     ></app-search-history>
     <app-link-rating
-        [openLinkRating]="openLinkRating"
+        [openLinkRating]="currentLinkKey"
+        [linkKey]="currentLinkKey"
         [featherIconPath]="featherSpriteUrl"
-        (close)="openLinkRating = false"
+        (close)="currentLinkKey = ''"
     ></app-link-rating>
     <div class="lls-life-course-source-container">
         <section class="lls-life-course-source-container__source-list lls-row">
@@ -154,7 +155,7 @@
                             {{ link.linkingMethod.short }}
                         </text>
                         <foreignObject x="0" y="100" width="80%" height="100%" style="text-align: center;">
-                            <xhtml:button class="lls-btn lls-btn--small lls-btn--blue" (click)="openLinkRating = true">
+                            <xhtml:button class="lls-btn lls-btn--small lls-btn--blue" (click)="currentLinkKey = link.key">
                                 Er linket troværdigt?
                             </button>
                             <xhtml:div class="u-mt-2">

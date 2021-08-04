@@ -14,6 +14,7 @@ import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 export class LinkRatingComponent implements OnInit {
   @Input() openLinkRating: boolean;
   @Input() featherIconPath: string;
+  @Input() linkKey: string;
   @Output() close: EventEmitter<any> = new EventEmitter();
 
   showForm = true;
@@ -32,18 +33,18 @@ export class LinkRatingComponent implements OnInit {
   });
   someRating = [];
   onSubmit() {
-    const chosenOption = this.linkRatingForm.value.option;
-    const rating = {
-      "ratingId": 4,
-      "linkKey": "5.955306_4.981811",
+    const chosenRatingId = this.linkRatingForm.value.option;
+    const ratingData = {
+      ratingId: chosenRatingId,
+      linkKey: this.linkKey,
     }
-    this.elasticsearch.sendLinkRating(rating).subscribe(rate => {
-      console.log('rating wuhu!', rate);
+
+    this.elasticsearch.sendLinkRating(ratingData).subscribe(rate => {
       this.someRating.push(rate)
     });
 
     // update api
-    const linkOption = this.linkOptions.find(optionCategory => optionCategory.options.some(option => option.value == chosenOption));
+    const linkOption = this.linkOptions.find(optionCategory => optionCategory.options.some(option => option.value == chosenRatingId));
     this.chosen = linkOption.category;
     this.showForm = false;
   }
