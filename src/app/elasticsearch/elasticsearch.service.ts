@@ -6,7 +6,6 @@ import { environment } from 'src/environments/environment';
 import { mapSearchKeys, sortValues } from 'src/app/search-term-values';
 import { map, share } from 'rxjs/operators';
 import groupBy from 'lodash.groupby';
-import { catchError, retry } from 'rxjs/operators';
 
 export interface ElasticDocResult {
   _index: "lifecourses" | "pas" | "links",
@@ -947,6 +946,10 @@ export class ElasticsearchService {
   sendLinkRating(linkRating: any): Observable<any> {
     console.log('linkRating', linkRating);
     return this.http.post<any>(`${environment.apiUrl}/LinkRating`, linkRating);
+  }
+
+  getLinkRatingStats(key: string): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/Link/${key}/ratings/stats`);
   }
 
   seachLifecourses(lifeCourseIds: string[]|number[]): Observable<ElasticSearchResult> {

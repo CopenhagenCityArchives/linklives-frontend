@@ -64,12 +64,9 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
     HttpClientModule,
     AuthModule.forRoot({
       domain: 'linklives.eu.auth0.com',
-      clientId: '7lYbAwzUER3epciKfadgIoO8LUmhIk5x', // API Application clientID: 'rGurFfutLlrd7EXDa0L3mcBEVyaRxdfW'
+      clientId: '7lYbAwzUER3epciKfadgIoO8LUmhIk5x',
         // Request this audience at user authentication time
-      audience: 'https://linklives.eu.auth0.com/api/v2/', // 'https://api.linklives.dk/'
-
-      // Request this scope at user authentication time
-      scope: 'read:current_user add:linkRating read:links add:link create:links-lifecourses',
+      audience: 'https://api.linklives.dk',
 
       // Specify configuration for the interceptor              
       httpInterceptor: {
@@ -82,18 +79,16 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
               audience: 'https://linklives.eu.auth0.com/api/v2/',
 
               // The attached token should have these scopes
-              scope: 'read:current_user openid'
             }
           },
           {
             // Match any request that starts 'https://YOUR_DOMAIN/api/v2/' (note the asterisk)
-            uri: 'https://api.link-lives.dk/LinkRating',
+            uri: 'https://api.link-lives.dk/*',
             tokenOptions: {
               // The attached token should target this audience
               audience: 'https://api.linklives.dk',
 
               // The attached token should have these scopes
-              //scope: 'read:links add:link create:links-lifecourses'
             }
           }
         ]
