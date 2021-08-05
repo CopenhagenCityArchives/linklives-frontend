@@ -22,11 +22,11 @@
       </button>
     </div>
     <form [formGroup]="linkRatingForm" (ngSubmit)="onSubmit()">
-      <div *ngFor="let optionCategory of linkOptions" class="u-mt-4">
+      <div *ngFor="let optionGroup of ratingOptions" class="u-mt-4">
         <h4>
-          {{ optionCategory.category }}
+          {{ optionGroup.category }}
         </h4>
-        <div *ngFor="let option of optionCategory.options">
+        <div *ngFor="let option of optionGroup.options">
           <label class="u-text-small u-flex u-align-items u-direction-row">
             <input type="radio"
               [value]="option.value"

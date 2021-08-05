@@ -18,10 +18,10 @@ export class LinkRatingComponent implements OnInit {
   @Output() close: EventEmitter<any> = new EventEmitter();
 
   showForm = true;
-  totalRatings: number;
-  chosen: string;
-  linkOptions;
-  ratingCountByCategory;
+  //totalRatings: number;
+  chosen: string = "";
+  ratingOptions;
+  //ratingCountByCategory;
 
   percent(ratingCount) {
     return Math.round(parseInt(ratingCount) / this.totalRatings * 100);
@@ -38,7 +38,7 @@ export class LinkRatingComponent implements OnInit {
       linkKey: this.linkKey,
     }
 
-    const linkOption = this.linkOptions.find(optionCategory => optionCategory.options.some(option => option.value == chosenRatingId));
+    const linkOption = this.ratingOptions.find(optionCategory => optionCategory.options.some(option => option.value == chosenRatingId));
     this.chosen = linkOption.category;
 
     this.elasticsearch.sendLinkRating(ratingData).subscribe(rate => {
