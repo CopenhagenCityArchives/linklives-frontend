@@ -946,7 +946,6 @@ export class ElasticsearchService {
   }
 
   sendLinkRating(linkRating: any): Observable<any> {
-    console.log('linkRating', linkRating);
     return this.http.post<any>(`${environment.apiUrl}/LinkRating`, linkRating);
   }
 
