@@ -18,14 +18,13 @@ export class LinkRatingComponent implements OnInit {
   @Output() close: EventEmitter<any> = new EventEmitter();
 
   showForm = true;
-  linkOptions;
-  numberOfRatings = 11;
+  totalRatings: number;
   chosen: string;
-  numberOfAnswers;
+  linkOptions;
+  ratingCountByCategory;
 
-  percent(category) {
-    const currentNumberOfAnswers = this.numberOfAnswers[category];
-    return Math.round(parseInt(currentNumberOfAnswers) / this.numberOfRatings * 100);
+  percent(ratingCount) {
+    return Math.round(parseInt(ratingCount) / this.totalRatings * 100);
   }
 
   linkRatingForm = new FormGroup({
@@ -39,18 +38,15 @@ export class LinkRatingComponent implements OnInit {
       linkKey: this.linkKey,
     }
 
-    this.elasticsearch.sendLinkRating(ratingData).subscribe(rate => {
-    });
-
-    // update api
-    this.elasticsearch.linkRatingInfo(this.linkKey).subscribe(linkRatingData => {
-      console.log('linkRatingData', linkRatingData);
-      this.numberOfRatings = linkRatingData.ratingCount
-      this.numberOfAnswers = linkRatingData.linkRatings;
-    });
-
     const linkOption = this.linkOptions.find(optionCategory => optionCategory.options.some(option => option.value == chosenRatingId));
     this.chosen = linkOption.category;
+
+    this.elasticsearch.sendLinkRating(ratingData).subscribe(rate => {
+      // update rating stats
+      this.totalRatings++;
+      this.ratingCountByCategory[linkOption.category]++;
+    });
+
     this.showForm = false;
   }
 
@@ -58,17 +54,6 @@ export class LinkRatingComponent implements OnInit {
     this.showForm = true;
     this.linkOptions = this.linkOptions.map(option => ({...option, chosen: false}));
     this.close.emit(null);
-  }
-
-  fillNumerOfAnswers() {
-    // something like this should be done after fetching link rating data
-    let i = 2;
-    this.numberOfAnswers = {};
-    for (const optionCategory of this.linkOptions as any) {
-      const category = optionCategory.category;
-      i += 2;
-      this.numberOfAnswers[category] = i;
-    }
   }
 
   ngOnInit(): void {
@@ -85,7 +70,12 @@ export class LinkRatingComponent implements OnInit {
     this.elasticsearch.getLinkRatingOptions().subscribe(
       linkOptions => {  
       this.linkOptions = linkOptions;
-      this.fillNumerOfAnswers();
       });
+    
+    this.elasticsearch.getLinkRatingStats(this.linkKey).subscribe(linkRatingData => {
+      this.totalRatings = linkRatingData.totalRatings
+      this.ratingCountByCategory = linkRatingData.headingRatings;
+    });
+  
   }  
 }

@@ -950,11 +950,6 @@ export class ElasticsearchService {
     return this.http.post<any>(`${environment.apiUrl}/LinkRating`, linkRating);
   }
 
-  linkRatingInfo(linkKey: string): Observable<any> {
-    // TODO: we don't know the actual url yet
-    return this.http.get<any>(`${environment.apiUrl}/link/${linkKey}/RatingInfo`);
-  }
-
   getLinkRatingStats(key: string): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/Link/${key}/ratings/stats`);
   }
