@@ -21,27 +21,13 @@ export class UserProfilePage {
   };
 
   logout(){
-    console.log('lolle', this.lolle);
     this.auth.logout();
   };
-
-  // get ratedLifeCources() {
-    
-  // }
   
   featherSpriteUrl = this.config.featherIconPath;
-  ratedLifeCourseIds = ['3144356', '3220520'];
-  ratedLifeCourses = [];
-  lolle = this.elasticsearch.seachLifecourses(this.ratedLifeCourseIds);
-  
-  // console.log('lolle', lolle);
-  // getRatedLifeCourse() {
-  //   lolle.subscribe(next =>
-  //     ratedLifeCourses = next; 
-  //   );  
-  // }
+  //ratedLifeCourses = this.elasticsearch.getRatedLifecourses();
 
-  lol = [
+  lol = () => ([
     {
       "type": "lifecourses",
       "life_course_id": "3220520",
@@ -544,6 +530,8 @@ export class UserProfilePage {
         }
       ]
     }
-  ]
+  ]);
+
+  ratedLifeCourses = this.lol();
 
 }

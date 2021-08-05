@@ -959,6 +959,10 @@ export class ElasticsearchService {
     return this.http.get<any>(`${environment.apiUrl}/Link/${key}/ratings/stats`);
   }
 
+  getRatedLifecourses(): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/lifecourse/rated-by-user`);
+  }
+
   seachLifecourses(lifeCourseIds: string[]|number[]): Observable<ElasticSearchResult> {
     const body = {
       query: {
