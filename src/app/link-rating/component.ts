@@ -15,6 +15,8 @@ export class LinkRatingComponent implements OnInit {
   @Input() openLinkRating: boolean;
   @Input() featherIconPath: string;
   @Input() linkKey: string;
+  @Input() totalRatings: number;
+  @Input() ratingCountByCategory: any;
   @Output() close: EventEmitter<any> = new EventEmitter();
 
   showForm = true;
@@ -47,12 +49,19 @@ export class LinkRatingComponent implements OnInit {
       this.ratingCountByCategory[linkOption.category]++;
     });
 
+    this.elasticsearch.getLinkRatingStats(this.linkKey).subscribe(linkRatingData => {
+      this.totalRatings = linkRatingData.totalRatings
+      this.ratingCountByCategory = linkRatingData.headingRatings;
+    });
+
     this.showForm = false;
   }
 
   closeLinkRating() {
     this.showForm = true;
-    this.linkOptions = this.linkOptions.map(option => ({...option, chosen: false}));
+    this.chosen = "";
+    this.openLinkRating = false;
+    this.linkRatingForm.value.option = ""; // TODO this does not work :(
     this.close.emit(null);
   }
 
@@ -67,14 +76,8 @@ export class LinkRatingComponent implements OnInit {
   }
 
   constructor(private elasticsearch: ElasticsearchService) {
-    this.elasticsearch.getLinkRatingOptions().subscribe(
-      linkOptions => {  
-      this.linkOptions = linkOptions;
-      });
-    
-    this.elasticsearch.getLinkRatingStats(this.linkKey).subscribe(linkRatingData => {
-      this.totalRatings = linkRatingData.totalRatings
-      this.ratingCountByCategory = linkRatingData.headingRatings;
+    this.elasticsearch.getLinkRatingOptions().subscribe(ratingOptions => {
+      this.ratingOptions = ratingOptions;
     });
   
   }  

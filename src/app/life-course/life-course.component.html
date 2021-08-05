@@ -53,6 +53,8 @@
     <app-link-rating
         [openLinkRating]="currentLinkKey"
         [linkKey]="currentLinkKey"
+        [totalRatings]="totalRatings"
+        [ratingCountByCategory]="ratingCountByCategory"
         [featherIconPath]="featherSpriteUrl"
         (close)="currentLinkKey = ''"
     ></app-link-rating>
@@ -155,7 +157,7 @@
                             {{ link.linkingMethod.short }}
                         </text>
                         <foreignObject x="0" y="100" width="80%" height="100%" style="text-align: center;">
-                            <xhtml:button class="lls-btn lls-btn--small lls-btn--blue" (click)="currentLinkKey = link.key">
+                            <xhtml:button class="lls-btn lls-btn--small lls-btn--blue" (click)="openLinkRating(link.key)">
                                 Er linket troværdigt?
                             </button>
                             <xhtml:div class="u-mt-2">
