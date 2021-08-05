@@ -80,6 +80,16 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
           },
           {
             // Match any request that starts 'https://YOUR_DOMAIN/api/v2/' (note the asterisk)
+            uri: 'https://api-test.link-lives.dk/*',
+            tokenOptions: {
+              // The attached token should target this audience
+              audience: 'https://api.linklives.dk',
+
+              // The attached token should have these scopes
+            }
+          },
+          {
+            // Match any request that starts 'https://YOUR_DOMAIN/api/v2/' (note the asterisk)
             uri: 'https://api.link-lives.dk/*',
             tokenOptions: {
               // The attached token should target this audience
