@@ -20,6 +20,7 @@ export interface LinkHit {
 export interface LifecourseHit {
   type: "lifecourses",
   life_course_id: number,
+  life_course_key: string,
   pas: PersonAppearance[]
 }
 
@@ -129,6 +130,7 @@ export interface PersonAppearance {
 }
 
 export interface Lifecourse {
+  key: string, // actual identifier
   life_course_id: number,
   person_appearance: PersonAppearance[]
 }
