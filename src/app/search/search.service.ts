@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
+import { ElasticsearchService, Link } from '../elasticsearch/elasticsearch.service';
 
 export type SearchHit = PersonAppearanceHit | LinkHit | LifecourseHit;
 
@@ -132,7 +132,8 @@ export interface PersonAppearance {
 export interface Lifecourse {
   key: string, // actual identifier
   life_course_id: number,
-  person_appearance: PersonAppearance[]
+  personAppearances: PersonAppearance[]
+  links: Link[]
 }
 
 export interface Source {
