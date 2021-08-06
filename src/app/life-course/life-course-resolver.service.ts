@@ -28,14 +28,14 @@ export class LifeCourseResolverService implements Resolve<{lifecourseKey: string
           },
         });
 
-        // return this.elasticsearch.searchLinks(lifecourse.person_appearance)
-        //   .pipe(map((linksResult, index) => {
-        //     const paIds: string[] = lifecourse.person_appearance.map((pa) => `${pa.source_id}-${pa.pa_id}`);
-        //     const links = linksResult.filter((link) => {
-        //       const linkStartId = `${link.source_id1}-${link.pa_id1}`;
-        //       const linkEndId = `${link.source_id2}-${link.pa_id2}`;
-        //       return paIds.includes(linkStartId) && paIds.includes(linkEndId);
-        //     });
+        return this.elasticsearch.searchLinks(lifecourse.person_appearance)
+          .pipe(map((linksResult, index) => {
+            const paIds: string[] = lifecourse.person_appearance.map((pa) => `${pa.source_id}-${pa.pa_id}`);
+            const links = linksResult.filter((link) => {
+              const linkStartId = `${link.source_id1}-${link.pa_id1}`;
+              const linkEndId = `${link.source_id2}-${link.pa_id2}`;
+              return paIds.includes(linkStartId) && paIds.includes(linkEndId);
+            });
 
             return {
               lifecourseKey,
