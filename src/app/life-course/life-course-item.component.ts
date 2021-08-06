@@ -9,7 +9,7 @@ import { PersonAppearance } from '../search/search.service';
 export class LifeCourseItemComponent implements OnInit {
 
   @Input('item') personAppearances: PersonAppearance[];
-  @Input('lifecourse-id') lifecourseId: number;
+  @Input('lifecourse-key') lifecourseKey: string;
 
   get config() {
     return window["lls"];
@@ -66,5 +66,6 @@ export class LifeCourseItemComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
+    console.log('lifecourse-key', this.lifecourseKey);
   }
 }

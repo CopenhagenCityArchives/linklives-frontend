@@ -78,7 +78,7 @@
 
   <div>
     <ng-container *ngFor="let lifeCourse of ratedLifeCourses">
-        <app-life-course-item class="lls-columns-12" [item]="lifeCourse.pas" [lifecourse-id]="lifeCourse.life_course_id"></app-life-course-item>
+        <app-life-course-item class="lls-columns-12" [item]="lifeCourse.pas" [lifecourse-key]="lifeCourse.key"></app-life-course-item>
     </ng-container>
     <div *ngIf="!ratedLifeCourses.length" class="lls-columns-12 u-text-center">
         <p>
