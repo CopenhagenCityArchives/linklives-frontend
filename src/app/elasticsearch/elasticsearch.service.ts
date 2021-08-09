@@ -902,7 +902,7 @@ export class ElasticsearchService {
     return result;
   }
 
-  getLinkRatingOptions(): Observable<LinkRatingOptions> {   
+  getLinkRatingOptions(): Observable<LinkRatingOptions> {
     return new Observable<LinkRatingOptions>(    
       observer => {
         this.http.get<LinkRatingOptionsResult>(`${environment.apiUrl}/ratingOptions`)
