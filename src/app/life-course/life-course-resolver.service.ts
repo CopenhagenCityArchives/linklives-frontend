@@ -24,23 +24,23 @@ export class LifeCourseResolverService implements Resolve<{lifecourseKey: string
           type: SearchHistoryEntryType.Lifecourse,
           lifecourse: {
             key: lifecourseKey,
-            personAppearances: lifecourse.person_appearance || [],
+            personAppearances: lifecourse.personAppearances || [],
           },
         });
-
-        return this.elasticsearch.searchLinks(lifecourse.person_appearance)
+        return this.elasticsearch.searchLinks(lifecourse.personAppearances)
           .pipe(map((linksResult, index) => {
-            const paIds: string[] = lifecourse.person_appearance.map((pa) => `${pa.source_id}-${pa.pa_id}`);
+            const paIds: string[] = lifecourse.personAppearances.map((pa) => `${pa.source_id}-${pa.pa_id}`);
             const links = linksResult.filter((link) => {
               const linkStartId = `${link.source_id1}-${link.pa_id1}`;
               const linkEndId = `${link.source_id2}-${link.pa_id2}`;
               return paIds.includes(linkStartId) && paIds.includes(linkEndId);
             });
-
+            console.log('datadev links:', links)
+            console.log('lifecourse links', lifecourse.links);
             return {
               lifecourseKey,
-              personAppearances: lifecourse.person_appearance,
-              links,
+              personAppearances: lifecourse.personAppearances,
+              links: lifecourse.links,
             };
           }));
       }));
