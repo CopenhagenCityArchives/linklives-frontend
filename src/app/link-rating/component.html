@@ -69,7 +69,7 @@
       </button>
     </div>
     <p>
-      Her er hvad du og de {{ totalRatings }} brugere har svaret.
+      Her er hvad du og de {{ totalRatings - 1 }} brugere har svaret.
     </p>
       <div *ngFor="let ratingCount of ratingCountByCategory | keyvalue">
         <div class="u-flex u-space-between u-align-items u-mt-4">
