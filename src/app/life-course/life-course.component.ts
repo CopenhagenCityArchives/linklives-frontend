@@ -4,6 +4,7 @@ import { Link } from '../elasticsearch/elasticsearch.service';
 import { prettyDate } from '../display-helpers';
 import { PersonAppearance } from '../search/search.service';
 import { getLatestSearchQuery } from '../search-history';
+import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 
 @Component({
   selector: 'app-life-course',
@@ -22,7 +23,9 @@ export class LifeCourseComponent implements OnInit {
 
   featherSpriteUrl = this.config.featherIconPath;
   openSearchHistory: boolean = false;
-  openLinkRating: boolean = false;
+  currentLinkKey: string = "";
+  totalRatings;
+  ratingCountByCategory;
 
   get pasReversed() {
     return [ ...this.pas ].reverse();
@@ -108,6 +111,7 @@ export class LifeCourseComponent implements OnInit {
         pathTierX: tier * 16 + 10,
         confidencePct: Math.round((1 - link.score) * 100),
         linkingMethod: prettyLinkMethod(link),
+        key: link.key,
       };
     });
   }
@@ -156,7 +160,15 @@ export class LifeCourseComponent implements OnInit {
     return prettyDate(date);
   }
 
-  constructor(private route: ActivatedRoute) { }
+  openLinkRating(linkKey) {
+    this.currentLinkKey = linkKey;
+    this.elasticsearch.getLinkRatingStats(linkKey).subscribe(linkRatingData => {
+      this.totalRatings = linkRatingData.totalRatings
+      this.ratingCountByCategory = linkRatingData.headingRatings;
+    });
+  }
+
+  constructor(private route: ActivatedRoute, private elasticsearch: ElasticsearchService) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(next => {

@@ -172,6 +172,7 @@ export interface Link {
   method_type: string,
   method_subtype1: string,
   score: number,
+  key: string,
 }
 
 export interface LinksSearchResult {
@@ -879,6 +880,7 @@ export class ElasticsearchService {
                 method_type: link.method_type,
                 method_subtype1: link.method_subtype1,
                 score: link.score,
+                key: link.key,
               }));
 
             observer.next(links);
@@ -938,4 +940,11 @@ export class ElasticsearchService {
     )
   }
 
+  sendLinkRating(linkRating: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/LinkRating`, linkRating);
+  }
+
+  getLinkRatingStats(key: string): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/Link/${key}/ratings/stats`);
+  }
 };
