@@ -17,14 +17,14 @@ export class LinkRatingComponent implements OnInit {
   @Output() close: EventEmitter<any> = new EventEmitter();
 
   showForm = true;
-  linkOptions;
-  numberOfRatings = 11;
+  ratingOptions;
+  totalRatings = 11;
   chosen: string;
   numberOfAnswers;
 
   percent(category) {
     const currentNumberOfAnswers = this.numberOfAnswers[category];
-    return Math.round(parseInt(currentNumberOfAnswers) / this.numberOfRatings * 100);
+    return Math.round(parseInt(currentNumberOfAnswers) / this.totalRatings * 100);
   }
 
   linkRatingForm = new FormGroup({
@@ -34,14 +34,14 @@ export class LinkRatingComponent implements OnInit {
   onSubmit() {
     const chosenOption = this.linkRatingForm.value.option;
     // update api
-    const linkOption = this.linkOptions.find(optionCategory => optionCategory.options.some(option => option.value == chosenOption));
-    this.chosen = linkOption.category;
+    const ratingOption = this.ratingOptions.find(optionCategory => optionCategory.options.some(option => option.value == chosenOption));
+    this.chosen = ratingOption.category;
     this.showForm = false;
   }
 
   closeLinkRating() {
     this.showForm = true;
-    this.linkOptions = this.linkOptions.map(option => ({...option, chosen: false}));
+    this.ratingOptions = this.ratingOptions.map(option => ({...option, chosen: false}));
     this.close.emit(null);
   }
 
@@ -49,7 +49,7 @@ export class LinkRatingComponent implements OnInit {
     // something like this should be done after fetching link rating data
     let i = 2;
     this.numberOfAnswers = {};
-    for (const optionCategory of this.linkOptions as any) {
+    for (const optionCategory of this.ratingOptions as any) {
       const category = optionCategory.category;
       i += 2;
       this.numberOfAnswers[category] = i;
@@ -68,8 +68,8 @@ export class LinkRatingComponent implements OnInit {
 
   constructor(private elasticsearch: ElasticsearchService) {
     this.elasticsearch.getLinkRatingOptions().subscribe(
-      linkOptions => {  
-      this.linkOptions = linkOptions;
+      ratingOptions => {  
+      this.ratingOptions = ratingOptions;
       this.fillNumerOfAnswers();
       });
   }  

@@ -22,11 +22,11 @@
       </button>
     </div>
     <form [formGroup]="linkRatingForm" (ngSubmit)="onSubmit()">
-      <div *ngFor="let optionCategory of linkOptions" class="u-mt-4">
+      <div *ngFor="let optionGroup of ratingOptions" class="u-mt-4">
         <h4>
-          {{ optionCategory.category }}
+          {{ optionGroup.category }}
         </h4>
-        <div *ngFor="let option of optionCategory.options">
+        <div *ngFor="let option of optionGroup.options">
           <label class="u-text-small u-flex u-align-items u-direction-row">
             <input type="radio"
               [value]="option.value"
@@ -40,7 +40,7 @@
       </div>
       <div class="u-flex u-align-items u-mt-4">
         <button class="lls-btn lls-btn--small lls-btn--blue u-mr-2" type="submit">Giv feedback</button>
-        <p class="u-text-small u-margin-0">{{ numberOfRatings }} brugere har givet feedback</p>
+        <p class="u-text-small u-margin-0">{{ totalRatings }} brugere har givet feedback</p>
       </div>
     </form>
     <span class="u-mt-4">
@@ -69,9 +69,9 @@
       </button>
     </div>
     <p>
-      Her er hvad du og de {{ numberOfRatings }} brugere har svaret.
+      Her er hvad du og de {{ totalRatings }} brugere har svaret.
     </p>
-      <div *ngFor="let optionCategory of linkOptions">
+      <div *ngFor="let optionCategory of ratingOptions">
         <div class="u-flex u-space-between u-align-items u-mt-4">
           <h4 class='u-margin-0'>
             {{ optionCategory.category }}
@@ -83,7 +83,7 @@
             {{ percent(optionCategory.category) }}%
           </p>
         </div>
-        <progress class="lls-progress" id="file" [max]="numberOfRatings" [value]="numberOfAnswers[optionCategory.category]"></progress>
+        <progress class="lls-progress" id="file" [max]="totalRatings" [value]="numberOfAnswers[optionCategory.category]"></progress>
       </div>
     <span>
       Hvordan bruger vi din feedback og hvordan bedømmes dine links?
