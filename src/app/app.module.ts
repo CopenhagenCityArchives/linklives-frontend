@@ -74,7 +74,7 @@ import { UserProfilePage } from './user-profile/user-profile.component';
           },
           {
             // Match requests to the custom API (test)
-            uri: 'https://api-test.link-lives.dk/*',
+            uri: 'https://api-test.link-lives.dk/LinkRating',
             tokenOptions: {
               // The attached token should target this audience (auht0 API ID)
               audience: 'https://api.linklives.dk',
@@ -82,7 +82,7 @@ import { UserProfilePage } from './user-profile/user-profile.component';
           },
           {
             // Match requests to the custom API (production)
-            uri: 'https://api.link-lives.dk/*',
+            uri: 'https://api.link-lives.dk/LinkRating',
             tokenOptions: {
               // The attached token should target this audience (auht0 API ID)
               audience: 'https://api.linklives.dk',

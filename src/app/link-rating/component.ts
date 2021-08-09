@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
+import { AuthService } from '@auth0/auth0-angular';
 
 
 @Component({
@@ -14,17 +15,17 @@ import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 export class LinkRatingComponent implements OnInit {
   @Input() openLinkRating: boolean;
   @Input() featherIconPath: string;
+  @Input() linkKey: string;
+  @Input() totalRatings: number;
+  @Input() ratingCountByCategory: any;
   @Output() close: EventEmitter<any> = new EventEmitter();
 
   showForm = true;
-  linkOptions;
-  numberOfRatings = 11;
-  chosen: string;
-  numberOfAnswers;
+  chosen: string = "";
+  ratingOptions;
 
-  percent(category) {
-    const currentNumberOfAnswers = this.numberOfAnswers[category];
-    return Math.round(parseInt(currentNumberOfAnswers) / this.numberOfRatings * 100);
+  percent(ratingCount) {
+    return Math.round(parseInt(ratingCount) / this.totalRatings * 100);
   }
 
   linkRatingForm = new FormGroup({
@@ -32,28 +33,41 @@ export class LinkRatingComponent implements OnInit {
   });
 
   onSubmit() {
-    const chosenOption = this.linkRatingForm.value.option;
-    // update api
-    const linkOption = this.linkOptions.find(optionCategory => optionCategory.options.some(option => option.value == chosenOption));
+    const chosenRatingId = this.linkRatingForm.value.option;
+    const ratingData = {
+      ratingId: chosenRatingId,
+      linkKey: this.linkKey,
+    }
+
+    const linkOption = this.ratingOptions.find(optionCategory => optionCategory.options.some(option => option.value == chosenRatingId));
     this.chosen = linkOption.category;
+
+    this.elasticsearch.sendLinkRating(ratingData).subscribe(rate => {
+      // update rating stats
+      this.totalRatings++;
+      this.ratingCountByCategory[linkOption.category]++;
+    });
+
+    this.elasticsearch.getLinkRatingStats(this.linkKey).subscribe(linkRatingData => {
+      this.totalRatings = linkRatingData.totalRatings
+      this.ratingCountByCategory = linkRatingData.headingRatings;
+    });
+
     this.showForm = false;
   }
 
   closeLinkRating() {
     this.showForm = true;
-    this.linkOptions = this.linkOptions.map(option => ({...option, chosen: false}));
+    this.chosen = "";
+    this.openLinkRating = false;
+    this.linkRatingForm.reset();
     this.close.emit(null);
   }
 
-  fillNumerOfAnswers() {
-    // something like this should be done after fetching link rating data
-    let i = 2;
-    this.numberOfAnswers = {};
-    for (const optionCategory of this.linkOptions as any) {
-      const category = optionCategory.category;
-      i += 2;
-      this.numberOfAnswers[category] = i;
-    }
+  login() {
+    this.auth.loginWithRedirect({
+      redirect_uri: window.location.href
+    })
   }
 
   ngOnInit(): void {
@@ -66,11 +80,9 @@ export class LinkRatingComponent implements OnInit {
     }
   }
 
-  constructor(private elasticsearch: ElasticsearchService) {
-    this.elasticsearch.getLinkRatingOptions().subscribe(
-      linkOptions => {  
-      this.linkOptions = linkOptions;
-      this.fillNumerOfAnswers();
-      });
+  constructor(private elasticsearch: ElasticsearchService, public auth: AuthService) {
+    this.elasticsearch.getLinkRatingOptions().subscribe(ratingOptions => {
+      this.ratingOptions = ratingOptions;
+    });  
   }  
 }
