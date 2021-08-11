@@ -28,12 +28,6 @@ import { RelatedPeopleComponent } from './person-appearance/related-people.compo
 import { SourceDataComponent } from './person-appearance/source-data.component';
 import { UserProfilePage } from './user-profile/user-profile.component';
 
-// Import the injector module and the HTTP client module from Angular
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
-
-// Import the HTTP interceptor from the Auth0 Angular SDK
-import { AuthHttpInterceptor } from '@auth0/auth0-angular';
-
 @NgModule({
   declarations: [
     AppComponent,
