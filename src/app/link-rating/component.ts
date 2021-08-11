@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
+import { AuthService } from '@auth0/auth0-angular';
 
 
 @Component({
@@ -20,10 +21,8 @@ export class LinkRatingComponent implements OnInit {
   @Output() close: EventEmitter<any> = new EventEmitter();
 
   showForm = true;
-  //totalRatings: number;
   chosen: string = "";
   ratingOptions;
-  //ratingCountByCategory;
 
   percent(ratingCount) {
     return Math.round(parseInt(ratingCount) / this.totalRatings * 100);
@@ -61,8 +60,14 @@ export class LinkRatingComponent implements OnInit {
     this.showForm = true;
     this.chosen = "";
     this.openLinkRating = false;
-    this.linkRatingForm.value.option = ""; // TODO this does not work :(
+    this.linkRatingForm.reset();
     this.close.emit(null);
+  }
+
+  login() {
+    this.auth.loginWithRedirect({
+      redirect_uri: window.location.href
+    })
   }
 
   ngOnInit(): void {
@@ -75,10 +80,9 @@ export class LinkRatingComponent implements OnInit {
     }
   }
 
-  constructor(private elasticsearch: ElasticsearchService) {
+  constructor(private elasticsearch: ElasticsearchService, public auth: AuthService) {
     this.elasticsearch.getLinkRatingOptions().subscribe(ratingOptions => {
       this.ratingOptions = ratingOptions;
-    });
-  
+    });  
   }  
 }

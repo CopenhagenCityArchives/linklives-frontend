@@ -27,7 +27,6 @@ export class LifeCourseComponent implements OnInit {
   totalRatings;
   ratingCountByCategory;
 
-
   get pasReversed() {
     return [ ...this.pas ].reverse();
   }

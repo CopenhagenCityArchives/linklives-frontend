@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 // Import the module from the SDK
 import { AuthModule } from '@auth0/auth0-angular';
+// Import the injector module and the HTTP client module from Angular
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 
 import { SearchModule } from './search/search.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -45,7 +48,6 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
     LifeCourseItemComponent,
     SearchHistoryComponent,
     LinkRatingComponent,
-//    AuthButtonComponent,
     UserProfileComponent,
     FilterSidebar,
     UserProfilePage,
@@ -57,45 +59,40 @@ import { AuthHttpInterceptor } from '@auth0/auth0-angular';
     FormsModule,
     ReactiveFormsModule,
     FormElementsModule,
+    HttpClientModule,
     // Import the module into the application, with configuration
     HttpClientModule,
     AuthModule.forRoot({
       domain: 'linklives.eu.auth0.com',
       clientId: '7lYbAwzUER3epciKfadgIoO8LUmhIk5x',
-        // Request this audience at user authentication time
+      // Request this audience at user authentication time
       audience: 'https://api.linklives.dk',
 
-      // Specify configuration for the interceptor              
+      // Specify configuration for the interceptor
       httpInterceptor: {
         allowedList: [
           {
-            // Match any request that starts 'https://YOUR_DOMAIN/api/v2/' (note the asterisk)
+            // Match requests to the auth0 manager API
             uri: 'https://linklives.eu.auth0.com/api/v2/*',
             tokenOptions: {
-              // The attached token should target this audience
+              // The attached token should target this audience (auht0 API ID)
               audience: 'https://linklives.eu.auth0.com/api/v2/',
-
-              // The attached token should have these scopes
             }
           },
           {
-            // Match any request that starts 'https://YOUR_DOMAIN/api/v2/' (note the asterisk)
-            uri: 'https://api-test.link-lives.dk/*',
+            // Match requests to the custom API (test)
+            uri: 'https://api-test.link-lives.dk/LinkRating',
             tokenOptions: {
-              // The attached token should target this audience
+              // The attached token should target this audience (auht0 API ID)
               audience: 'https://api.linklives.dk',
-
-              // The attached token should have these scopes
             }
           },
           {
-            // Match any request that starts 'https://YOUR_DOMAIN/api/v2/' (note the asterisk)
-            uri: 'https://api.link-lives.dk/*',
+            // Match requests to the custom API (production)
+            uri: 'https://api.link-lives.dk/LinkRating',
             tokenOptions: {
-              // The attached token should target this audience
+              // The attached token should target this audience (auht0 API ID)
               audience: 'https://api.linklives.dk',
-
-              // The attached token should have these scopes
             }
           }
         ]
