@@ -832,7 +832,11 @@ export class ElasticsearchService {
       observer => {
         this.http.get<ElasticSearchResult>(`${environment.apiUrl}/PersonAppearance/${id}`)
         .subscribe(next => {
-            observer.next(next.hits.hits[0]._source.person_appearance as PersonAppearance);
+            try {
+              observer.next(next.hits.hits[0]._source.person_appearance as PersonAppearance);
+            } catch (error) {
+              observer.error(error);
+            }
           }, error => {
             observer.error(error);
           }, () => {
