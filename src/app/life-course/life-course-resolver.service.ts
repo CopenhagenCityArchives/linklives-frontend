@@ -14,35 +14,36 @@ export class LifeCourseResolverService implements Resolve<{lifecourseKey: string
   constructor(private elasticsearch: ElasticsearchService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ lifecourseKey: string; personAppearances: PersonAppearance[]; links: Link[]; }> {
-    console.log('route.params', route.params);
     const lifecourseKey = route.params['key'];
 
-    return this.elasticsearch.getLifecourse(lifecourseKey)
-      .pipe(mergeMap((lifecourse: Lifecourse, index) => {
-        console.log('lifeCourse', lifecourse);
-        addSearchHistoryEntry({
-          type: SearchHistoryEntryType.Lifecourse,
-          lifecourse: {
-            key: lifecourseKey,
-            personAppearances: lifecourse.personAppearances || [],
-          },
-        });
-        return this.elasticsearch.searchLinks(lifecourse.personAppearances)
-          .pipe(map((linksResult, index) => {
-            const paIds: string[] = lifecourse.personAppearances.map((pa) => `${pa.source_id}-${pa.pa_id}`);
-            const links = linksResult.filter((link) => {
-              const linkStartId = `${link.source_id1}-${link.pa_id1}`;
-              const linkEndId = `${link.source_id2}-${link.pa_id2}`;
-              return paIds.includes(linkStartId) && paIds.includes(linkEndId);
+    return new Observable(
+      observer => {
+        this.elasticsearch.getLifecourse(lifecourseKey)
+          .pipe(map((lifecourse: Lifecourse, index) => {
+            console.log('lifeCourse', lifecourse);
+            addSearchHistoryEntry({
+              type: SearchHistoryEntryType.Lifecourse,
+              lifecourse: {
+                key: lifecourseKey,
+                personAppearances: lifecourse.personAppearances || [],
+              },
             });
-            console.log('datadev links:', links)
-            console.log('lifecourse links', lifecourse.links);
             return {
               lifecourseKey,
               personAppearances: lifecourse.personAppearances,
               links: lifecourse.links,
             };
-          }));
-      }));
+          }
+          ))
+          .subscribe(next => {
+            observer.next(next);
+          }, error => {
+            observer.error(error);
+          }, () => {
+            observer.complete();
+          }
+        )
+      }
+    );
   }
 }
