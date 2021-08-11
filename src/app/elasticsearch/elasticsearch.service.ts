@@ -837,9 +837,13 @@ export class ElasticsearchService {
   getPersonAppearance(id: string|number): Observable<PersonAppearance> {
     return new Observable(
       observer => {
-        this.http.get<ElasticDocResult>(`${environment.apiUrl}/PersonAppearance/${id}`)
+        this.http.get<ElasticSearchResult>(`${environment.apiUrl}/PersonAppearance/${id}`)
         .subscribe(next => {
-            observer.next(next._source.person_appearance as PersonAppearance);
+            try {
+              observer.next(next.hits.hits[0]._source.person_appearance as PersonAppearance);
+            } catch (error) {
+              observer.error(error);
+            }
           }, error => {
             observer.error(error);
           }, () => {
