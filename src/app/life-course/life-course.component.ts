@@ -13,7 +13,7 @@ import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 export class LifeCourseComponent implements OnInit {
 
   pas: PersonAppearance[] = [];
-  lifecourseId: number;
+  lifecourseKey: string;
   links: Link[];
   getLatestSearchQuery = getLatestSearchQuery;
 
@@ -173,7 +173,7 @@ export class LifeCourseComponent implements OnInit {
   ngOnInit(): void {
     this.route.data.subscribe(next => {
       this.pas = next.lifecourse.personAppearances as PersonAppearance[];
-      this.lifecourseId = next.lifecourse.lifecourseId;
+      this.lifecourseKey = next.lifecourse.lifecourseKey;
       this.links = next.lifecourse.links;
     });
   }

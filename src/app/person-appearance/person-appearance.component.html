@@ -4,7 +4,7 @@
             <a
                 *ngIf="previousSearchHistoryEntryIsConnectedLifecourse()"
                 class="lls-data-page-header__utility-link"
-                [routerLink]="['/life-course', previousSearchHistoryEntry.lifecourse.id]"
+                [routerLink]="['/life-course', previousSearchHistoryEntry.lifecourse.key]"
             >
                 Tilbage til livsforløb
             </a>
