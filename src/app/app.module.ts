@@ -54,7 +54,6 @@ import { UserProfilePage } from './user-profile/user-profile.component';
     ReactiveFormsModule,
     FormElementsModule,
     HttpClientModule,
-    // Import the module into the application, with configuration
     AuthModule.forRoot({
       domain: 'linklives.eu.auth0.com',
       clientId: '7lYbAwzUER3epciKfadgIoO8LUmhIk5x',
