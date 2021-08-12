@@ -950,4 +950,12 @@ export class ElasticsearchService {
       }
     )
   }
+
+  sendLinkRating(linkRating: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/LinkRating`, linkRating);
+  }
+
+  getLinkRatingStats(key: string): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/Link/${key}/ratings/stats`);
+  }
 };
