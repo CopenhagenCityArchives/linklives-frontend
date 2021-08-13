@@ -854,60 +854,6 @@ export class ElasticsearchService {
     );
   }
 
-  searchLinks(pas: PersonAppearance[]): Observable<Link[]> {
-    const idMatches = pas.map((pa) => ({
-      bool: {
-        must: [
-          { match: { "person_appearance.pa_id": pa.pa_id } },
-          { match: { "person_appearance.source_id": pa.source_id } },
-        ]
-      }
-    }));
-
-    const body = {
-      query: {
-        nested: {
-          path: "person_appearance",
-          query: {
-            bool: {
-              should: idMatches,
-            }
-          }
-        }
-      }
-    };
-
-    const result = new Observable<Link[]>(observer => {
-      this.http.post<LinksSearchResult>(`https://data-dev.link-lives.dk/links/_search`, body)
-        .subscribe(next => {
-          try {
-            const links: Link[] = next.hits.hits
-              .map((hit) => hit._source.link)
-              .map((link) => ({
-                pa_id1: link.pa_id1,
-                pa_id2: link.pa_id2,
-                source_id1: link.source_id1,
-                source_id2: link.source_id2,
-                method_type: link.method_type,
-                method_subtype1: link.method_subtype1,
-                score: link.score,
-                key: link.key,
-              }));
-
-            observer.next(links);
-          } catch (error) {
-            observer.error(error);
-          }
-        }, error => {
-          observer.error(error);
-        }, () => {
-          observer.complete();
-        });
-    });
-
-    return result;
-  }
-
   getRatedLifecourses(): Observable<any> {
     return this.http.get<any>(`${environment.apiUrl}/user/ratings/lifecourses`);
   }
