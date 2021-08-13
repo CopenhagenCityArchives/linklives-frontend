@@ -66,4 +66,24 @@
       </button>
     </div>
   </div>
+
+  <!-- Livsforløb -->
+
+  <div class="lls-sidebar__header" style="margin-bottom: 0px;">
+    <h3>Livsforløb</h3>
+  </div>
+  <p>
+    Livsforløb du har bedømt
+  </p>
+
+  <div>
+    <ng-container *ngFor="let lifecourse of ratedLifecourses">
+        <app-life-course-item class="lls-columns-12" [item]="lifecourse.personAppearances" [lifecourse-key]="lifecourse.key"></app-life-course-item>
+    </ng-container>
+    <div *ngIf="!ratedLifecourses.length" class="lls-columns-12 u-text-center">
+        <p>
+            Du har ikke bedømt nogle links.
+        </p>
+    </div>
+  </div>
 </div>

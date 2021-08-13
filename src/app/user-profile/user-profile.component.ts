@@ -32,6 +32,6 @@ export class UserProfilePage implements OnInit {
     this.elasticsearch.getRatedLifecourses().subscribe((ratedLifecourses) => {
       console.log('ratedLifecourses within', ratedLifecourses);
       this.ratedLifecourses = ratedLifecourses;
-    });  
+    });
   }
 }
