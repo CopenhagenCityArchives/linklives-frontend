@@ -81,8 +81,24 @@ import { UserProfilePage } from './user-profile/user-profile.component';
             }
           },
           {
+            // Match requests to the custom API (test)
+            uri: 'https://api-test.link-lives.dk/user/ratings/lifecourses',
+            tokenOptions: {
+              // The attached token should target this audience (auht0 API ID)
+              audience: 'https://api.linklives.dk',
+            }
+          },
+          {
             // Match requests to the custom API (production)
             uri: 'https://api.link-lives.dk/LinkRating',
+            tokenOptions: {
+              // The attached token should target this audience (auht0 API ID)
+              audience: 'https://api.linklives.dk',
+            }
+          },
+          {
+            // Match requests to the custom API (test)
+            uri: 'https://api.link-lives.dk/user/ratings/lifecourses',
             tokenOptions: {
               // The attached token should target this audience (auht0 API ID)
               audience: 'https://api.linklives.dk',
