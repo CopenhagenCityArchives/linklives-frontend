@@ -16,6 +16,7 @@ export interface ElasticDocResult {
   found: boolean,
   _source: {
     life_course_id?: number,
+    life_course_key?: string,
     source?: Source,
     person_appearance?: PersonAppearance | PersonAppearance[]
   }
@@ -27,6 +28,7 @@ export interface ElasticSearchHit {
   _id: number,
   _score: number,
   _source: {
+    key: string,
     life_course_ids?: number[],
     person_appearance: PersonAppearance | PersonAppearance[]
   }
@@ -221,6 +223,7 @@ export class ElasticsearchService {
       return {
         type: "lifecourses",
         life_course_id: elasticHit._id,
+        life_course_key: elasticHit._source.key,
         pas: elasticHit._source.person_appearance as PersonAppearance[]
       };
     }
@@ -527,7 +530,12 @@ export class ElasticsearchService {
 
       const searchKeyConfig = mapSearchKeys[queryKey];
 
-      if(!searchKeyConfig && queryKey != "lifeCourseId") {
+      // special case handled at the end of this method
+      if(queryKey == "lifeCourseId") {
+        return;
+      }
+
+      if(!searchKeyConfig) {
         return console.warn("[elasticsearch.service] key we don't know how to search on provided", queryKey);
       }
 
@@ -794,13 +802,12 @@ export class ElasticsearchService {
     };
   }
 
-  getLifecourse(id: string|number): Observable<Lifecourse> {
+  getLifecourse(key: string): Observable<Lifecourse> {
     return new Observable(
       observer => {
-        // this.http.get<ElasticDocResult>(`${environment.apiUrl}/lifecourse/${id}`)
-        this.http.get<ElasticDocResult>(`https://data-dev.link-lives.dk/lifecourses/_doc/${id}`)
+         this.http.get<Lifecourse>(`${environment.apiUrl}/lifecourse/${key}`)
         .subscribe(next => {
-            observer.next(next._source as Lifecourse);
+            observer.next(next as Lifecourse);
           }, error => {
             observer.error(error);
           }, () => {

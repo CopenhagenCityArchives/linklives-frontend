@@ -232,7 +232,7 @@
     <div class="lls-row">
         <ng-container *ngFor="let hit of searchResult.hits" [ngSwitch]="hit.type">
             <app-person-appearance-item *ngSwitchCase="'pas'" class="lls-columns-12" [item]="hit.pa"></app-person-appearance-item>
-            <app-life-course-item *ngSwitchCase="'lifecourses'" class="lls-columns-12" [item]="hit.pas" [lifecourse-id]="hit.life_course_id"></app-life-course-item>
+            <app-life-course-item *ngSwitchCase="'lifecourses'" class="lls-columns-12" [item]="hit.pas" [lifecourse-key]="hit.life_course_key"></app-life-course-item>
         </ng-container>
         <div *ngIf="!searchResult.hits.length" class="lls-columns-12 u-text-center">
             <p>

@@ -9,38 +9,40 @@ import { addSearchHistoryEntry, SearchHistoryEntryType } from '../search-history
 @Injectable({
   providedIn: 'root'
 })
-export class LifeCourseResolverService implements Resolve<{lifecourseId:number, personAppearances: PersonAppearance[]}> {
+export class LifeCourseResolverService implements Resolve<{lifecourseKey: string, personAppearances: PersonAppearance[]}> {
 
   constructor(private elasticsearch: ElasticsearchService) { }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ lifecourseId: number; personAppearances: PersonAppearance[]; links: Link[]; }> {
-    const lifecourseId = route.params['id'];
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ lifecourseKey: string; personAppearances: PersonAppearance[]; links: Link[]; }> {
+    const lifecourseKey = route.params['key'];
 
-    return this.elasticsearch.getLifecourse(lifecourseId)
-      .pipe(mergeMap((lifecourse: Lifecourse, index) => {
-        addSearchHistoryEntry({
-          type: SearchHistoryEntryType.Lifecourse,
-          lifecourse: {
-            id: lifecourseId,
-            personAppearances: lifecourse.person_appearance,
-          },
-        });
-
-        return this.elasticsearch.searchLinks(lifecourse.person_appearance)
-          .pipe(map((linksResult, index) => {
-            const paIds: string[] = lifecourse.person_appearance.map((pa) => `${pa.source_id}-${pa.pa_id}`);
-            const links = linksResult.filter((link) => {
-              const linkStartId = `${link.source_id1}-${link.pa_id1}`;
-              const linkEndId = `${link.source_id2}-${link.pa_id2}`;
-              return paIds.includes(linkStartId) && paIds.includes(linkEndId);
+    return new Observable(
+      observer => {
+        this.elasticsearch.getLifecourse(lifecourseKey)
+          .pipe(map((lifecourse: Lifecourse, index) => {
+            addSearchHistoryEntry({
+              type: SearchHistoryEntryType.Lifecourse,
+              lifecourse: {
+                key: lifecourseKey,
+                personAppearances: lifecourse.personAppearances || [],
+              },
             });
-
             return {
-              lifecourseId,
-              personAppearances: lifecourse.person_appearance,
-              links,
+              lifecourseKey,
+              personAppearances: lifecourse.personAppearances,
+              links: lifecourse.links,
             };
-          }));
-      }));
+          }
+          ))
+          .subscribe(next => {
+            observer.next(next);
+          }, error => {
+            observer.error(error);
+          }, () => {
+            observer.complete();
+          }
+        )
+      }
+    );
   }
 }
