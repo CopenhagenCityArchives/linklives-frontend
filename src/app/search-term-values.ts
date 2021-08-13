@@ -83,7 +83,7 @@ export const sortByOptions = [
 
 export const searchFieldLabels = {
   query: "Fritekst",
-  name: "Navn",
+  name: "For- og efternavn",
   firstName: "Fornavn",
   lastName: "Efternavn",
   birthName: "Fødenavn",
