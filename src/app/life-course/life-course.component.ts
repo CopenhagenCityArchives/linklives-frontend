@@ -43,7 +43,7 @@ export class LifeCourseComponent implements OnInit {
       return [
         `${link.source_id1}-${link.pa_id1}`,
         `${link.source_id2}-${link.pa_id2}`
-      ].includes(`${pa.source_id}-${pa.pa_id}`);
+      ].includes(`${pa.id}`);
     };
 
     const getIndexLength = (link: Link) => {
