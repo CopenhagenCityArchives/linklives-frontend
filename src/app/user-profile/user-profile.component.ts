@@ -1,5 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
+import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 
 
 @Component({
@@ -7,9 +8,11 @@ import { AuthService } from '@auth0/auth0-angular';
   templateUrl: './user-profile.component.html'
 })
 
-export class UserProfilePage {
-  constructor(public auth: AuthService) {}
+export class UserProfilePage implements OnInit {
+  constructor(public auth: AuthService, private elasticsearch: ElasticsearchService) {}
+
   isEditingProfile:boolean = true;
+  ratedLifecourses: any;
 
   get config() {
     return window["lls"];
@@ -24,4 +27,11 @@ export class UserProfilePage {
   };
 
   featherSpriteUrl = this.config.featherIconPath;
+  
+  ngOnInit(): void {
+    this.elasticsearch.getRatedLifecourses().subscribe((ratedLifecourses) => {
+      console.log('ratedLifecourses within', ratedLifecourses);
+      this.ratedLifecourses = ratedLifecourses;
+    });  
+  }
 }

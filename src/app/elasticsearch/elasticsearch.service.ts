@@ -908,6 +908,10 @@ export class ElasticsearchService {
     return result;
   }
 
+  getRatedLifecourses(): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/user/ratings/lifecourses`);
+  }
+
   getLinkRatingOptions(): Observable<LinkRatingOptions> {
     return new Observable<LinkRatingOptions>(    
       observer => {
