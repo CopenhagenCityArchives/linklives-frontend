@@ -29,7 +29,7 @@ export class SimpleSearchComponent implements OnInit {
   ];
 
   indices = {
-    pas: { value: true, label: "Kilder" },
+    pas: { value: true, label: "Personregistrering" },
     lifecourses: { value: true, label: "Livsforløb" },
   };
 

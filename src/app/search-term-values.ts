@@ -66,7 +66,7 @@ export const searchFieldPlaceholders = {
   birthYear: "Indtast fødeår",
   sourceYear: "Indtast kildeår",
   deathYear: "Indtast dødsår",
-  id: "Kilde ID",
+  id: "Personregistrerings ID",
   lifeCourseId: "Livsforløbs ID",
   gender: "Vælg køn"
   //maritalStatus: "Indtast civilstand",
@@ -93,7 +93,7 @@ export const searchFieldLabels = {
   birthYear: "Fødselsår",
   sourceYear: "Kildeår",
   deathYear: "Dødsår",
-  id: "Kilde ID",
+  id: "Personregistrerings ID",
   lifeCourseId: "Livsforløbs ID",
   gender: "Køn",
   // index: "Resultattype",
