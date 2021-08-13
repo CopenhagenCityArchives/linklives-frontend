@@ -4,7 +4,7 @@
             <div class="lls-source__count">
                 <span class="lls-source__count-number">{{ personAppearances.length }}</span>
             </div>
-            <span class="lls-source__count-text">{{ personAppearances.length != 1 ? "kilder" : "kilde" }}</span>
+            <span class="lls-source__count-text">{{ personAppearances.length != 1 ? "personregistreringer" : "personregistrering" }}</span>
         </div>
         <h3 class="lls-source__title">Livsforløb</h3>
         <p class="u-margin-0">{{ sourceYearRange }}</p>
@@ -34,8 +34,8 @@
         </div>
     </div>
     <div class="lls-source__section">
-        <p class="lls-source__subtitle">Kilder</p>
-        <p class="u-margin-0">{{ personAppearances.length }} {{ personAppearances.length != 1 ? "kilder" : "kilde" }} i perioden {{ sourceYearRange }}.</p>
+        <p class="lls-source__subtitle">Personregistreringer</p>
+        <p class="u-margin-0">{{ personAppearances.length }} {{ personAppearances.length != 1 ? "personregistreringer" : "personregistrering" }} i perioden {{ sourceYearRange }}.</p>
         <p class="u-margin-0" [innerHTML]="sourceList"></p>
     </div>
 

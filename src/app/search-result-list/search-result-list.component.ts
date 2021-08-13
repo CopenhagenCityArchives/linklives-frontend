@@ -71,7 +71,7 @@ export class SearchResultListComponent implements OnInit {
   featherSpriteUrl = this.config.featherIconPath;
 
   indices = {
-    pas: { value: false, label: "Kilder" },
+    pas: { value: false, label: "Personregistrering" },
     lifecourses: { value: false, label: "Livsforløb" },
   };
 

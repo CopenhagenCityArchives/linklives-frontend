@@ -48,7 +48,7 @@
     </div>
 
     <div class="lls-source__section">
-        <p class="lls-source__subtitle">Kilde</p>
+        <p class="lls-source__subtitle">Registrering</p>
         <p class="u-margin-0">
             {{ personAppearance.source_type_display }} {{ personAppearance.source_year_display }}
         </p>
@@ -60,7 +60,7 @@
     <div class="lls-source__section lls-source__section--cta">
         <div *ngIf="!selected">
             <a [routerLink]="['/pa', personAppearance.source_id + '-' + personAppearance.pa_id]" class="lls-btn lls-btn--link">
-                <span>Se kilde</span>
+                <span>Se registrering</span>
                 <svg class="lls-icon lls-icon--right">
                     <use [attr.href]="featherSpriteUrl + '#arrow-right'"></use>
                 </svg>
