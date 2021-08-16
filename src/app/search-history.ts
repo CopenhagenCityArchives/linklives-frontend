@@ -33,7 +33,7 @@ export interface SearchHistoryEntry {
 }
 
 export interface LifecourseSearchHistoryEntry {
-  id: string,
+  key: string,
   personAppearances: PersonAppearance[],
 }
 

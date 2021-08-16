@@ -47,7 +47,7 @@
             *ngSwitchCase="'lifecourse'"
             class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item lls-search-history__item-link"
             [tabIndex]="openSearchHistory ? 0 : -1"
-            [routerLink]="['/life-course', entry.lifecourse.id]"
+            [routerLink]="['/life-course', entry.lifecourse.key]"
             (click)="closeSearchHistory()"
         >
             <div>

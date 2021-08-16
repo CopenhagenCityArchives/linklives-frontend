@@ -51,13 +51,16 @@
         (close)="openSearchHistory = false"
     ></app-search-history>
     <app-link-rating
-        [openLinkRating]="openLinkRating"
+        [openLinkRating]="currentLinkKey"
+        [linkKey]="currentLinkKey"
+        [totalRatings]="totalRatings"
+        [ratingCountByCategory]="ratingCountByCategory"
         [featherIconPath]="featherSpriteUrl"
-        (close)="openLinkRating = false"
+        (close)="currentLinkKey = ''"
     ></app-link-rating>
     <div class="lls-life-course-source-container">
         <section class="lls-life-course-source-container__source-list lls-row">
-            <h3 class="lls-columns-12 u-margin-0">Kilder</h3>
+            <h3 class="lls-columns-12 u-margin-0">Personregistreringer</h3>
             <app-person-appearance-item
                 *ngFor="let pa of pas"
                 class="lls-columns-12"
@@ -154,11 +157,11 @@
                             {{ link.linkingMethod.short }}
                         </text>
                         <foreignObject x="0" y="100" width="80%" height="100%" style="text-align: center;">
-                            <xhtml:button class="lls-btn lls-btn--small lls-btn--blue" (click)="openLinkRating = true">
+                            <xhtml:button class="lls-btn lls-btn--small lls-btn--blue" (click)="openLinkRating(link.key)">
                                 Er linket troværdigt?
                             </button>
                             <xhtml:div class="u-mt-2">
-                                <xhtml:a class="lls-link lls-link--white" href="/docs/Web/SVG/Element/text">
+                                <xhtml:a class="lls-link lls-link--white" href="https://link-lives.dk/saadan-skabes-livsforloeb/">
                                     Læs mere om metoder til linkning
                                 </a>
                             </div>
@@ -174,7 +177,7 @@
                 <div class="lls-data-page-footer__entry-label">
                     Forløbs ID
                 </div>
-                <a [href]="'life-course/' + lifecourseId">{{ lifecourseId }}</a>
+                <a [href]="'life-course/' + lifecourseKey">{{ lifecourseKey }}</a>
             </div>
             <div class="lls-data-page-footer__entry">
                 <div class="lls-data-page-footer__entry-label">

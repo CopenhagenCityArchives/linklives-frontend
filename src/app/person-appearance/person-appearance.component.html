@@ -4,7 +4,7 @@
             <a
                 *ngIf="previousSearchHistoryEntryIsConnectedLifecourse()"
                 class="lls-data-page-header__utility-link"
-                [routerLink]="['/life-course', previousSearchHistoryEntry.lifecourse.id]"
+                [routerLink]="['/life-course', previousSearchHistoryEntry.lifecourse.key]"
             >
                 Tilbage til livsforløb
             </a>
@@ -40,7 +40,7 @@
 
     <div class="lls-tabs">
         <a href routerLink="source-data" [routerLinkActive]="'lls-tabs__item--active'" class="lls-tabs__item">
-            <span class="lls-tabs__item-text">Kildeinfo</span>
+            <span class="lls-tabs__item-text">Personregistrering</span>
         </a>
         <a href routerLink="related-people" [routerLinkActive]="'lls-tabs__item--active'" class="lls-tabs__item" *ngIf="this.hh">
             <span class="lls-tabs__item-text">{{ relatedPersonsTitle }}</span>
@@ -51,7 +51,7 @@
 
     <div class="lls-data-page-footer">
         <div class="lls-data-page-footer__entry">
-            <div class="lls-data-page-footer__entry-label">Kilde ID</div>
+            <div class="lls-data-page-footer__entry-label">Personregistrerings ID</div>
             <a href="pa/{{ pa.id }}">{{ this.pa.id }}</a>
         </div>
         <div class="lls-data-page-footer__entry">

@@ -16,6 +16,7 @@ export interface ElasticDocResult {
   found: boolean,
   _source: {
     life_course_id?: number,
+    life_course_key?: string,
     source?: Source,
     person_appearance?: PersonAppearance | PersonAppearance[]
   }
@@ -27,6 +28,7 @@ export interface ElasticSearchHit {
   _id: number,
   _score: number,
   _source: {
+    key: string,
     life_course_ids?: number[],
     person_appearance: PersonAppearance | PersonAppearance[]
   }
@@ -172,6 +174,7 @@ export interface Link {
   method_type: string,
   method_subtype1: string,
   score: number,
+  key: string,
 }
 
 export interface LinksSearchResult {
@@ -220,6 +223,7 @@ export class ElasticsearchService {
       return {
         type: "lifecourses",
         life_course_id: elasticHit._id,
+        life_course_key: elasticHit._source.key,
         pas: elasticHit._source.person_appearance as PersonAppearance[]
       };
     }
@@ -526,7 +530,12 @@ export class ElasticsearchService {
 
       const searchKeyConfig = mapSearchKeys[queryKey];
 
-      if(!searchKeyConfig && queryKey != "lifeCourseId") {
+      // special case handled at the end of this method
+      if(queryKey == "lifeCourseId") {
+        return;
+      }
+
+      if(!searchKeyConfig) {
         return console.warn("[elasticsearch.service] key we don't know how to search on provided", queryKey);
       }
 
@@ -793,13 +802,12 @@ export class ElasticsearchService {
     };
   }
 
-  getLifecourse(id: string|number): Observable<Lifecourse> {
+  getLifecourse(key: string): Observable<Lifecourse> {
     return new Observable(
       observer => {
-        // this.http.get<ElasticDocResult>(`${environment.apiUrl}/lifecourse/${id}`)
-        this.http.get<ElasticDocResult>(`https://data.link-lives.dk/lifecourses/_doc/${id}`)
+         this.http.get<Lifecourse>(`${environment.apiUrl}/lifecourse/${key}`)
         .subscribe(next => {
-            observer.next(next._source as Lifecourse);
+            observer.next(next as Lifecourse);
           }, error => {
             observer.error(error);
           }, () => {
@@ -813,7 +821,7 @@ export class ElasticsearchService {
   getSource(id: string|number): Observable<Source> {
     return new Observable(
       observer => {
-        this.http.get<ElasticDocResult>(`https://data.link-lives.dk/sources/_doc/${id}`)
+        this.http.get<ElasticDocResult>(`https://data-dev.link-lives.dk/sources/_doc/${id}`)
         .subscribe(resBody => {
             observer.next(resBody._source.source as Source);
           }, error => {
@@ -829,9 +837,13 @@ export class ElasticsearchService {
   getPersonAppearance(id: string|number): Observable<PersonAppearance> {
     return new Observable(
       observer => {
-        this.http.get<ElasticDocResult>(`${environment.apiUrl}/PersonAppearance/${id}`)
+        this.http.get<ElasticSearchResult>(`${environment.apiUrl}/PersonAppearance/${id}`)
         .subscribe(next => {
-            observer.next(next._source.person_appearance as PersonAppearance);
+            try {
+              observer.next(next.hits.hits[0]._source.person_appearance as PersonAppearance);
+            } catch (error) {
+              observer.error(error);
+            }
           }, error => {
             observer.error(error);
           }, () => {
@@ -842,60 +854,11 @@ export class ElasticsearchService {
     );
   }
 
-  searchLinks(pas: PersonAppearance[]): Observable<Link[]> {
-    const idMatches = pas.map((pa) => ({
-      bool: {
-        must: [
-          { match: { "person_appearance.pa_id": pa.pa_id } },
-          { match: { "person_appearance.source_id": pa.source_id } },
-        ]
-      }
-    }));
-
-    const body = {
-      query: {
-        nested: {
-          path: "person_appearance",
-          query: {
-            bool: {
-              should: idMatches,
-            }
-          }
-        }
-      }
-    };
-
-    const result = new Observable<Link[]>(observer => {
-      this.http.post<LinksSearchResult>(`https://data.link-lives.dk/links/_search`, body)
-        .subscribe(next => {
-          try {
-            const links: Link[] = next.hits.hits
-              .map((hit) => hit._source.link)
-              .map((link) => ({
-                pa_id1: link.pa_id1,
-                pa_id2: link.pa_id2,
-                source_id1: link.source_id1,
-                source_id2: link.source_id2,
-                method_type: link.method_type,
-                method_subtype1: link.method_subtype1,
-                score: link.score,
-              }));
-
-            observer.next(links);
-          } catch (error) {
-            observer.error(error);
-          }
-        }, error => {
-          observer.error(error);
-        }, () => {
-          observer.complete();
-        });
-    });
-
-    return result;
+  getRatedLifecourses(): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/user/ratings/lifecourses`);
   }
 
-  getLinkRatingOptions(): Observable<LinkRatingOptions> {   
+  getLinkRatingOptions(): Observable<LinkRatingOptions> {
     return new Observable<LinkRatingOptions>(    
       observer => {
         this.http.get<LinkRatingOptionsResult>(`${environment.apiUrl}/ratingOptions`)
@@ -938,4 +901,11 @@ export class ElasticsearchService {
     )
   }
 
+  sendLinkRating(linkRating: any): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/LinkRating`, linkRating);
+  }
+
+  getLinkRatingStats(key: string): Observable<any> {
+    return this.http.get<any>(`${environment.apiUrl}/Link/${key}/ratings/stats`);
+  }
 };

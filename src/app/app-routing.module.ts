@@ -36,7 +36,7 @@ const routes: Routes = [
     },
   },
   {
-    path: 'life-course/:id',
+    path: 'life-course/:key',
     component: LifeCourseComponent,
     resolve: {
       lifecourse: LifeCourseResolverService

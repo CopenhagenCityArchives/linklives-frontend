@@ -3,6 +3,9 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule }   from '@angular/forms';
 // Import the module from the SDK
 import { AuthModule } from '@auth0/auth0-angular';
+// Import the injector module and the HTTP client module from Angular
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthHttpInterceptor } from '@auth0/auth0-angular';
 
 import { SearchModule } from './search/search.module';
 import { AppRoutingModule } from './app-routing.module';
@@ -39,7 +42,6 @@ import { UserProfilePage } from './user-profile/user-profile.component';
     LifeCourseItemComponent,
     SearchHistoryComponent,
     LinkRatingComponent,
-//    AuthButtonComponent,
     UserProfileComponent,
     FilterSidebar,
     UserProfilePage,
@@ -51,13 +53,64 @@ import { UserProfilePage } from './user-profile/user-profile.component';
     FormsModule,
     ReactiveFormsModule,
     FormElementsModule,
+    HttpClientModule,
     // Import the module into the application, with configuration
     AuthModule.forRoot({
       domain: 'linklives.eu.auth0.com',
-      clientId: '7lYbAwzUER3epciKfadgIoO8LUmhIk5x'
+      clientId: '7lYbAwzUER3epciKfadgIoO8LUmhIk5x',
+      // Request this audience at user authentication time
+      audience: 'https://api.linklives.dk',
+
+      // Specify configuration for the interceptor
+      httpInterceptor: {
+        allowedList: [
+          {
+            // Match requests to the auth0 manager API
+            uri: 'https://linklives.eu.auth0.com/api/v2/*',
+            tokenOptions: {
+              // The attached token should target this audience (auht0 API ID)
+              audience: 'https://linklives.eu.auth0.com/api/v2/',
+            }
+          },
+          {
+            // Match requests to the custom API (test)
+            uri: 'https://api-test.link-lives.dk/LinkRating',
+            tokenOptions: {
+              // The attached token should target this audience (auht0 API ID)
+              audience: 'https://api.linklives.dk',
+            }
+          },
+          {
+            // Match requests to the custom API (test)
+            uri: 'https://api-test.link-lives.dk/user/ratings/lifecourses',
+            tokenOptions: {
+              // The attached token should target this audience (auht0 API ID)
+              audience: 'https://api.linklives.dk',
+            }
+          },
+          {
+            // Match requests to the custom API (production)
+            uri: 'https://api.link-lives.dk/LinkRating',
+            tokenOptions: {
+              // The attached token should target this audience (auht0 API ID)
+              audience: 'https://api.linklives.dk',
+            }
+          },
+          {
+            // Match requests to the custom API (test)
+            uri: 'https://api.link-lives.dk/user/ratings/lifecourses',
+            tokenOptions: {
+              // The attached token should target this audience (auht0 API ID)
+              audience: 'https://api.linklives.dk',
+            }
+          }
+        ]
+      }
     }),
   ],
-  providers: [],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthHttpInterceptor, multi: true },
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
