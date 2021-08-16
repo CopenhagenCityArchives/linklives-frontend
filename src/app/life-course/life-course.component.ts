@@ -24,6 +24,7 @@ export class LifeCourseComponent implements OnInit {
   featherSpriteUrl = this.config.featherIconPath;
   openSearchHistory: boolean = false;
   currentLinkKey: string = "";
+  chosenRatingId;
   totalRatings;
   ratingCountByCategory;
 
@@ -160,8 +161,10 @@ export class LifeCourseComponent implements OnInit {
     return prettyDate(date);
   }
 
-  openLinkRating(linkKey) {
+  openLinkRating(linkKey, chosenRatingId="") {
+    console.log('cosen', chosenRatingId);
     this.currentLinkKey = linkKey;
+    this.chosenRatingId = chosenRatingId;
     this.elasticsearch.getLinkRatingStats(linkKey).subscribe(linkRatingData => {
       this.totalRatings = linkRatingData.totalRatings
       this.ratingCountByCategory = linkRatingData.headingRatings;
@@ -175,6 +178,12 @@ export class LifeCourseComponent implements OnInit {
       this.pas = next.lifecourse.personAppearances as PersonAppearance[];
       this.lifecourseKey = next.lifecourse.lifecourseKey;
       this.links = next.lifecourse.links;
+
+      console.log('next.lifecourse.chosenRatingId', next.lifecourse.chosenRatingId);
+
+      if(next.lifecourse.currentLinkKey) {
+        this.openLinkRating(next.lifecourse.currentLinkKey, next.lifecourse.chosenRatingId);
+      }
     });
   }
 

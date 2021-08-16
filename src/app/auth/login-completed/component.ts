@@ -14,8 +14,10 @@ export class LoginCompletedComponent implements OnInit {
   ngOnInit(): void {
     let path = localStorage.getItem('login-completed-path');
     let queryString = localStorage.getItem('login-completed-query');
+    
     localStorage.removeItem('login-completed-path');
     localStorage.removeItem('login-completed-query');
+
     let queryParams;
     if(!path) {
       this.router.navigate(['']);
