@@ -65,8 +65,12 @@ export class LinkRatingComponent implements OnInit {
   }
 
   login() {
+    localStorage.setItem('login-completed-path', window.location.pathname);
+    if(window.location.search.length > 1) {
+      localStorage.setItem('login-completed-query', window.location.search.substring(1))
+    }
     this.auth.loginWithRedirect({
-      redirect_uri: window.location.href
+      appState: { target: 'login-completed' }
     })
   }
 

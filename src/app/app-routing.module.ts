@@ -10,7 +10,8 @@ import { PersonAppearanceResolverService } from './person-appearance/person-appe
 import { LifeCourseResolverService } from './life-course/life-course-resolver.service';
 import { RelatedPeopleComponent } from './person-appearance/related-people.component';
 import { SourceDataComponent } from './person-appearance/source-data.component';
-import { UserProfilePage } from './user-profile/user-profile.component'
+import { UserProfilePage } from './user-profile/user-profile.component';
+import { LoginCompletedComponent } from './auth/login-completed/component';
 
 
 const routes: Routes = [
@@ -46,8 +47,9 @@ const routes: Routes = [
     path: 'my-page',
     component: UserProfilePage
   },
+  { path: 'login-completed', component: LoginCompletedComponent },
   { path: '', redirectTo: 'search', pathMatch: 'full' },
-  { path: '**', component: PageNotFoundComponent }
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({
