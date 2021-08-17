@@ -9,13 +9,7 @@ import { DOCUMENT } from '@angular/common';
 
 export class AuthButtonComponent {
   window = window;
-  constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService) {
-    if(this.document.location.origin) {
-      console.log('document.location.origin', this.document.location.origin);
-    } else {
-      console.log('no auth :(')
-    }
-  }
+  constructor(@Inject(DOCUMENT) public document: Document, public auth: AuthService) { }
 
   login() {
     localStorage.setItem('login-completed-path', window.location.pathname)
