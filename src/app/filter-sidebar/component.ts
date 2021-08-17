@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { eventIcon, sourceIcon, eventType, prettyNumbers, filterTitle, filterTypes, yearFilterTypes } from '../display-helpers';
+import { eventIcon, sourceIcon, eventType, prettyNumbers, filterTitle, filterTypes, yearFilterTypes } from '../util/display-helpers';
 
 export interface Option {
   label: string;

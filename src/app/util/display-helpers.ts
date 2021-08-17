@@ -1,4 +1,4 @@
-import { PersonAppearance } from './search/search.service';
+import { PersonAppearance } from './../search/search.service';
 
 export function eventType({ event_type }) {
   return {

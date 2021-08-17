@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Link } from '../elasticsearch/elasticsearch.service';
-import { prettyDate } from '../display-helpers';
+import { prettyDate } from '../util/display-helpers';
 import { PersonAppearance } from '../search/search.service';
 import { getLatestSearchQuery } from '../search-history';
 import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';

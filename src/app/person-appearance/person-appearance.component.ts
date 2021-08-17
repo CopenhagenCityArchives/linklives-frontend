@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { PersonAppearance } from '../search/search.service';
-import { prettyDate } from '../display-helpers';
+import { prettyDate } from '../util/display-helpers';
 import { getLatestSearchQuery, getSearchHistory, SearchHistoryEntryType } from '../search-history';
 
 @Component({
