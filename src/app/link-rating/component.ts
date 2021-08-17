@@ -79,10 +79,14 @@ export class LinkRatingComponent implements OnInit {
         chosenRatingId: this.linkRatingForm.value.option
       }
     }).then(() => {
-      localStorage.setItem('login-completed-path', window.location.pathname);
+      const onLoginCompleted = {
+        path: window.location.pathname,
+      };
+  
       if(window.location.search.length > 1) {
-        localStorage.setItem('login-completed-query', window.location.search.substring(1))
+        onLoginCompleted['query'] = window.location.search.substring(1);
       }
+      localStorage.setItem('onLoginCompleted', JSON.stringify(onLoginCompleted));
   
       this.auth.loginWithRedirect({
         appState: { target: 'login-completed' }

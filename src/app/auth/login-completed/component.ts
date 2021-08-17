@@ -13,23 +13,29 @@ export class LoginCompletedComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute, public auth: AuthService) { }
 
   ngOnInit(): void {
-    let path = localStorage.getItem('login-completed-path');
-    let queryString = localStorage.getItem('login-completed-query');
-    
-    localStorage.removeItem('login-completed-path');
-    localStorage.removeItem('login-completed-query');
+    const stateString = localStorage.getItem('onLoginCompleted');
 
-    let queryParams;
-    if(!path) {
+    if(!stateString) {
+      console.warn('missing onLoginCompleted in locale storage');
       this.router.navigate(['']);
       return;
     }
-    if(!queryString) {
+
+    const { path, query } = JSON.parse(stateString);
+    localStorage.removeItem('onLoginCompleted');
+
+    let queryParams;
+    if(!path) {
+      console.warn('missing path on onLoginCompleted');
+      this.router.navigate(['']);
+      return;
+    }
+    if(!query) {
       this.router.navigate([path]);
       return;
     }
 
-    queryParams = URIQueryToObj(queryString)
+    queryParams = URIQueryToObj(query)
     this.router.navigate([path], {
       queryParams,
     });
