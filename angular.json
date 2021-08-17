@@ -135,5 +135,8 @@
       }
     }
   },
-  "defaultProject": "linklives"
+  "defaultProject": "linklives",
+  "cli": {
+    "analytics": false
+  }
 }
