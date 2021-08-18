@@ -1,17 +1,19 @@
 <div *ngIf="auth.user$ | async as user" class="lls-container u-mt-4">
   <div class="lls-results-header__link-section">
-      <a routerLink="/" tabIndex="0" class="lls-link u-align-icon">
-          <svg class="lls-icon">
-              <use [attr.href]="featherSpriteUrl + '#arrow-left'"></use>
-          </svg>
-          Tilbage til forsiden
-      </a>
-      <button (click)="logout()" tabIndex="0" type="submit" class="lls-link u-align-icon">
-        <span>Log ud</span>
-        <svg class="lls-icon lls-icon--right">
-          <use [attr.href]="featherSpriteUrl + '#lock'"></use>
+    <a routerLink="/" tabIndex="0" class="lls-link u-align-icon">
+        <svg class="lls-icon">
+          <use [attr.href]="featherSpriteUrl + '#arrow-left'"></use>
         </svg>
-      </button>
+        Tilbage til forsiden
+    </a>
+    <a
+      class="lls-link u-align-icon"
+      (click)="openSearchHistory = true"
+      (keyup.enter)="openSearchHistory = true"
+      tabindex="0"
+    >
+      Min søgehistorik
+    </a>
   </div>
   <div class="u-mt-4 u-flex u-space-between">
     <div>
@@ -31,6 +33,13 @@
       </p>
     </div>
   </div>
+
+  <button (click)="logout()" tabIndex="0" type="submit" class="lls-btn u-mt-2">
+    <span>Log ud</span>
+    <svg class="lls-icon lls-icon--right">
+      <use [attr.href]="featherSpriteUrl + '#lock'"></use>
+    </svg>
+  </button>
 
   <div class="lls-card u-flex u-space-between">
     <div class="lls-row">
@@ -92,3 +101,9 @@
     </div>
   </div>
 </div>
+
+<app-search-history
+  [openSearchHistory]="openSearchHistory"
+  [featherIconPath]="featherSpriteUrl"
+  (close)="openSearchHistory = false"
+></app-search-history>

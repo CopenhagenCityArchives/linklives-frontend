@@ -13,6 +13,7 @@ export class UserProfilePage implements OnInit {
 
   isEditingProfile:boolean = true;
   ratedLifecourses: any;
+  openSearchHistory: boolean = false;
 
   get config() {
     return window["lls"];
