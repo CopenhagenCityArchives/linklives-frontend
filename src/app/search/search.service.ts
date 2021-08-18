@@ -127,7 +127,8 @@ export interface PersonAppearance {
   transcriber_comments: string,
   transcription_code: string,
   transcription_id: number,
-  uncat_names: string
+  uncat_names: string,
+  source: Source
 }
 
 export interface Lifecourse {
