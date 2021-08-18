@@ -3,6 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { Router } from '@angular/router';
+import { AuthUtil } from '../auth/util'
 
 
 @Component({
@@ -25,7 +26,7 @@ export class LinkRatingComponent implements OnInit {
   showForm = true;
   chosen: string = "";
   ratingOptions;
-  
+
   percent(ratingCount) {
     return Math.round(parseInt(ratingCount) / this.totalRatings * 100);
   }
@@ -63,7 +64,8 @@ export class LinkRatingComponent implements OnInit {
     this.chosen = "";
     this.openLinkRating = false;
     this.linkRatingForm.reset();
-    this.router.navigate([window.location.pathname], { // reset url query
+    // reset url query
+    this.router.navigate([window.location.pathname], {
       queryParams: {}
     });
     this.close.emit(null);
@@ -79,18 +81,7 @@ export class LinkRatingComponent implements OnInit {
         chosenRatingId: this.linkRatingForm.value.option
       }
     }).then(() => {
-      const onLoginCompleted = {
-        path: window.location.pathname,
-      };
-  
-      if(window.location.search.length > 1) {
-        onLoginCompleted['query'] = window.location.search.substring(1);
-      }
-      localStorage.setItem('onLoginCompleted', JSON.stringify(onLoginCompleted));
-  
-      this.auth.loginWithRedirect({
-        appState: { target: 'login-completed' }
-      })
+      this.authUtil.handleLogin();
     });
   }
 
@@ -108,7 +99,7 @@ export class LinkRatingComponent implements OnInit {
     }
   }
 
-  constructor(private router: Router, private elasticsearch: ElasticsearchService, public auth: AuthService) {
+  constructor(private router: Router, private elasticsearch: ElasticsearchService, public auth: AuthService, private authUtil: AuthUtil) {
     this.elasticsearch.getLinkRatingOptions().subscribe(ratingOptions => {
       this.ratingOptions = ratingOptions;
     });
