@@ -13,6 +13,7 @@ export class LoginCompletedComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute, public auth: AuthService) { }
 
   ngOnInit(): void {
+    console.log('initiating log-in completed!');
     const stateString = localStorage.getItem('onLoginCompleted');
 
     if(!stateString) {

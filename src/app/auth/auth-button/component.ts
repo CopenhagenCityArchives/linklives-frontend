@@ -13,6 +13,7 @@ export class AuthButtonComponent {
   constructor(@Inject(DOCUMENT) public document: Document, private authUtil: AuthUtil, public auth: AuthService) { }
 
   login() {
+    console.log('trying to login')
     this.authUtil.handleLogin();
   }
 }

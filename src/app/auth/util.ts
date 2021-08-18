@@ -18,6 +18,7 @@ export class AuthUtil {
     }
     localStorage.setItem('onLoginCompleted', JSON.stringify(onLoginCompleted));
   
+    console.log('now lets call auth service!');
     this.auth.loginWithRedirect({
       appState: { target: 'login-completed' }
     })
