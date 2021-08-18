@@ -64,7 +64,8 @@ export class LinkRatingComponent implements OnInit {
     this.chosen = "";
     this.openLinkRating = false;
     this.linkRatingForm.reset();
-    this.router.navigate([window.location.pathname], { // reset url query
+    // reset url query
+    this.router.navigate([window.location.pathname], {
       queryParams: {}
     });
     this.close.emit(null);
