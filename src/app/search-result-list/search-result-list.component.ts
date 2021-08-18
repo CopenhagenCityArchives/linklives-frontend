@@ -133,7 +133,6 @@ export class SearchResultListComponent implements OnInit {
     const prettyTotal = this.prettyPaginationNumber(this.searchResult.totalHits);
     const totalLifecourses = this.prettyPaginationNumber(this.searchResult.indexHits.lifeCourses);
     const totalPas = this.prettyPaginationNumber(this.searchResult.indexHits.pas);
-    console.log("lifeCourses", this.searchResult);
 
     if(this.searchResult.totalHits < this.pagination.size) {
       return `Viser ${totalLifecourses} livsforløb og ${totalPas} personregistreringer`;
