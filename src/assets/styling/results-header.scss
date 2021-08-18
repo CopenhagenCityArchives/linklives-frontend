@@ -51,14 +51,16 @@
 
 .lls-results-header__checkboxes {
   display: flex;
-  height: 45px;
-  align-items: center;
+  flex-direction: column;
 }
 
 .lls-results-header__checkbox-container {
-  margin-right: 10px;
+  margin-bottom: 0.5rem;
   font-size: 1rem;
-  margin-bottom: 0;
+
+  @media(min-width: $breakpointMd) {
+    margin-bottom: 0;
+  }
 }
 
 .lls-results-header__checkbox {
