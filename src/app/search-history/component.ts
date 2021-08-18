@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { getSearchHistory, onSearchHistoryEntry, SearchHistoryEntry } from '../search-history';
 import { searchFieldLabels } from '../search-term-values';
-import { eventType, prettyYearRange, eventIcon } from '../display-helpers';
+import { eventType, prettyYearRange, eventIcon } from '../util/display-helpers';
 import { PersonAppearance } from '../search/search.service';
 
 

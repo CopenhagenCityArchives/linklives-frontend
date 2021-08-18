@@ -30,7 +30,6 @@ export class UserProfilePage implements OnInit {
   
   ngOnInit(): void {
     this.elasticsearch.getRatedLifecourses().subscribe((ratedLifecourses) => {
-      console.log('ratedLifecourses within', ratedLifecourses);
       this.ratedLifecourses = ratedLifecourses;
     });
   }

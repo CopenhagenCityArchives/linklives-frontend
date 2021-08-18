@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { eventIcon } from '../display-helpers';
+import { eventIcon } from '../util/display-helpers';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({

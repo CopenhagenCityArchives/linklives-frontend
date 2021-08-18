@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { prettyYearRange } from '../display-helpers';
+import { prettyYearRange } from '../util/display-helpers';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({

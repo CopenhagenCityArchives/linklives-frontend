@@ -9,7 +9,7 @@ import { SimpleSearchComponent } from './simple/search-simple.component';
 import { AdvancedSearchComponent } from './advanced/search-advanced.component';
 import { SearchFieldComponent } from './search-field/search-field.component';
 import { FormElementsModule } from '../form-elements.module';
-import { AuthButtonComponent } from '../auth/auth0.component';
+import { AuthButtonComponent } from '../auth/auth-button/component';
 
 @NgModule({
   declarations: [

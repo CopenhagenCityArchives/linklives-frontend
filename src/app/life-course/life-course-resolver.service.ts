@@ -15,6 +15,8 @@ export class LifeCourseResolverService implements Resolve<{lifecourseKey: string
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ lifecourseKey: string; personAppearances: PersonAppearance[]; links: Link[]; }> {
     const lifecourseKey = route.params['key'];
+    const currentLinkKey = route.queryParamMap.get('currentLinkKey') || '';
+    const chosenRatingId = route.queryParamMap.get('chosenRatingId') || '';
 
     return new Observable(
       observer => {
@@ -31,6 +33,8 @@ export class LifeCourseResolverService implements Resolve<{lifecourseKey: string
               lifecourseKey,
               personAppearances: lifecourse.personAppearances,
               links: lifecourse.links,
+              currentLinkKey,
+              chosenRatingId,
             };
           }
           ))

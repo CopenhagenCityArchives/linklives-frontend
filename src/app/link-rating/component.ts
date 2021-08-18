@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 import { AuthService } from '@auth0/auth0-angular';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -18,12 +19,13 @@ export class LinkRatingComponent implements OnInit {
   @Input() linkKey: string;
   @Input() totalRatings: number;
   @Input() ratingCountByCategory: any;
+  @Input() chosenRatingId;
   @Output() close: EventEmitter<any> = new EventEmitter();
 
   showForm = true;
   chosen: string = "";
   ratingOptions;
-
+  
   percent(ratingCount) {
     return Math.round(parseInt(ratingCount) / this.totalRatings * 100);
   }
@@ -61,16 +63,42 @@ export class LinkRatingComponent implements OnInit {
     this.chosen = "";
     this.openLinkRating = false;
     this.linkRatingForm.reset();
+    this.router.navigate([window.location.pathname], { // reset url query
+      queryParams: {}
+    });
     this.close.emit(null);
   }
 
   login() {
-    this.auth.loginWithRedirect({
-      redirect_uri: window.location.href
-    })
+
+    // changes the route without moving from the current view or
+    // triggering a navigation event,
+    this.router.navigate([window.location.pathname], {
+      queryParams: {
+        currentLinkKey: this.linkKey,
+        chosenRatingId: this.linkRatingForm.value.option
+      }
+    }).then(() => {
+      const onLoginCompleted = {
+        path: window.location.pathname,
+      };
+  
+      if(window.location.search.length > 1) {
+        onLoginCompleted['query'] = window.location.search.substring(1);
+      }
+      localStorage.setItem('onLoginCompleted', JSON.stringify(onLoginCompleted));
+  
+      this.auth.loginWithRedirect({
+        appState: { target: 'login-completed' }
+      })
+    });
   }
 
   ngOnInit(): void {
+    if(this.chosenRatingId && parseInt(this.chosenRatingId) !== NaN) {
+      this.linkRatingForm.setValue({option: parseInt(this.chosenRatingId)});
+    }
+
   }
 
   closeOnEsc() {
@@ -80,9 +108,9 @@ export class LinkRatingComponent implements OnInit {
     }
   }
 
-  constructor(private elasticsearch: ElasticsearchService, public auth: AuthService) {
+  constructor(private router: Router, private elasticsearch: ElasticsearchService, public auth: AuthService) {
     this.elasticsearch.getLinkRatingOptions().subscribe(ratingOptions => {
       this.ratingOptions = ratingOptions;
-    });  
+    });
   }  
 }
