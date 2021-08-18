@@ -22,5 +22,4 @@ export class AuthUtil {
       appState: { target: 'login-completed' }
     })
   }
-  
 }
