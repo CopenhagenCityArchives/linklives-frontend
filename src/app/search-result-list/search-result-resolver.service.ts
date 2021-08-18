@@ -63,19 +63,19 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
           }
 
           if(filter_type == 'sourceYear') {
-            const [ filter_type, source_year, source_year_display ] = id.split("_");
+            const [ filter_type, source_year_searchable, source_year_display ] = id.split("_");
             return {
               filter_type,
-              source_year,
+              source_year_searchable,
               source_year_display,
             };
           }
 
           if(filter_type == 'birthYear') {
-            const [ filter_type, birth_year, birthyear_display ] = id.split("_");
+            const [ filter_type, birthyear_searchable, birthyear_display ] = id.split("_");
             return {
               filter_type,
-              birth_year,
+              birthyear_searchable,
               birthyear_display,
             };
           }

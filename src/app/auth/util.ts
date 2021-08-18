@@ -20,8 +20,8 @@ export class AuthUtil {
   
     console.log('now lets call auth service!');
     this.auth.loginWithRedirect({
-      //appState: { target: 'find-livsforloeb-testversion/login-completed/' }
-      redirect_uri: 'https://link-lives.dk/find-livsforloeb-testversion/login-completed',// window.location.href
+      appState: { target: 'find-livsforloeb-testversion/login-completed' }
+      //redirect_uri: 'https://link-lives.dk/find-livsforloeb-testversion/login-completed',// window.location.href
     })
   }
 }

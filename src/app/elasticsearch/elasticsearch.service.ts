@@ -74,7 +74,7 @@ interface EventLookupKeys {
 }
 
 interface SourceYearLookupKeys {
-  source_year: string
+  source_year_searchable: string
   source_year_display: string // only used for displaying
 }
 
@@ -83,7 +83,7 @@ interface EventYearLookupKeys {
   event_year_display: string // only used for displaying
 }
 interface BirthYearLookupKeys {
-  birth_year: string
+  birthyear_searchable: string
   birthyear_display: string // only used for displaying
 }
 
@@ -447,11 +447,11 @@ export class ElasticsearchService {
         { event_year_display: { terms: { field: "person_appearance.event_year_display" } } },
       ],
       sourceYear: [
-        { source_year: { terms: { field: "person_appearance.source_year" } } },
+        { source_year_searchable: { terms: { field: "person_appearance.source_year_searchable" } } },
         { source_year_display: { terms: { field: "person_appearance.source_year_display" } } },
       ],
       birthYear: [
-        { birth_year: { terms: { field: "person_appearance.birth_year" } } },
+        { birthyear_searchable: { terms: { field: "person_appearance.birthyear_searchable" } } },
         { birthyear_display: { terms: { field: "person_appearance.birthyear_display" } } },
       ],
       deathYear: [
@@ -673,11 +673,11 @@ export class ElasticsearchService {
       }
 
       const sourceYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType['sourceYear'].map(({ source_year, source_year_display }) => {
+        return filtersGroupedByFilterType['sourceYear'].map(({ source_year_searchable, source_year_display }) => {
           return {
             bool: {
               must: [
-                { match: { [`person_appearance.source_year`]: source_year } },
+                { match: { [`person_appearance.source_year_searchable`]: source_year_searchable } },
                 { match: { [`person_appearance.source_year_display`]: source_year_display } },
               ]
             }
@@ -686,11 +686,11 @@ export class ElasticsearchService {
       }
 
       const birthYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType['birthYear'].map(({ birth_year, birthyear_display }) => {
+        return filtersGroupedByFilterType['birthYear'].map(({ birthyear_searchable, birthyear_display }) => {
           return {
             bool: {
               must: [
-                { match: { [`person_appearance.birth_year`]: birth_year } },
+                { match: { [`person_appearance.birthyear_searchable`]: birthyear_searchable } },
                 { match: { [`person_appearance.birthyear_display`]: birthyear_display } },
               ]
             }
