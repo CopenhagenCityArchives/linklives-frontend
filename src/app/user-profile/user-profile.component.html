@@ -1,6 +1,19 @@
-<div *ngIf="auth.user$ | async as user" class="lls-container u-mt-5">
-  
-  <div class="u-flex u-space-between">
+<div *ngIf="auth.user$ | async as user" class="lls-container u-mt-4">
+  <div class="lls-results-header__link-section">
+      <a routerLink="/" tabIndex="0" class="lls-link u-align-icon">
+          <svg class="lls-icon">
+              <use [attr.href]="featherSpriteUrl + '#arrow-left'"></use>
+          </svg>
+          Tilbage til forsiden
+      </a>
+      <button (click)="logout()" tabIndex="0" type="submit" class="lls-link u-align-icon">
+        <span>Log ud</span>
+        <svg class="lls-icon lls-icon--right">
+          <use [attr.href]="featherSpriteUrl + '#lock'"></use>
+        </svg>
+      </button>
+  </div>
+  <div class="u-mt-4 u-flex u-space-between">
     <div>
       <h2 class="u-font-handwriting lls-data-page-header__source-type u-margin-0">
         Min side
@@ -17,25 +30,17 @@
         <span>Du har bedømt links for {{ ratedLifecourses.length }} livsforløb</span>
       </p>
     </div>
-    <div>
-      <button (click)="logout()" type="submit" class="lls-btn lls-btn--medium">
-        <span>Log ud</span>
-        <svg class="lls-icon lls-icon--right">
-          <use [attr.href]="featherSpriteUrl + '#lock'"></use>
-        </svg>
-      </button>
-    </div>
   </div>
 
   <div class="lls-card u-flex u-space-between">
     <div class="lls-row">
-      <div *ngIf="!user.picture" class="lls-profile-picture lls-columns-2 lls-gap">
+      <div *ngIf="!user.picture" class="lls-profile-picture lls-columns-12 lls-columns-2--md lls-gap">
         JP
       </div>
-      <div *ngIf="user.picture">
+      <div *ngIf="user.picture" class="lls-profile-picture lls-columns-12 lls-columns-2--md lls-gap">
         <img [src]="user.picture" class="lls-profile-picture" alt="">
       </div>
-      <div class="lls-columns-10 u-ml-8">
+      <div class="lls-columns-12 lls-columns-8--md">
         <h3 class="lls-card__title">
           Mine oplysninger
         </h3>
@@ -51,19 +56,19 @@
           </tr>
         </table>
       </div>
-    </div>
-    <div>
-      <button
-        (click)="editProfile()"
-        type="submit"
-        disabled
-        class="lls-btn lls-btn--disabled"
-      >
-        <span>Rediger</span>
-        <svg class="lls-icon lls-icon--right">
-          <use [attr.href]="featherSpriteUrl + '#edit-2'"></use>
-        </svg>
-      </button>
+      <div class="lls-columns-12 lls-columns-2--md">
+        <button
+          (click)="editProfile()"
+          type="submit"
+          disabled
+          class="lls-btn lls-btn--disabled"
+        >
+          <span>Rediger</span>
+          <svg class="lls-icon lls-icon--right">
+            <use [attr.href]="featherSpriteUrl + '#edit-2'"></use>
+          </svg>
+        </button>
+      </div>
     </div>
   </div>
 
