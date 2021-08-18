@@ -280,10 +280,10 @@ export class ElasticsearchService {
 
     searchResult.aggregations?.count.buckets.forEach(value => {
       result.totalHits += value.doc_count;
-      if (value.key == "pas") {
+      if (value.key.includes("pas")) {
         result.indexHits.pas = value.doc_count;
       }
-      if (value.key == "lifecourses") {
+      if (value.key.includes("lifecourses")) {
         result.indexHits.lifeCourses = value.doc_count;
       }
     });
