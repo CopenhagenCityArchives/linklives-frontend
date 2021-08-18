@@ -310,27 +310,27 @@ export class ElasticsearchService {
       search: this.http.post<ElasticSearchResult>(`${environment.apiUrl}/search/${indices.join(',')}`, body).pipe(share()),
     };
     if(eventFilterBody) {
-      requests.eventLookup = this.http.post<ElasticEventLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, eventFilterBody).pipe(share());
+      requests.eventLookup = this.http.post<ElasticEventLookupResult>(`${environment.apiUrl}/search/pas`, eventFilterBody).pipe(share());
     }
 
     if(sourceFilterBody) {
-      requests.sourceLookup = this.http.post<ElasticSourceLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, sourceFilterBody).pipe(share());
+      requests.sourceLookup = this.http.post<ElasticSourceLookupResult>(`${environment.apiUrl}/search/pas`, sourceFilterBody).pipe(share());
     }
 
     if(eventYearFilterBody) {
-      requests.eventYearLookup = this.http.post<ElasticEventYearLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, eventYearFilterBody).pipe(share());
+      requests.eventYearLookup = this.http.post<ElasticEventYearLookupResult>(`${environment.apiUrl}/search/pas`, eventYearFilterBody).pipe(share());
     }
 
     if(sourceYearFilterBody) {
-      requests.sourceYearLookup = this.http.post<ElasticSourceYearLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, sourceYearFilterBody).pipe(share());
+      requests.sourceYearLookup = this.http.post<ElasticSourceYearLookupResult>(`${environment.apiUrl}/search/pas`, sourceYearFilterBody).pipe(share());
     }
 
     if(birthYearFilterBody) {
-      requests.birthYearLookup = this.http.post<ElasticBirthYearLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, birthYearFilterBody).pipe(share());
+      requests.birthYearLookup = this.http.post<ElasticBirthYearLookupResult>(`${environment.apiUrl}/search/pas`, birthYearFilterBody).pipe(share());
     }
 
     if(deathYearFilterBody) {
-      requests.deathYearLookup = this.http.post<ElasticDeathYearLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, deathYearFilterBody).pipe(share());
+      requests.deathYearLookup = this.http.post<ElasticDeathYearLookupResult>(`${environment.apiUrl}/search/pas`, deathYearFilterBody).pipe(share());
     }
 
     // Prep observable that will send both requests and merge results in handleResult
