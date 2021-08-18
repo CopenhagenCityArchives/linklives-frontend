@@ -20,7 +20,7 @@ export class AuthUtil {
   
     console.log('now lets call auth service!');
     this.auth.loginWithRedirect({
-      appState: { target: 'login-completed' }
+      appState: { target: 'find-livsforloeb-testversion/login-completed' }
     })
   }
 }
