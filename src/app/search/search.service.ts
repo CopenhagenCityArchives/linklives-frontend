@@ -38,8 +38,8 @@ export interface SearchResult {
       eventType: Array<{ event_type: string, event_type_display: string, count: number }>,
       source: Array<{ source_type_wp4: string, source_type_display: string, count: number }>
       eventYear: Array<{ event_year_display: string, count: number }>,
-      sourceYear: Array<{ source_year: string, source_year_display: string, count: number }>,
-      birthYear: Array<{ birth_year: string, birthyear_display: string, count: number }>,
+      sourceYear: Array<{ source_year_searchable: string, source_year_display: string, count: number }>,
+      birthYear: Array<{ birthyear_searchable: string, birthyear_display: string, count: number }>,
       deathYear: Array<{ deathyear_searchable: string, deathyear_display: string, count: number }>,
     },
   }
@@ -121,6 +121,7 @@ export interface PersonAppearance {
   source_type_wp4: string,
   source_year: number,
   source_year_display: string,
+  source_year_searchable: string,
   sourceplace_display: string,
   state_region: string,
   transcriber_comments: string,
@@ -165,13 +166,13 @@ export interface EventYearFilterIdentifier {
 
 export interface SourceYearFilterIdentifier {
   filter_type: string,
-  source_year: string,
+  source_year_searchable: string,
   source_year_display: string,
 };
 
 export interface BirthYearFilterIdentifier {
   filter_type: string,
-  birth_year: string,
+  birthyear_searchable: string,
   birthyear_display: string,
 };
 
