@@ -26,7 +26,7 @@ export class LinkRatingComponent implements OnInit {
   showForm = true;
   chosen: string = "";
   ratingOptions;
-  
+
   percent(ratingCount) {
     return Math.round(parseInt(ratingCount) / this.totalRatings * 100);
   }
