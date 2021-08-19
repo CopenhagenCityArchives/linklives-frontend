@@ -48,5 +48,4 @@ export class PersonAppearanceComponent implements OnInit {
       this.hh = resolve.item.hh as PersonAppearance[];
     });
   }
-
 }
