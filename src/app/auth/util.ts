@@ -11,7 +11,7 @@ export class AuthUtil {
   handleLogin() {
     console.log('handle LogiN!');
     console.log('window.location.pathname', window.location.pathname);
-    const path = window.location.pathname.replace('find-livsforloeb-testversion/', '');
+    const path = this.currentPath();
     console.log('path', path);
     const onLoginCompleted = {
       path,
@@ -29,5 +29,11 @@ export class AuthUtil {
     //   //appState: { target: 'find-livsforloeb-testversion/login-completed' }
     //   redirect_uri: 'https://link-lives.dk/find-livsforloeb-testversion/login-completed',// window.location.href
     // })
+  }
+
+  currentPath() {
+    let path = window.location.pathname.replace('find-livsforloeb-testversion/', ''); // staging / test
+    path.replace('soeg-i-livsforloeb-og-kilder/', ''); // production
+    return path;
   }
 }

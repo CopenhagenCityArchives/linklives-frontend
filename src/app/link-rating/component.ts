@@ -26,6 +26,7 @@ export class LinkRatingComponent implements OnInit {
   showForm = true;
   chosen: string = "";
   ratingOptions;
+  currentPath = this.authUtil.currentPath();
 
   percent(ratingCount) {
     return Math.round(parseInt(ratingCount) / this.totalRatings * 100);
@@ -65,7 +66,7 @@ export class LinkRatingComponent implements OnInit {
     this.openLinkRating = false;
     this.linkRatingForm.reset();
     // reset url query
-    this.router.navigate([window.location.pathname], {
+    this.router.navigate([this.currentPath], {
       queryParams: {}
     });
     this.close.emit(null);
@@ -75,7 +76,7 @@ export class LinkRatingComponent implements OnInit {
 
     // changes the route without moving from the current view or
     // triggering a navigation event,
-    this.router.navigate([window.location.pathname], {
+    this.router.navigate([this.currentPath], {
       queryParams: {
         currentLinkKey: this.linkKey,
         chosenRatingId: this.linkRatingForm.value.option
