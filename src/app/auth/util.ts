@@ -10,7 +10,7 @@ export class AuthUtil {
 
   handleLogin() {
     const onLoginCompleted = {
-      path: window.location.pathname,
+      path: window.location.pathname.replace('find-livsforloeb-testversion/', ''),
     };
   
     if(window.location.search.length > 1) {
