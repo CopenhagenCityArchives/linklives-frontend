@@ -9,8 +9,11 @@ export class AuthUtil {
   constructor(public auth: AuthService) { }
 
   handleLogin() {
+    console.log('window.location.pathname', window.location.pathname);
+    const path = window.location.pathname.replace('find-livsforloeb-testversion/', '');
+    console.log('path', path);
     const onLoginCompleted = {
-      path: window.location.pathname.replace('find-livsforloeb-testversion/', ''),
+      path,
     };
   
     if(window.location.search.length > 1) {
