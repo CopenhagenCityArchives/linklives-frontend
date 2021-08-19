@@ -9,6 +9,7 @@ export class AuthUtil {
   constructor(public auth: AuthService) { }
 
   handleLogin() {
+    console.log('handle LogiN!');
     console.log('window.location.pathname', window.location.pathname);
     const path = window.location.pathname.replace('find-livsforloeb-testversion/', '');
     console.log('path', path);
@@ -20,11 +21,13 @@ export class AuthUtil {
       onLoginCompleted['query'] = window.location.search.substring(1);
     }
     localStorage.setItem('onLoginCompleted', JSON.stringify(onLoginCompleted));
+
+    console.log('onLogin', onLoginCompleted);
   
     console.log('now lets call auth service!');
-    this.auth.loginWithRedirect({
-      //appState: { target: 'find-livsforloeb-testversion/login-completed' }
-      redirect_uri: 'https://link-lives.dk/find-livsforloeb-testversion/login-completed',// window.location.href
-    })
+    // this.auth.loginWithRedirect({
+    //   //appState: { target: 'find-livsforloeb-testversion/login-completed' }
+    //   redirect_uri: 'https://link-lives.dk/find-livsforloeb-testversion/login-completed',// window.location.href
+    // })
   }
 }
