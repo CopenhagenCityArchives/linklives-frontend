@@ -818,22 +818,6 @@ export class ElasticsearchService {
     );
   }
 
-  getSource(id: string|number): Observable<Source> {
-    return new Observable(
-      observer => {
-        this.http.get<ElasticDocResult>(`https://data-dev.link-lives.dk/sources/_doc/${id}`)
-        .subscribe(resBody => {
-            observer.next(resBody._source.source as Source);
-          }, error => {
-            observer.error(error);
-          }, () => {
-            observer.complete();
-          }
-        )
-      }
-    );
-  }
-
   getPersonAppearance(id: string|number): Observable<PersonAppearance> {
     return new Observable(
       observer => {
