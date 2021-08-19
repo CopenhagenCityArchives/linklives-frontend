@@ -8,7 +8,6 @@ import { Observable } from 'rxjs';
 
 interface PersonAppearanceResolverResult {
   pa:PersonAppearance,
-  source: Source,
   hh?:PersonAppearance[]
 }
 
@@ -22,12 +21,8 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<PersonAppearanceResolverResult> {
     return this.elasticsearch.getPersonAppearance(route.params['id'])
     .pipe(map(pa => pa as PersonAppearance))
-    .pipe(mergeMap((pa: PersonAppearance, index) => {
-      return this.elasticsearch.getSource(pa.source_id)
-        .pipe(map((source: Source) => ({ source, pa })));
-    }))
     .pipe(
-      mergeMap(({ pa, source }, index) => {
+      mergeMap((pa, index) => {
         addSearchHistoryEntry({
           type: SearchHistoryEntryType.Census,
           personAppearance: pa,
@@ -37,7 +32,6 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
           return new Observable<PersonAppearanceResolverResult>(observer => {
             observer.next({
               pa,
-              source,
               hh: null
             });
             observer.complete();
@@ -85,7 +79,6 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
           map((searchResult, index) => {
             return {
               pa,
-              source,
               hh: (searchResult.hits as PersonAppearanceHit[]).map(paHit => paHit.pa)
             };
           })

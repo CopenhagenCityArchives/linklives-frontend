@@ -285,7 +285,7 @@ export class SourceDataComponent implements OnInit {
   ngOnInit(): void {
     this.route.parent.data.subscribe((resolve) => {
       this.pa = resolve.item.pa as PersonAppearance;
-      this.source = resolve.item.source as Source;
+      this.source = resolve.item.pa.source;
     });
   }
 
