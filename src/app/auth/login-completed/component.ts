@@ -6,7 +6,7 @@ import { URIQueryToObj } from '../../util/util';
 
 @Component({
   selector: 'app-login-completed',
-  template: '',
+  template: '<p>Login completed!.</p>',
 })
 export class LoginCompletedComponent implements OnInit {
 
@@ -31,14 +31,16 @@ export class LoginCompletedComponent implements OnInit {
       return;
     }
     if(!query) {
+      console.log('path only', path);
       this.router.navigate([path]);
       return;
     }
 
     queryParams = URIQueryToObj(query)
+    console.log('path');
+    console.log('queryParams', queryParams);
     this.router.navigate([path], {
       queryParams,
     });
   }
-
 }
