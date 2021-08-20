@@ -10,7 +10,7 @@ export class AuthUtil {
 
   handleLogin() {
     const path = this.currentPath();
-    const redirect_uri = `${this.baseUrl()}/login-completed`;
+    const redirect_uri = `${this.baseUrl()}`;
     const onLoginCompleted = {
       path,
     };
@@ -19,9 +19,10 @@ export class AuthUtil {
       onLoginCompleted['query'] = window.location.search.substring(1);
     }
     localStorage.setItem('onLoginCompleted', JSON.stringify(onLoginCompleted));
-
+    console.log('redirect url', redirect_uri);
     this.auth.loginWithRedirect({
-      redirect_uri
+      redirect_uri,
+      appState: { target: 'login-completed' }
     })
   }
 
