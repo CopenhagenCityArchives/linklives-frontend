@@ -6,7 +6,7 @@ import { URIQueryToObj } from '../../util/util';
 
 @Component({
   selector: 'app-login-completed',
-  template: '<p>Login completed!.</p>',
+  template: '',
 })
 export class LoginCompletedComponent implements OnInit {
 
@@ -14,7 +14,6 @@ export class LoginCompletedComponent implements OnInit {
 
   ngOnInit(): void {
     const stateString = localStorage.getItem('onLoginCompleted');
-    console.log('stateString', stateString);
 
     if(!stateString) {
       console.warn('missing onLoginCompleted in locale storage');
@@ -23,7 +22,7 @@ export class LoginCompletedComponent implements OnInit {
     }
 
     const { path, query } = JSON.parse(stateString);
-    //localStorage.removeItem('onLoginCompleted');
+    localStorage.removeItem('onLoginCompleted');
 
     let queryParams;
     if(!path) {
@@ -32,14 +31,11 @@ export class LoginCompletedComponent implements OnInit {
       return;
     }
     if(!query) {
-      console.log('path only', path);
       this.router.navigate([path]);
       return;
     }
 
     queryParams = URIQueryToObj(query)
-    console.log('path', path);
-    console.log('queryParams', queryParams);
     this.router.navigate([path], {
       queryParams,
     });
