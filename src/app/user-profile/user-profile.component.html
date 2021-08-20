@@ -90,7 +90,7 @@
     Livsforløb du har bedømt
   </p>
 
-  <div>
+  <div class="lls-row">
     <ng-container *ngFor="let lifecourse of ratedLifecourses">
       <app-life-course-item class="lls-columns-12" [item]="lifecourse.personAppearances" [lifecourse-key]="lifecourse.key"></app-life-course-item>
     </ng-container>
