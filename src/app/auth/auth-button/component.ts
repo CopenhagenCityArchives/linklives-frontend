@@ -16,4 +16,8 @@ export class AuthButtonComponent {
     console.log('document.location.origin', document.location.origin);
     this.authUtil.handleLogin();
   }
+
+  logout() {
+    this.auth.logout({ returnTo: window.location.href })
+  }
 }
