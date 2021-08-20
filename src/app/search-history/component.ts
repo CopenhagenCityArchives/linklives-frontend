@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { getSearchHistory, onSearchHistoryEntry, SearchHistoryEntry } from '../search-history';
+import { getSearchHistory, onSearchHistoryEntry, SearchHistoryEntry, SearchHistoryEntryType } from '../search-history';
 import { searchFieldLabels } from '../search-term-values';
 import { eventType, prettyYearRange, eventIcon } from '../util/display-helpers';
 import { PersonAppearance } from '../search/search.service';
@@ -18,7 +18,19 @@ export class SearchHistoryComponent implements OnInit {
   @Input() openSearchHistory: boolean;
   @Input() featherIconPath: string;
   @Output() close: EventEmitter<any> = new EventEmitter();
-  searchHistory: SearchHistoryEntry[] = getSearchHistory();
+
+  searchHistory: SearchHistoryEntry[] = getSearchHistory()
+    .map((entry) => {
+      if(entry.type != SearchHistoryEntryType.SearchResult) {
+        return entry;
+      }
+
+      if(Object.keys(entry.query).length == 0) {
+        entry.query.query = "";
+      }
+      return entry;
+    });
+
   searchFieldLabels = searchFieldLabels;
   prettyYearRange = prettyYearRange;
   eventIcon = eventIcon;
@@ -64,7 +76,19 @@ export class SearchHistoryComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    onSearchHistoryEntry((history) => this.searchHistory = history);
+    onSearchHistoryEntry((history) => {
+      this.searchHistory = history
+        .map((entry) => {
+          if(entry.type != SearchHistoryEntryType.SearchResult) {
+            return entry;
+          }
+
+          if(Object.keys(entry.query).length == 0) {
+            entry.query.query = "";
+          }
+          return entry;
+        });
+    });
   }
 
   closeSearchHistory() {
