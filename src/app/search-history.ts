@@ -131,6 +131,10 @@ export function getLatestSearchQuery() {
   if(entry) {
     let queryParams: any = { ...entry.query };
 
+    if(Object.keys(queryParams).length == 0) {
+      queryParams.query = "";
+    }
+
     if(entry.pagination) {
       const { page: pg, size } = entry.pagination;
       queryParams = { ...queryParams, pg, size };
