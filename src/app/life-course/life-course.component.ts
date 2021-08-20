@@ -119,6 +119,16 @@ export class LifeCourseComponent implements OnInit {
           linkingMethod: prettyLinkMethod(link),
           key: link.key,
         };
+      })
+      .sort((a, b) => {
+        //Sort so that greatest pathTierX value is rendered first
+        if(a.pathTierX < b.pathTierX) {
+          return 1;
+        }
+        if(a.pathTierX > b.pathTierX) {
+          return -1;
+        }
+        return 0;
       });
   }
 
