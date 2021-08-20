@@ -1,10 +1,10 @@
 <div *ngIf="auth.user$ | async as user" class="lls-container u-mt-4">
   <div class="lls-results-header__link-section">
     <a routerLink="/" tabIndex="0" class="lls-link u-align-icon">
-        <svg class="lls-icon">
-          <use [attr.href]="featherSpriteUrl + '#arrow-left'"></use>
-        </svg>
-        Tilbage til forsiden
+      <svg class="lls-icon">
+        <use [attr.href]="featherSpriteUrl + '#arrow-left'"></use>
+      </svg>
+      Tilbage til forsiden
     </a>
     <a
       class="lls-link u-align-icon"
@@ -92,12 +92,12 @@
 
   <div>
     <ng-container *ngFor="let lifecourse of ratedLifecourses">
-        <app-life-course-item class="lls-columns-12" [item]="lifecourse.personAppearances" [lifecourse-key]="lifecourse.key"></app-life-course-item>
+      <app-life-course-item class="lls-columns-12" [item]="lifecourse.personAppearances" [lifecourse-key]="lifecourse.key"></app-life-course-item>
     </ng-container>
     <div *ngIf="!ratedLifecourses.length" class="lls-columns-12 u-text-center">
-        <p>
-            Du har ikke bedømt nogle links.
-        </p>
+      <p>
+        Du har ikke bedømt nogle links.
+      </p>
     </div>
   </div>
 </div>
