@@ -31,7 +31,7 @@ export class AuthUtil {
 
   currentPath() {
     let path = window.location.pathname.replace('find-livsforloeb-testversion/', ''); // staging / test
-    path.replace('soeg-i-livsforloeb-og-kilder/', ''); // production
+    path = path.replace('soeg-i-livsforloeb-og-kilder/', ''); // production
     return path;
   }
 
