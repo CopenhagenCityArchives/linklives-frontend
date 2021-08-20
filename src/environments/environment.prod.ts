@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
   apiUrl: "https://api-test.link-lives.dk",
-  pathPrefix: '/find-livsforloeb-testversion/',
+  // TODO: use the pathPrefix with travis is setup to prod/staging
+  pathPrefix: '/soeg-i-livsforloeb-og-kilder/',
 };
