@@ -806,7 +806,7 @@ export class ElasticsearchService {
     return new Observable(
       observer => {
          this.http.get<Lifecourse>(`${environment.apiUrl}/lifecourse/${key}`)
-        .subscribe(next => {
+          .subscribe(next => {
             observer.next(next as Lifecourse);
           }, error => {
             observer.error(error);

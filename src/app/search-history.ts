@@ -108,7 +108,9 @@ export function addSearchHistoryEntry(entry: SearchHistoryEntry): void {
 
 export function getSearchHistory(): SearchHistoryEntry[] {
   const history = retrieveValue(LOCAL_STORAGE_KEY) || [];
-  return history.filter((entry) => entry.timestamp);
+  return history
+    // Filter out old entries with no timestamp
+    .filter((entry) => entry.timestamp);
 }
 
 export function getLatestSearchQuery() {
