@@ -12,8 +12,7 @@ export class AuthUtil {
     console.log('handle LogiN!');
     console.log('window.location.pathname', window.location.pathname);
     const path = this.currentPath();
-    const target = this.currentTarget();
-    console.log('currentTarget', target);
+    const redirect_uri = this.loginCompletedUri();
     console.log('path', path);
     const onLoginCompleted = {
       path,
@@ -28,8 +27,7 @@ export class AuthUtil {
   
     console.log('now lets call auth service!');
     this.auth.loginWithRedirect({
-      //appState: { target }
-      redirect_uri: 'https://link-lives.dk/soeg-i-livsforloeb-og-kilder/login-completed',// window.location.href
+      redirect_uri: redirect_uri
     })
   }
 
@@ -39,13 +37,13 @@ export class AuthUtil {
     return path;
   }
 
-  currentTarget() {
+  loginCompletedUri() {
     if(window.location.pathname.includes('find-livsforloeb-testversion/')) {
-      return 'find-livsforloeb-testversion/login-completed';
+      return 'https://link-lives.dk/find-livsforloeb-testversion/login-completed';
     }
     if(window.location.pathname.includes('soeg-i-livsforloeb-og-kilder/')) {
-      return 'soeg-i-livsforloeb-og-kilder/login-completed';
+      return 'https://link-lives.dk/soeg-i-livsforloeb-og-kilder/login-completed';
     }
-    return 'login-completed';
+    return 'http://localhost:4200/login-completed';
   }
 }
