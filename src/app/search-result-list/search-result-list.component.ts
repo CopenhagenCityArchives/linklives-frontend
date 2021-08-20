@@ -137,7 +137,6 @@ export class SearchResultListComponent implements OnInit {
   }
 
   get resultRangeDescription() {
-    const prettyTotal = this.prettyPaginationNumber(this.searchResult.totalHits);
     const totalLifecourses = this.prettyPaginationNumber(this.searchResult.indexHits.lifeCourses);
     const totalPas = this.prettyPaginationNumber(this.searchResult.indexHits.pas);
 
