@@ -9,11 +9,8 @@ export class AuthUtil {
   constructor(public auth: AuthService) { }
 
   handleLogin() {
-    console.log('handle LogiN!');
-    console.log('window.location.pathname', window.location.pathname);
     const path = this.currentPath();
-    const redirect_uri = this.loginCompletedUri();
-    console.log('path', path);
+    const redirect_uri = `${this.baseUrl()}/login-completed`;
     const onLoginCompleted = {
       path,
     };
@@ -23,12 +20,13 @@ export class AuthUtil {
     }
     localStorage.setItem('onLoginCompleted', JSON.stringify(onLoginCompleted));
 
-    console.log('onLogin', onLoginCompleted); 
-  
-    console.log('now lets call auth service!');
     this.auth.loginWithRedirect({
-      redirect_uri: redirect_uri
+      redirect_uri
     })
+  }
+
+  handleLogout() {
+    this.auth.logout({ returnTo: this.baseUrl() });
   }
 
   currentPath() {
@@ -37,13 +35,13 @@ export class AuthUtil {
     return path;
   }
 
-  loginCompletedUri() {
+  baseUrl() {
     if(window.location.pathname.includes('find-livsforloeb-testversion/')) {
-      return 'https://link-lives.dk/find-livsforloeb-testversion/login-completed';
+      return 'https://link-lives.dk/find-livsforloeb-testversion';
     }
     if(window.location.pathname.includes('soeg-i-livsforloeb-og-kilder/')) {
-      return 'https://link-lives.dk/soeg-i-livsforloeb-og-kilder/login-completed';
+      return 'https://link-lives.dk/soeg-i-livsforloeb-og-kilder';
     }
-    return 'http://localhost:4200/login-completed';
+    return 'http://localhost:4200';
   }
 }
