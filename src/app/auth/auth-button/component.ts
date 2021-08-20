@@ -13,7 +13,10 @@ export class AuthButtonComponent {
   constructor(@Inject(DOCUMENT) public document: Document, private authUtil: AuthUtil, public auth: AuthService) { }
 
   login() {
-    console.log('document.location.origin', document.location.origin);
     this.authUtil.handleLogin();
+  }
+
+  logout() {
+    this.authUtil.handleLogout();
   }
 }

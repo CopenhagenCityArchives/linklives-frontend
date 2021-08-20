@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
+import { AuthUtil } from '../auth/util';
 import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 
 
@@ -9,7 +10,7 @@ import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 })
 
 export class UserProfilePage implements OnInit {
-  constructor(public auth: AuthService, private elasticsearch: ElasticsearchService) {}
+  constructor(public auth: AuthService, private authUtil: AuthUtil, private elasticsearch: ElasticsearchService) {}
 
   isEditingProfile:boolean = true;
   ratedLifecourses: any;
@@ -24,7 +25,7 @@ export class UserProfilePage implements OnInit {
   };
 
   logout(){
-    this.auth.logout();
+    this.authUtil.handleLogout();
   };
 
   featherSpriteUrl = this.config.featherIconPath;
