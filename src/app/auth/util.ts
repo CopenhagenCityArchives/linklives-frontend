@@ -9,12 +9,8 @@ export class AuthUtil {
   constructor(public auth: AuthService) { }
 
   handleLogin() {
-    console.log('handle LogiN!');
-    console.log('window.location.pathname', window.location.pathname);
     const path = this.currentPath();
-    const target = this.currentTarget();
-    console.log('currentTarget', target);
-    console.log('path', path);
+    const redirect_uri = `${this.baseUrl()}`;
     const onLoginCompleted = {
       path,
     };
@@ -23,14 +19,15 @@ export class AuthUtil {
       onLoginCompleted['query'] = window.location.search.substring(1);
     }
     localStorage.setItem('onLoginCompleted', JSON.stringify(onLoginCompleted));
-
-    console.log('onLogin', onLoginCompleted); 
-  
-    console.log('now lets call auth service!');
+    console.log('redirect url', redirect_uri);
     this.auth.loginWithRedirect({
-      //appState: { target }
-      redirect_uri: 'https://link-lives.dk/soeg-i-livsforloeb-og-kilder/login-completed',// window.location.href
+      redirect_uri,
+      appState: { target: 'login-completed' }
     })
+  }
+
+  handleLogout() {
+    this.auth.logout({ returnTo: this.baseUrl() });
   }
 
   currentPath() {
@@ -39,13 +36,13 @@ export class AuthUtil {
     return path;
   }
 
-  currentTarget() {
+  baseUrl() {
     if(window.location.pathname.includes('find-livsforloeb-testversion/')) {
-      return 'find-livsforloeb-testversion/login-completed';
+      return 'https://link-lives.dk/find-livsforloeb-testversion';
     }
     if(window.location.pathname.includes('soeg-i-livsforloeb-og-kilder/')) {
-      return 'soeg-i-livsforloeb-og-kilder/login-completed';
+      return 'https://link-lives.dk/soeg-i-livsforloeb-og-kilder';
     }
-    return 'login-completed';
+    return 'http://localhost:4200';
   }
 }
