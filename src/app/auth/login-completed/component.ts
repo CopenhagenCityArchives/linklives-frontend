@@ -14,6 +14,7 @@ export class LoginCompletedComponent implements OnInit {
 
   ngOnInit(): void {
     const stateString = localStorage.getItem('onLoginCompleted');
+    console.log('stateString', stateString);
 
     if(!stateString) {
       console.warn('missing onLoginCompleted in locale storage');
@@ -22,7 +23,7 @@ export class LoginCompletedComponent implements OnInit {
     }
 
     const { path, query } = JSON.parse(stateString);
-    localStorage.removeItem('onLoginCompleted');
+    //localStorage.removeItem('onLoginCompleted');
 
     let queryParams;
     if(!path) {
