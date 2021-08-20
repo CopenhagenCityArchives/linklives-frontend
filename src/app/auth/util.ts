@@ -29,7 +29,7 @@ export class AuthUtil {
     console.log('now lets call auth service!');
     this.auth.loginWithRedirect({
       //appState: { target }
-      redirect_uri: 'https://link-lives.dk/find-livsforloeb-testversion/login-completed',// window.location.href
+      redirect_uri: 'https://link-lives.dk/soeg-i-livsforloeb-og-kilder/login-completed',// window.location.href
     })
   }
 

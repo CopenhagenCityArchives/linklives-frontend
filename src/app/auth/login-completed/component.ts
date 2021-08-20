@@ -38,7 +38,7 @@ export class LoginCompletedComponent implements OnInit {
     }
 
     queryParams = URIQueryToObj(query)
-    console.log('path');
+    console.log('path', path);
     console.log('queryParams', queryParams);
     this.router.navigate([path], {
       queryParams,
