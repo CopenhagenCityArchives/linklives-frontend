@@ -121,8 +121,7 @@ export function getSearchHistory(): SearchHistoryEntry[] {
       }
       // Let all others pass
       return true;
-    });
-
+    })
     // Filter out old entries with no timestamp
     .filter((entry) => entry.timestamp);
 }
