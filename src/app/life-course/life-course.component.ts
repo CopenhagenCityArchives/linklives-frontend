@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Link } from '../elasticsearch/elasticsearch.service';
-import { prettyDate } from '../display-helpers';
+import { prettyDate } from '../util/display-helpers';
 import { PersonAppearance } from '../search/search.service';
 import { getLatestSearchQuery } from '../search-history';
 import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
@@ -24,6 +24,7 @@ export class LifeCourseComponent implements OnInit {
   featherSpriteUrl = this.config.featherIconPath;
   openSearchHistory: boolean = false;
   currentLinkKey: string = "";
+  chosenRatingId;
   totalRatings;
   ratingCountByCategory;
 
@@ -160,8 +161,9 @@ export class LifeCourseComponent implements OnInit {
     return prettyDate(date);
   }
 
-  openLinkRating(linkKey) {
+  openLinkRating(linkKey, chosenRatingId="") {
     this.currentLinkKey = linkKey;
+    this.chosenRatingId = chosenRatingId;
     this.elasticsearch.getLinkRatingStats(linkKey).subscribe(linkRatingData => {
       this.totalRatings = linkRatingData.totalRatings
       this.ratingCountByCategory = linkRatingData.headingRatings;
@@ -175,6 +177,10 @@ export class LifeCourseComponent implements OnInit {
       this.pas = next.lifecourse.personAppearances as PersonAppearance[];
       this.lifecourseKey = next.lifecourse.lifecourseKey;
       this.links = next.lifecourse.links;
+
+      if(next.lifecourse.currentLinkKey) {
+        this.openLinkRating(next.lifecourse.currentLinkKey, next.lifecourse.chosenRatingId);
+      }
     });
   }
 

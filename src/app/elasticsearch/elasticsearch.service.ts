@@ -74,7 +74,7 @@ interface EventLookupKeys {
 }
 
 interface SourceYearLookupKeys {
-  source_year: string
+  source_year_searchable: string
   source_year_display: string // only used for displaying
 }
 
@@ -83,7 +83,7 @@ interface EventYearLookupKeys {
   event_year_display: string // only used for displaying
 }
 interface BirthYearLookupKeys {
-  birth_year: string
+  birthyear_searchable: string
   birthyear_display: string // only used for displaying
 }
 
@@ -280,10 +280,10 @@ export class ElasticsearchService {
 
     searchResult.aggregations?.count.buckets.forEach(value => {
       result.totalHits += value.doc_count;
-      if (value.key == "pas") {
+      if (value.key.includes("pas")) {
         result.indexHits.pas = value.doc_count;
       }
-      if (value.key == "lifecourses") {
+      if (value.key.includes("lifecourses")) {
         result.indexHits.lifeCourses = value.doc_count;
       }
     });
@@ -310,27 +310,27 @@ export class ElasticsearchService {
       search: this.http.post<ElasticSearchResult>(`${environment.apiUrl}/search/${indices.join(',')}`, body).pipe(share()),
     };
     if(eventFilterBody) {
-      requests.eventLookup = this.http.post<ElasticEventLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, eventFilterBody).pipe(share());
+      requests.eventLookup = this.http.post<ElasticEventLookupResult>(`${environment.apiUrl}/search/pas`, eventFilterBody).pipe(share());
     }
 
     if(sourceFilterBody) {
-      requests.sourceLookup = this.http.post<ElasticSourceLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, sourceFilterBody).pipe(share());
+      requests.sourceLookup = this.http.post<ElasticSourceLookupResult>(`${environment.apiUrl}/search/pas`, sourceFilterBody).pipe(share());
     }
 
     if(eventYearFilterBody) {
-      requests.eventYearLookup = this.http.post<ElasticEventYearLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, eventYearFilterBody).pipe(share());
+      requests.eventYearLookup = this.http.post<ElasticEventYearLookupResult>(`${environment.apiUrl}/search/pas`, eventYearFilterBody).pipe(share());
     }
 
     if(sourceYearFilterBody) {
-      requests.sourceYearLookup = this.http.post<ElasticSourceYearLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, sourceYearFilterBody).pipe(share());
+      requests.sourceYearLookup = this.http.post<ElasticSourceYearLookupResult>(`${environment.apiUrl}/search/pas`, sourceYearFilterBody).pipe(share());
     }
 
     if(birthYearFilterBody) {
-      requests.birthYearLookup = this.http.post<ElasticBirthYearLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, birthYearFilterBody).pipe(share());
+      requests.birthYearLookup = this.http.post<ElasticBirthYearLookupResult>(`${environment.apiUrl}/search/pas`, birthYearFilterBody).pipe(share());
     }
 
     if(deathYearFilterBody) {
-      requests.deathYearLookup = this.http.post<ElasticDeathYearLookupResult>(`${environment.apiUrl}/search/${indices.join(',')}`, deathYearFilterBody).pipe(share());
+      requests.deathYearLookup = this.http.post<ElasticDeathYearLookupResult>(`${environment.apiUrl}/search/pas`, deathYearFilterBody).pipe(share());
     }
 
     // Prep observable that will send both requests and merge results in handleResult
@@ -447,11 +447,11 @@ export class ElasticsearchService {
         { event_year_display: { terms: { field: "person_appearance.event_year_display" } } },
       ],
       sourceYear: [
-        { source_year: { terms: { field: "person_appearance.source_year" } } },
+        { source_year_searchable: { terms: { field: "person_appearance.source_year_searchable" } } },
         { source_year_display: { terms: { field: "person_appearance.source_year_display" } } },
       ],
       birthYear: [
-        { birth_year: { terms: { field: "person_appearance.birth_year" } } },
+        { birthyear_searchable: { terms: { field: "person_appearance.birthyear_searchable" } } },
         { birthyear_display: { terms: { field: "person_appearance.birthyear_display" } } },
       ],
       deathYear: [
@@ -673,11 +673,11 @@ export class ElasticsearchService {
       }
 
       const sourceYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType['sourceYear'].map(({ source_year, source_year_display }) => {
+        return filtersGroupedByFilterType['sourceYear'].map(({ source_year_searchable, source_year_display }) => {
           return {
             bool: {
               must: [
-                { match: { [`person_appearance.source_year`]: source_year } },
+                { match: { [`person_appearance.source_year_searchable`]: source_year_searchable } },
                 { match: { [`person_appearance.source_year_display`]: source_year_display } },
               ]
             }
@@ -686,11 +686,11 @@ export class ElasticsearchService {
       }
 
       const birthYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType['birthYear'].map(({ birth_year, birthyear_display }) => {
+        return filtersGroupedByFilterType['birthYear'].map(({ birthyear_searchable, birthyear_display }) => {
           return {
             bool: {
               must: [
-                { match: { [`person_appearance.birth_year`]: birth_year } },
+                { match: { [`person_appearance.birthyear_searchable`]: birthyear_searchable } },
                 { match: { [`person_appearance.birthyear_display`]: birthyear_display } },
               ]
             }
@@ -818,29 +818,13 @@ export class ElasticsearchService {
     );
   }
 
-  getSource(id: string|number): Observable<Source> {
-    return new Observable(
-      observer => {
-        this.http.get<ElasticDocResult>(`https://data.link-lives.dk/sources/_doc/${id}`)
-        .subscribe(resBody => {
-            observer.next(resBody._source.source as Source);
-          }, error => {
-            observer.error(error);
-          }, () => {
-            observer.complete();
-          }
-        )
-      }
-    );
-  }
-
   getPersonAppearance(id: string|number): Observable<PersonAppearance> {
     return new Observable(
       observer => {
-        this.http.get<ElasticSearchResult>(`${environment.apiUrl}/PersonAppearance/${id}`)
+        this.http.get<PersonAppearance>(`${environment.apiUrl}/PersonAppearance/${id}`)
         .subscribe(next => {
             try {
-              observer.next(next.hits.hits[0]._source.person_appearance as PersonAppearance);
+              observer.next(next as PersonAppearance);
             } catch (error) {
               observer.error(error);
             }

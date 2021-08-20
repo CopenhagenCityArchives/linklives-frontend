@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { eventIcon, sourceIcon, eventType, prettyNumbers, filterTitle, filterTypes, yearFilterTypes } from '../display-helpers';
+import { eventIcon, sourceIcon, eventType, prettyNumbers, filterTitle, filterTypes, yearFilterTypes } from '../util/display-helpers';
 
 export interface Option {
   label: string;
@@ -29,8 +29,8 @@ export class FilterSidebar implements OnInit {
     eventType: Array<{ event_type: string, event_type_display: string, count: number }>,
     source: Array<{ source_type_wp4: string, source_type_display: string, count: number }>,
     eventYear: Array<{ event_year_display: string, count: number }>,
-    sourceYear: Array<{ source_year: string, source_year_display: string, count: number }>,
-    birthYear: Array<{ birth_year: string, birthyear_display: string, count: number }>,
+    sourceYear: Array<{ source_year_searchable: string, source_year_display: string, count: number }>,
+    birthYear: Array<{ birthyear_searchable: string, birthyear_display: string, count: number }>,
     deathYear: Array<{ deathyear_searchable: string, deathyear_display: string, count: number }>,
   };
   @Input() openSidebar: boolean;
@@ -113,8 +113,8 @@ export class FilterSidebar implements OnInit {
     return this.possibleFilters[filterType].map(x => {
       return {
         label: x.source_year_display,
-        type: x.source_year,
-        value: `${filterType}_${x.source_year}_${x.source_year_display}`,
+        type: x.source_year_searchable,
+        value: `${filterType}_${x.source_year_searchable}_${x.source_year_display}`,
         count: prettyNumbers(x.count),
         chosen: false,
       };
@@ -137,8 +137,8 @@ export class FilterSidebar implements OnInit {
     return this.possibleFilters[filterType].map(x => {
       return {
         label: x.birthyear_display,
-        type: x.birth_year,
-        value: `${filterType}_${x.birth_year}_${x.birthyear_display}`,
+        type: x.birthyear_searchable,
+        value: `${filterType}_${x.birthyear_searchable}_${x.birthyear_display}`,
         count: prettyNumbers(x.count),
         chosen: false,
       };

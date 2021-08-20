@@ -15,6 +15,12 @@
 
 .lls-search-options__checkbox-container {
   margin-right: 1rem;
+  display: flex;
+  align-items: center;
+
+  @media(max-width: $breakpointSm) {
+    font-size: 0.85rem;
+  }
 }
 
 .lls-search-options__checkbox {

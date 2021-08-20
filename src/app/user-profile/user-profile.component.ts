@@ -13,6 +13,7 @@ export class UserProfilePage implements OnInit {
 
   isEditingProfile:boolean = true;
   ratedLifecourses: any;
+  openSearchHistory: boolean = false;
 
   get config() {
     return window["lls"];
@@ -30,7 +31,6 @@ export class UserProfilePage implements OnInit {
   
   ngOnInit(): void {
     this.elasticsearch.getRatedLifecourses().subscribe((ratedLifecourses) => {
-      console.log('ratedLifecourses within', ratedLifecourses);
       this.ratedLifecourses = ratedLifecourses;
     });
   }

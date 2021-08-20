@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 import { AuthService } from '@auth0/auth0-angular';
+import { Router } from '@angular/router';
+import { AuthUtil } from '../auth/util'
 
 
 @Component({
@@ -18,11 +20,13 @@ export class LinkRatingComponent implements OnInit {
   @Input() linkKey: string;
   @Input() totalRatings: number;
   @Input() ratingCountByCategory: any;
+  @Input() chosenRatingId;
   @Output() close: EventEmitter<any> = new EventEmitter();
 
   showForm = true;
   chosen: string = "";
   ratingOptions;
+  currentPath = this.authUtil.currentPath();
 
   percent(ratingCount) {
     return Math.round(parseInt(ratingCount) / this.totalRatings * 100);
@@ -61,16 +65,32 @@ export class LinkRatingComponent implements OnInit {
     this.chosen = "";
     this.openLinkRating = false;
     this.linkRatingForm.reset();
+    // reset url query
+    this.router.navigate([this.currentPath], {
+      queryParams: {}
+    });
     this.close.emit(null);
   }
 
   login() {
-    this.auth.loginWithRedirect({
-      redirect_uri: window.location.href
-    })
+
+    // changes the route without moving from the current view or
+    // triggering a navigation event,
+    this.router.navigate([this.currentPath], {
+      queryParams: {
+        currentLinkKey: this.linkKey,
+        chosenRatingId: this.linkRatingForm.value.option
+      }
+    }).then(() => {
+      this.authUtil.handleLogin();
+    });
   }
 
   ngOnInit(): void {
+    if(this.chosenRatingId && parseInt(this.chosenRatingId) !== NaN) {
+      this.linkRatingForm.setValue({option: parseInt(this.chosenRatingId)});
+    }
+
   }
 
   closeOnEsc() {
@@ -80,9 +100,9 @@ export class LinkRatingComponent implements OnInit {
     }
   }
 
-  constructor(private elasticsearch: ElasticsearchService, public auth: AuthService) {
+  constructor(private router: Router, private elasticsearch: ElasticsearchService, public auth: AuthService, private authUtil: AuthUtil) {
     this.elasticsearch.getLinkRatingOptions().subscribe(ratingOptions => {
       this.ratingOptions = ratingOptions;
-    });  
+    });
   }  
 }

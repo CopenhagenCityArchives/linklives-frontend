@@ -47,6 +47,3 @@ Thumbs.db
 
 # fonts we aren't allowed to distribute, but need locally to get an accurate frame to work in
 src/assets/fonts/
-
-# ensure that apiUrl is not overwritten when merging staging into master
-src/environments/

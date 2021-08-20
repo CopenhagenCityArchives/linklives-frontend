@@ -2,7 +2,7 @@ import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
 import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
 import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, possibleSearchQueryParams, getFieldOptions, genderOptions } from 'src/app/search-term-values';
-import { eventIcon, filterTitle } from '../display-helpers';
+import { eventIcon, filterTitle } from '../util/display-helpers';
 
 interface SearchQueryParams {
   query?: string,
@@ -131,9 +131,11 @@ export class SearchResultListComponent implements OnInit {
 
   get resultRangeDescription() {
     const prettyTotal = this.prettyPaginationNumber(this.searchResult.totalHits);
+    const totalLifecourses = this.prettyPaginationNumber(this.searchResult.indexHits.lifeCourses);
+    const totalPas = this.prettyPaginationNumber(this.searchResult.indexHits.pas);
 
     if(this.searchResult.totalHits < this.pagination.size) {
-      return `Viser alle ${prettyTotal} resultater`;
+      return `Viser ${totalLifecourses} livsforløb og ${totalPas} personregistreringer`;
     }
 
     const firstResult = ((this.pagination.current - 1) * this.pagination.size) + 1;
@@ -142,10 +144,13 @@ export class SearchResultListComponent implements OnInit {
     const prettyFirst = this.prettyPaginationNumber(firstResult);
     const prettyLast = this.prettyPaginationNumber(lastResult);
 
-    return `Viser ${prettyFirst}&ndash;${prettyLast} af ${prettyTotal} resultater`;
+    return `Viser ${prettyFirst}&ndash;${prettyLast} af ${totalLifecourses} livsforløb og ${totalPas} personregistreringer`;
   }
 
   prettyPaginationNumber(num: number) {
+    if(!num) {
+      return 0;
+    }
     return num.toLocaleString("da-DK");
   }
 
