@@ -109,7 +109,7 @@ export function addSearchHistoryEntry(entry: SearchHistoryEntry): void {
 export function getSearchHistory(): SearchHistoryEntry[] {
   const history = retrieveValue(LOCAL_STORAGE_KEY) || [];
   return history
-    // Filter out old lifecourses with no personAppearances
+    // Filter out malformed lifecourses with no personAppearances
     .filter((entry) => entry.type !== 'lifecourse' || (entry.lifecourse.personAppearances && entry.lifecourse.personAppearances.length ))
     // Filter out old entries with no timestamp
     .filter((entry) => entry.timestamp);
