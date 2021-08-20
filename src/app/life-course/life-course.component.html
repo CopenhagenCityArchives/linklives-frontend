@@ -70,7 +70,12 @@
             ></app-person-appearance-item>
         </section>
         <section class="lls-life-course-source-container__source-linking-graph">
-            <svg width="330px" [attr.height]="(196 + 27) * pas.length" [attr.viewBox]="'-50 0 280 ' + ((196 + 27) * pas.length)">
+            <svg
+                width="320px"
+                [attr.height]="(196 + 27) * pas.length"
+                [attr.viewBox]="'-40 0 280 ' + ((196 + 27) * pas.length)"
+                xmlns="http://www.w3.org/2000/svg"
+            >
                 <g
                     *ngFor="let pa of pas; index as i;"
                     [attr.transform]="'translate(0 ' + ((196 + 27) * i + (196 / 2)) + ')'"
