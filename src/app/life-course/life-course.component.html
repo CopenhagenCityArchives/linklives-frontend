@@ -70,14 +70,19 @@
             ></app-person-appearance-item>
         </section>
         <section class="lls-life-course-source-container__source-linking-graph">
-            <svg width="280px" [attr.height]="(196 + 27) * pas.length" [attr.viewBox]="'0 0 280 ' + ((196 + 27) * pas.length)">
+            <svg
+                width="320px"
+                [attr.height]="(196 + 27) * pas.length"
+                [attr.viewBox]="'-40 0 280 ' + ((196 + 27) * pas.length)"
+                xmlns="http://www.w3.org/2000/svg"
+            >
                 <g
                     *ngFor="let pa of pas; index as i;"
                     [attr.transform]="'translate(0 ' + ((196 + 27) * i + (196 / 2)) + ')'"
                     class="lls-source-graph__source"
                 >
                     <text x="40" dy=".3em">
-                        {{ pa.source_year_display }}
+                        {{ pa.event_year_display }}
                     </text>
                     <circle
                         class="lls-source-graph__circle-background"
@@ -111,7 +116,7 @@
                     <circle
                         class="lls-source-graph__circle-background"
                         [attr.cx]="link.pathTierX"
-                        [attr.cy]="(196 + 27) / 2"
+                        [attr.cy]="link.lineHeight / 2"
                         r="10"
                     />
                     <path
@@ -122,16 +127,16 @@
                     <circle
                         class="lls-source-graph__circle lls-source-graph__circle--action"
                         [attr.cx]="link.pathTierX"
-                        [attr.cy]="(196 + 27) / 2"
+                        [attr.cy]="link.lineHeight / 2"
                         r="4"
                     />
                     <g
                         class="lls-source-graph__tooltip"
-                        [attr.transform]="'translate(' + (link.pathTierX - 60) + ' ' + ((196 + 27) / 2 - 110) + ')'"
+                        [attr.transform]="'translate(' + (link.pathTierX - 120) + ' ' + (link.lineHeight / 2 - 210) + ')'"
                     >
                         <g class="lls-source-graph__tooltip-box">
-                            <rect width="240" height="200" rx="3" transform="translate(-10 0)" />
-                            <path d="M53,98 l7,7 l7,-7 h-14" />
+                            <rect width="240" height="200" rx="3" transform="translate(-7 0)" />
+                            <path d="M113,198 l7,7 l7,-7 h-14" />
                         </g>
                         <text
                             class="lls-source-graph__tooltip-label"
@@ -157,7 +162,7 @@
                             <title>{{ link.linkingMethod.long }}</title>
                             {{ link.linkingMethod.short }}
                         </text>
-                        <foreignObject x="0" y="100" width="80%" height="100%" style="text-align: center;">
+                        <foreignObject x="0" y="100" width="80%" height="100px" style="text-align: center;">
                             <xhtml:button class="lls-btn lls-btn--small lls-btn--blue" (click)="openLinkRating(link.key)">
                                 Er linket troværdigt?
                             </button>

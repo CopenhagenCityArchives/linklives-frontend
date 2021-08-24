@@ -37,6 +37,13 @@ export class SearchResultListComponent implements OnInit {
     last: number,
     size: number,
     navigationPages: number[],
+  } = {
+    current: 1,
+    firstInOrder: 1,
+    lastInOrder: 1,
+    last: 1,
+    size: 1,
+    navigationPages: [1],
   };
 
   sizeOptions = [
@@ -130,7 +137,6 @@ export class SearchResultListComponent implements OnInit {
   }
 
   get resultRangeDescription() {
-    const prettyTotal = this.prettyPaginationNumber(this.searchResult.totalHits);
     const totalLifecourses = this.prettyPaginationNumber(this.searchResult.indexHits.lifeCourses);
     const totalPas = this.prettyPaginationNumber(this.searchResult.indexHits.pas);
 
