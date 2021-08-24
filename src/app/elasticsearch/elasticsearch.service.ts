@@ -491,40 +491,45 @@ export class ElasticsearchService {
     const must = [];
     let sourceLookupFilter = must;
 
+    const addFreeTextQuery = (must, value) => {
+      // only string fields
+      let fields = [
+        "*name_searchable",
+        "*lastname_searchable",
+        "*firstnames_searchable",
+        "*birthplace_searchable",
+        "*sourceplace_searchable",
+        "*gender_searchable",
+        "*birthname_searchable",
+      ];
+
+      if(mode === "fuzzy") {
+        const fuzzyStringFields = [
+          "*name_searchable_fz",
+          "*lastname_searchable_fz",
+          "*firstnames_searchable_fz",
+          "*birthplace_searchable_fz",
+          "*birthname_searchable_fz",
+        ];
+        fields = fields.concat(fuzzyStringFields);
+      }
+
+      must.push({
+        simple_query_string: {
+          query: value,
+          fields,
+          default_operator: "and",
+          analyze_wildcard: true,
+        },
+      });
+    };
+
     Object.keys(query).filter((queryKey) => query[queryKey]).forEach((queryKey) => {
       let value = query[queryKey];
 
       // Special case: query
       if(queryKey === "query") {
-        // only string fields
-        let fields = [
-          "*name_searchable",
-          "*lastname_searchable",
-          "*firstnames_searchable",
-          "*birthplace_searchable",
-          "*sourceplace_searchable",
-          "*gender_searchable",
-          "*birthname_searchable",
-        ];
-
-        if(mode === "fuzzy") {
-          const fuzzyStringFields = [
-            "*name_searchable_fz",
-            "*lastname_searchable_fz",
-            "*firstnames_searchable_fz",
-            "*birthplace_searchable_fz",
-            "*birthname_searchable_fz",
-          ];
-          fields = fields.concat(fuzzyStringFields);
-        }
-        must.push({
-          simple_query_string: {
-            query: value,
-            fields,
-            default_operator: "and",
-            analyze_wildcard: true,
-          },
-        });
+        addFreeTextQuery(must, value);
         return;
       }
 
