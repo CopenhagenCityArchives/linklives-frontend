@@ -632,12 +632,6 @@ export class ElasticsearchService {
       must.push(searchKeyQuery);
     });
 
-    // Ensure there is always some query; if nothing else, then a search for empty string
-    // Otherwise we would be generating invalid elasticsearch queries
-    if(must.length < 1) {
-      addFreeTextQuery(must, "");
-    }
-
     if(sourceFilter.length) {
       // Copy must into sourceLookupFilter to avoid the following push being added to this list, too
       sourceLookupFilter = [ ...must ];
@@ -775,6 +769,9 @@ export class ElasticsearchService {
     }
 
     const simplifiedQueryFromMust = (must) => {
+      if(must.length < 1) {
+        return null;
+      }
       if(must.length == 1) {
         return must[0];
       }
@@ -783,13 +780,21 @@ export class ElasticsearchService {
       };
     };
 
-    const getFullPersonAppearanceQueryFromMustQuery = (must) => ({
-      nested: {
-        path: "person_appearance",
-        query: simplifiedQueryFromMust(must),
-        score_mode: "max",
-      },
-    });
+    const getFullPersonAppearanceQueryFromMustQuery = (must) => {
+      const query = simplifiedQueryFromMust(must);
+
+      if(!query) {
+        return undefined;
+      }
+
+      return {
+        nested: {
+          path: "person_appearance",
+          query,
+          score_mode: "max",
+        },
+      };
+    };
 
     const resultLookupQuery: Record<string, any> = getFullPersonAppearanceQueryFromMustQuery(must);
     const sourceLookupQuery: Record<string, any> = getFullPersonAppearanceQueryFromMustQuery(sourceLookupFilter);
