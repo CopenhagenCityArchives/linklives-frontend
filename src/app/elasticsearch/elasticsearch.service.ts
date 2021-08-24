@@ -632,6 +632,12 @@ export class ElasticsearchService {
       must.push(searchKeyQuery);
     });
 
+    // Ensure there is always some query; if nothing else, then a search for empty string
+    // Otherwise we would be generating invalid elasticsearch queries
+    if(must.length < 1) {
+      addFreeTextQuery(must, "");
+    }
+
     if(sourceFilter.length) {
       // Copy must into sourceLookupFilter to avoid the following push being added to this list, too
       sourceLookupFilter = [ ...must ];
