@@ -1,0 +1,105 @@
+<svg
+    width="320px"
+    [attr.height]="(196 + 27) * pas.length"
+    [attr.viewBox]="'-40 0 280 ' + ((196 + 27) * pas.length)"
+    xmlns="http://www.w3.org/2000/svg"
+>
+    <g
+        *ngFor="let pa of pas; index as i;"
+        [attr.transform]="'translate(0 ' + ((196 + 27) * i + (196 / 2)) + ')'"
+        class="lls-source-graph__source"
+    >
+        <text x="40" dy=".3em">
+            {{ pa.event_year_display }}
+        </text>
+        <circle
+            class="lls-source-graph__circle-background"
+            cx="65"
+            r="17"
+        />
+        <circle
+            class="lls-source-graph__circle"
+            [class]="'lls-source-graph__circle--' + pa.event_type"
+            cx="65"
+            r="5"
+        />
+    </g>
+
+    <!-- Chronological lines between -->
+    <line
+        x1="65"
+        x2="65"
+        [attr.y1]="((196 + 27) * i + (196 / 2)) + 20 + 5"
+        [attr.y2]="((196 + 27) * (i + 1) + (196 / 2)) - 20 - 5"
+        stroke="black"
+        *ngFor="let pa of pas.slice(1); index as i; let last = last;"
+    />
+
+    <!-- Links -->
+    <g
+        *ngFor="let link of drawableLinks; index as i;"
+        [attr.transform]="'translate(90 ' + link.offsetY + ')'"
+        class="lls-source-graph__link"
+    >
+        <circle
+            class="lls-source-graph__circle-background"
+            [attr.cx]="link.pathTierX"
+            [attr.cy]="link.lineHeight / 2"
+            r="10"
+        />
+        <path
+            class="lls-source-graph__link-path"
+            [attr.d]="link.path"
+            fill="transparent"
+        />
+        <circle
+            class="lls-source-graph__circle lls-source-graph__circle--action"
+            [attr.cx]="link.pathTierX"
+            [attr.cy]="link.lineHeight / 2"
+            r="4"
+        />
+        <g
+            class="lls-source-graph__tooltip"
+            [attr.transform]="'translate(' + (link.pathTierX - 120) + ' ' + (link.lineHeight / 2 - 210) + ')'"
+        >
+            <g class="lls-source-graph__tooltip-box">
+                <rect width="240" height="200" rx="3" transform="translate(-7 0)" />
+                <path d="M113,198 l7,7 l7,-7 h-14" />
+            </g>
+            <text
+                class="lls-source-graph__tooltip-label"
+                x="110"
+                y="20"
+                dy=".3em"
+            >
+                Sikkerhed
+            </text>
+            <text
+                class="lls-soruce-graph__tooltip-text--large"
+                x="110"
+                y="44"
+                dy=".3em"
+            >
+                {{ link.confidencePct }}%
+            </text>
+            <text x="110" y="68" dy=".3em">
+                <title>{{ link.linkingMethod.long }}</title>
+                Linket via
+            </text>
+            <text x="110" y="81" dy=".3em">
+                <title>{{ link.linkingMethod.long }}</title>
+                {{ link.linkingMethod.short }}
+            </text>
+            <foreignObject x="0" y="100" width="80%" height="100px" style="text-align: center;">
+                <xhtml:button class="lls-btn lls-btn--small lls-btn--blue" (click)="openLinkRating.emit(link.key)">
+                    Er linket troværdigt?
+                </button>
+                <xhtml:div class="u-mt-2">
+                    <xhtml:a class="lls-link lls-link--white" href="https://link-lives.dk/saadan-skabes-livsforloeb/">
+                        Læs mere om metoder til linkning
+                    </a>
+                </div>
+            </foreignObject>
+        </g>
+    </g>
+</svg>
