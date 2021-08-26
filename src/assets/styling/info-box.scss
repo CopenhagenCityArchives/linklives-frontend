@@ -21,4 +21,18 @@
   & strong {
     font-weight: 600;
   }
+
+  a {
+    color: inherit;
+    // Copied styling from lls-link --- this `a` will be generated from
+    // wordpress, so we have no way of setting a class on it.
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.4s;
+    cursor: pointer;
+
+    &:hover {
+      border-bottom-color: currentColor;
+      text-decoration: none;
+    }
+  }
 }
