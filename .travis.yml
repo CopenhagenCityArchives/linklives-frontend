@@ -18,9 +18,7 @@ install:
   - npm install
 
 script:
-#  - ng test --no-watch --no-progress --browsers=ChromeHeadlessCI
-#  - ng e2e --protractor-config=e2e/protractor-ci.conf.js
-  - ng build --output-hashing none --prod
+  - travis-build.sh
 
 deploy:
   - provider: s3
