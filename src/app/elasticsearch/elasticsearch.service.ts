@@ -717,7 +717,7 @@ export class ElasticsearchService {
       }
 
       // Add source filter to only the must filter (but not the source lookup filter)
-      if(filtersGroupedByFilterTyp.eventType && filtersGroupedByFilterType.eventType.length) {
+      if(filtersGroupedByFilterType.eventType && filtersGroupedByFilterType.eventType.length) {
         must.push({
           bool: {
             should: eventTypeFilters(filtersGroupedByFilterType),
