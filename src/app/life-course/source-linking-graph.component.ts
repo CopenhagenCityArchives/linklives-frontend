@@ -129,27 +129,21 @@ export class SourceLinkingGraphComponent implements OnInit {
   }
 
   onMouseEnterLink(key) {
-    console.log("enter link", key);
     this.hoveredLink = key;
   }
 
   onMouseLeaveLink(key) {
-    console.log("leave link", key);
     if(this.hoveredLink === key) {
-      console.log("- cleared");
       this.hoveredLink = null;
     }
   }
 
   onMouseEnterTooltip(key) {
-    console.log("enter tooltip", key);
     this.hoveredTooltip = key;
   }
 
   onMouseLeaveTooltip(key) {
-    console.log("leave tooltip", key);
     if(this.hoveredTooltip === key) {
-      console.log("- cleared");
       this.hoveredTooltip = null;
     }
   }
