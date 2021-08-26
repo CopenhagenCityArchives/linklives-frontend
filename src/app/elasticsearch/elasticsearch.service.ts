@@ -733,8 +733,6 @@ export class ElasticsearchService {
         })
       }
 
-      console.log('filtersGroupedByFilterType', filtersGroupedByFilterType);
-
       if(filtersGroupedByFilterType.eventYear && filtersGroupedByFilterType.eventYear.length) {
         must.push({
           bool: {
