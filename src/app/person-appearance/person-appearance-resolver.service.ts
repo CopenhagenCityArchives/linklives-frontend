@@ -19,7 +19,7 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
   constructor(private elasticsearch: ElasticsearchService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<PersonAppearanceResolverResult> {
-    return this.elasticsearch.getPersonAppearance(route.params['id'])
+    return this.elasticsearch.getPersonAppearance(route.params.id)
     .pipe(map(pa => pa as PersonAppearance))
     .pipe(
       mergeMap((pa, index) => {
