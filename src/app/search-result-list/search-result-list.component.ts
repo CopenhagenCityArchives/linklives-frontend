@@ -78,8 +78,8 @@ export class SearchResultListComponent implements OnInit {
   featherSpriteUrl = this.config.featherIconPath;
 
   indices = {
-    pas: { value: false, label: "Personregistrering" },
-    lifecourses: { value: false, label: "Livsforløb" },
+    pas: { value: false, label: "Personregistrering", searchedValue: false },
+    lifecourses: { value: false, label: "Livsforløb", searchedValue: false },
   };
 
   get indexKeys() {
@@ -140,8 +140,16 @@ export class SearchResultListComponent implements OnInit {
     const totalLifecourses = this.prettyPaginationNumber(this.searchResult.indexHits.lifeCourses);
     const totalPas = this.prettyPaginationNumber(this.searchResult.indexHits.pas);
 
+    let countText = `${totalLifecourses} livsforløb og ${totalPas} personregistreringer`;
+    if(!this.indices.lifecourses.searchedValue) {
+      countText = `${totalPas} personregistreringer`;
+    }
+    if(!this.indices.pas.searchedValue) {
+      countText = `${totalLifecourses} livsforløb`;
+    }
+
     if(this.searchResult.totalHits < this.pagination.size) {
-      return `Viser ${totalLifecourses} livsforløb og ${totalPas} personregistreringer`;
+      return `Viser ${countText}`;
     }
 
     const firstResult = ((this.pagination.current - 1) * this.pagination.size) + 1;
@@ -150,7 +158,7 @@ export class SearchResultListComponent implements OnInit {
     const prettyFirst = this.prettyPaginationNumber(firstResult);
     const prettyLast = this.prettyPaginationNumber(lastResult);
 
-    return `Viser ${prettyFirst}&ndash;${prettyLast} af ${totalLifecourses} livsforløb og ${totalPas} personregistreringer`;
+    return `Viser ${prettyFirst}&ndash;${prettyLast} af ${countText}`;
   }
 
   prettyPaginationNumber(num: number) {
@@ -197,8 +205,14 @@ export class SearchResultListComponent implements OnInit {
       const indices = queryParamMap.get('index');
       if(indices) {
         // Reset index checkbox values
-        Object.keys(this.indices).forEach(index => this.indices[index].value = false);
-        indices.split(",").forEach((index) => this.indices[index].value = true);
+        Object.keys(this.indices).forEach(index => {
+          this.indices[index].value = false;
+          this.indices[index].searchedValue = false;
+        });
+        indices.split(",").forEach((index) => {
+          this.indices[index].value = true;
+          this.indices[index].searchedValue = true;
+        });
       }
       this.sortBy = queryParamMap.get('sortBy') || "relevance";
       const sortOrder = queryParamMap.get('sortOrder');
