@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Link } from '../elasticsearch/elasticsearch.service';
 import { PersonAppearance } from '../search/search.service';
 
@@ -6,7 +6,7 @@ import { PersonAppearance } from '../search/search.service';
   selector: 'app-source-linking-graph',
   templateUrl: './source-linking-graph.component.html',
 })
-export class SourceLinkingGraphComponent {
+export class SourceLinkingGraphComponent implements OnInit {
 
   @Input() pas: PersonAppearance[] = [];
   @Input() links: Link[] = [];
@@ -14,11 +14,27 @@ export class SourceLinkingGraphComponent {
   @Output()
   openLinkRating: EventEmitter<string> = new EventEmitter<string>();
 
+  drawableLinks: {
+    offsetY: number,
+    pathTierX: number,
+    lineHeight: number,
+    confidencePct: number,
+    linkingMethod: { long: string, short: string },
+    key: string,
+  }[] = [];
+
+  hoveredLink?: string = null;
+  hoveredTooltip?: string = null;
+
+  get activeLink() {
+    return this.hoveredLink || this.hoveredTooltip;
+  }
+
   get pasReversed() {
     return [ ...this.pas ].reverse();
   }
 
-  get drawableLinks() {
+  calculateDrawableLinks() {
     //These represent gaps, not PAs, so there is one less than there are PAs in order.
     const maxTiers = Array(this.pas.length - 1).fill(-1);
 
@@ -83,18 +99,10 @@ export class SourceLinkingGraphComponent {
           };
         };
 
-        const lineHeight = ((196 + 27) * indexDiff);
+        const lineHeight = ((196 + 16) * indexDiff);
 
         return {
-          path: `
-            M0,0
-            h${tier * 16}
-            a10,10 0 0 1 10,10
-            v${lineHeight - 20}
-            a10,10 0 01 -10,10
-            h-${tier * 16}
-          `,
-          offsetY: ((196 + 27) * firstIndex + (196 / 2)),
+          offsetY: ((196 + 16) * firstIndex + (196 / 2) - 11),
           pathTierX: tier * 16 + 10,
           lineHeight,
           confidencePct: Math.round((1 - link.score) * 100),
@@ -115,4 +123,34 @@ export class SourceLinkingGraphComponent {
   }
 
   constructor() { }
+
+  ngOnInit(): void {
+    this.drawableLinks = this.calculateDrawableLinks();
+  }
+
+  onMouseEnterLink(key) {
+    console.log("enter link", key);
+    this.hoveredLink = key;
+  }
+
+  onMouseLeaveLink(key) {
+    console.log("leave link", key);
+    if(this.hoveredLink === key) {
+      console.log("- cleared");
+      this.hoveredLink = null;
+    }
+  }
+
+  onMouseEnterTooltip(key) {
+    console.log("enter tooltip", key);
+    this.hoveredTooltip = key;
+  }
+
+  onMouseLeaveTooltip(key) {
+    console.log("leave tooltip", key);
+    if(this.hoveredTooltip === key) {
+      console.log("- cleared");
+      this.hoveredTooltip = null;
+    }
+  }
 }
