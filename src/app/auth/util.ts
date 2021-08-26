@@ -1,5 +1,6 @@
 import { AuthService } from '@auth0/auth0-angular';
 import { Injectable } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +11,7 @@ export class AuthUtil {
 
   handleLogin() {
     const path = this.currentPath();
-    const redirect_uri = `${this.baseUrl()}`;
+    const redirect_uri = this.baseUrl();
     const onLoginCompleted: { path: string, query?: string } = {
       path,
     };
@@ -30,18 +31,13 @@ export class AuthUtil {
   }
 
   currentPath() {
-    let path = window.location.pathname.replace('find-livsforloeb-testversion/', ''); // staging / test
-    path = path.replace('soeg-i-livsforloeb-og-kilder/', ''); // production
-    return path;
+    if(!environment.pathPrefix.length) {
+      return window.location.pathname;
+    }
+    return window.location.pathname.replace(environment.pathPrefix, '');
   }
 
   baseUrl() {
-    if(window.location.pathname.includes('find-livsforloeb-testversion/')) {
-      return 'https://link-lives.dk/find-livsforloeb-testversion';
-    }
-    if(window.location.pathname.includes('soeg-i-livsforloeb-og-kilder/')) {
-      return 'https://link-lives.dk/soeg-i-livsforloeb-og-kilder';
-    }
-    return 'http://localhost:4200';
+    return `${window.location.protocol}//${window.location.host}${environment.pathPrefix}`;
   }
 }
