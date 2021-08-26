@@ -283,7 +283,7 @@ export class SearchResultListComponent implements OnInit {
   getIconFromSourceFilterValue(filterValue: string) {
     const filter_type = filterValue.split("_")[0];
     if(filter_type == 'eventType') {
-      const [_,event_type, __] = filterValue.split("_");
+      const [_, event_type, __] = filterValue.split("_");
       return eventIcon(event_type);
     }
   }
