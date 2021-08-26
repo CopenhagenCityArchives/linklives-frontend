@@ -14,7 +14,7 @@ export class LifeCourseResolverService implements Resolve<{lifecourseKey: string
   constructor(private elasticsearch: ElasticsearchService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ lifecourseKey: string; personAppearances: PersonAppearance[]; links: Link[]; }> {
-    const lifecourseKey = route.params['key'];
+    const lifecourseKey = route.params.key;
     const currentLinkKey = route.queryParamMap.get('currentLinkKey') || '';
     const chosenRatingId = route.queryParamMap.get('chosenRatingId') || '';
 

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
-import { URIQueryToObj } from '../../util/util';
+import { getObjectFromQueryString } from '../../util/util';
 
 @Component({
   selector: 'app-login-completed',
@@ -16,12 +16,23 @@ export class LoginCompletedComponent implements OnInit {
     const stateString = localStorage.getItem('onLoginCompleted');
 
     if(!stateString) {
-      console.warn('missing onLoginCompleted in locale storage');
+      console.warn('missing onLoginCompleted in localstorage after login completed; redirecting to /');
       this.router.navigate(['']);
       return;
     }
 
-    const { path, query } = JSON.parse(stateString);
+    let path, query;
+    try {
+      const result = JSON.parse(stateString);
+      path = result.path;
+      query = result.query;
+    }
+    catch(error) {
+      console.warn('unparseable onLoginCompleted in localstorage after login completed; redirecting to /');
+      this.router.navigate(['']);
+      return;
+    }
+
     localStorage.removeItem('onLoginCompleted');
 
     let queryParams;
@@ -35,7 +46,7 @@ export class LoginCompletedComponent implements OnInit {
       return;
     }
 
-    queryParams = URIQueryToObj(query)
+    queryParams = getObjectFromQueryString(query)
     this.router.navigate([path], {
       queryParams,
     });
