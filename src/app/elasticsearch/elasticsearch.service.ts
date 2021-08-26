@@ -124,11 +124,7 @@ export interface Link {
 export interface LinksSearchResult {
   hits: {
     hits: [
-      {
-        _source: {
-          link: Link,
-        }
-      }
+      { _source: { link: Link } },
     ]
   }
 }
@@ -637,7 +633,7 @@ export class ElasticsearchService {
           bool: {
             should: eventTypeFilters(filtersGroupedByFilterType),
           },
-        })
+        });
       }
 
       if(filtersGroupedByFilterType.source && filtersGroupedByFilterType.source.length) {
@@ -645,7 +641,7 @@ export class ElasticsearchService {
           bool: {
             should: sourceTypeFilters(filtersGroupedByFilterType),
           },
-        })
+        });
       }
 
       if(filtersGroupedByFilterType.eventYear && filtersGroupedByFilterType.eventYear.length) {
@@ -653,7 +649,7 @@ export class ElasticsearchService {
           bool: {
             should: eventYearFilters(filtersGroupedByFilterType),
           },
-        })
+        });
       }
 
       if(filtersGroupedByFilterType.sourceYear && filtersGroupedByFilterType.sourceYear.length) {
@@ -661,7 +657,7 @@ export class ElasticsearchService {
           bool: {
             should: sourceYearFilters(filtersGroupedByFilterType),
           },
-        })
+        });
       }
 
       if(filtersGroupedByFilterType.birthYear && filtersGroupedByFilterType.birthYear.length) {
@@ -669,7 +665,7 @@ export class ElasticsearchService {
           bool: {
             should: birthYearFilters(filtersGroupedByFilterType),
           },
-        })
+        });
       }
 
       if(filtersGroupedByFilterType.deathYear && filtersGroupedByFilterType.deathYear.length) {
@@ -677,7 +673,7 @@ export class ElasticsearchService {
           bool: {
             should: deathYearFilters(filtersGroupedByFilterType),
           },
-        })
+        });
       }
     }
 
