@@ -16,12 +16,23 @@ export class LoginCompletedComponent implements OnInit {
     const stateString = localStorage.getItem('onLoginCompleted');
 
     if(!stateString) {
-      console.warn('missing onLoginCompleted in locale storage');
+      console.warn('missing onLoginCompleted in localstorage after login completed; redirecting to /');
       this.router.navigate(['']);
       return;
     }
 
-    const { path, query } = JSON.parse(stateString);
+    let path, query;
+    try {
+      const result = JSON.parse(stateString);
+      path = result.path;
+      query = result.query;
+    }
+    catch(error) {
+      console.warn('unparseable onLoginCompleted in localstorage after login completed; redirecting to /');
+      this.router.navigate(['']);
+      return;
+    }
+
     localStorage.removeItem('onLoginCompleted');
 
     let queryParams;
