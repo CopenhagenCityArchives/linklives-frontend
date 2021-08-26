@@ -1,4 +1,4 @@
-export function URIQueryToObj(query) {
+export function getObjectFromQueryString(query) {
   const result = {};
 
   const keyValuePairs = query.split("&");
