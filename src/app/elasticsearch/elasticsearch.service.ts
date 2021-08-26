@@ -535,7 +535,7 @@ export class ElasticsearchService {
 
       const searchKeyConfig = mapSearchKeys[queryKey];
 
-      // special case handled at the end of this method
+      // Special case handled at the end of this method, after if-return
       if(queryKey == "lifeCourseId") {
         return;
       }
@@ -751,7 +751,7 @@ export class ElasticsearchService {
         })
       }
 
-      if(filtersGroupedByFilterType['birthYear'] && filtersGroupedByFilterType['birthYear'].length) {
+      if(filtersGroupedByFilterType.birthYear && filtersGroupedByFilterType.birthYear.length) {
         must.push({
           bool: {
             should: birthYearFilters(filtersGroupedByFilterType),
@@ -759,7 +759,7 @@ export class ElasticsearchService {
         })
       }
 
-      if(filtersGroupedByFilterType['deathYear'] && filtersGroupedByFilterType['deathYear'].length) {
+      if(filtersGroupedByFilterType.deathYear && filtersGroupedByFilterType.deathYear.length) {
         must.push({
           bool: {
             should: deathYearFilters(filtersGroupedByFilterType),
