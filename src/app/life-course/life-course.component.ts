@@ -33,6 +33,8 @@ export class LifeCourseComponent implements OnInit {
   }
 
   get personAppearancesSortedByYear() {
+    //TODO: this is destructive and changes the sorting of pas permanently, even when not accessing through this.
+    //      should it be an on-init thing instead?
     const sortedByYear = this.pas.sort(function(a, b) {
       if (a.event_year_display > b.event_year_display) {
         return 1;
