@@ -17,8 +17,7 @@ install:
   - pip install --user awscli
   - npm install
 
-script:
-  - travis-build.sh
+script: ./travis-build.sh
 
 deploy:
   - provider: s3
