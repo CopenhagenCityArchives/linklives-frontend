@@ -15,6 +15,7 @@ import { LoadingOverlay } from './loading-overlay/component';
 import { SearchResultListComponent } from './search-result-list/search-result-list.component';
 import { PersonAppearanceComponent } from './person-appearance/person-appearance.component';
 import { LifeCourseComponent } from './life-course/life-course.component';
+import { SourceLinkingGraphComponent } from './life-course/source-linking-graph.component';
 import { PersonAppearanceItemComponent } from './person-appearance/person-appearance-item.component';
 import { LifeCourseItemComponent } from './life-course/life-course-item.component';
 import { FormElementsModule } from './form-elements.module';
@@ -35,6 +36,7 @@ import { UserProfilePage } from './user-profile/user-profile.component';
     RelatedPeopleComponent,
     SourceDataComponent,
     LifeCourseComponent,
+    SourceLinkingGraphComponent,
     PersonAppearanceItemComponent,
     LifeCourseItemComponent,
     SearchHistoryComponent,

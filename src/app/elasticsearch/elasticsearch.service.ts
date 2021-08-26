@@ -491,46 +491,51 @@ export class ElasticsearchService {
     const must = [];
     let sourceLookupFilter = must;
 
+    const addFreeTextQuery = (must, value) => {
+      // only string fields
+      let fields = [
+        "*name_searchable",
+        "*lastname_searchable",
+        "*firstnames_searchable",
+        "*birthplace_searchable",
+        "*sourceplace_searchable",
+        "*gender_searchable",
+        "*birthname_searchable",
+      ];
+
+      if(mode === "fuzzy") {
+        const fuzzyStringFields = [
+          "*name_searchable_fz",
+          "*lastname_searchable_fz",
+          "*firstnames_searchable_fz",
+          "*birthplace_searchable_fz",
+          "*birthname_searchable_fz",
+        ];
+        fields = fields.concat(fuzzyStringFields);
+      }
+
+      must.push({
+        simple_query_string: {
+          query: value,
+          fields,
+          default_operator: "and",
+          analyze_wildcard: true,
+        },
+      });
+    };
+
     Object.keys(query).filter((queryKey) => query[queryKey]).forEach((queryKey) => {
       let value = query[queryKey];
 
       // Special case: query
       if(queryKey === "query") {
-        // only string fields
-        let fields = [
-          "*name_searchable",
-          "*lastname_searchable",
-          "*firstnames_searchable",
-          "*birthplace_searchable",
-          "*sourceplace_searchable",
-          "*gender_searchable",
-          "*birthname_searchable",
-        ];
-
-        if(mode === "fuzzy") {
-          const fuzzyStringFields = [
-            "*name_searchable_fz",
-            "*lastname_searchable_fz",
-            "*firstnames_searchable_fz",
-            "*birthplace_searchable_fz",
-            "*birthname_searchable_fz",
-          ];
-          fields = fields.concat(fuzzyStringFields);
-        }
-        must.push({
-          simple_query_string: {
-            query: value,
-            fields,
-            default_operator: "and",
-            analyze_wildcard: true,
-          },
-        });
+        addFreeTextQuery(must, value);
         return;
       }
 
       const searchKeyConfig = mapSearchKeys[queryKey];
 
-      // special case handled at the end of this method
+      // Special case handled at the end of this method, after if-return
       if(queryKey == "lifeCourseId") {
         return;
       }
@@ -634,7 +639,7 @@ export class ElasticsearchService {
       const filtersGroupedByFilterType = groupBy(sourceFilter, 'filter_type');
 
       const eventTypeFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType['eventType'].map(({ event_type, event_type_display }) => {
+        return filtersGroupedByFilterType.eventType.map(({ event_type, event_type_display }) => {
           return {
             bool: {
               must: [
@@ -647,7 +652,7 @@ export class ElasticsearchService {
       }
 
       const sourceTypeFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType['source'].map(({ source_type_wp4, source_type_display }) => {
+        return filtersGroupedByFilterType.source.map(({ source_type_wp4, source_type_display }) => {
           return {
             bool: {
               must: [
@@ -660,7 +665,7 @@ export class ElasticsearchService {
       }
 
       const eventYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType['eventYear'].map(({ event_year, event_year_display }) => {
+        return filtersGroupedByFilterType.eventYear.map(({ event_year, event_year_display }) => {
           return {
             bool: {
               must: [
@@ -673,7 +678,7 @@ export class ElasticsearchService {
       }
 
       const sourceYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType['sourceYear'].map(({ source_year_searchable, source_year_display }) => {
+        return filtersGroupedByFilterType.sourceYear.map(({ source_year_searchable, source_year_display }) => {
           return {
             bool: {
               must: [
@@ -686,7 +691,7 @@ export class ElasticsearchService {
       }
 
       const birthYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType['birthYear'].map(({ birthyear_searchable, birthyear_display }) => {
+        return filtersGroupedByFilterType.birthYear.map(({ birthyear_searchable, birthyear_display }) => {
           return {
             bool: {
               must: [
@@ -699,7 +704,7 @@ export class ElasticsearchService {
       }
 
       const deathYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType['deathYear'].map(({ deathyear_searchable, deathyear_display }) => {
+        return filtersGroupedByFilterType.deathYear.map(({ deathyear_searchable, deathyear_display }) => {
           return {
             bool: {
               must: [
@@ -712,7 +717,7 @@ export class ElasticsearchService {
       }
 
       // Add source filter to only the must filter (but not the source lookup filter)
-      if(filtersGroupedByFilterType['eventType'] && filtersGroupedByFilterType['eventType'].length) {
+      if(filtersGroupedByFilterType.eventType && filtersGroupedByFilterType.eventType.length) {
         must.push({
           bool: {
             should: eventTypeFilters(filtersGroupedByFilterType),
@@ -720,7 +725,7 @@ export class ElasticsearchService {
         })
       }
 
-      if(filtersGroupedByFilterType['source'] && filtersGroupedByFilterType['source'].length) {
+      if(filtersGroupedByFilterType.source && filtersGroupedByFilterType.source.length) {
         must.push({
           bool: {
             should: sourceTypeFilters(filtersGroupedByFilterType),
@@ -728,9 +733,7 @@ export class ElasticsearchService {
         })
       }
 
-      console.log('filtersGroupedByFilterType', filtersGroupedByFilterType);
-
-      if(filtersGroupedByFilterType['eventYear'] && filtersGroupedByFilterType['eventYear'].length) {
+      if(filtersGroupedByFilterType.eventYear && filtersGroupedByFilterType.eventYear.length) {
         must.push({
           bool: {
             should: eventYearFilters(filtersGroupedByFilterType),
@@ -738,7 +741,7 @@ export class ElasticsearchService {
         })
       }
 
-      if(filtersGroupedByFilterType['sourceYear'] && filtersGroupedByFilterType['sourceYear'].length) {
+      if(filtersGroupedByFilterType.sourceYear && filtersGroupedByFilterType.sourceYear.length) {
         must.push({
           bool: {
             should: sourceYearFilters(filtersGroupedByFilterType),
@@ -746,7 +749,7 @@ export class ElasticsearchService {
         })
       }
 
-      if(filtersGroupedByFilterType['birthYear'] && filtersGroupedByFilterType['birthYear'].length) {
+      if(filtersGroupedByFilterType.birthYear && filtersGroupedByFilterType.birthYear.length) {
         must.push({
           bool: {
             should: birthYearFilters(filtersGroupedByFilterType),
@@ -754,7 +757,7 @@ export class ElasticsearchService {
         })
       }
 
-      if(filtersGroupedByFilterType['deathYear'] && filtersGroupedByFilterType['deathYear'].length) {
+      if(filtersGroupedByFilterType.deathYear && filtersGroupedByFilterType.deathYear.length) {
         must.push({
           bool: {
             should: deathYearFilters(filtersGroupedByFilterType),
@@ -764,6 +767,9 @@ export class ElasticsearchService {
     }
 
     const simplifiedQueryFromMust = (must) => {
+      if(must.length < 1) {
+        return null;
+      }
       if(must.length == 1) {
         return must[0];
       }
@@ -772,13 +778,21 @@ export class ElasticsearchService {
       };
     };
 
-    const getFullPersonAppearanceQueryFromMustQuery = (must) => ({
-      nested: {
-        path: "person_appearance",
-        query: simplifiedQueryFromMust(must),
-        score_mode: "max",
-      },
-    });
+    const getFullPersonAppearanceQueryFromMustQuery = (must) => {
+      const query = simplifiedQueryFromMust(must);
+
+      if(!query) {
+        return undefined;
+      }
+
+      return {
+        nested: {
+          path: "person_appearance",
+          query,
+          score_mode: "max",
+        },
+      };
+    };
 
     const resultLookupQuery: Record<string, any> = getFullPersonAppearanceQueryFromMustQuery(must);
     const sourceLookupQuery: Record<string, any> = getFullPersonAppearanceQueryFromMustQuery(sourceLookupFilter);

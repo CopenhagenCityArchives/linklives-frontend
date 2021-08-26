@@ -16,7 +16,6 @@ export class SearchFieldComponent implements OnInit {
   setType(event: Event) {
     var select = event.target as HTMLSelectElement;
     this.model.type = this.types.find(type => type.id == Number(select.value));
-    console.log(this.model.type);
   }
 
 }

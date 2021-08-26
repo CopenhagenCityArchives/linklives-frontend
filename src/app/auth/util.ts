@@ -11,12 +11,12 @@ export class AuthUtil {
   handleLogin() {
     const path = this.currentPath();
     const redirect_uri = `${this.baseUrl()}`;
-    const onLoginCompleted = {
+    const onLoginCompleted: { path: string, query?: string } = {
       path,
     };
   
     if(window.location.search.length > 1) {
-      onLoginCompleted['query'] = window.location.search.substring(1);
+      onLoginCompleted.query = window.location.search.substring(1);
     }
     localStorage.setItem('onLoginCompleted', JSON.stringify(onLoginCompleted));
     this.auth.loginWithRedirect({
