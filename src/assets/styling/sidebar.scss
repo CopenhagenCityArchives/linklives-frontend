@@ -7,7 +7,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 100;
+  z-index: 500;
   background-color: white;
   padding: 30px;
   padding-top: 80px;
@@ -22,7 +22,6 @@
 
 .lls-sidebar--open {
   transform: translateX(0%);
-  z-index: 8;
 }
 
 .lls-sidebar__header {

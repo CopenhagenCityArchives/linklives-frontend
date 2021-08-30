@@ -1,5 +1,5 @@
 export const environment = {
-  production: true,
+  production: false,
   apiUrl: "https://api-test.link-lives.dk",
-  pathPrefix: '/find-livsforloeb-testversion/',
+  pathPrefix: "/find-livsforloeb-testversion",
 };
