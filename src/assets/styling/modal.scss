@@ -1,4 +1,19 @@
 .lls-modal {
+  display: flex;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: calc(100% - 10px);
+  max-height: 100%;
+  padding: 20px 40px;
+  background-color: white;
+  color: $off-black;
+  z-index: 500;
+  justify-content: flex-start;
+  border-radius: 2px;
+  flex-direction: column;
+  overflow-y: auto;
   width: 650px;
   padding: 3rem
 }
