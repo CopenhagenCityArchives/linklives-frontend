@@ -11,7 +11,6 @@ import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
   templateUrl: './life-course.component.html',
 })
 export class LifeCourseComponent implements OnInit {
-
   pas: PersonAppearance[] = [];
   lifecourseKey: string;
   links: Link[];
@@ -32,23 +31,8 @@ export class LifeCourseComponent implements OnInit {
     return this.config.aboutLifeCourseText;
   }
 
-  get personAppearancesSortedByYear() {
-    //TODO: this is destructive and changes the sorting of pas permanently, even when not accessing through this.
-    //      should it be an on-init thing instead?
-    const sortedByYear = this.pas.sort(function(a, b) {
-      if (a.event_year_display > b.event_year_display) {
-        return 1;
-      }
-      if (a.event_year_display < b.event_year_display) {
-        return -1;
-      }
-      return 0;
-    });
-    return sortedByYear;
-  }
-
   get latestPersonAppearance() {
-    return this.personAppearancesSortedByYear[this.personAppearancesSortedByYear.length - 1];
+    return this.pas[this.pas.length - 1];
   }
 
   get personName() {
@@ -56,12 +40,12 @@ export class LifeCourseComponent implements OnInit {
   }
 
   get birthPlace() {
-    const firstPaWithBirthPlace = this.personAppearancesSortedByYear.find((pa) => pa.birthplace_display);
+    const firstPaWithBirthPlace = this.pas.find((pa) => pa.birthplace_display);
     return firstPaWithBirthPlace ? firstPaWithBirthPlace.birthplace_display : "";
   }
 
   get birthYear() {
-    const firstPaWithBirthYear = this.personAppearancesSortedByYear.find((pa) => pa.birthyear_display);
+    const firstPaWithBirthYear = this.pas.find((pa) => pa.birthyear_display);
     return firstPaWithBirthYear ? firstPaWithBirthYear.birthyear_display : "";
   }
 
@@ -91,7 +75,17 @@ export class LifeCourseComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.data.subscribe(next => {
-      this.pas = next.lifecourse.personAppearances as PersonAppearance[];
+      // Sort person appearances by event year
+      this.pas = next.lifecourse.personAppearances.sort(function(a, b) {
+        if (a.event_year_display > b.event_year_display) {
+          return 1;
+        }
+        if (a.event_year_display < b.event_year_display) {
+          return -1;
+        }
+        return 0;
+      }) as PersonAppearance[];
+
       this.lifecourseKey = next.lifecourse.lifecourseKey;
       this.links = next.lifecourse.links;
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, Input, OnChanges } from '@angular/core';
 import { prettyYearRange } from '../util/display-helpers';
 import { PersonAppearance } from '../search/search.service';
 
@@ -6,10 +6,12 @@ import { PersonAppearance } from '../search/search.service';
   selector: 'app-life-course-item',
   templateUrl: './life-course-item.component.html',
 })
-export class LifeCourseItemComponent implements OnInit {
+export class LifeCourseItemComponent implements OnChanges {
 
-  @Input('item') personAppearances: PersonAppearance[];
+  @Input('item') _pas: PersonAppearance[];
   @Input('lifecourse-key') lifecourseKey: string;
+
+  personAppearances: PersonAppearance[] = [];
 
   get config() {
     return window["lls"];
@@ -17,22 +19,8 @@ export class LifeCourseItemComponent implements OnInit {
 
   featherSpriteUrl = this.config.featherIconPath;
 
-
-  get personAppearancesSortedByYear() {
-    const sortedByYear = this.personAppearances.sort(function(a, b) {
-      if (a.event_year_display > b.event_year_display) {
-        return 1;
-      }
-      if (a.event_year_display < b.event_year_display) {
-        return -1;
-      }
-      return 0;
-    });
-    return sortedByYear;
-  }
-
   get latestPersonAppearance() {
-    return this.personAppearancesSortedByYear[this.personAppearancesSortedByYear.length - 1];
+    return this.personAppearances[this.personAppearances.length - 1];
   }
 
   get sourceYearRange() {
@@ -46,12 +34,12 @@ export class LifeCourseItemComponent implements OnInit {
   }
 
   get birthPlace() {
-    const firstPaWithBirthPlace = this.personAppearancesSortedByYear.find((pa) => pa.birthplace_display);
+    const firstPaWithBirthPlace = this.personAppearances.find((pa) => pa.birthplace_display);
     return firstPaWithBirthPlace ? firstPaWithBirthPlace.birthplace_display : "";
   }
 
   get birthYear() {
-    const firstPaWithBirthYear = this.personAppearancesSortedByYear.find((pa) => pa.birthyear_display);
+    const firstPaWithBirthYear = this.personAppearances.find((pa) => pa.birthyear_display);
     return firstPaWithBirthYear ? firstPaWithBirthYear.birthyear_display : "";
   }
 
@@ -65,6 +53,15 @@ export class LifeCourseItemComponent implements OnInit {
 
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnChanges(): void {
+    this.personAppearances = [ ...this._pas ].sort(function(a, b) {
+      if (a.event_year_display > b.event_year_display) {
+        return 1;
+      }
+      if (a.event_year_display < b.event_year_display) {
+        return -1;
+      }
+      return 0;
+    });
   }
 }
