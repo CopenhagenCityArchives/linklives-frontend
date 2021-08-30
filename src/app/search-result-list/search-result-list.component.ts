@@ -140,9 +140,10 @@ export class SearchResultListComponent implements OnInit {
     const totalLifecourses = this.prettyPaginationNumber(this.searchResult.indexHits.lifeCourses);
     const totalPas = this.prettyPaginationNumber(this.searchResult.indexHits.pas);
 
-    let countText = `${totalLifecourses} livsforløb og ${totalPas} personregistreringer`;
+    const pasText = `${totalPas} personregistrering${totalPas === "1" ? "" : "er"}`;
+    let countText = `${totalLifecourses} livsforløb og ${pasText}`;
     if(!this.indices.lifecourses.searchedValue) {
-      countText = `${totalPas} personregistreringer`;
+      countText = pasText;
     }
     if(!this.indices.pas.searchedValue) {
       countText = `${totalLifecourses} livsforløb`;
