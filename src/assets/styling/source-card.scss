@@ -152,9 +152,16 @@
 .lls-source__header {
   display: flex;
   align-items: center;
-
+  
   @media(min-width: $breakpointMd) {
     display: block;
+    width: calc(20% - 4px);
+  }
+}
+
+.lls-source__person-data {
+  @media(min-width: $breakpointMd) {
+    width: calc(30% - 4px);
   }
 }
 
