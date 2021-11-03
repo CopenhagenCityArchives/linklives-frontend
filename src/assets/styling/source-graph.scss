@@ -104,10 +104,9 @@
   padding: 10px;
   opacity: 0;
   transition: opacity 0.4s;
-  font-weight: bold;
   background: rgb(6, 40, 81);
   width: 240px;
-  height: 200px;
+  height: 245px;
   position: absolute;
   border-radius: 3px;
   z-index: 10;
@@ -138,5 +137,9 @@
   margin: 0.5rem 0;
 }
 .lls-source-graph__tooltip-text--large {
-  font-size: 2rem;
+  font-size: 1.5rem;
+}
+
+.lls-source-graph__tooltip-text--bold {
+  font-weight: 500;
 }
