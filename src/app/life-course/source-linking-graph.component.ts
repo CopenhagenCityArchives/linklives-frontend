@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Link } from '../elasticsearch/elasticsearch.service';
+import { ElasticsearchService, Link } from '../elasticsearch/elasticsearch.service';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({
@@ -10,6 +10,7 @@ export class SourceLinkingGraphComponent implements OnInit {
 
   @Input() pas: PersonAppearance[] = [];
   @Input() links: Link[] = [];
+  @Input() totalRatings: number;
 
   @Output()
   openLinkRating: EventEmitter<string> = new EventEmitter<string>();
@@ -122,7 +123,7 @@ export class SourceLinkingGraphComponent implements OnInit {
       });
   }
 
-  constructor() { }
+  constructor(private elasticsearch: ElasticsearchService) { }
 
   ngOnInit(): void {
     this.drawableLinks = this.calculateDrawableLinks();
@@ -130,6 +131,9 @@ export class SourceLinkingGraphComponent implements OnInit {
 
   onMouseEnterLink(key) {
     this.hoveredLink = key;
+    this.elasticsearch.getLinkRatingStats(key).subscribe(linkRatingData => {
+      this.totalRatings = linkRatingData.totalRatings
+    });
   }
 
   onMouseLeaveLink(key) {
