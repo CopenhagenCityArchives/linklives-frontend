@@ -6,9 +6,9 @@
 
 .lls-search-intro__header {
   flex-shrink: 0;
-  flex-grow: 1;
   font-size: 2em;
   order: 1;
+  margin-right: 2rem;
 
   @media(min-width: $breakpointMd) {
     font-size: 3em;
@@ -46,6 +46,12 @@
   
   @media(min-width: $breakpointLg) {
     font-size: 4rem;
-    text-align: right;
+    order: 2;
   }
+}
+
+lls-auth-button {
+  order: 3;
+  flex-grow: 1;
+  text-align: right;
 }

@@ -1,21 +1,14 @@
 <div class="lls-container u-mt-5">
-  <div class="lls-search-intro">
-    <div class="lls-row">
-    <h2 class="lls-search-intro__header lls-columns-12 lls-columns-4--lg lls-columns-4--xl">
+  <div class="lls-search-intro u-flex u-flex--xs-column u-flex--lg-row u-align-items--lg u-justify-start">
+    <h2 class="lls-search-intro__header">
       {{ config.title }}
     </h2>
-    <div
-      class="lls-search-intro__text lls-columns-12 lls-columns-6--lg lls-columns-4--xl"
-      [innerHTML]="config.introText"
-    ></div>
-    <div class="lls-search-intro__beta-container lls-columns-12 lls-columns-2--lg lls-columns-4--xl">
+    <div class="lls-search-intro__beta-container">
       <h3 class="lls-search-intro__beta-text u-font-handwriting u-margin-0">
         Beta
       </h3>
     </div>
-  </div>
-  <lls-auth-button
-  ></lls-auth-button>
+    <lls-auth-button></lls-auth-button>
   </div>
   <div class="lls-card">
     <h3 class="lls-card__title" id="simple-search-headline">
