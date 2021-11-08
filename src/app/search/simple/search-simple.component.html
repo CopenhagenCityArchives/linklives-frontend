@@ -11,23 +11,41 @@
     <lls-auth-button></lls-auth-button>
   </div>
   <div class="lls-card">
-    <h3 class="lls-card__title" id="simple-search-headline">
-      Fritekstsøgning
-    </h3>
-    <form (ngSubmit)="searchSimple()">
-      <div class="lls-row">
-        <div class="lls-input-group lls-columns-12 lls-columns-8--md">
+    <form (ngSubmit)="searchSimple()" class="lls-row">
+      <div class="lls-columns-12 lls-columns-8--md u-flex u-flex--xs-column">
+        <h3 class="lls-card__title" id="simple-search-headline">
+          Fritekstsøgning
+        </h3>
+        <div class="lls-input-group">
           <input
             type="text"
             placeholder="Søg i livsforløb eller personregistreringer"
-            class="lls-input-field lls-input-field--big lls-input-group__field lls-input-group__field--left"
+            class="lls-input-field lls-input-field--big lls-input-group__field"
             aria-labelledby="simple-search-headline"
             [(ngModel)]="query"
             name="query"
           />
+        </div>
+        <div class="u-flex u-space-between u-align-items">
+          <div class="lls-search-options">
+            <fieldset class="lls-search-options__result-type">
+              <legend class="lls-input-label">Resultattype</legend>
+              <div class="lls-search-options__result-type-checkboxes">
+                <label class="lls-search-options__checkbox-container" *ngFor="let index of indexKeys">
+                  <input
+                    [(ngModel)]="indices[index].value"
+                    type="checkbox"
+                    class="lls-search-options__checkbox"
+                    [name]="'index_' + index"
+                  >
+                  <span>{{ indices[index].label }}</span>
+                </label>
+              </div>
+            </fieldset>
+          </div>
           <button
             type="submit"
-            class="lls-btn lls-btn--big lls-btn--right lls-btn--desktop"
+            class="lls-btn lls-btn--big"
           >
             <span>Søg</span>
             <svg class="lls-icon lls-icon--right">
@@ -35,33 +53,12 @@
             </svg>
           </button>
         </div>
-        <div class="lls-simple-search__options lls-columns-12 lls-columns-4--md lls-row">
-          <fieldset class="lls-search-options__result-type lls-columns-6 lls-columns-12--md">
-            <legend class="lls-input-label">Resultattype</legend>
-            <div class="lls-search-options__result-type-checkboxes">
-              <label class="lls-search-options__checkbox-container" *ngFor="let index of indexKeys">
-                <input
-                  [(ngModel)]="indices[index].value"
-                  type="checkbox"
-                  class="lls-search-options__checkbox"
-                  [name]="'index_' + index"
-                >
-                <span>{{ indices[index].label }}</span>
-              </label>
-            </div>
-          </fieldset>
-          <div class="lls-simple-search__mobile-button lls-columns-6 lls-columns-12--md">
-            <button
-              type="submit"
-              class="lls-btn lls-btn--big lls-btn--mobile"
-            >
-              <span>Søg</span>
-              <svg class="lls-icon lls-icon--right">
-                <use [attr.href]="featherSpriteUrl + '#search'"></use>
-              </svg>
-            </button>
-          </div>
-        </div>
+      </div>
+      <div class="lls-info-box-container lls-columns-12 lls-columns-4--md">
+        <div
+          class="lls-info-box"
+          [innerHTML]="config.introText"
+        ></div>
       </div>
     </form>
   </div>
