@@ -79,7 +79,7 @@
             *ngSwitchCase="'census'"
             class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item lls-search-history__item-link"
             [tabIndex]="openSearchHistory ? 0 : -1"
-            [routerLink]="['/pa', entry.personAppearance.id]"
+            [routerLink]="['/pa', entry.personAppearance.key]"
             (click)="closeSearchHistory()"
         >
             <div>

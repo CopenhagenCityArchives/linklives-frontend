@@ -39,7 +39,7 @@ export class PersonAppearanceComponent implements OnInit {
       return false;
     }
 
-    return entry.lifecourse.personAppearances.some((pa) => pa.id === this.pa.id);
+    return entry.lifecourse.personAppearances.some((pa) => pa.key === this.pa.key);
   }
 
   ngOnInit(): void {

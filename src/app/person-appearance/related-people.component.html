@@ -2,7 +2,7 @@
   <app-person-appearance-item
     [item]="pa"
     class="lls-columns-12"
-    [selected]="pa.id == currentPa.id"
+    [selected]="pa.key == currentPa.key"
     *ngFor="let pa of relatedPas"
   ></app-person-appearance-item>
 </section>

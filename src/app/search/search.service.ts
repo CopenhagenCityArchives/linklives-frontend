@@ -88,7 +88,7 @@ export interface PersonAppearance {
   household_family_no: string,
   household_position: string,
   household_position_std: string,
-  id: string,
+  key: string,
   land_register: string,
   land_register_address: string,
   lastname_clean: string,
