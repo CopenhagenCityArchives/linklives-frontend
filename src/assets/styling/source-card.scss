@@ -120,13 +120,6 @@
     justify-content: flex-end;
     padding-left: 0;
   }
-
-  // Quickfix: Make sure that the CTA button text does not have linebreaks on tablet
-  .lls-btn {
-    @media(min-width: $breakpointMd) and (max-width: $breakpointLg) {
-      font-size: 0.9rem;
-    }
-  }
 }
 
 .lls-source__section--bordered {
