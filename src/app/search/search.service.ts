@@ -74,7 +74,6 @@ export interface PersonAppearance {
   district: string,
   event_id: number,
   event_persons: number,
-  event_type: string,
   event_type_display: string,
   //event_year: string,
   event_year_display: string,
@@ -128,7 +127,10 @@ export interface PersonAppearance {
   transcription_code: string,
   transcription_id: number,
   uncat_names: string,
-  source: Source
+  source: Source,
+  standard: {
+    event_type: string,
+  },
 }
 
 export interface Lifecourse {

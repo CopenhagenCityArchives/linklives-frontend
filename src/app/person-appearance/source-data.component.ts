@@ -273,13 +273,14 @@ export class SourceDataComponent implements OnInit {
   }
 
   get eventTypeClass() {
-    if(this.pa.event_type !== 'burial') {
-      return this.pa.event_type;
+    const eventType = this.pa.standard.event_type;
+    if(eventType !== 'burial') {
+      return eventType;
     }
     if(this.pa.source_type_wp4 === 'parish') {
-      return `${this.pa.event_type}-pr`
+      return `${eventType}-pr`
     }
-    return `${this.pa.event_type}-cph`
+    return `${eventType}-cph`
   }
 
   ngOnInit(): void {
