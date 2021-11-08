@@ -67,7 +67,34 @@
     <h3 class="lls-card__title">Specifik søgning</h3>
     <form (ngSubmit)="searchAdvanced()" class="lls-row">
       <div class="lls-columns-12 lls-columns-8--md">
-        <div *ngFor="let searchTerm of searchTerms; index as i;" class="lls-input-entry">
+        <div class="lls-row">
+        <div *ngFor="let searchTerm of hardcodedSearchTerms" class="lls-columns-6">
+          <div class="lls-input-entry">
+            <span class="lls-input-label">{{ searchFieldLabels[searchTerm.field] }}</span>
+            <div class="lls-input-group" *ngIf="searchTerm.field !== 'gender'">
+              <input
+                type="text"
+                [placeholder]="searchFieldPlaceholders[searchTerm.field] || ''"
+                class="lls-input-field lls-input-field--big lls-input-group__field"
+                [(ngModel)]="searchTerm.value"
+                [name]="'searchterm-value-' + i"
+                [attr.data-search-term]="searchTerm.field"
+              />
+              <button
+                type="button"
+                class="lls-input-group__floating-action"
+                [class]="searchTerms.length < 2 ? 'lls-input-group__floating-action--disabled' : ''"
+                aria-label="Fjern søgning på felt"
+                (click)="removeSearchTerm(i, $event)"
+              >
+                <svg class="lls-icon lls-icon--right">
+                  <use [attr.href]="featherSpriteUrl + '#trash-2'"></use>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div *ngFor="let searchTerm of addedSearchTerms; index as i;" class="lls-input-entry lls-columns-12">
           <span class="lls-input-label">{{ searchFieldLabels[searchTerm.field] }}</span>
           <div class="lls-input-group" *ngIf="searchTerm.field !== 'gender'">
             <input
@@ -86,7 +113,7 @@
               (click)="removeSearchTerm(i, $event)"
             >
               <svg class="lls-icon lls-icon--right">
-                <use [attr.href]="featherSpriteUrl + '#minus-circle'"></use>
+                <use [attr.href]="featherSpriteUrl + '#trash-2'"></use>
               </svg>
             </button>
           </div>
@@ -113,8 +140,9 @@
             </button>
           </div>
         </div>
+        </div>
 
-        <div class="lls-search-options">
+        <div class="lls-search-options u-space-between u-align-items">
           <fieldset class="lls-search-options__result-type">
             <legend class="lls-input-label">Resultattype</legend>
             <div class="lls-search-options__result-type-checkboxes">
@@ -140,7 +168,7 @@
               dropdownIconOpen="plus-circle"
               (change)="addField($event)"
             ></lls-dropdown>
-            <button
+            <!--button
               type="button"
               class="lls-search-options__clear-search"
               (click)="clearSearchTerms()"
@@ -149,11 +177,21 @@
               <svg class="lls-icon lls-icon--right">
                 <use [attr.href]="featherSpriteUrl + '#x-circle'"></use>
               </svg>
-            </button>
+            </button-->
           </div>
         </div>
 
-        <div class="u-flex u-mt-2">
+        <div class="u-flex u-space-between u-align-items u-mt-2">
+          <label class="lls-search-options__checkbox-container">
+            <input
+              [(ngModel)]="modeFuzzy"
+              type="checkbox"
+              class="lls-search-options__checkbox"
+              name="modeFuzzy"
+            >
+            <span>Inkluder stavevariationer i søgning</span>
+          </label>
+
           <button
             type="submit"
             class="lls-btn lls-btn--big"
@@ -163,16 +201,6 @@
               <use [attr.href]="featherSpriteUrl + '#search'"></use>
             </svg>
           </button>
-
-          <label class="lls-search-options__checkbox-container ml-4">
-            <input
-              [(ngModel)]="modeFuzzy"
-              type="checkbox"
-              class="lls-search-options__checkbox"
-              name="modeFuzzy"
-            >
-            <span>Inkluder stavevariationer i søgning</span>
-          </label>
         </div>
       </div>
       <div class="lls-info-box-container lls-columns-12 lls-columns-4--md">

@@ -22,11 +22,18 @@ export class SimpleSearchComponent implements OnInit {
   searchFieldPlaceholders = searchFieldPlaceholders;
   searchFieldLabels = searchFieldLabels;
 
-  searchTerms = [
+  hardcodedSearchTerms = [
     { field: "firstName", value: "" },
     { field: "lastName", value: "" },
+    { field: "birthYear", value: "" },
     { field: "birthPlace", value: "" },
+    { field: "deathYear", value: "" },
+    //{ field: "deathPlace", value: "" },
+    //{ field: "eventYear", value: "" },
+    //{ field: "eventPlace", value: "" },
   ];
+
+  addedSearchTerms = [];
 
   indices = {
     pas: { value: true, label: "Personregistrering" },
@@ -41,6 +48,10 @@ export class SimpleSearchComponent implements OnInit {
     return this.indexKeys
       .filter((key) => this.indices[key].value)
       .join(",") || null;
+  }
+
+  get searchTerms() {
+    return [ ...this.hardcodedSearchTerms, ...this.addedSearchTerms ];
   }
 
   get fieldOptions() {
@@ -67,24 +78,20 @@ export class SimpleSearchComponent implements OnInit {
 
   removeSearchTerm(i: number, $event): void {
     $event.preventDefault();
-    if(this.searchTerms.length > 1) {
-      this.searchTerms.splice(i, 1);
+    if(this.addedSearchTerms.length > 1) {
+      this.addedSearchTerms.splice(i, 1);
     }
   }
 
   addField(field) {
-    this.searchTerms.push({ field, value: "" });
+    this.addedSearchTerms.push({ field, value: "" });
     setTimeout(() => {
       this.elements.nativeElement.querySelector(`[data-search-term=${field}]`).focus();
     }, 0);
   }
 
   clearSearchTerms() {
-    this.searchTerms = [
-      { field: "firstName", value: "" },
-      { field: "lastName", value: "" },
-      { field: "birthPlace", value: "" },
-    ];
+    this.addedSearchTerms = [];
   }
 
   searchAdvanced(): void {
