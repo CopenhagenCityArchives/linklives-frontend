@@ -68,7 +68,7 @@
     <form (ngSubmit)="searchAdvanced()" class="lls-row">
       <div class="lls-columns-12 lls-columns-8--md">
         <div class="lls-row">
-        <div *ngFor="let searchTerm of hardcodedSearchTerms" class="lls-columns-6">
+        <div *ngFor="let searchTerm of hardcodedSearchTerms; index as i;" class="lls-columns-6">
           <div class="lls-input-entry">
             <span class="lls-input-label">{{ searchFieldLabels[searchTerm.field] }}</span>
             <div class="lls-input-group" *ngIf="searchTerm.field !== 'gender'">
@@ -85,7 +85,7 @@
                 class="lls-input-group__floating-action"
                 [class]="searchTerms.length < 2 ? 'lls-input-group__floating-action--disabled' : ''"
                 aria-label="Fjern søgning på felt"
-                (click)="removeSearchTerm(i, $event)"
+                (click)="clearHardcodedSearchTerm(searchTerm, $event)"
               >
                 <svg class="lls-icon lls-icon--right">
                   <use [attr.href]="featherSpriteUrl + '#trash-2'"></use>
@@ -110,7 +110,7 @@
               class="lls-input-group__floating-action"
               [class]="searchTerms.length < 2 ? 'lls-input-group__floating-action--disabled' : ''"
               aria-label="Fjern søgning på felt"
-              (click)="removeSearchTerm(i, $event)"
+              (click)="clearAddedSearchTerm(searchTerm, $event)"
             >
               <svg class="lls-icon lls-icon--right">
                 <use [attr.href]="featherSpriteUrl + '#trash-2'"></use>
@@ -132,7 +132,7 @@
               class="lls-input-group__floating-action"
               [class]="searchTerms.length < 2 ? 'lls-input-group__floating-action--disabled' : ''"
               aria-label="Fjern søgning på felt"
-              (click)="removeSearchTerm(i, $event)"
+              (click)="clearAddedSearchTerm(searchTerm, $event)"
             >
               <svg class="lls-icon lls-icon--right">
                 <use [attr.href]="featherSpriteUrl + '#minus-circle'"></use>
