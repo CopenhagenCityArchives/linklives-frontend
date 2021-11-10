@@ -1,4 +1,12 @@
-<div class="lls-card lls-card--source-data" [class]="'lls-card--' + eventTypeClass">
+<section class="lls-row pt-4">
+    <app-person-appearance-item
+        [item]="pa"
+        class="lls-columns-12"
+        [selected]="true"
+    ></app-person-appearance-item>
+</section>
+
+<div class="lls-card lls-card--source-data">
     <div class="lls-row lls-row--gap-3--md lls-row--gap-5--lg lls-row--gap-6--xl">
         <div class="lls-columns-12 lls-columns-6--md">
             <div class="data-section">
