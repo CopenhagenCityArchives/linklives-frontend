@@ -68,7 +68,7 @@
     <form (ngSubmit)="searchAdvanced()" class="lls-row">
       <div class="lls-columns-12 lls-columns-8--md">
         <div class="lls-row">
-        <div *ngFor="let searchTerm of hardcodedSearchTerms; index as i;" class="lls-columns-6">
+        <div *ngFor="let searchTerm of hardcodedSearchTerms; index as i;" class="lls-columns-12 lls-columns-6--md">
           <div class="lls-input-entry">
             <span class="lls-input-label">{{ searchFieldLabels[searchTerm.field] }}</span>
             <div class="lls-input-group" *ngIf="searchTerm.field !== 'gender'">
