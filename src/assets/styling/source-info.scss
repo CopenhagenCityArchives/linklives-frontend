@@ -1,9 +1,9 @@
-.lls-data-page-footer {
+.lls-source-info {
   display: flex;
-  margin-top: 3rem;
+  justify-content: flex-end;
 }
 
-.lls-data-page-footer__entry {
+.lls-source-info__entry {
   font-size: 1rem;
   font-weight: 400;
 
@@ -12,7 +12,7 @@
   }
 }
 
-.lls-data-page-footer__entry-label {
+.lls-source-info__entry-label {
   color: $grey--light;
   font-size: $very-small;
   font-weight: 400;
