@@ -39,7 +39,7 @@
     ></app-search-history>
 
     <div class="lls-row my-4">
-    <div class="lls-tabs lls-columns-6">
+    <div class="lls-tabs lls-columns-12 lls-columns-6--md">
         <a href routerLink="source-data" [routerLinkActive]="'lls-tabs__item--active'" class="lls-tabs__item">
             <span class="lls-tabs__item-text">Personregistrering</span>
         </a>
@@ -47,7 +47,7 @@
             <span class="lls-tabs__item-text">{{ relatedPersonsTitle }}</span>
         </a>
     </div>
-        <div class="lls-source-info lls-columns-6">
+        <div class="lls-source-info lls-columns-12 lls-columns-6--md">
             <div class="lls-source-info__entry">
                 <div class="lls-source-info__entry-label">Personregistrerings ID</div>
                 <a href="pa/{{ pa.id }}">{{ this.pa.id }}</a>
