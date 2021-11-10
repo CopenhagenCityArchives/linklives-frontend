@@ -23,9 +23,12 @@
 }
 
 .lls-source--selected {
-  border-top-width: 3px;
-  border-right-width: 3px;
-  border-bottom-width: 3px;
+  border-top-width: 2px;
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+  border-top-color: $grey-border !important;
+  border-right-color: $grey-border !important;
+  border-bottom-color: $grey-border !important;
 }
 
 .lls-source--arrival,
