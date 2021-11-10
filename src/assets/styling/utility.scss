@@ -109,6 +109,16 @@
 // Flex
 .u-flex {
   display: flex;
+
+  &--xs-column {
+    flex-direction: column;
+  }
+
+  &--lg-row {
+    @media(min-width: $breakpointLg) {
+      flex-direction: row;
+    }
+  }
 }
 
 .u-space-between {
@@ -119,8 +129,18 @@
   justify-content: center;
 }
 
+.u-justify-start {
+  justify-content: flex-start;
+}
+
 .u-align-items {
   align-items: center;
+
+  &--lg {
+    @media(min-width: $breakpointLg) {
+      align-items: center;
+    }
+  }
 }
 
 .u-direction-row {
