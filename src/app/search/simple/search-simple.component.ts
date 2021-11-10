@@ -28,9 +28,9 @@ export class SimpleSearchComponent implements OnInit {
     { field: "birthYear", value: "" },
     { field: "birthPlace", value: "" },
     { field: "deathYear", value: "" },
-    //{ field: "deathPlace", value: "" },
-    //{ field: "eventYear", value: "" },
-    //{ field: "eventPlace", value: "" },
+    { field: "deathPlace", value: "" },
+    { field: "sourceYear", value: "" },
+    { field: "sourcePlace", value: "" },
   ];
 
   addedSearchTerms = [];
