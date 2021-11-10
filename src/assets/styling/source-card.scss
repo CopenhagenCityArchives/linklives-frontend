@@ -100,11 +100,12 @@
 
 .lls-source__section {
   padding: 24px 20px;
-  width: 100%;
+  flex-basis: 100%;
+  flex-grow: 1;
   box-sizing: border-box;
 
   @media(min-width: $breakpointMd) {
-    width: calc(25% - 4px);
+    flex-basis: 25%;
   }
 }
 
@@ -148,13 +149,14 @@
 
   @media(min-width: $breakpointMd) {
     display: block;
-    width: calc(20% - 4px);
+    flex-basis: 20%;
   }
 }
 
 .lls-source__person-data {
   @media(min-width: $breakpointMd) {
-    width: calc(30% - 4px);
+    flex-basis: 30%;
+    flex-grow: 2;
   }
 }
 
