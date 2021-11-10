@@ -4,24 +4,38 @@
 }
 
 .data-section__table {
-  border-top: 1px solid $grey-border;
   font-size: 1.0625rem;
-  margin: 1.25rem 0 5rem;
+  margin: 1.25rem 0 1.25rem;
   width: 100%;
+  display: grid;
+  grid-gap: 0 1rem;
+  grid-auto-flow: dense;
+  grid-template-columns: 1fr;
+
+  @media (min-width: $breakpointMd) {
+    grid-template-columns: 1fr 1fr;
+  }
 
   tr,
   td {
-    padding: 0.75rem 0;
+    padding: 0.25rem 0;
   }
   
   tr {
     border-bottom: 1px solid $grey-border;
+    display: flex;
+    grid-column: span 1;
+    grid-row: span 1;
+  }
+
+  td, th {
+    display: block;
   }
   
   th {
     font-weight: 400;
     padding-right: 1rem;
-    padding-top: 0.75rem;
+    padding-top: 0.25rem;
     width: 33%;
     vertical-align: top;
   }
