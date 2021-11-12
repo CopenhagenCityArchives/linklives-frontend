@@ -48,6 +48,10 @@ export const mapSearchKeys = {
     default: "gender_searchable",
     fuzzy: "gender_searchable",
   },
+  role: {
+    default: "role",
+    fuzzy: "role",
+  },
 };
 
 export const sortValues = {
@@ -72,7 +76,8 @@ export const searchFieldPlaceholders = {
   deathYear: "Indtast dødsår",
   id: "Personregistrerings ID",
   lifeCourseId: "Livsforløbs ID",
-  gender: "Vælg køn"
+  gender: "Vælg køn",
+  role: "Rolle",
   //maritalStatus: "Indtast civilstand",
 };
 
@@ -100,6 +105,7 @@ export const searchFieldLabels = {
   id: "Personregistrerings ID",
   lifeCourseId: "Livsforløbs ID",
   gender: "Køn",
+  role: "Rolle",
   // index: "Resultattype",
   // maritalStatus: "Civilstand",
 };
@@ -133,6 +139,7 @@ export const allYearFields: Array<Option | Category> = [
 
 export const allOtherFields: Array<Option | Category> = [
   "gender",
+  "role",
   "query",
   "id",
   "lifeCourseId",
