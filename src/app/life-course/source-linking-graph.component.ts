@@ -10,7 +10,6 @@ export class SourceLinkingGraphComponent implements OnInit {
 
   @Input() pas: PersonAppearance[] = [];
   @Input() links: Link[] = [];
-  @Input() totalRatings: number;
 
   @Output()
   openLinkRating: EventEmitter<string> = new EventEmitter<string>();
@@ -21,6 +20,7 @@ export class SourceLinkingGraphComponent implements OnInit {
     lineHeight: number,
     confidencePct: number,
     linkingMethod: { long: string, short: string },
+    totalRatings: number,
     key: string,
   }[] = [];
 
@@ -108,6 +108,7 @@ export class SourceLinkingGraphComponent implements OnInit {
           lineHeight,
           confidencePct: Math.round((1 - link.score) * 100),
           linkingMethod: prettyLinkMethod(link),
+          totalRatings: link.ratings.length,
           key: link.key,
         };
       })
@@ -131,9 +132,6 @@ export class SourceLinkingGraphComponent implements OnInit {
 
   onMouseEnterLink(key) {
     this.hoveredLink = key;
-    this.elasticsearch.getLinkRatingStats(key).subscribe(linkRatingData => {
-      this.totalRatings = linkRatingData.totalRatings
-    });
   }
 
   onMouseLeaveLink(key) {
