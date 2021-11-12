@@ -45,11 +45,11 @@
         class="lls-source-graph__tooltip"
         [class]="activeLink === link.key ? 'lls-source-graph__tooltip--active' : ''"
         *ngFor="let link of drawableLinks; index as i;"
-        [style]="'top: ' + (link.offsetY + (link.lineHeight / 2) - 208) + 'px; left: ' + (link.pathTierX + 29) + 'px;'"
+        [style]="'top: ' + (link.offsetY + (link.lineHeight / 2) - 269) + 'px; left: ' + (link.pathTierX + 30) + 'px;'"
         (mouseenter)="onMouseEnterTooltip(link.key)"
         (mouseleave)="onMouseLeaveTooltip(link.key)"
     >
-        <div class="lls-source-graph__tooltip-text lls-source-graph__tooltip-text--large u-bold">
+        <div class="lls-source-graph__tooltip-text lls-source-graph__tooltip-text--large u-bold u-mt-0">
             Om dette link
         </div>
         <div
