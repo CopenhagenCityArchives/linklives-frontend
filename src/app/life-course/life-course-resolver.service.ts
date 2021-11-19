@@ -13,7 +13,7 @@ export class LifeCourseResolverService implements Resolve<{lifecourseKey: string
 
   constructor(private elasticsearch: ElasticsearchService) { }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ lifecourseKey: string; personAppearances: PersonAppearance[]; links: Link[]; }> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ lifecourseKey: string; personAppearances: PersonAppearance[]; links: Link[]; currentLinkKey: string; chosenRatingId: string; lifecourseId: number; }> {
     const lifecourseKey = route.params.key;
     const currentLinkKey = route.queryParamMap.get('currentLinkKey') || '';
     const chosenRatingId = route.queryParamMap.get('chosenRatingId') || '';
@@ -31,6 +31,7 @@ export class LifeCourseResolverService implements Resolve<{lifecourseKey: string
             });
             return {
               lifecourseKey,
+              lifecourseId: lifecourse.life_course_id,
               personAppearances: lifecourse.personAppearances,
               links: lifecourse.links,
               currentLinkKey,
