@@ -60,7 +60,7 @@
         (close)="currentLinkKey = ''"
     ></app-link-rating>
     <div class="lls-row my-4">
-        <h3 class="lls-columns-12 lls-columns-6--md u-margin-0 u-align-end">Personregistreringer</h3>
+        <div class="lls-columns-12 lls-columns-6--md"></div>
         <div class="lls-source-info lls-columns-12 lls-columns-6--md">
             <div class="lls-source-info__entry">
                 <div class="lls-source-info__entry-label">Forløbs ID</div>
@@ -74,6 +74,7 @@
     </div>
     <div class="lls-life-course-source-container">
         <section class="lls-life-course-source-container__source-list lls-row">
+            <h3 class="lls-columns-12 u-margin-0">Personregistreringer</h3>
             <app-person-appearance-item
                 *ngFor="let pa of pas"
                 class="lls-columns-12"
