@@ -23,6 +23,11 @@ export class SourceDataComponent implements OnInit {
   }
 
   get originalDataLines() {
+    //TODO: remove this guarding that only exists because of broken staging data
+    if(!this.pa.transcribed) {
+      return [];
+    }
+
     return Object.keys(this.pa.transcribed)
       .map((key) => ({
         label: key,
@@ -59,7 +64,7 @@ export class SourceDataComponent implements OnInit {
   ngOnInit(): void {
     this.route.parent.data.subscribe((resolve) => {
       this.pa = resolve.item.pa as PersonAppearance;
-      this.source = resolve.item.pa.source;
+      this.source = resolve.item.pa.source || {}; //TODO: remove this || guarding that only exists because of broken staging data
     });
   }
 
