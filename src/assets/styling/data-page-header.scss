@@ -47,15 +47,11 @@
   cursor: pointer;
   white-space: nowrap;
   display: inline-block;
-  margin-right: 0.625rem;
+  margin-right: 1.125rem;
 
   @media(min-width: $breakpointSm) {
     &:last-child {
       margin-right: 0;
     }
-  }
-
-  @media(max-width: $breakpointSm) {
-    display: block;
   }
 }

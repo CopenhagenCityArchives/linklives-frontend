@@ -9,12 +9,12 @@
                 Tilbage til søgeresultat
             </a>
             <a
-                class="lls-data-page-header__utility-link"
+                class="lls-data-page-header__utility-link lls-btn"
                 (click)="openSearchHistory = true"
                 (keyup.enter)="openSearchHistory = true"
                 tabindex="0"
             >
-                Min søgehistorik
+                Søgehistorik
             </a>
         </div>
         <div class="lls-data-page-header__classification">
@@ -70,6 +70,12 @@
             ></app-person-appearance-item>
         </section>
         <section class="lls-life-course-source-container__source-linking-graph">
+            <div class="lls-life-course-source-container__source-linking-title">
+                <h3 class="u-margin-0">Links</h3>
+                <a class="lls-link lls-link--underline" href="https://link-lives.dk/saadan-skabes-livsforloeb/">
+                    Se linkningsmetode
+                </a>
+            </div>
             <app-source-linking-graph
                 [pas]="pas"
                 [links]="links"

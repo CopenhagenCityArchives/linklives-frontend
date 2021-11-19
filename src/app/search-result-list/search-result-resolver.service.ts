@@ -101,7 +101,7 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       "birthName",
       "birthPlace",
       "sourcePlace",
-      //"deathPlace",
+      "deathPlace",
       "birthYear",
       "sourceYear",
       "deathYear",
