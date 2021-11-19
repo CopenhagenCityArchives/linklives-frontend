@@ -114,7 +114,11 @@ export class SourceDataComponent implements OnInit {
         }
         return !isUndef;
       })
-      .map((key) => ({ label: this.standardizedDataFields[this.pa.source_type_wp4][key], value: this.cleanValue(this.pa[key]) }));
+      .map((key) => ({
+        //Make _ breakable in label by turning it into _ followed by zero-width space
+        label: this.standardizedDataFields[this.pa.source_type_wp4][key].replace(/_/g, "_​"),
+        value: this.cleanValue(this.pa[key])
+      }));
   }
 
   sourceDataFields = {
