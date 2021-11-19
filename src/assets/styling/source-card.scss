@@ -23,9 +23,12 @@
 }
 
 .lls-source--selected {
-  border-top-width: 3px;
-  border-right-width: 3px;
-  border-bottom-width: 3px;
+  border-top-width: 2px;
+  border-right-width: 2px;
+  border-bottom-width: 2px;
+  border-top-color: $grey-border !important;
+  border-right-color: $grey-border !important;
+  border-bottom-color: $grey-border !important;
 }
 
 .lls-source--arrival,
@@ -221,5 +224,19 @@
   .lls-icon {
     // Icon is a little off-center vertically, so we fix it with transform.
     transform: translateY(1px);
+  }
+}
+
+.lls-source__item-selected {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.535rem 1rem;
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 0.8rem;
+  letter-spacing: 1.2px;
+
+  .lls-icon {
+      margin: 0 0.375rem;
   }
 }

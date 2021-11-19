@@ -4,25 +4,59 @@
 }
 
 .data-section__table {
-  border-top: 1px solid $grey-border;
   font-size: 1.0625rem;
-  margin: 1.25rem 0 5rem;
+  margin: 1.25rem 0 1.25rem;
   width: 100%;
+
+  @media (min-width: $breakpointMd) {
+    display: grid;
+    grid-gap: 0 1rem;
+    grid-auto-flow: dense;
+    grid-template-columns: 1fr 1fr;
+  }
 
   tr,
   td {
-    padding: 0.75rem 0;
+    padding: 0.25rem 0;
   }
   
   tr {
     border-bottom: 1px solid $grey-border;
+    grid-column: span 1;
+    grid-row: span 1;
+
+    @media (min-width: $breakpointMd) {
+      display: flex;
+    }
+
+    &[data-first-in-column] {
+      border-top: 1px solid $grey-border;
+    }
+  }
+
+  td, th {
+    @media (min-width: $breakpointMd) {
+      display: block;
+    }
   }
   
   th {
     font-weight: 400;
     padding-right: 1rem;
-    padding-top: 0.75rem;
+    padding-top: 0.25rem;
     width: 33%;
     vertical-align: top;
+    white-space: normal;
+  }
+}
+
+@media (min-width: $breakpointMd) {
+  /* Need .data-section__table prefix for specificity */
+  .data-section__table .data-section__row--column-1 {
+    grid-column: 1;
+  }
+
+  .data-section__table .data-section__row--column-2 {
+    grid-column: 2;
   }
 }

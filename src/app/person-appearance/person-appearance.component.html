@@ -38,25 +38,26 @@
         (close)="openSearchHistory = false"
     ></app-search-history>
 
-    <div class="lls-tabs">
-        <a href routerLink="source-data" [routerLinkActive]="'lls-tabs__item--active'" class="lls-tabs__item">
-            <span class="lls-tabs__item-text">Personregistrering</span>
-        </a>
-        <a href routerLink="related-people" [routerLinkActive]="'lls-tabs__item--active'" class="lls-tabs__item" *ngIf="this.hh">
-            <span class="lls-tabs__item-text">{{ relatedPersonsTitle }}</span>
-        </a>
+    <div class="lls-row my-4">
+        <div class="lls-tabs lls-columns-12 lls-columns-6--md">
+            <a href routerLink="source-data" [routerLinkActive]="'lls-tabs__item--active'" class="lls-tabs__item">
+                <span class="lls-tabs__item-text">Personregistrering</span>
+            </a>
+            <a href routerLink="related-people" [routerLinkActive]="'lls-tabs__item--active'" class="lls-tabs__item" *ngIf="this.hh">
+                <span class="lls-tabs__item-text">{{ relatedPersonsTitle }}</span>
+            </a>
+        </div>
+        <div class="lls-source-info lls-columns-12 lls-columns-6--md">
+            <div class="lls-source-info__entry">
+                <div class="lls-source-info__entry-label">Personregistrerings ID</div>
+                <span>{{ this.pa.id }}</span>
+            </div>
+            <div class="lls-source-info__entry">
+                <div class="lls-source-info__entry-label">Senest opdateret</div>
+                <span>{{ prettyLastUpdatedDate }}</span>
+            </div>
+        </div>
     </div>
 
     <router-outlet></router-outlet>
-
-    <div class="lls-data-page-footer">
-        <div class="lls-data-page-footer__entry">
-            <div class="lls-data-page-footer__entry-label">Personregistrerings ID</div>
-            <a href="pa/{{ pa.key }}">{{ this.pa.key }}</a>
-        </div>
-        <div class="lls-data-page-footer__entry">
-            <div class="lls-data-page-footer__entry-label">Senest opdateret</div>
-            <span>{{ prettyLastUpdatedDate }}</span>
-        </div>
-    </div>
 </div>
