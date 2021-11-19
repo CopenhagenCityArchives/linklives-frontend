@@ -1,57 +1,31 @@
-<div class="lls-card lls-card--source-data" [class]="'lls-card--' + eventTypeClass">
-    <div class="lls-row lls-row--gap-3--md lls-row--gap-5--lg lls-row--gap-6--xl">
-        <div class="lls-columns-12 lls-columns-6--md">
-            <div class="data-section">
-                <h2 class="data-section__header">
-                    Original komplet indtastning
-                </h2>
-                <table class="data-section__table">
-                    <tr *ngFor="let line of originalDataLines">
-                        <th>{{ line.label }}</th>
-                        <td>{{ line.value || '—' }}</td>
-                    </tr>
-                </table>
-            </div>
-            <div class="data-section">
-                <h2 class="data-section__header">
-                    Bearbejdet data brugt til at linke
-                </h2>
-                <table class="data-section__table">
-                    <tr *ngFor="let line of standardizedDataLines">
-                        <th>{{ line.label }}</th>
-                        <td>{{ line.value || '—' }}</td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-        <div class="lls-columns-12 lls-columns-6--md">
-            <div class="data-section">
-                <h2 class="data-section__header">
-                    Om kilden
-                </h2>
-                <table class="data-section__table">
-                    <tr *ngFor="let line of sourceDataLines">
-                        <th>{{ line.label }}</th>
-                        <td>{{ line.value || '—' }}</td>
-                    </tr>
-                </table>
-            </div>
-            <!--div class="data-section">
-                <h2 class="data-section__header">
-                    Anden data (rå)
-                </h2>
-                <table class="data-section__table">
-                    <tr *ngFor="let line of otherDataLines">
-                        <th>{{ line.label }}</th>
-                        <td>{{ line.value || '—' }}</td>
-                    </tr>
-                </table>
-            </div-->
-        </div>
+<section class="lls-row pt-4">
+    <app-person-appearance-item
+        [item]="pa"
+        class="lls-columns-12"
+        [selected]="true"
+    ></app-person-appearance-item>
+</section>
+
+<div class="lls-card lls-card--source-data">
+    <div class="data-section">
+        <h2 class="data-section__header">
+            Original indtastning
+        </h2>
+        <table class="data-section__table">
+            <tr
+                *ngFor="let line of originalDataLines; index as i;"
+                [class]="getColumnClass(i, originalDataLines)"
+                [attr.data-first-in-column]="isFirstInColumn(i, originalDataLines)"
+            >
+                <th>{{ line.label }}</th>
+                <td>{{ line.value || '—' }}</td>
+            </tr>
+        </table>
     </div>
+
     <div class="lls-card__actions">
         <a
-            class="lls-btn lls-btn--big"
+            class="lls-btn"
             [class]="pa.pa_entry_permalink_wp4 ? '' : 'lls-btn--disabled'"
             [attr.href]="pa.pa_entry_permalink_wp4 ? pa.pa_entry_permalink_wp4 : null"
             [attr.tabindex]="pa.pa_entry_permalink_wp4 ? null : -1"
@@ -60,11 +34,27 @@
         >
             <span>Se original kilde</span>
             <svg class="lls-icon lls-icon--right">
-                <use [attr.href]="featherSpriteUrl + '#search'"></use>
+                <use [attr.href]="featherSpriteUrl + '#arrow-right'"></use>
             </svg>
         </a>
+        <div class="lls-card__action-hint" *ngIf="!pa.pa_entry_permalink_wp4">
+            Det er på nuværende tidspunkt ikke muligt at linke direkte til kilden hos {{ source.institution }}
+        </div>
     </div>
-    <div class="lls-card__action-hint" *ngIf="!pa.pa_entry_permalink_wp4">
-        Det er på nuværende tidspunkt ikke muligt at linke direkte til kilden hos {{ source.institution }}
+
+    <div class="data-section">
+        <h2 class="data-section__header">
+            Bearbejdet data brugt til at linke
+        </h2>
+        <table class="data-section__table">
+            <tr
+                *ngFor="let line of standardizedDataLines; index as i;"
+                [class]="getColumnClass(i, standardizedDataLines)"
+                [attr.data-first-in-column]="isFirstInColumn(i, standardizedDataLines)"
+            >
+                <th>{{ line.label }}</th>
+                <td>{{ line.value || '—' }}</td>
+            </tr>
+        </table>
     </div>
 </div>

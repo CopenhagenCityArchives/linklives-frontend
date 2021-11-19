@@ -67,9 +67,12 @@
             </a>
         </div>
         <div *ngIf="selected">
-            <svg class="lls-icon lls-icon--large" [class]="'lls-icon--' + personAppearance.event_type">
-                <use [attr.href]="featherSpriteUrl + '#flag'"></use>
-            </svg>
+            <div class="lls-source__item-selected">
+                <span>Valgt</span>
+                <svg class="lls-icon lls-icon--right">
+                    <use [attr.href]="featherSpriteUrl + '#check'"></use>
+                </svg>
+            </div>
         </div>
     </div>
 </div>
