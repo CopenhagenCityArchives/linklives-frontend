@@ -7,21 +7,21 @@
 </section>
 
 <div class="lls-card lls-card--source-data">
-            <div class="data-section">
-                <h2 class="data-section__header">
-                    Original indtastning
-                </h2>
-                <table class="data-section__table">
-                    <tr
-                        *ngFor="let line of originalDataLines; index as i;"
-                        [class]="getColumnClass(i, originalDataLines)"
-                        [attr.data-first-in-column]="isFirstInColumn(i, originalDataLines)"
-                    >
-                        <th>{{ line.label }}</th>
-                        <td>{{ line.value || '—' }}</td>
-                    </tr>
-                </table>
-            </div>
+    <div class="data-section">
+        <h2 class="data-section__header">
+            Original indtastning
+        </h2>
+        <table class="data-section__table">
+            <tr
+                *ngFor="let line of originalDataLines; index as i;"
+                [class]="getColumnClass(i, originalDataLines)"
+                [attr.data-first-in-column]="isFirstInColumn(i, originalDataLines)"
+            >
+                <th>{{ line.label }}</th>
+                <td>{{ line.value || '—' }}</td>
+            </tr>
+        </table>
+    </div>
 
     <div class="lls-card__actions">
         <a
@@ -42,19 +42,19 @@
         </div>
     </div>
 
-            <div class="data-section">
-                <h2 class="data-section__header">
-                    Bearbejdet data brugt til at linke
-                </h2>
-                <table class="data-section__table">
-                    <tr
-                        *ngFor="let line of standardizedDataLines; index as i;"
-                        [class]="getColumnClass(i, standardizedDataLines)"
-                        [attr.data-first-in-column]="isFirstInColumn(i, standardizedDataLines)"
-                    >
-                        <th>{{ line.label }}</th>
-                        <td>{{ line.value || '—' }}</td>
-                    </tr>
-                </table>
-            </div>
+    <div class="data-section">
+        <h2 class="data-section__header">
+            Bearbejdet data brugt til at linke
+        </h2>
+        <table class="data-section__table">
+            <tr
+                *ngFor="let line of standardizedDataLines; index as i;"
+                [class]="getColumnClass(i, standardizedDataLines)"
+                [attr.data-first-in-column]="isFirstInColumn(i, standardizedDataLines)"
+            >
+                <th>{{ line.label }}</th>
+                <td>{{ line.value || '—' }}</td>
+            </tr>
+        </table>
+    </div>
 </div>
