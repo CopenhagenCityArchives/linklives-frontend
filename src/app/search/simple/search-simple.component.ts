@@ -35,6 +35,9 @@ export class SimpleSearchComponent implements OnInit {
 
   addedSearchTerms = [];
 
+  personAppearanceCount = 0;
+  lifecourseCount = 0;
+
   indices = {
     pas: { value: true, label: "Personregistrering" },
     lifecourses: { value: true, label: "Livsforløb" },
@@ -111,5 +114,11 @@ export class SimpleSearchComponent implements OnInit {
         mode: this.modeFuzzy ? "fuzzy" : "default",
       }
     });
+  }
+
+  enhanceText(text: String) {
+    return text
+      .replace("%PA_COUNT%", "123.423.234")
+      .replace("%LIFECOURSE_COUNT%", "12.342.231");
   }
 }
