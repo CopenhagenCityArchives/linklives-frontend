@@ -272,6 +272,14 @@ export class SourceDataComponent implements OnInit {
     return value;
   }
 
+  isFirstInColumn(i: number, list: any[]) {
+    return i == 0 || i == Math.ceil(list.length / 2) || undefined;
+  }
+
+  getColumnClass(i: number, list: any[]) {
+    return i < list.length / 2 ? 'data-section__row--column-1' : 'data-section__row--column-2';
+  }
+
   get eventTypeClass() {
     if(this.pa.event_type !== 'burial') {
       return this.pa.event_type;

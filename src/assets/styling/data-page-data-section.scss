@@ -7,12 +7,11 @@
   font-size: 1.0625rem;
   margin: 1.25rem 0 1.25rem;
   width: 100%;
-  display: grid;
-  grid-gap: 0 1rem;
-  grid-auto-flow: dense;
-  grid-template-columns: 1fr;
 
   @media (min-width: $breakpointMd) {
+    display: grid;
+    grid-gap: 0 1rem;
+    grid-auto-flow: dense;
     grid-template-columns: 1fr 1fr;
   }
 
@@ -23,13 +22,22 @@
   
   tr {
     border-bottom: 1px solid $grey-border;
-    display: flex;
     grid-column: span 1;
     grid-row: span 1;
+
+    @media (min-width: $breakpointMd) {
+      display: flex;
+    }
+
+    &[data-first-in-column] {
+      border-top: 1px solid $grey-border;
+    }
   }
 
   td, th {
-    display: block;
+    @media (min-width: $breakpointMd) {
+      display: block;
+    }
   }
   
   th {
@@ -38,5 +46,17 @@
     padding-top: 0.25rem;
     width: 33%;
     vertical-align: top;
+    white-space: normal;
+  }
+}
+
+@media (min-width: $breakpointMd) {
+  /* Need .data-section__table prefix for specificity */
+  .data-section__table .data-section__row--column-1 {
+    grid-column: 1;
+  }
+
+  .data-section__table .data-section__row--column-2 {
+    grid-column: 2;
   }
 }
