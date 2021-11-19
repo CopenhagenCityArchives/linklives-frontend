@@ -59,9 +59,21 @@
         [featherIconPath]="featherSpriteUrl"
         (close)="currentLinkKey = ''"
     ></app-link-rating>
+    <div class="lls-row my-4">
+        <h3 class="lls-columns-12 lls-columns-6--md u-margin-0 u-align-end">Personregistreringer</h3>
+        <div class="lls-source-info lls-columns-12 lls-columns-6--md">
+            <div class="lls-source-info__entry">
+                <div class="lls-source-info__entry-label">Forløbs ID</div>
+                <span>{{ lifecourseKey }}</span>
+            </div>
+            <div class="lls-source-info__entry">
+                <div class="lls-source-info__entry-label">Senest opdateret</div>
+                <span>{{ lastUpdated }}</span>
+            </div>
+        </div>
+    </div>
     <div class="lls-life-course-source-container">
         <section class="lls-life-course-source-container__source-list lls-row">
-            <h3 class="lls-columns-12 u-margin-0">Personregistreringer</h3>
             <app-person-appearance-item
                 *ngFor="let pa of pas"
                 class="lls-columns-12"
@@ -78,20 +90,6 @@
         </section>
     </div>
     <section>
-        <div class="lls-data-page-footer">
-            <div class="lls-data-page-footer__entry">
-                <div class="lls-data-page-footer__entry-label">
-                    Forløbs ID
-                </div>
-                <a [href]="'life-course/' + lifecourseKey">{{ lifecourseKey }}</a>
-            </div>
-            <div class="lls-data-page-footer__entry">
-                <div class="lls-data-page-footer__entry-label">
-                    Senest opdateret
-                </div>
-                <p>{{ lastUpdated }}</p>
-            </div>
-        </div>
         <div class="lls-data-page-footer">
             <div class="lls-data-page-footer__entry">
                 <h3 class="lls-data-page-footer__entry-label">
