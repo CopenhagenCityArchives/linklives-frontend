@@ -1,6 +1,6 @@
 import { PersonAppearance } from './../search/search.service';
 
-export function eventType({ event_type }) {
+export function eventType({ standard: { event_type } }) {
   return {
     "census": "Folketælling",
     "burial": "Begravelse",
@@ -18,6 +18,7 @@ export function eventIcon(eventType: string) {
   return {
     "census": "archive",
     "burial": "ll-funeral",
+    "burial_protocol": "ll-funeral",
     'arrival': 'clipboard',
     'baptism': "ll-baptism",
     'birth': "ll-baptism",

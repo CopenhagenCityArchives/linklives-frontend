@@ -28,18 +28,22 @@ export class PersonAppearanceItemComponent implements OnInit {
     return classList.join(" ");
   }
 
+  get eventType() {
+    return this.personAppearance.standard.event_type;
+  }
+
   get eventIcon() {
-    return eventIcon(this.personAppearance.event_type);
+    return eventIcon(this.eventType);
   }
 
   get eventTypeClass() {
-    if(this.personAppearance.event_type !== 'burial') {
-      return this.personAppearance.event_type;
+    if(this.eventType !== 'burial') {
+      return this.eventType;
     }
     if(this.personAppearance.source_type_wp4 == "parish") {
-      return `${this.personAppearance.event_type}-pr`
+      return `${this.eventType}-pr`
     }
-    return `${this.personAppearance.event_type}-cph`
+    return `${this.eventType}-cph`
   }
 
   constructor() { }

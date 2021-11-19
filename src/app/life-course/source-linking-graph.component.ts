@@ -42,7 +42,7 @@ export class SourceLinkingGraphComponent implements OnInit {
       return [
         `${link.source_id1}-${link.pa_id1}`,
         `${link.source_id2}-${link.pa_id2}`
-      ].includes(pa.id);
+      ].includes(pa.key);
     };
 
     const getIndexLength = (link: Link) => {

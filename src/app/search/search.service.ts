@@ -46,6 +46,7 @@ export interface SearchResult {
 }
 
 export interface PersonAppearance {
+  //TODO: prune list of fields in person appearance, so it only contains ones actually there now
   address: string,
   age: string,
   age_clean: number,
@@ -74,7 +75,6 @@ export interface PersonAppearance {
   district: string,
   event_id: number,
   event_persons: number,
-  event_type: string,
   event_type_display: string,
   //event_year: string,
   event_year_display: string,
@@ -89,7 +89,7 @@ export interface PersonAppearance {
   household_family_no: string,
   household_position: string,
   household_position_std: string,
-  id: string,
+  key: string,
   land_register: string,
   land_register_address: string,
   lastname_clean: string,
@@ -128,7 +128,12 @@ export interface PersonAppearance {
   transcription_code: string,
   transcription_id: number,
   uncat_names: string,
-  source: Source
+  source: Source,
+  standard: {
+    event_type: string,
+    //TODO: add more
+  },
+  transcribed?: Object,
 }
 
 export interface Lifecourse {
