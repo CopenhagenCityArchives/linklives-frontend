@@ -18,6 +18,7 @@ export function eventIcon(eventType: string) {
   return {
     "census": "archive",
     "burial": "ll-funeral",
+    "burial_protocol": "ll-funeral",
     'arrival': 'clipboard',
     'baptism': "ll-baptism",
     'birth': "ll-baptism",
