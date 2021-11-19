@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { PersonAppearance, PersonAppearanceHit, Source } from '../search/search.service';
+import { PersonAppearance, PersonAppearanceHit } from '../search/search.service';
 import { map, mergeMap } from 'rxjs/operators';
 import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 import { addSearchHistoryEntry, SearchHistoryEntryType } from '../search-history';
