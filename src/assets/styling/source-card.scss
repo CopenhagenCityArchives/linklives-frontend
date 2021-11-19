@@ -103,11 +103,12 @@
 
 .lls-source__section {
   padding: 24px 20px;
-  width: 100%;
+  flex-basis: 100%;
+  flex-grow: 1;
   box-sizing: border-box;
 
   @media(min-width: $breakpointMd) {
-    width: calc(25% - 4px);
+    flex-basis: 20%;
   }
 }
 
@@ -151,6 +152,14 @@
 
   @media(min-width: $breakpointMd) {
     display: block;
+    max-width: 200px;
+  }
+}
+
+.lls-source__person-data {
+  @media(min-width: $breakpointMd) {
+    flex-basis: 30%;
+    flex-grow: 2;
   }
 }
 
@@ -175,29 +184,13 @@
     margin-right: 0;
     margin-bottom: 20px;
   }
-}
 
-.lls-source__count {
-  display: flex;
-  height: 25px;
-  width: 25px;
-  border: 2px solid white;
-  border-radius: 50%;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0;
-}
+  .lls-source--lifecourse & {
+    display: none;
 
-.lls-source__count-number {
-  transform: translateY(-2px);
-}
-
-.lls-source__count-text {
-  display: none;
-
-  @media(min-width: $breakpointMd) {
-    display: block;
-    margin-left: 0.5rem;
+    @media(min-width: $breakpointMd) {
+      display: flex;
+    }
   }
 }
 
