@@ -28,9 +28,12 @@
   width: 320px;
   height: 100%;
   display: none;
-  margin-top: 3.625rem;
 
   @media(min-width: $breakpointMd) {
     display: block;
   }
+}
+
+.lls-life-course-source-container__source-linking-title {
+  margin-left: 35px;
 }
