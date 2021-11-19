@@ -46,6 +46,7 @@ export interface SearchResult {
 }
 
 export interface PersonAppearance {
+  //TODO: prune list of fields in person appearance, so it only contains ones actually there now
   address: string,
   age: string,
   age_clean: number,
@@ -130,7 +131,9 @@ export interface PersonAppearance {
   source: Source,
   standard: {
     event_type: string,
+    //TODO: add more
   },
+  transcribed?: Object,
 }
 
 export interface Lifecourse {
