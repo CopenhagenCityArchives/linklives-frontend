@@ -358,22 +358,26 @@ export class ElasticsearchService {
         { source_type_wp4: { terms: { field: "source_type_wp4" } } },
         //{ source_type_display: { terms: { field: "source_type_display" } } },
       ],*/
-      eventYear: [
-        { event_year: { terms: { field: "event_year" } } },
+      eventYear: {
+        type: "histogram",
+        field: "event_year",
         //{ event_year_display: { terms: { field: "event_year_display" } } },
-      ],
-      sourceYear: [
-        { source_year_searchable: { terms: { field: "source_year_searchable" } } },
+      },
+      sourceYear: {
+        type: "histogram",
+        field: "source_year_searchable",
         //{ source_year_display: { terms: { field: "source_year_display" } } },
-      ],
-      birthYear: [
-        { birthyear_searchable: { terms: { field: "birthyear_searchable" } } },
+      },
+      birthYear: {
+        type: "histogram",
+        field: "birthyear_searchable",
         //{ birthyear_display: { terms: { field: "birthyear_display" } } },
-      ],
-      deathYear: [
-        { deathyear_searchable: { terms: { field: "deathyear_searchable" } } },
+      },
+      deathYear: {
+        type: "histogram",
+        field: "deathyear_searchable",
         //{ deathyear_display: { terms: { field: "deathyear_display" } } },
-      ],
+      },
     };
 
     const filterBody = {
@@ -389,9 +393,19 @@ export class ElasticsearchService {
     };
 
     Object.keys(filters).forEach((filterName) => {
+      const filter = filters[filterName];
+      if(filter.type === "histogram") {
+        filterBody.aggs[filterName] = {
+          histogram: {
+            field: filter.field,
+            interval: 10,
+          },
+        };
+        return;
+      }
       filterBody.aggs[filterName] = {
         composite: {
-          sources: filters[filterName],
+          sources: filter,
           size: 10000,
         },
       };
