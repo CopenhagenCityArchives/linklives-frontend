@@ -103,14 +103,12 @@ interface AggregationBucket<T> {
 
 export interface ElasticLookupResult {
   aggregations?: {
-    person_appearance: {
-      eventType: { buckets: AggregationBucket<EventLookupKeys>[] },
-      source: { buckets: AggregationBucket<SourceLookupKeys>[] },
-      eventYear: { buckets: AggregationBucket<EventYearLookupKeys>[] },
-      sourceYear: { buckets: AggregationBucket<SourceYearLookupKeys>[] },
-      birthYear: { buckets: AggregationBucket<BirthYearLookupKeys>[] },
-      deathYear: { buckets: AggregationBucket<DeathYearLookupKeys>[] },
-    },
+    eventType: { buckets: AggregationBucket<EventLookupKeys>[] },
+    source: { buckets: AggregationBucket<SourceLookupKeys>[] },
+    eventYear: { buckets: AggregationBucket<EventYearLookupKeys>[] },
+    sourceYear: { buckets: AggregationBucket<SourceYearLookupKeys>[] },
+    birthYear: { buckets: AggregationBucket<BirthYearLookupKeys>[] },
+    deathYear: { buckets: AggregationBucket<DeathYearLookupKeys>[] },
   },
 }
 
@@ -201,12 +199,12 @@ export class ElasticsearchService {
 
   private handleResult(searchResult: ElasticSearchResult, filterLookupResult?: ElasticLookupResult): SearchResult {
     const possibleFilters = {
-      eventType: filterLookupResult?.aggregations?.person_appearance?.eventType?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      source: filterLookupResult?.aggregations?.person_appearance?.source?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      eventYear: filterLookupResult?.aggregations?.person_appearance?.eventYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      sourceYear: filterLookupResult?.aggregations?.person_appearance?.sourceYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      birthYear: filterLookupResult?.aggregations?.person_appearance?.birthYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      deathYear: filterLookupResult?.aggregations?.person_appearance?.deathYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+      eventType: filterLookupResult?.aggregations?.eventType?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+      source: filterLookupResult?.aggregations?.source?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+      eventYear: filterLookupResult?.aggregations?.eventYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+      sourceYear: filterLookupResult?.aggregations?.sourceYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+      birthYear: filterLookupResult?.aggregations?.birthYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+      deathYear: filterLookupResult?.aggregations?.deathYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
     }
     const result: SearchResult = {
       took: searchResult.took,
@@ -353,28 +351,22 @@ export class ElasticsearchService {
 
     const filters = {
       eventType: [
-        { event_type: { terms: { field: "person_appearance.event_type" } } },
-        { event_type_display: { terms: { field: "person_appearance.event_type_display" } } },
+        { event_type: { terms: { field: "event_type" } } },
       ],
       source: [
-        { source_type_wp4: { terms: { field: "person_appearance.source_type_wp4" } } },
-        { source_type_display: { terms: { field: "person_appearance.source_type_display" } } },
+        { source_type_wp4: { terms: { field: "source_type_wp4" } } },
       ],
       eventYear: [
-        //{ event_year: { terms: { field: "person_appearance.event_year" } } },
-        { event_year_display: { terms: { field: "person_appearance.event_year_display" } } },
+        { event_year: { terms: { field: "event_year" } } },
       ],
       sourceYear: [
-        { source_year_searchable: { terms: { field: "person_appearance.source_year_searchable" } } },
-        { source_year_display: { terms: { field: "person_appearance.source_year_display" } } },
+        { source_year_searchable: { terms: { field: "source_year_searchable" } } },
       ],
       birthYear: [
-        { birthyear_searchable: { terms: { field: "person_appearance.birthyear_searchable" } } },
-        { birthyear_display: { terms: { field: "person_appearance.birthyear_display" } } },
+        { birthyear_searchable: { terms: { field: "birthyear_searchable" } } },
       ],
       deathYear: [
-        { deathyear_searchable: { terms: { field: "person_appearance.deathyear_searchable" } } },
-        { deathyear_display: { terms: { field: "person_appearance.deathyear_display" } } },
+        { deathyear_searchable: { terms: { field: "deathyear_searchable" } } },
       ],
     };
 
