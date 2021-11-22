@@ -701,11 +701,11 @@ export class ElasticsearchService {
           should: [
             query,
             {
-        nested: {
-          path: "person_appearance",
-          query,
-          score_mode: "max",
-        },
+              nested: {
+                path: "person_appearance",
+                query,
+                score_mode: "max",
+              },
             },
           ],
         }
