@@ -352,21 +352,27 @@ export class ElasticsearchService {
     const filters = {
       eventType: [
         { event_type: { terms: { field: "event_type" } } },
+        //{ event_type_display: { terms: { field: "event_type_display" } } },
       ],
-      source: [
+      /*source: [
         { source_type_wp4: { terms: { field: "source_type_wp4" } } },
-      ],
+        //{ source_type_display: { terms: { field: "source_type_display" } } },
+      ],*/
       eventYear: [
         { event_year: { terms: { field: "event_year" } } },
+        //{ event_year_display: { terms: { field: "event_year_display" } } },
       ],
       sourceYear: [
         { source_year_searchable: { terms: { field: "source_year_searchable" } } },
+        //{ source_year_display: { terms: { field: "source_year_display" } } },
       ],
       birthYear: [
         { birthyear_searchable: { terms: { field: "birthyear_searchable" } } },
+        //{ birthyear_display: { terms: { field: "birthyear_display" } } },
       ],
       deathYear: [
         { deathyear_searchable: { terms: { field: "deathyear_searchable" } } },
+        //{ deathyear_display: { terms: { field: "deathyear_display" } } },
       ],
     };
 
@@ -551,7 +557,7 @@ export class ElasticsearchService {
             bool: {
               must: [
                 { match: { [`person_appearance.event_type`]: event_type } },
-                { match: { [`person_appearance.event_type_display`]: event_type_display } },
+                //{ match: { [`person_appearance.event_type_display`]: event_type_display } },
               ]
             }
           };
@@ -563,7 +569,7 @@ export class ElasticsearchService {
           return {
             bool: {
               must: [
-                { match: { [`person_appearance.source_type_wp4`]: source_type_wp4 } },
+                //{ match: { [`person_appearance.source_type_wp4`]: source_type_wp4 } },
                 { match: { [`person_appearance.source_type_display`]: source_type_display } },
               ]
             }
@@ -576,8 +582,8 @@ export class ElasticsearchService {
           return {
             bool: {
               must: [
-                //{ match: { [`person_appearance.event_year`]: event_year } },
-                { match: { [`person_appearance.event_year_display`]: event_year_display } },
+                { match: { [`person_appearance.event_year`]: event_year } },
+                //{ match: { [`person_appearance.event_year_display`]: event_year_display } },
               ]
             }
           };
@@ -590,7 +596,7 @@ export class ElasticsearchService {
             bool: {
               must: [
                 { match: { [`person_appearance.source_year_searchable`]: source_year_searchable } },
-                { match: { [`person_appearance.source_year_display`]: source_year_display } },
+                //{ match: { [`person_appearance.source_year_display`]: source_year_display } },
               ]
             }
           };
@@ -603,7 +609,7 @@ export class ElasticsearchService {
             bool: {
               must: [
                 { match: { [`person_appearance.birthyear_searchable`]: birthyear_searchable } },
-                { match: { [`person_appearance.birthyear_display`]: birthyear_display } },
+                //{ match: { [`person_appearance.birthyear_display`]: birthyear_display } },
               ]
             }
           };
@@ -616,7 +622,7 @@ export class ElasticsearchService {
             bool: {
               must: [
                 { match: { [`person_appearance.deathyear_searchable`]: deathyear_searchable } },
-                { match: { [`person_appearance.deathyear_display`]: deathyear_display } },
+                //{ match: { [`person_appearance.deathyear_display`]: deathyear_display } },
               ]
             }
           };
@@ -632,6 +638,7 @@ export class ElasticsearchService {
         });
       }
 
+      /*
       if(filtersGroupedByFilterType.source && filtersGroupedByFilterType.source.length) {
         must.push({
           bool: {
@@ -639,6 +646,7 @@ export class ElasticsearchService {
           },
         });
       }
+      */
 
       if(filtersGroupedByFilterType.eventYear && filtersGroupedByFilterType.eventYear.length) {
         must.push({
