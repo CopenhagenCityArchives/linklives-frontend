@@ -123,6 +123,7 @@ export interface Link {
   method_subtype1: string,
   score: number,
   key: string,
+  ratings: Array<object>,
 }
 
 export interface LinksSearchResult {

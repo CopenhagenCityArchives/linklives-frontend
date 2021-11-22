@@ -45,30 +45,33 @@
         class="lls-source-graph__tooltip"
         [class]="activeLink === link.key ? 'lls-source-graph__tooltip--active' : ''"
         *ngFor="let link of drawableLinks; index as i;"
-        [style]="'top: ' + (link.offsetY + (link.lineHeight / 2) - 208) + 'px; left: ' + (link.pathTierX + 29) + 'px;'"
+        [style]="'top: ' + (link.offsetY + (link.lineHeight / 2) - 271) + 'px; left: ' + (link.pathTierX + 30) + 'px;'"
         (mouseenter)="onMouseEnterTooltip(link.key)"
         (mouseleave)="onMouseLeaveTooltip(link.key)"
     >
-        <div class="lls-source-graph__tooltip-label">
-            Sikkerhed
-        </div>
-        <div class="lls-source-graph__tooltip-text lls-source-graph__tooltip-text--large">
-            {{ link.confidencePct }}%
+        <div class="lls-source-graph__tooltip-text lls-source-graph__tooltip-text--large u-bold u-mt-0">
+            Om dette link
         </div>
         <div
             class="lls-source-graph__tooltip-text"
             [attr.title]="link.linkingMethod.long"
         >
-            Linket via<br>
+            Linket er skabt med metoden<br>
             {{ link.linkingMethod.short }}
         </div>
-        <button class="lls-btn lls-btn--small lls-btn--blue u-mt-2" (click)="openLinkRating.emit(link.key)">
-            Er linket troværdigt?
-        </button>
         <div class="u-mt-2">
-            <a class="lls-link lls-link--white" href="https://link-lives.dk/saadan-skabes-livsforloeb/">
+            <a class="lls-link lls-link--underline lls-link--white" href="https://link-lives.dk/saadan-skabes-livsforloeb/">
                 Læs mere om metoder til linkning
             </a>
+        </div>
+        <div class="u-mt-2 mb-2 u-bold">
+            Er linket troværdigt?
+        </div>
+        <button class="lls-btn lls-btn--small lls-btn--blue" (click)="openLinkRating.emit(link.key)">
+            Giv feedback
+        </button>
+        <div class="u-mt-2">
+            {{ link.totalRatings }} {{ link.totalRatings != 1 ? "personer" : "person" }} har givet feedback på dette link
         </div>
     </div>
 </div>
