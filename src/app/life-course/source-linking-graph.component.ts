@@ -101,6 +101,7 @@ export class SourceLinkingGraphComponent implements OnInit {
         };
 
         const lineHeight = ((196 + 16) * indexDiff);
+        console.warn("LINK", link)
 
         return {
           offsetY: ((196 + 16) * firstIndex + (196 / 2) - 11),
@@ -108,7 +109,7 @@ export class SourceLinkingGraphComponent implements OnInit {
           lineHeight,
           confidencePct: Math.round((1 - link.score) * 100),
           linkingMethod: prettyLinkMethod(link),
-          totalRatings: link.ratings.length,
+          totalRatings: link.ratings ? link.ratings.length : 0, // TODO: Remove this guarding when the link.rating data is fixed. Right now it can be null.
           key: link.key,
         };
       })
