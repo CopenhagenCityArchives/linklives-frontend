@@ -124,8 +124,6 @@ export class SourceLinkingGraphComponent implements OnInit {
       });
   }
 
-  constructor(private elasticsearch: ElasticsearchService) { }
-
   ngOnInit(): void {
     this.drawableLinks = this.calculateDrawableLinks();
   }

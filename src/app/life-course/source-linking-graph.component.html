@@ -45,7 +45,7 @@
         class="lls-source-graph__tooltip"
         [class]="activeLink === link.key ? 'lls-source-graph__tooltip--active' : ''"
         *ngFor="let link of drawableLinks; index as i;"
-        [style]="'top: ' + (link.offsetY + (link.lineHeight / 2) - 269) + 'px; left: ' + (link.pathTierX + 30) + 'px;'"
+        [style]="'top: ' + (link.offsetY + (link.lineHeight / 2) - 271) + 'px; left: ' + (link.pathTierX + 30) + 'px;'"
         (mouseenter)="onMouseEnterTooltip(link.key)"
         (mouseleave)="onMouseLeaveTooltip(link.key)"
     >
