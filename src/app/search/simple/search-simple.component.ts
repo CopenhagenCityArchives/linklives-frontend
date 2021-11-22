@@ -1,7 +1,8 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdvancedSearchQuery } from '../search.service';
 import { searchFieldPlaceholders, searchFieldLabels, getFieldOptions, genderOptions } from 'src/app/search-term-values';
+import { prettyNumbers } from 'src/app/util/display-helpers';
 
 @Component({
   selector: 'app-search-simple',
@@ -66,9 +67,14 @@ export class SimpleSearchComponent implements OnInit {
     return genderOptions;
   }
 
-  constructor(private router: Router, private elements: ElementRef) { }
+  constructor(private router: Router, private route: ActivatedRoute, private elements: ElementRef) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.data.subscribe(({ sourceCounts }) => {
+      this.personAppearanceCount = sourceCounts.personAppearanceCount;
+      this.lifecourseCount = sourceCounts.lifecourseCount;
+    });
+  }
 
   searchSimple(): void {
     this.router.navigate(['/results'], {
@@ -118,7 +124,7 @@ export class SimpleSearchComponent implements OnInit {
 
   enhanceText(text: String) {
     return text
-      .replace("%PA_COUNT%", "123.423.234")
-      .replace("%LIFECOURSE_COUNT%", "12.342.231");
+      .replace("%PA_COUNT%", prettyNumbers(this.personAppearanceCount, 0))
+      .replace("%LIFECOURSE_COUNT%", prettyNumbers(this.lifecourseCount, 0));
   }
 }
