@@ -1,12 +1,6 @@
 <section class="lls-results-header">
     <div class="lls-container">
         <div class="lls-results-header__link-section">
-            <a routerLink="/" class="lls-results-header__link">
-                <svg class="lls-icon">
-                    <use [attr.href]="featherSpriteUrl + '#arrow-left'"></use>
-                </svg>
-                Tilbage til forsiden
-            </a>
             <a
                 (click)="openSearchHistory = true"
                 (keyup.enter)="openSearchHistory = true"

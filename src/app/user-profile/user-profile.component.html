@@ -1,11 +1,5 @@
 <div *ngIf="auth.user$ | async as user" class="lls-container u-mt-4">
   <div class="lls-results-header__link-section">
-    <a routerLink="/" tabIndex="0" class="lls-link u-align-icon">
-      <svg class="lls-icon">
-        <use [attr.href]="featherSpriteUrl + '#arrow-left'"></use>
-      </svg>
-      Tilbage til forsiden
-    </a>
     <a
       class="lls-link u-align-icon"
       (click)="openSearchHistory = true"
