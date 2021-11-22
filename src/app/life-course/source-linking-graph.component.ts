@@ -101,7 +101,6 @@ export class SourceLinkingGraphComponent implements OnInit {
         };
 
         const lineHeight = ((196 + 16) * indexDiff);
-        console.warn("LINK", link)
 
         return {
           offsetY: ((196 + 16) * firstIndex + (196 / 2) - 11),
