@@ -450,7 +450,12 @@ export class ElasticsearchService {
 
       if(searchKeyConfig.exact) {
         must.push({
-          term: { [`person_appearance.${searchKeyConfig.exact}`]: value }
+          bool: {
+            should: [
+              { term: { [`person_appearance.${searchKeyConfig.exact}`]: value } },
+              { term: {  [searchKeyConfig.exact]: value } },
+            ]
+          }
         });
         return;
       }
@@ -474,11 +479,24 @@ export class ElasticsearchService {
 
             quoted.forEach((quotedValue) => {
               searchKeySubQuery.push({
-                match_phrase: {
-                  [`person_appearance.${searchKey}`]: {
-                    query: quotedValue,
-                  },
-                },
+                bool: {
+                  should: [
+                    {
+                      match_phrase: {
+                        [`person_appearance.${searchKey}`]: {
+                          query: quotedValue,
+                        },
+                      },
+                    },
+                    {
+                      match_phrase: {
+                        [searchKey]: {
+                          query: quotedValue,
+                        },
+                      },
+                    }
+                  ]
+                }
               });
             });
 
@@ -503,24 +521,54 @@ export class ElasticsearchService {
 
         wildcardTerms.forEach((value) => {
           searchKeySubQuery.push({
-            wildcard: {
-              [`person_appearance.${searchKey}`]: {
-                value,
-              }
+            bool: {
+              should: [
+                {
+                  wildcard: {
+                    [`person_appearance.${searchKey}`]: {
+                      value,
+                    }
+                  }
+                },
+                {
+                  wildcard: {
+                    [searchKey]: {
+                      value,
+                    }
+                  }
+                },
+              ]
             }
           });
         });
 
         if(nonWildcardTerms.length) {
           searchKeySubQuery.push({
-            match: {
-              [`person_appearance.${searchKey}`]: {
-                // Match query splits into terms on space, so we can simplify the query here
-                query: nonWildcardTerms.join(" "),
-                //max_expansions: 250,
-
-                operator: "AND"
-              }
+            bool: {
+              should: [
+                {
+                  match: {
+                    [`person_appearance.${searchKey}`]: {
+                      // Match query splits into terms on space, so we can simplify the query here
+                      query: nonWildcardTerms.join(" "),
+                      //max_expansions: 250,
+      
+                      operator: "AND"
+                    }
+                  }
+                },
+                {
+                  match: {
+                    [searchKey]: {
+                      // Match query splits into terms on space, so we can simplify the query here
+                      query: nonWildcardTerms.join(" "),
+                      //max_expansions: 250,
+      
+                      operator: "AND"
+                    }
+                  }
+                },
+              ]
             }
           });
         }
