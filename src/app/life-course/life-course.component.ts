@@ -13,6 +13,7 @@ import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 export class LifeCourseComponent implements OnInit {
   pas: PersonAppearance[] = [];
   lifecourseKey: string;
+  lifecourseId: number;
   links: Link[];
   getLatestSearchQuery = getLatestSearchQuery;
 
@@ -87,6 +88,7 @@ export class LifeCourseComponent implements OnInit {
       }) as PersonAppearance[];
 
       this.lifecourseKey = next.lifecourse.lifecourseKey;
+      this.lifecourseId = next.lifecourse.lifecourseId;
       this.links = next.lifecourse.links;
 
       if(next.lifecourse.currentLinkKey) {

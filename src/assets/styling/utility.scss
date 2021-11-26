@@ -47,6 +47,10 @@
   margin: 0 !important;
 }
 
+.u-mt-0 {
+  margin-top: 0 !important;
+}
+
 .u-mt-2 {
   margin-top: 0.625rem !important;
 }
@@ -125,6 +129,10 @@
   justify-content: space-between;
 }
 
+.u-justify-center {
+  justify-content: center;
+}
+
 .u-justify-start {
   justify-content: flex-start;
 }
@@ -137,6 +145,10 @@
       align-items: center;
     }
   }
+}
+
+.u-align-end {
+  align-self: flex-end;
 }
 
 .u-direction-row {

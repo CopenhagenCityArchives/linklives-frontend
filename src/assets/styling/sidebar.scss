@@ -1,3 +1,5 @@
+$sidebar-background-color: #fff;
+
 .lls-sidebar {
   transform: translateX(-100%);
   transition: transform ease-in 200ms;
@@ -8,10 +10,14 @@
   top: 0;
   left: 0;
   z-index: 500;
-  background-color: white;
+  background-color: $sidebar-background-color;
   padding: 30px;
   padding-top: 80px;
   overflow-y: scroll;
+}
+
+.lls-sidebar--sticky-header {
+  padding-top: 64px;
 }
 
 .lls-sidebar--right {
@@ -25,11 +31,21 @@
 }
 
 .lls-sidebar__header {
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
   color: $off-black;
+
+  .lls-sidebar--sticky-header & {
+    position: sticky;
+    top: -64px;
+    padding-top: 1rem;
+    background-color: $sidebar-background-color;
+    box-shadow: 0 3px 5px $sidebar-background-color;
+    z-index: 500;
+  }
 }
 
 .lls-sidebar__item {

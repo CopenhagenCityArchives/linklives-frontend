@@ -22,16 +22,20 @@ export interface ElasticDocResult {
   }
 }
 
+export interface LifecourseSource {
+  key: string,
+  life_course_ids?: number[],
+  person_appearance: PersonAppearance | PersonAppearance[]
+}
+
+export type PersonAppearanceSource = PersonAppearance & { key: string };
+
 export interface ElasticSearchHit {
   _index: "lifecourses" | "pas" | "links",
   _type: string,
   _id: number,
   _score: number,
-  _source: {
-    key: string,
-    life_course_ids?: number[],
-    person_appearance: PersonAppearance | PersonAppearance[]
-  }
+  _source: PersonAppearanceSource | LifecourseSource,
 }
 
 export interface ElasticSearchResult {
@@ -119,6 +123,7 @@ export interface Link {
   method_subtype1: string,
   score: number,
   key: string,
+  ratings: Array<object>,
 }
 
 export interface LinksSearchResult {
@@ -160,27 +165,31 @@ export class ElasticsearchService {
 
   private handleHit(elasticHit: ElasticSearchHit): SearchHit {
     if(elasticHit._index.startsWith("lifecourses")) {
+      const source = elasticHit._source as LifecourseSource;
+
       return {
         type: "lifecourses",
         life_course_id: elasticHit._id,
         life_course_key: elasticHit._source.key,
-        pas: elasticHit._source.person_appearance as PersonAppearance[]
+        pas: source.person_appearance as PersonAppearance[]
       };
     }
 
     if(elasticHit._index.startsWith("pas")) {
       return {
         type: "pas",
-        pa: elasticHit._source.person_appearance as PersonAppearance
+        pa: elasticHit._source as PersonAppearance
       };
     }
 
     if(elasticHit._index.startsWith("links")) {
+      const source = elasticHit._source as LifecourseSource;
+
       return {
         type: "links",
         link_id: elasticHit._id,
-        life_course_ids: elasticHit._source.life_course_ids,
-        pas: elasticHit._source.person_appearance as [PersonAppearance, PersonAppearance]
+        life_course_ids: source.life_course_ids,
+        pas: source.person_appearance as [PersonAppearance, PersonAppearance]
       };
     }
 
@@ -373,12 +382,7 @@ export class ElasticsearchService {
       from: from,
       size: 0,
       query: sourceLookupQuery,
-      aggs: {
-        person_appearance: {
-          nested: { path: "person_appearance" },
-          aggs: {}
-        },
-      },
+      aggs: {},
       post_filter: {
         terms: {
           _index: indices
@@ -387,7 +391,7 @@ export class ElasticsearchService {
     };
 
     Object.keys(filters).forEach((filterName) => {
-      filterBody.aggs.person_appearance.aggs[filterName] = {
+      filterBody.aggs[filterName] = {
         composite: {
           sources: filters[filterName],
           size: 10000,
@@ -691,24 +695,35 @@ export class ElasticsearchService {
       };
     };
 
-    const getFullPersonAppearanceQueryFromMustQuery = (must) => {
+    const getFullPersonAppearanceQueryFromMustQuery = (must, nested?: boolean) => {
       const query = simplifiedQueryFromMust(must);
 
       if(!query) {
         return undefined;
       }
 
+      if(!nested) {
+        return query;
+      }
+
       return {
+        bool: {
+          should: [
+            query,
+            {
         nested: {
           path: "person_appearance",
           query,
           score_mode: "max",
         },
+            },
+          ],
+        }
       };
     };
 
     const resultLookupQuery: Record<string, any> = getFullPersonAppearanceQueryFromMustQuery(must);
-    const sourceLookupQuery: Record<string, any> = getFullPersonAppearanceQueryFromMustQuery(sourceLookupFilter);
+    const sourceLookupQuery: Record<string, any> = getFullPersonAppearanceQueryFromMustQuery(sourceLookupFilter, false);
 
     if(!query.lifeCourseId) {
       return { resultLookupQuery, sourceLookupQuery };

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Link } from '../elasticsearch/elasticsearch.service';
+import { ElasticsearchService, Link } from '../elasticsearch/elasticsearch.service';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({
@@ -20,6 +20,7 @@ export class SourceLinkingGraphComponent implements OnInit {
     lineHeight: number,
     confidencePct: number,
     linkingMethod: { long: string, short: string },
+    totalRatings: number,
     key: string,
   }[] = [];
 
@@ -42,7 +43,7 @@ export class SourceLinkingGraphComponent implements OnInit {
       return [
         `${link.source_id1}-${link.pa_id1}`,
         `${link.source_id2}-${link.pa_id2}`
-      ].includes(pa.id);
+      ].includes(pa.key);
     };
 
     const getIndexLength = (link: Link) => {
@@ -107,6 +108,7 @@ export class SourceLinkingGraphComponent implements OnInit {
           lineHeight,
           confidencePct: Math.round((1 - link.score) * 100),
           linkingMethod: prettyLinkMethod(link),
+          totalRatings: link.ratings ? link.ratings.length : 0, // TODO: Remove this guarding when the link.rating data is fixed. Right now it can be null.
           key: link.key,
         };
       })
@@ -121,8 +123,6 @@ export class SourceLinkingGraphComponent implements OnInit {
         return 0;
       });
   }
-
-  constructor() { }
 
   ngOnInit(): void {
     this.drawableLinks = this.calculateDrawableLinks();

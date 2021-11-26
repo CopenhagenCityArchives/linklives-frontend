@@ -11,16 +11,6 @@
 
 .lls-card--source-data {
   position: relative;
-
-  &:before {
-    position: absolute;
-    content: '';
-    top: 0;
-    left: 0;
-    bottom: 0;
-    width: 1.125rem;
-    background-color: $blue;
-  }
 }
 
 .lls-card--arrival,
@@ -43,6 +33,7 @@
 }
 
 .lls-card--burial-pr,
+.lls-card--burial_protocol,
 .lls-card--death {
   &:before {
     background-color: $burial-black;
@@ -76,4 +67,8 @@
 .lls-card__action-hint {
   padding: 0.25rem 0;
   font-size: $very-small;
+}
+
+.lls-card__actions {
+  margin: 5rem 0;
 }
