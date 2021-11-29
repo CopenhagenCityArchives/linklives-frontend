@@ -244,11 +244,11 @@ export class ElasticsearchService {
       filterLookup?: Observable<ElasticLookupResult>,
     };
     const requests: SearchRequests = {
-      search: this.http.post<ElasticSearchResult>(`${environment.apiUrl}/search/${indices.join(',')}`, body).pipe(share()),
+      search: this.http.post<ElasticSearchResult>(`${environment.esUrl}/${indices.join(',')}/_search`, body).pipe(share()),
     };
 
     if(filterBody) {
-      requests.filterLookup = this.http.post<ElasticLookupResult>(`${environment.apiUrl}/search/pas`, filterBody).pipe(share());
+      requests.filterLookup = this.http.post<ElasticLookupResult>(`${environment.esUrl}/pas/_search`, filterBody).pipe(share());
     }
 
     // Prep observable that will send both requests and merge results in handleResult
