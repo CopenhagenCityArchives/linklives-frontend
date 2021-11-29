@@ -71,17 +71,11 @@ export class LinkRatingComponent implements OnInit {
     this.chosen = linkOption.category;
 
     this.elasticsearch.sendLinkRating(ratingData).subscribe(rate => {
-      // update rating stats
       this.totalRatings++;
       if(!this.ratingCountByCategory[linkOption.category]) {
         this.ratingCountByCategory[linkOption.category] = 0;
       }
       this.ratingCountByCategory[linkOption.category]++;
-    });
-
-    this.elasticsearch.getLinkRatingStats(this.linkKey).subscribe(linkRatingData => {
-      this.totalRatings = linkRatingData.totalRatings
-      this.ratingCountByCategory = linkRatingData.headingRatings;
     });
 
     this.showForm = false;
@@ -117,7 +111,6 @@ export class LinkRatingComponent implements OnInit {
     if(this.chosenRatingId && parseInt(this.chosenRatingId) !== NaN) {
       this.linkRatingForm.setValue({option: parseInt(this.chosenRatingId)});
     }
-
   }
 
   closeOnEsc() {
