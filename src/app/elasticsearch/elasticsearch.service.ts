@@ -562,6 +562,11 @@ export class ElasticsearchService {
         });
       }
 
+      // Add source filter to only the must filter (but not the source lookup filter)
+      if(filtersGroupedByFilterType.eventType && filtersGroupedByFilterType.eventType.length) {
+        must.push(shouldQ(eventTypeFilters(filtersGroupedByFilterType)));
+      }
+
       const sourceTypeFilters = (filtersGroupedByFilterType) => {
         return filtersGroupedByFilterType.source.map(({ source_type_wp4, source_type_display }) => {
           return mustQ([
@@ -571,6 +576,10 @@ export class ElasticsearchService {
         });
       }
 
+      if(filtersGroupedByFilterType.source && filtersGroupedByFilterType.source.length) {
+        must.push(shouldQ(sourceTypeFilters(filtersGroupedByFilterType)));
+      }
+
       const histogramFilters = (filterValues, key) => {
         return filterValues.map(({ value }) => {
           return shouldQ([
@@ -578,15 +587,6 @@ export class ElasticsearchService {
                 { range: { [`person_appearance.${key}`]: { gte: value, lt: value + 10 } } },
           ]);
         });
-      }
-
-      // Add source filter to only the must filter (but not the source lookup filter)
-      if(filtersGroupedByFilterType.eventType && filtersGroupedByFilterType.eventType.length) {
-        must.push(shouldQ(eventTypeFilters(filtersGroupedByFilterType)));
-      }
-
-      if(filtersGroupedByFilterType.source && filtersGroupedByFilterType.source.length) {
-        must.push(shouldQ(sourceTypeFilters(filtersGroupedByFilterType)));
       }
 
       Object.entries({
