@@ -351,13 +351,13 @@ export class ElasticsearchService {
 
     const filters = {
       eventType: [
-        { event_type: { terms: { field: "event_type" } } },
-        //{ event_type_display: { terms: { field: "event_type_display" } } },
+        { event_type: { terms: { field: "standard.event_type" } } },
+        { event_type_display: { terms: { field: "event_type_display" } } },
       ],
-      /*source: [
+      source: [
         { source_type_wp4: { terms: { field: "source_type_wp4" } } },
-        //{ source_type_display: { terms: { field: "source_type_display" } } },
-      ],*/
+        { source_type_display: { terms: { field: "source_type_display" } } },
+      ],
       eventYear: {
         type: "histogram",
         field: "event_year",
