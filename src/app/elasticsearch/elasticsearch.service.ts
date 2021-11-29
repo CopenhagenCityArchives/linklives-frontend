@@ -589,21 +589,16 @@ export class ElasticsearchService {
         must.push(shouldQ(sourceTypeFilters(filtersGroupedByFilterType)));
       }
 
-      if(filtersGroupedByFilterType.eventYear && filtersGroupedByFilterType.eventYear.length) {
-        must.push(shouldQ(histogramFilters(filtersGroupedByFilterType.eventYear, "event_year_sortable")));
-      }
-
-      if(filtersGroupedByFilterType.sourceYear && filtersGroupedByFilterType.sourceYear.length) {
-        must.push(shouldQ(histogramFilters(filtersGroupedByFilterType.sourceYear, "sourceyear_sortable")));
-      }
-
-      if(filtersGroupedByFilterType.birthYear && filtersGroupedByFilterType.birthYear.length) {
-        must.push(shouldQ(histogramFilters(filtersGroupedByFilterType.birthYear, "birthyear_sortable")));
-      }
-
-      if(filtersGroupedByFilterType.deathYear && filtersGroupedByFilterType.deathYear.length) {
-        must.push(shouldQ(histogramFilters(filtersGroupedByFilterType.deathYear, "deathyear_sortable")));
-      }
+      Object.entries({
+        eventYear: "event_year_sortable",
+        sourceYear: "sourceyear_sortable",
+        birthYear: "birthyear_sortable",
+        deathYear: "deathyear_sortable",
+      }).forEach(([ filterType, filterKey ]) => {
+        if(filtersGroupedByFilterType[filterType] && filtersGroupedByFilterType[filterType].length) {
+          must.push(shouldQ(histogramFilters(filtersGroupedByFilterType[filterType], filterKey)));
+        }
+      });
     }
 
     const simplifiedQueryFromMust = (must) => {
