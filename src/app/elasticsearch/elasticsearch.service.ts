@@ -306,8 +306,8 @@ export class ElasticsearchService {
           totalHits: 0,
           indexHits: {},
           hits: [],
-          meta: { possibleFilters:
-            {
+          meta: {
+            possibleFilters: {
               eventType: [],
               source: [],
               eventYear: [],
