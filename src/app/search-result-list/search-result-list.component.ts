@@ -296,7 +296,12 @@ export class SearchResultListComponent implements OnInit {
 
   getLabelFromFilterValue(filterValue: string) {
     const filterList = filterValue.split("_");
-    return filterList[filterList.length - 1]; // the display fields is alway the last field
+    const lastField = filterList[filterList.length - 1];
+    if(filterList[0].endsWith("Year")) {
+      const value = parseInt(lastField);
+      return `${value} – ${value + 9}`;
+    }
+    return lastField; // the display fields is alway the last field
   }
 
   addField(field) {
