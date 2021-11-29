@@ -27,6 +27,7 @@ export class LifeCourseComponent implements OnInit {
   chosenRatingId;
   totalRatings;
   ratingCountByCategory;
+  ratedBy;
 
   get aboutLifeCourseText() {
     return this.config.aboutLifeCourseText;
@@ -66,9 +67,11 @@ export class LifeCourseComponent implements OnInit {
   openLinkRating(linkKey, chosenRatingId="") {
     this.currentLinkKey = linkKey;
     this.chosenRatingId = chosenRatingId;
-    this.elasticsearch.getLinkRatingStats(linkKey).subscribe(linkRatingData => {
-      this.totalRatings = linkRatingData.totalRatings
-      this.ratingCountByCategory = linkRatingData.headingRatings;
+
+    this.elasticsearch.getLinkRatingStats(linkKey).subscribe(({ totalRatings, headingRatings, ratedBy }) => {
+      this.totalRatings = totalRatings
+      this.ratingCountByCategory = headingRatings;
+      this.ratedBy = ratedBy;
     });
   }
 

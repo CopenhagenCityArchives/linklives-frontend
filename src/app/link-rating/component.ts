@@ -20,6 +20,7 @@ export class LinkRatingComponent implements OnInit {
   @Input() linkKey: string;
   @Input() totalRatings: number;
   @Input() ratingCountByCategory: any;
+  @Input() ratedBy: string[];
   @Input() chosenRatingId;
   @Output() close: EventEmitter<any> = new EventEmitter();
 
@@ -27,6 +28,17 @@ export class LinkRatingComponent implements OnInit {
   chosen: string = "";
   ratingOptions;
   currentPath = this.authUtil.currentPath();
+  user;
+
+  get canRateLink() {
+    if(!this.user) {
+      return false;
+    }
+    if(!this.ratedBy) {
+      return true;
+    }
+    return !this.ratedBy.includes(this.user.sub);
+  }
 
   percent(ratingCount) {
     return Math.round(parseInt(ratingCount) / this.totalRatings * 100);
@@ -101,7 +113,9 @@ export class LinkRatingComponent implements OnInit {
   }
 
   constructor(private router: Router, private elasticsearch: ElasticsearchService, public auth: AuthService, private authUtil: AuthUtil) {
-    this.elasticsearch.getLinkRatingOptions().subscribe(ratingOptions => {
+    auth.user$.subscribe((user) => this.user = user);
+
+    this.elasticsearch.getLinkRatingOptions().subscribe((ratingOptions) => {
       this.ratingOptions = ratingOptions;
     });
   }  

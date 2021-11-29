@@ -38,17 +38,17 @@
           </label>
         </div>
       </div>
+      <div *ngIf="!canRateLink" class="u-mt-4">Du har allerede bedømt linket.</div>
       <div class="u-flex u-align-items u-mt-4">
-        <button *ngIf="auth.user$ | async as user; else loggedOut" class="lls-btn lls-btn--small lls-btn--blue u-mr-2" type="submit">Giv feedback</button>
-        <ng-template #loggedOut>
-          <button
-            class="lls-btn lls-btn--small u-mr-2"
-            (click)="login()"
-            type='button'
-          >
-            Log ind for at bedømme
-          </button>
-        </ng-template>
+        <button *ngIf="canRateLink && user" class="lls-btn lls-btn--small lls-btn--blue u-mr-2" type="submit" [disabled]="!canRateLink">Giv feedback</button>
+        <button
+          class="lls-btn lls-btn--small u-mr-2"
+          (click)="login()"
+          type='button'
+          *ngIf="canRateLink && !user"
+        >
+          Log ind for at bedømme
+        </button>
         <p class="u-text-small u-margin-0">{{ totalRatings }} brugere har givet feedback</p>
       </div>
     </form>
