@@ -62,7 +62,7 @@
   <ng-container *ngIf="!showForm || !canRateLink">
     <div class="lls-sidebar__header u-margin-0">
       <h3 class="u-margin-0">
-          Tak for din feedback
+          {{ canRateLink ? 'Tak for din feedback' : 'Du har tidligere bedømt linket' }}
       </h3>
       <button
         class="lls-btn lls-btn--outline"
