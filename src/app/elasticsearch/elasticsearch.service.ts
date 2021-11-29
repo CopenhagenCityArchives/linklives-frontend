@@ -639,17 +639,15 @@ export class ElasticsearchService {
     }
 
     // Special case: life_course_id
-    const includeLifeCouseInQuery = (oldQuery) => ({
-      bool: {
-        must: [
-          { term: { life_course_id: query.lifeCourseId } },
-          oldQuery,
-        ]
-      }
-    });
+    const includeLifeCourseInQuery = (oldQuery) => {
+      return mustQ([
+        { term: { life_course_id: query.lifeCourseId } },
+        oldQuery,
+      ]);
+    };
     return {
-      resultLookupQuery: includeLifeCouseInQuery(resultLookupQuery),
-      sourceLookupQuery: includeLifeCouseInQuery(sourceLookupQuery),
+      resultLookupQuery: includeLifeCourseInQuery(resultLookupQuery),
+      sourceLookupQuery: includeLifeCourseInQuery(sourceLookupQuery),
     };
   }
 
