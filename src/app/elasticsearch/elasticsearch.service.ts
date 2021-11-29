@@ -573,64 +573,36 @@ export class ElasticsearchService {
 
       const histogramFilters = (filterValues, key) => {
         return filterValues.map(({ value }) => {
-          return {
-            bool: {
-              should: [
+          return shouldQ([
                 { range: { [key]: { gte: value, lt: value + 10 } } },
                 { range: { [`person_appearance.${key}`]: { gte: value, lt: value + 10 } } },
-              ],
-            }
-          };
+          ]);
         });
       }
 
       // Add source filter to only the must filter (but not the source lookup filter)
       if(filtersGroupedByFilterType.eventType && filtersGroupedByFilterType.eventType.length) {
-        must.push({
-          bool: {
-            should: eventTypeFilters(filtersGroupedByFilterType),
-          },
-        });
+        must.push(shouldQ(eventTypeFilters(filtersGroupedByFilterType)));
       }
 
       if(filtersGroupedByFilterType.source && filtersGroupedByFilterType.source.length) {
-        must.push({
-          bool: {
-            should: sourceTypeFilters(filtersGroupedByFilterType),
-          },
-        });
+        must.push(shouldQ(sourceTypeFilters(filtersGroupedByFilterType)));
       }
 
       if(filtersGroupedByFilterType.eventYear && filtersGroupedByFilterType.eventYear.length) {
-        must.push({
-          bool: {
-            should: histogramFilters(filtersGroupedByFilterType.eventYear, "event_year_sortable"),
-          },
-        });
+        must.push(shouldQ(histogramFilters(filtersGroupedByFilterType.eventYear, "event_year_sortable")));
       }
 
       if(filtersGroupedByFilterType.sourceYear && filtersGroupedByFilterType.sourceYear.length) {
-        must.push({
-          bool: {
-            should: histogramFilters(filtersGroupedByFilterType.sourceYear, "sourceyear_sortable"),
-          },
-        });
+        must.push(shouldQ(histogramFilters(filtersGroupedByFilterType.sourceYear, "sourceyear_sortable")));
       }
 
       if(filtersGroupedByFilterType.birthYear && filtersGroupedByFilterType.birthYear.length) {
-        must.push({
-          bool: {
-            should: histogramFilters(filtersGroupedByFilterType.birthYear, "birthyear_sortable"),
-          },
-        });
+        must.push(shouldQ(histogramFilters(filtersGroupedByFilterType.birthYear, "birthyear_sortable")));
       }
 
       if(filtersGroupedByFilterType.deathYear && filtersGroupedByFilterType.deathYear.length) {
-        must.push({
-          bool: {
-            should: histogramFilters(filtersGroupedByFilterType.deathYear, "deathyear_sortable"),
-          },
-        });
+        must.push(shouldQ(histogramFilters(filtersGroupedByFilterType.deathYear, "deathyear_sortable")));
       }
     }
 
