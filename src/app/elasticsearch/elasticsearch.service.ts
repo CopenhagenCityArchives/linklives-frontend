@@ -542,29 +542,32 @@ export class ElasticsearchService {
 
       const filtersGroupedByFilterType = groupBy(sourceFilter, 'filter_type');
 
+      const queryIncludingNested = (key, fun) => [ fun(key), fun(`person_appearance.${key}`) ];
+      const matchQ = (key, val) => queryIncludingNested(key, (key) => {
+        return { match: { [key]: val } };
+      });
+      const mustQ = (arr) => {
+        return { bool: { must: arr } };
+      };
+      const shouldQ = (arr) => {
+        return { bool: { should: arr } };
+      };
+
       const eventTypeFilters = (filtersGroupedByFilterType) => {
         return filtersGroupedByFilterType.eventType.map(({ event_type, event_type_display }) => {
-          return {
-            bool: {
-              must: [
-                { match: { [`person_appearance.event_type`]: event_type } },
-                //{ match: { [`person_appearance.event_type_display`]: event_type_display } },
-              ]
-            }
-          };
+          return mustQ([
+            shouldQ(matchQ("standard.event_type", event_type)),
+            shouldQ(matchQ("event_type_display", event_type_display)),
+          ]);
         });
       }
 
       const sourceTypeFilters = (filtersGroupedByFilterType) => {
         return filtersGroupedByFilterType.source.map(({ source_type_wp4, source_type_display }) => {
-          return {
-            bool: {
-              must: [
-                //{ match: { [`person_appearance.source_type_wp4`]: source_type_wp4 } },
-                { match: { [`person_appearance.source_type_display`]: source_type_display } },
-              ]
-            }
-          };
+          return mustQ([
+            shouldQ(matchQ("source_type_wp4", source_type_wp4)),
+            shouldQ(matchQ("source_type_display", source_type_display)),
+          ]);
         });
       }
 
@@ -590,7 +593,6 @@ export class ElasticsearchService {
         });
       }
 
-      /*
       if(filtersGroupedByFilterType.source && filtersGroupedByFilterType.source.length) {
         must.push({
           bool: {
@@ -598,7 +600,6 @@ export class ElasticsearchService {
           },
         });
       }
-      */
 
       if(filtersGroupedByFilterType.eventYear && filtersGroupedByFilterType.eventYear.length) {
         must.push({
