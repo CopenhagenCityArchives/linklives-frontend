@@ -86,10 +86,6 @@ interface EventYearLookupKeys {
   //event_year: string
   event_year_display: string // only used for displaying
 }
-interface BirthYearLookupKeys {
-  birthyear_searchable: string
-  birthyear_display: string // only used for displaying
-}
 
 interface DeathYearLookupKeys {
   deathyear_searchable: string
@@ -107,7 +103,7 @@ export interface ElasticLookupResult {
     source: { buckets: AggregationBucket<SourceLookupKeys>[] },
     eventYear: { buckets: AggregationBucket<EventYearLookupKeys>[] },
     sourceYear: { buckets: AggregationBucket<SourceYearLookupKeys>[] },
-    birthYear: { buckets: AggregationBucket<BirthYearLookupKeys>[] },
+    birthYear: { buckets: AggregationBucket<number>[] },
     deathYear: { buckets: AggregationBucket<DeathYearLookupKeys>[] },
   },
 }
@@ -203,7 +199,7 @@ export class ElasticsearchService {
       source: filterLookupResult?.aggregations?.source?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
       eventYear: filterLookupResult?.aggregations?.eventYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
       sourceYear: filterLookupResult?.aggregations?.sourceYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      birthYear: filterLookupResult?.aggregations?.birthYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+      birthYear: filterLookupResult?.aggregations?.birthYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
       deathYear: filterLookupResult?.aggregations?.deathYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
     }
     const result: SearchResult = {
@@ -370,7 +366,7 @@ export class ElasticsearchService {
       },
       birthYear: {
         type: "histogram",
-        field: "birthyear_searchable",
+        field: "birthyear_sortable",
         //{ birthyear_display: { terms: { field: "birthyear_display" } } },
       },
       deathYear: {

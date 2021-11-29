@@ -134,15 +134,17 @@ export class FilterSidebar implements OnInit {
   }
 
   birthYearOptions(filterType) {
-    return this.possibleFilters[filterType].map(x => {
-      return {
-        label: x.birthyear_display,
-        type: x.birthyear_searchable,
-        value: `${filterType}_${x.birthyear_searchable}_${x.birthyear_display}`,
-        count: prettyNumbers(x.count),
-        chosen: false,
-      };
-    });
+    return this.possibleFilters[filterType]
+      .filter(x => x.count > 0)
+      .map(x => {
+        return {
+          label: `${x.key} – ${x.key + 9}`,
+          type: x.key,
+          value: `${filterType}_${x.key}`,
+          count: prettyNumbers(x.count),
+          chosen: false,
+        };
+      });
   }
 
   deathYearOptions(filterType) {

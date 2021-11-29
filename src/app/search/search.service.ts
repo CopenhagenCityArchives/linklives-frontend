@@ -39,7 +39,7 @@ export interface SearchResult {
       source: Array<{ source_type_wp4: string, source_type_display: string, count: number }>
       eventYear: Array<{ event_year_display: string, count: number }>,
       sourceYear: Array<{ source_year_searchable: string, source_year_display: string, count: number }>,
-      birthYear: Array<{ birthyear_searchable: string, birthyear_display: string, count: number }>,
+      birthYear: Array<{ key: number, count: number }>,
       deathYear: Array<{ deathyear_searchable: string, deathyear_display: string, count: number }>,
     },
   }
