@@ -178,8 +178,7 @@ export interface SourceYearFilterIdentifier {
 
 export interface BirthYearFilterIdentifier {
   filter_type: string,
-  birthyear_searchable: string,
-  birthyear_display: string,
+  value: number,
 };
 
 export interface DeathYearFilterIdentifier {

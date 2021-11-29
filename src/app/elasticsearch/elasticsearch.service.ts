@@ -614,13 +614,13 @@ export class ElasticsearchService {
       }
 
       const birthYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType.birthYear.map(({ birthyear_searchable, birthyear_display }) => {
+        return filtersGroupedByFilterType.birthYear.map(({ value }) => {
           return {
             bool: {
-              must: [
-                { match: { [`person_appearance.birthyear_searchable`]: birthyear_searchable } },
-                //{ match: { [`person_appearance.birthyear_display`]: birthyear_display } },
-              ]
+              should: [
+                { range: { birthyear_sortable: { gte: value, lt: value + 10 } } },
+                { range: { ["person_appearance.birthyear_sortable"]: { gte: value, lt: value + 10 } } },
+              ],
             }
           };
         });

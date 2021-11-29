@@ -72,11 +72,10 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
           }
 
           if(filter_type == 'birthYear') {
-            const [ filter_type, birthyear_searchable, birthyear_display ] = id.split("_");
+            const [ filter_type, value ] = id.split("_");
             return {
               filter_type,
-              birthyear_searchable,
-              birthyear_display,
+              value: parseInt(value),
             };
           }
 
