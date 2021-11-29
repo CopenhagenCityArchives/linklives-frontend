@@ -109,31 +109,7 @@ export class FilterSidebar implements OnInit {
     return eventCategories;
   }
 
-  sourceYearOptions(filterType) {
-    return this.possibleFilters[filterType].map(x => {
-      return {
-        label: x.source_year_display,
-        type: x.source_year_searchable,
-        value: `${filterType}_${x.source_year_searchable}_${x.source_year_display}`,
-        count: prettyNumbers(x.count),
-        chosen: false,
-      };
-    });
-  }
-
-  eventYearOptions(filterType) {
-    return this.possibleFilters[filterType].map(x => {
-      return {
-        label: x.event_year_display,
-        type: x.event_year_display,
-        value: `${filterType}_${x.event_year_display}`,
-        count: prettyNumbers(x.count),
-        chosen: false,
-      };
-    });
-  }
-
-  birthYearOptions(filterType) {
+  histogramOptions(filterType) {
     return this.possibleFilters[filterType]
       .filter(x => x.count > 0)
       .map(x => {
@@ -147,18 +123,6 @@ export class FilterSidebar implements OnInit {
       });
   }
 
-  deathYearOptions(filterType) {
-    return this.possibleFilters[filterType].map(x => {
-      return {
-        label: x.deathyear_display,
-        type: x.deathyear_searchable,
-        value: `${filterType}_${x.deathyear_searchable}_${x.deathyear_display}`,
-        count: prettyNumbers(x.count),
-        chosen: false,
-      };
-    });
-  }
-
   filtersCategories(filterType) {
     if(filterType == 'eventType') {
       return this.eventCategories(filterType);
@@ -167,16 +131,16 @@ export class FilterSidebar implements OnInit {
       return this.sourceCategories(filterType);
     }
     if(filterType == 'eventYear') {
-      return this.eventYearOptions(filterType);
+      return this.histogramOptions(filterType);
     }
     if(filterType == 'sourceYear') {
-      return this.sourceYearOptions(filterType);
+      return this.histogramOptions(filterType);
     }
     if(filterType == 'birthYear') {
-      return this.birthYearOptions(filterType);
+      return this.histogramOptions(filterType);
     }
     if(filterType == 'deathYear') {
-      return this.deathYearOptions(filterType);
+      return this.histogramOptions(filterType);
     }
   }
 
@@ -212,5 +176,4 @@ export class FilterSidebar implements OnInit {
   }
 
   ngOnInit(): void {}
-
 }
