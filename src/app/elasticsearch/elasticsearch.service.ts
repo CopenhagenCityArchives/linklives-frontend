@@ -582,10 +582,9 @@ export class ElasticsearchService {
 
       const histogramFilters = (filterValues, key) => {
         return filterValues.map(({ value }) => {
-          return shouldQ([
-                { range: { [key]: { gte: value, lt: value + 10 } } },
-                { range: { [`person_appearance.${key}`]: { gte: value, lt: value + 10 } } },
-          ]);
+          return shouldQ(queryIncludingNested(key, (key) => {
+            return { range: { [key]: { gte: value, lt: value + 10 } } };
+          }));
         });
       }
 
