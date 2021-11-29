@@ -133,7 +133,9 @@ export interface PersonAppearance {
     event_type: string,
     //TODO: add more
   },
-  transcribed?: Object,
+  transcribed: {
+    transcription: Object,
+  },
 }
 
 export interface Lifecourse {

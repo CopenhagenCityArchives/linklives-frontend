@@ -23,12 +23,7 @@ export class SourceDataComponent implements OnInit {
   }
 
   get originalDataLines() {
-    //TODO: remove this guarding that only exists because of broken staging data
-    if(!this.pa.transcribed) {
-      return [];
-    }
-
-    return Object.keys(this.pa.transcribed)
+    return Object.keys(this.pa.transcribed.transcription)
       .map((key) => ({
         label: key,
         value: this.cleanValue(this.pa[key])
