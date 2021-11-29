@@ -5,7 +5,7 @@
 <div [class]="openLinkRating ? 'lls-modal' : 'u-hide'">
 
   <!-- link rating form -->
-  <ng-container *ngIf="showForm">
+  <ng-container *ngIf="showForm && canRateLink">
     <div class="lls-sidebar__header u-margin-0">
       <h3 class="u-margin-0">
           Er linket troværdigt?
@@ -38,14 +38,13 @@
           </label>
         </div>
       </div>
-      <div *ngIf="!canRateLink" class="u-mt-4">Du har allerede bedømt linket.</div>
       <div class="u-flex u-align-items u-mt-4">
-        <button *ngIf="canRateLink && user" class="lls-btn lls-btn--small lls-btn--blue u-mr-2" type="submit" [disabled]="!canRateLink">Giv feedback</button>
+        <button *ngIf="user" class="lls-btn lls-btn--small lls-btn--blue u-mr-2" type="submit">Giv feedback</button>
         <button
           class="lls-btn lls-btn--small u-mr-2"
           (click)="login()"
           type='button'
-          *ngIf="canRateLink && !user"
+          *ngIf="!user"
         >
           Log ind for at bedømme
         </button>
@@ -60,7 +59,7 @@
   </ng-container>
 
   <!-- feedback page -->
-  <ng-container *ngIf="!showForm">
+  <ng-container *ngIf="!showForm || !canRateLink">
     <div class="lls-sidebar__header u-margin-0">
       <h3 class="u-margin-0">
           Tak for din feedback
@@ -79,7 +78,7 @@
     <p>
       Her er hvad du og de {{ totalRatings - 1 }} brugere har svaret.
     </p>
-      <div *ngFor="let ratingCount of ratingCountByCategory | keyvalue">
+      <div *ngFor="let ratingCount of ratingCategoriesWithCount | keyvalue">
         <div class="u-flex u-space-between u-align-items u-mt-4">
           <h4 class='u-margin-0'>
             {{ ratingCount.key }}

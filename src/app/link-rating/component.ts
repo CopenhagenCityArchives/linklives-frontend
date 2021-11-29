@@ -30,6 +30,18 @@ export class LinkRatingComponent implements OnInit {
   currentPath = this.authUtil.currentPath();
   user;
 
+  get ratingCategoriesWithCount() {
+    const result = {};
+    this.ratingOptions.forEach((option) => {
+      result[option.category] = 0;
+    });
+    Object.keys(this.ratingCountByCategory).forEach((key) => {
+      result[key] = this.ratingCountByCategory[key];
+    });
+
+    return result;
+  }
+
   get canRateLink() {
     if(!this.user) {
       return false;
@@ -61,6 +73,9 @@ export class LinkRatingComponent implements OnInit {
     this.elasticsearch.sendLinkRating(ratingData).subscribe(rate => {
       // update rating stats
       this.totalRatings++;
+      if(!this.ratingCountByCategory[linkOption.category]) {
+        this.ratingCountByCategory[linkOption.category] = 0;
+      }
       this.ratingCountByCategory[linkOption.category]++;
     });
 
