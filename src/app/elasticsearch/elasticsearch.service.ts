@@ -357,11 +357,10 @@ export class ElasticsearchService {
       eventYear: {
         type: "histogram",
         field: "event_year",
-        //{ event_year_display: { terms: { field: "event_year_display" } } },
       },
       sourceYear: {
         type: "histogram",
-        field: "source_year_searchable",
+        field: "source_year_sortable",
         //{ source_year_display: { terms: { field: "source_year_display" } } },
       },
       birthYear: {
@@ -371,7 +370,7 @@ export class ElasticsearchService {
       },
       deathYear: {
         type: "histogram",
-        field: "deathyear_searchable",
+        field: "deathyear_sortable",
         //{ deathyear_display: { terms: { field: "deathyear_display" } } },
       },
     };
