@@ -69,7 +69,7 @@ export class LifeCourseComponent implements OnInit {
     this.chosenRatingId = chosenRatingId;
 
     this.elasticsearch.getLinkRatingStats(linkKey).subscribe(({ totalRatings, headingRatings, ratedBy }) => {
-      this.totalRatings = totalRatings
+      this.totalRatings = totalRatings;
       this.ratingCountByCategory = headingRatings;
       this.ratedBy = ratedBy;
     });
