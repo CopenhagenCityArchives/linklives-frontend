@@ -1,4 +1,7 @@
 <div *ngIf="user" class="lls-container u-mt-4">
+  <app-loading-overlay
+    [class]="saving ? '' : 'u-hide'"
+  ></app-loading-overlay>
   <div class="lls-results-header__link-section">
     <a routerLink="/" tabIndex="0" class="lls-link u-align-icon">
       <svg class="lls-icon">
@@ -65,6 +68,7 @@
                   class="lls-input-field lls-input-group__field"
                   [(ngModel)]="newNickname"
                   name="new-nickname"
+                  [disabled]="saving"
                 />
               </div>
             </td>
@@ -80,22 +84,33 @@
                   class="lls-input-field lls-input-group__field"
                   [(ngModel)]="newEmail"
                   name="new-email"
+                  [disabled]="saving"
                 />
               </div>
             </td>
           </tr>
         </table>
       </div>
-      <div class="lls-columns-12 lls-columns-2--md">
+      <div class="lls-columns-12 lls-columns-2--md u-flex u-justify-end u-align-items-start">
         <button
           (click)="editProfile()"
-          type="submit"
           class="lls-btn"
           *ngIf="!isEditingProfile"
         >
           <span>Rediger</span>
           <svg class="lls-icon lls-icon--right">
             <use [attr.href]="featherSpriteUrl + '#edit-2'"></use>
+          </svg>
+        </button>
+        <button
+          (click)="saveProfile()"
+          class="lls-btn"
+          *ngIf="isEditingProfile"
+          [disabled]="saving"
+        >
+          <span>Gem</span>
+          <svg class="lls-icon lls-icon--right">
+            <use [attr.href]="featherSpriteUrl + '#save'"></use>
           </svg>
         </button>
       </div>

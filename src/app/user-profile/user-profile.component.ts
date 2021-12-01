@@ -18,6 +18,7 @@ export class UserProfilePage implements OnInit {
   newNickname: string = "";
   newEmail: string = "";
   user;
+  saving: boolean = false;
 
   get config() {
     return window["lls"];
@@ -27,11 +28,20 @@ export class UserProfilePage implements OnInit {
     this.newNickname = this.user.nickname;
     this.newEmail = this.user.email;
     this.isEditingProfile = true;
-  };
+  }
+
+  async saveProfile() {
+    this.saving = true;
+
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
+    this.saving = false;
+    this.isEditingProfile = false;
+  }
 
   logout(){
     this.authUtil.handleLogout();
-  };
+  }
 
   featherSpriteUrl = this.config.featherIconPath;
   

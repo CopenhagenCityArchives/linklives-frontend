@@ -137,6 +137,10 @@
   justify-content: flex-start;
 }
 
+.u-justify-end {
+  justify-content: flex-end;
+}
+
 .u-align-items {
   align-items: center;
 
@@ -145,6 +149,10 @@
       align-items: center;
     }
   }
+}
+
+.u-align-items-start {
+  align-items: flex-start;
 }
 
 .u-align-end {
