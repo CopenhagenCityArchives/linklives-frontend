@@ -77,25 +77,6 @@ interface EventLookupKeys {
   event_type_display: string // only used for displaying
 }
 
-interface SourceYearLookupKeys {
-  source_year_searchable: string
-  source_year_display: string // only used for displaying
-}
-
-interface EventYearLookupKeys {
-  //event_year: string
-  event_year_display: string // only used for displaying
-}
-interface BirthYearLookupKeys {
-  birthyear_searchable: string
-  birthyear_display: string // only used for displaying
-}
-
-interface DeathYearLookupKeys {
-  deathyear_searchable: string
-  deathyear_display: string // only used for displaying
-}
-
 interface AggregationBucket<T> {
   key: T,
   doc_count: number,
@@ -103,14 +84,12 @@ interface AggregationBucket<T> {
 
 export interface ElasticLookupResult {
   aggregations?: {
-    person_appearance: {
-      eventType: { buckets: AggregationBucket<EventLookupKeys>[] },
-      source: { buckets: AggregationBucket<SourceLookupKeys>[] },
-      eventYear: { buckets: AggregationBucket<EventYearLookupKeys>[] },
-      sourceYear: { buckets: AggregationBucket<SourceYearLookupKeys>[] },
-      birthYear: { buckets: AggregationBucket<BirthYearLookupKeys>[] },
-      deathYear: { buckets: AggregationBucket<DeathYearLookupKeys>[] },
-    },
+    eventType: { buckets: AggregationBucket<EventLookupKeys>[] },
+    source: { buckets: AggregationBucket<SourceLookupKeys>[] },
+    eventYear: { buckets: AggregationBucket<number>[] },
+    sourceYear: { buckets: AggregationBucket<number>[] },
+    birthYear: { buckets: AggregationBucket<number>[] },
+    deathYear: { buckets: AggregationBucket<number>[] },
   },
 }
 
@@ -201,12 +180,12 @@ export class ElasticsearchService {
 
   private handleResult(searchResult: ElasticSearchResult, filterLookupResult?: ElasticLookupResult): SearchResult {
     const possibleFilters = {
-      eventType: filterLookupResult?.aggregations?.person_appearance?.eventType?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      source: filterLookupResult?.aggregations?.person_appearance?.source?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      eventYear: filterLookupResult?.aggregations?.person_appearance?.eventYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      sourceYear: filterLookupResult?.aggregations?.person_appearance?.sourceYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      birthYear: filterLookupResult?.aggregations?.person_appearance?.birthYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      deathYear: filterLookupResult?.aggregations?.person_appearance?.deathYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+      eventType: filterLookupResult?.aggregations?.eventType?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+      source: filterLookupResult?.aggregations?.source?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+      eventYear: filterLookupResult?.aggregations?.eventYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
+      sourceYear: filterLookupResult?.aggregations?.sourceYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
+      birthYear: filterLookupResult?.aggregations?.birthYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
+      deathYear: filterLookupResult?.aggregations?.deathYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
     }
     const result: SearchResult = {
       took: searchResult.took,
@@ -308,8 +287,8 @@ export class ElasticsearchService {
           totalHits: 0,
           indexHits: {},
           hits: [],
-          meta: { possibleFilters:
-            {
+          meta: {
+            possibleFilters: {
               eventType: [],
               source: [],
               eventYear: [],
@@ -353,29 +332,29 @@ export class ElasticsearchService {
 
     const filters = {
       eventType: [
-        { event_type: { terms: { field: "person_appearance.event_type" } } },
-        { event_type_display: { terms: { field: "person_appearance.event_type_display" } } },
+        { event_type: { terms: { field: "standard.event_type" } } },
+        { event_type_display: { terms: { field: "event_type_display" } } },
       ],
       source: [
-        { source_type_wp4: { terms: { field: "person_appearance.source_type_wp4" } } },
-        { source_type_display: { terms: { field: "person_appearance.source_type_display" } } },
+        { source_type_wp4: { terms: { field: "source_type_wp4" } } },
+        { source_type_display: { terms: { field: "source_type_display" } } },
       ],
-      eventYear: [
-        //{ event_year: { terms: { field: "person_appearance.event_year" } } },
-        { event_year_display: { terms: { field: "person_appearance.event_year_display" } } },
-      ],
-      sourceYear: [
-        { source_year_searchable: { terms: { field: "person_appearance.source_year_searchable" } } },
-        { source_year_display: { terms: { field: "person_appearance.source_year_display" } } },
-      ],
-      birthYear: [
-        { birthyear_searchable: { terms: { field: "person_appearance.birthyear_searchable" } } },
-        { birthyear_display: { terms: { field: "person_appearance.birthyear_display" } } },
-      ],
-      deathYear: [
-        { deathyear_searchable: { terms: { field: "person_appearance.deathyear_searchable" } } },
-        { deathyear_display: { terms: { field: "person_appearance.deathyear_display" } } },
-      ],
+      eventYear: {
+        type: "histogram",
+        field: "event_year_sortable",
+      },
+      sourceYear: {
+        type: "histogram",
+        field: "sourceyear_sortable",
+      },
+      birthYear: {
+        type: "histogram",
+        field: "birthyear_sortable",
+      },
+      deathYear: {
+        type: "histogram",
+        field: "deathyear_sortable",
+      },
     };
 
     const filterBody = {
@@ -391,9 +370,19 @@ export class ElasticsearchService {
     };
 
     Object.keys(filters).forEach((filterName) => {
+      const filter = filters[filterName];
+      if(filter.type === "histogram") {
+        filterBody.aggs[filterName] = {
+          histogram: {
+            field: filter.field,
+            interval: 10,
+          },
+        };
+        return;
+      }
       filterBody.aggs[filterName] = {
         composite: {
-          sources: filters[filterName],
+          sources: filter,
           size: 10000,
         },
       };
@@ -553,132 +542,62 @@ export class ElasticsearchService {
 
       const filtersGroupedByFilterType = groupBy(sourceFilter, 'filter_type');
 
+      const queryIncludingNested = (key, fun) => [ fun(key), fun(`person_appearance.${key}`) ];
+      const matchQ = (key, val) => queryIncludingNested(key, (key) => {
+        return { match: { [key]: val } };
+      });
+      const mustQ = (arr) => {
+        return { bool: { must: arr } };
+      };
+      const shouldQ = (arr) => {
+        return { bool: { should: arr } };
+      };
+
       const eventTypeFilters = (filtersGroupedByFilterType) => {
         return filtersGroupedByFilterType.eventType.map(({ event_type, event_type_display }) => {
-          return {
-            bool: {
-              must: [
-                { match: { [`person_appearance.event_type`]: event_type } },
-                { match: { [`person_appearance.event_type_display`]: event_type_display } },
-              ]
-            }
-          };
-        });
-      }
-
-      const sourceTypeFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType.source.map(({ source_type_wp4, source_type_display }) => {
-          return {
-            bool: {
-              must: [
-                { match: { [`person_appearance.source_type_wp4`]: source_type_wp4 } },
-                { match: { [`person_appearance.source_type_display`]: source_type_display } },
-              ]
-            }
-          };
-        });
-      }
-
-      const eventYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType.eventYear.map(({ event_year, event_year_display }) => {
-          return {
-            bool: {
-              must: [
-                //{ match: { [`person_appearance.event_year`]: event_year } },
-                { match: { [`person_appearance.event_year_display`]: event_year_display } },
-              ]
-            }
-          };
-        });
-      }
-
-      const sourceYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType.sourceYear.map(({ source_year_searchable, source_year_display }) => {
-          return {
-            bool: {
-              must: [
-                { match: { [`person_appearance.source_year_searchable`]: source_year_searchable } },
-                { match: { [`person_appearance.source_year_display`]: source_year_display } },
-              ]
-            }
-          };
-        });
-      }
-
-      const birthYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType.birthYear.map(({ birthyear_searchable, birthyear_display }) => {
-          return {
-            bool: {
-              must: [
-                { match: { [`person_appearance.birthyear_searchable`]: birthyear_searchable } },
-                { match: { [`person_appearance.birthyear_display`]: birthyear_display } },
-              ]
-            }
-          };
-        });
-      }
-
-      const deathYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType.deathYear.map(({ deathyear_searchable, deathyear_display }) => {
-          return {
-            bool: {
-              must: [
-                { match: { [`person_appearance.deathyear_searchable`]: deathyear_searchable } },
-                { match: { [`person_appearance.deathyear_display`]: deathyear_display } },
-              ]
-            }
-          };
+          return mustQ([
+            shouldQ(matchQ("standard.event_type", event_type)),
+            shouldQ(matchQ("event_type_display", event_type_display)),
+          ]);
         });
       }
 
       // Add source filter to only the must filter (but not the source lookup filter)
       if(filtersGroupedByFilterType.eventType && filtersGroupedByFilterType.eventType.length) {
-        must.push({
-          bool: {
-            should: eventTypeFilters(filtersGroupedByFilterType),
-          },
+        must.push(shouldQ(eventTypeFilters(filtersGroupedByFilterType)));
+      }
+
+      const sourceTypeFilters = (filtersGroupedByFilterType) => {
+        return filtersGroupedByFilterType.source.map(({ source_type_wp4, source_type_display }) => {
+          return mustQ([
+            shouldQ(matchQ("source_type_wp4", source_type_wp4)),
+            shouldQ(matchQ("source_type_display", source_type_display)),
+          ]);
         });
       }
 
       if(filtersGroupedByFilterType.source && filtersGroupedByFilterType.source.length) {
-        must.push({
-          bool: {
-            should: sourceTypeFilters(filtersGroupedByFilterType),
-          },
+        must.push(shouldQ(sourceTypeFilters(filtersGroupedByFilterType)));
+      }
+
+      const histogramFilters = (filterValues, key) => {
+        return filterValues.map(({ value }) => {
+          return shouldQ(queryIncludingNested(key, (key) => {
+            return { range: { [key]: { gte: value, lt: value + 10 } } };
+          }));
         });
       }
 
-      if(filtersGroupedByFilterType.eventYear && filtersGroupedByFilterType.eventYear.length) {
-        must.push({
-          bool: {
-            should: eventYearFilters(filtersGroupedByFilterType),
-          },
-        });
-      }
-
-      if(filtersGroupedByFilterType.sourceYear && filtersGroupedByFilterType.sourceYear.length) {
-        must.push({
-          bool: {
-            should: sourceYearFilters(filtersGroupedByFilterType),
-          },
-        });
-      }
-
-      if(filtersGroupedByFilterType.birthYear && filtersGroupedByFilterType.birthYear.length) {
-        must.push({
-          bool: {
-            should: birthYearFilters(filtersGroupedByFilterType),
-          },
-        });
-      }
-
-      if(filtersGroupedByFilterType.deathYear && filtersGroupedByFilterType.deathYear.length) {
-        must.push({
-          bool: {
-            should: deathYearFilters(filtersGroupedByFilterType),
-          },
-        });
-      }
+      Object.entries({
+        eventYear: "event_year_sortable",
+        sourceYear: "sourceyear_sortable",
+        birthYear: "birthyear_sortable",
+        deathYear: "deathyear_sortable",
+      }).forEach(([ filterType, filterKey ]) => {
+        if(filtersGroupedByFilterType[filterType] && filtersGroupedByFilterType[filterType].length) {
+          must.push(shouldQ(histogramFilters(filtersGroupedByFilterType[filterType], filterKey)));
+        }
+      });
     }
 
     const simplifiedQueryFromMust = (must) => {
@@ -709,11 +628,11 @@ export class ElasticsearchService {
           should: [
             query,
             {
-        nested: {
-          path: "person_appearance",
-          query,
-          score_mode: "max",
-        },
+              nested: {
+                path: "person_appearance",
+                query,
+                score_mode: "max",
+              },
             },
           ],
         }

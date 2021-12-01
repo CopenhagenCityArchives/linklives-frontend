@@ -37,10 +37,10 @@ export interface SearchResult {
     possibleFilters: {
       eventType: Array<{ event_type: string, event_type_display: string, count: number }>,
       source: Array<{ source_type_wp4: string, source_type_display: string, count: number }>
-      eventYear: Array<{ event_year_display: string, count: number }>,
-      sourceYear: Array<{ source_year_searchable: string, source_year_display: string, count: number }>,
-      birthYear: Array<{ birthyear_searchable: string, birthyear_display: string, count: number }>,
-      deathYear: Array<{ deathyear_searchable: string, deathyear_display: string, count: number }>,
+      eventYear: Array<{ key: number, count: number }>,
+      sourceYear: Array<{ key: number, count: number }>,
+      birthYear: Array<{ key: number, count: number }>,
+      deathYear: Array<{ key: number, count: number }>,
     },
   }
 }
@@ -166,31 +166,12 @@ export interface SourceFilterIdentifier {
   source_type_display: string,
 };
 
-export interface EventYearFilterIdentifier {
+export interface HistogramFilterIdentifier {
   filter_type: string,
-  //event_year: string,
-  event_year_display: string,
+  value: number,
 };
 
-export interface SourceYearFilterIdentifier {
-  filter_type: string,
-  source_year_searchable: string,
-  source_year_display: string,
-};
-
-export interface BirthYearFilterIdentifier {
-  filter_type: string,
-  birthyear_searchable: string,
-  birthyear_display: string,
-};
-
-export interface DeathYearFilterIdentifier {
-  filter_type: string,
-  deathyear_searchable: string,
-  deathyear_display: string,
-};
-
-export type FilterIdentifier = EventTypeFilterIdentifier | SourceFilterIdentifier | EventYearFilterIdentifier | SourceYearFilterIdentifier | BirthYearFilterIdentifier | DeathYearFilterIdentifier;
+export type FilterIdentifier = EventTypeFilterIdentifier | SourceFilterIdentifier | HistogramFilterIdentifier;
 export interface AdvancedSearchQuery {
   query?: string,
   name?: string,
