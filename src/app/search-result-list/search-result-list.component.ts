@@ -3,6 +3,7 @@ import { Router, ActivatedRoute  } from '@angular/router';
 import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
 import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, possibleSearchQueryParams, getFieldOptions, genderOptions } from 'src/app/search-term-values';
 import { eventIcon, filterTitle } from '../util/display-helpers';
+import { EventType } from '../elasticsearch/elasticsearch.service';
 
 interface SearchQueryParams {
   query?: string,
@@ -285,7 +286,7 @@ export class SearchResultListComponent implements OnInit {
     const filter_type = filterValue.split("_")[0];
     if(filter_type == 'eventType') {
       const [_, event_type, __] = filterValue.split("_");
-      return eventIcon(event_type);
+      return eventIcon(event_type as EventType);
     }
   }
 
