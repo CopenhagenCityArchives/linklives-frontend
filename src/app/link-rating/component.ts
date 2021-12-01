@@ -48,10 +48,7 @@ export class LinkRatingComponent implements OnInit {
   }
 
   get canRateLink() {
-    if(!this.user) {
-      return false;
-    }
-    if(!this.ratedBy) {
+    if(!this.ratedBy || !this.user) {
       return true;
     }
     return !this.ratedBy.includes(this.user.sub);
