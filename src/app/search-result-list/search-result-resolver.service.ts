@@ -3,6 +3,7 @@ import { AdvancedSearchQuery, SearchResult, SearchService, FilterIdentifier } fr
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable, EMPTY } from 'rxjs';
 import { addSearchHistoryEntry, SearchHistoryEntryType } from '../search-history';
+import { EventType } from '../elasticsearch/elasticsearch.service';
 
 @Injectable({
   providedIn: 'root'
@@ -41,7 +42,7 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
             const [ filter_type, event_type, event_type_display ] = id.split("_");
             return {
               filter_type,
-              event_type,
+              event_type: event_type as EventType,
               event_type_display,
             };
           }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { ElasticsearchService, Link } from '../elasticsearch/elasticsearch.service';
+import { ElasticsearchService, EventType, Link } from '../elasticsearch/elasticsearch.service';
 
 export type SearchHit = PersonAppearanceHit | LinkHit | LifecourseHit;
 
@@ -35,7 +35,7 @@ export interface SearchResult {
   hits: SearchHit[],
   meta: {
     possibleFilters: {
-      eventType: Array<{ event_type: string, event_type_display: string, count: number }>,
+      eventType: Array<{ event_type: EventType, event_type_display: string, count: number }>,
       source: Array<{ source_type_wp4: string, source_type_display: string, count: number }>
       eventYear: Array<{ key: number, count: number }>,
       sourceYear: Array<{ key: number, count: number }>,
@@ -130,7 +130,7 @@ export interface PersonAppearance {
   uncat_names: string,
   source: Source,
   standard: {
-    event_type: string,
+    event_type: EventType,
     household_id: string,
     //TODO: add more
   },
@@ -157,7 +157,7 @@ export interface Source {
 };
 export interface EventTypeFilterIdentifier {
   filter_type: string,
-  event_type: string,
+  event_type: EventType,
   event_type_display: string,
 };
 

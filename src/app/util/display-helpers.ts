@@ -1,6 +1,7 @@
-import { PersonAppearance } from './../search/search.service';
+import { EventType } from "../elasticsearch/elasticsearch.service";
+import { PersonAppearance } from "../search/search.service";
 
-export function eventType({ standard: { event_type } }) {
+export function eventType(pa: PersonAppearance) {
   return {
     "census": "Folketælling",
     "burial": "Begravelse",
@@ -11,10 +12,10 @@ export function eventType({ standard: { event_type } }) {
     'death': "Death",
     'departure': "Departure",
     'marriage': "Vielse",
-  }[event_type] || "Kilde"
+  }[pa.standard.event_type] || "Kilde"
 };
 
-export function eventIcon(eventType: string) {
+export function eventIcon(eventType: EventType) {
   return {
     "census": "archive",
     "burial": "ll-funeral",

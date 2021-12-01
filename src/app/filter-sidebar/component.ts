@@ -1,5 +1,6 @@
 import { Component, OnInit, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { EventTypeFilterIdentifier, SourceFilterIdentifier } from '../search/search.service';
 import { eventIcon, sourceIcon, eventType, prettyNumbers, filterTitle, filterTypes, yearFilterTypes } from '../util/display-helpers';
 
 export interface Option {
@@ -26,12 +27,12 @@ export interface Option {
 export class FilterSidebar implements OnInit {
   @Input() featherIconPath: string;
   @Input() possibleFilters: {
-    eventType: Array<{ event_type: string, event_type_display: string, count: number }>,
-    source: Array<{ source_type_wp4: string, source_type_display: string, count: number }>,
-    eventYear: Array<{ event_year_display: string, count: number }>,
-    sourceYear: Array<{ sourceyear_searchable: string, sourceyear_display: string, count: number }>,
-    birthYear: Array<{ birthyear_searchable: string, birthyear_display: string, count: number }>,
-    deathYear: Array<{ deathyear_searchable: string, deathyear_display: string, count: number }>,
+    eventType: Array<EventTypeFilterIdentifier & { count: number }>,
+    source: Array<SourceFilterIdentifier & { count: number }>,
+    eventYear: Array<{ key: number, count: number }>,
+    sourceYear: Array<{ key: number, count: number }>,
+    birthYear: Array<{ key: number, count: number }>,
+    deathYear: Array<{ key: number, count: number }>,
   };
   @Input() openSidebar: boolean;
   @Input()
