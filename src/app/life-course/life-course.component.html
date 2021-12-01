@@ -81,6 +81,14 @@
                 [item]="pa"
                 truncatableName="true"
             ></app-person-appearance-item>
+            <div class="u-mt-4 lls-columns-12">
+                <div class="lls-source-info__entry">
+                    <h3 class="lls-source-info__entry-label">
+                        Om livsforløb
+                    </h3>
+                    <div [innerHTML]="aboutLifeCourseText"></div>
+                </div>
+            </div>
         </section>
         <section class="lls-life-course-source-container__source-linking-graph">
             <div class="lls-life-course-source-container__source-linking-title">
@@ -96,14 +104,4 @@
             ></app-source-linking-graph>
         </section>
     </div>
-    <section>
-        <div class="lls-source-info">
-            <div class="lls-source-info__entry">
-                <h3 class="lls-source-info__entry-label">
-                    Om livsforløb
-                </h3>
-                <div [innerHTML]="aboutLifeCourseText"></div>
-            </div>
-        </div>
-    </section>
 </div>

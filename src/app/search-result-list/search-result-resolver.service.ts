@@ -53,39 +53,19 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
               source_type_display,
             };
           }
-          if(filter_type == 'eventYear') {
-            const [ filter_type, event_year_display ] = id.split("_");
-            return {
-              filter_type,
-              //event_year,
-              event_year_display,
-            };
-          }
 
-          if(filter_type == 'sourceYear') {
-            const [ filter_type, source_year_searchable, source_year_display ] = id.split("_");
-            return {
-              filter_type,
-              source_year_searchable,
-              source_year_display,
-            };
-          }
+          const isHistogramFilter = (filter_type) => [
+            'birthYear',
+            'sourceYear',
+            'deathYear',
+            'eventYear',
+          ].includes(filter_type);
 
-          if(filter_type == 'birthYear') {
-            const [ filter_type, birthyear_searchable, birthyear_display ] = id.split("_");
+          if(isHistogramFilter(filter_type)) {
+            const [ filter_type, value ] = id.split("_");
             return {
               filter_type,
-              birthyear_searchable,
-              birthyear_display,
-            };
-          }
-
-          if(filter_type == 'deathYear') {
-            const [ filter_type, deathyear_searchable, deathyear_display ] = id.split("_");
-            return {
-              filter_type,
-              deathyear_searchable,
-              deathyear_display,
+              value: parseInt(value),
             };
           }
         });
