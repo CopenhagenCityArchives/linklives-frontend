@@ -392,6 +392,17 @@ export class ElasticsearchService {
   }
 
   createQueries(query: AdvancedSearchQuery, sourceFilter: FilterIdentifier[], mode: string) {
+    const queryIncludingNested = (key, fun) => [ fun(key), fun(`person_appearance.${key}`) ];
+    const matchQ = (key, val) => queryIncludingNested(key, (key) => {
+      return { match: { [key]: val } };
+    });
+    const mustQ = (arr) => {
+      return { bool: { must: arr } };
+    };
+    const shouldQ = (arr) => {
+      return { bool: { should: arr } };
+    };
+
     const must = [];
     let sourceLookupFilter = must;
 
@@ -451,9 +462,9 @@ export class ElasticsearchService {
       }
 
       if(searchKeyConfig.exact) {
-        must.push({
-          term: { [`person_appearance.${searchKeyConfig.exact}`]: value }
-        });
+        must.push(shouldQ(queryIncludingNested(searchKeyConfig.exact, (key) => {
+          return { term: { [key]: value } };
+        })));
         return;
       }
 
@@ -475,13 +486,9 @@ export class ElasticsearchService {
             const unquoted = parts.filter((_, i) => i % 2 == 0);
 
             quoted.forEach((quotedValue) => {
-              searchKeySubQuery.push({
-                match_phrase: {
-                  [`person_appearance.${searchKey}`]: {
-                    query: quotedValue,
-                  },
-                },
-              });
+              searchKeySubQuery.push(shouldQ(queryIncludingNested(searchKey, (key) => {
+                return { match_phrase: { [key]: { query: quotedValue } } };
+              })));
             });
 
             // We send the unquoted parts back to normal value handling.
@@ -504,31 +511,27 @@ export class ElasticsearchService {
         const nonWildcardTerms = terms.filter((value) => !/[\?\*]/.test(value));
 
         wildcardTerms.forEach((value) => {
-          searchKeySubQuery.push({
-            wildcard: {
-              [`person_appearance.${searchKey}`]: {
-                value,
-              }
-            }
-          });
+          searchKeySubQuery.push(shouldQ(queryIncludingNested(searchKey, (key) => {
+            return { wildcard: { [key]: { value } } };
+          })));
         });
 
         if(nonWildcardTerms.length) {
-          searchKeySubQuery.push({
-            match: {
-              [`person_appearance.${searchKey}`]: {
-                // Match query splits into terms on space, so we can simplify the query here
-                query: nonWildcardTerms.join(" "),
-                //max_expansions: 250,
-
-                operator: "AND"
+          searchKeySubQuery.push(shouldQ(queryIncludingNested(searchKey, (key) => {
+            return {
+              match: {
+                [key]: {
+                  // Match query splits into terms on space, so we can simplify the query here
+                  query: nonWildcardTerms.join(" "),
+                  operator: "AND",
+                }
               }
-            }
-          });
+            };
+          })));
         }
 
         if(searchKeySubQuery.length > 1) {
-          return { bool: { must: searchKeySubQuery } };
+          return mustQ(searchKeySubQuery);
         }
 
         return searchKeySubQuery[0];
@@ -543,17 +546,6 @@ export class ElasticsearchService {
       sourceLookupFilter = [ ...must ];
 
       const filtersGroupedByFilterType = groupBy(sourceFilter, 'filter_type');
-
-      const queryIncludingNested = (key, fun) => [ fun(key), fun(`person_appearance.${key}`) ];
-      const matchQ = (key, val) => queryIncludingNested(key, (key) => {
-        return { match: { [key]: val } };
-      });
-      const mustQ = (arr) => {
-        return { bool: { must: arr } };
-      };
-      const shouldQ = (arr) => {
-        return { bool: { should: arr } };
-      };
 
       const eventTypeFilters = (filtersGroupedByFilterType) => {
         return filtersGroupedByFilterType.eventType.map(({ event_type, event_type_display }) => {
@@ -649,17 +641,20 @@ export class ElasticsearchService {
     }
 
     // Special case: life_course_id
-    const includeLifeCouseInQuery = (oldQuery) => ({
-      bool: {
-        must: [
-          { term: { life_course_id: query.lifeCourseId } },
-          oldQuery,
-        ]
+    const includeLifeCourseInQuery = (oldQuery) => {
+      const lifeCourseIdTerm = { term: { life_course_id: query.lifeCourseId } };
+      if(!oldQuery) {
+        return lifeCourseIdTerm;
       }
-    });
+
+      return mustQ([
+        lifeCourseIdTerm,
+        oldQuery,
+      ]);
+    };
     return {
-      resultLookupQuery: includeLifeCouseInQuery(resultLookupQuery),
-      sourceLookupQuery: includeLifeCouseInQuery(sourceLookupQuery),
+      resultLookupQuery: includeLifeCourseInQuery(resultLookupQuery),
+      sourceLookupQuery: includeLifeCourseInQuery(sourceLookupQuery),
     };
   }
 

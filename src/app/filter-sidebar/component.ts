@@ -29,7 +29,7 @@ export class FilterSidebar implements OnInit {
     eventType: Array<{ event_type: string, event_type_display: string, count: number }>,
     source: Array<{ source_type_wp4: string, source_type_display: string, count: number }>,
     eventYear: Array<{ event_year_display: string, count: number }>,
-    sourceYear: Array<{ source_year_searchable: string, source_year_display: string, count: number }>,
+    sourceYear: Array<{ sourceyear_searchable: string, sourceyear_display: string, count: number }>,
     birthYear: Array<{ birthyear_searchable: string, birthyear_display: string, count: number }>,
     deathYear: Array<{ deathyear_searchable: string, deathyear_display: string, count: number }>,
   };
