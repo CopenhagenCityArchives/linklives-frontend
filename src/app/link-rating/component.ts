@@ -32,12 +32,17 @@ export class LinkRatingComponent implements OnInit {
 
   get ratingCategoriesWithCount() {
     const result = {};
-    this.ratingOptions.forEach((option) => {
-      result[option.category] = 0;
-    });
-    Object.keys(this.ratingCountByCategory).forEach((key) => {
-      result[key] = this.ratingCountByCategory[key];
-    });
+    if(this.ratingOptions) {
+      this.ratingOptions.forEach((option) => {
+        result[option.category] = 0;
+      });
+    }
+
+    if(this.ratingCountByCategory) {
+      Object.keys(this.ratingCountByCategory).forEach((key) => {
+        result[key] = this.ratingCountByCategory[key];
+      });
+    }
 
     return result;
   }
