@@ -405,7 +405,7 @@ export class ElasticsearchService {
         "*sourceplace_searchable",
         "*gender_searchable",
         "*birthname_searchable",
-        "*role_display",
+        "*role_searchable",
       ];
 
       if(mode === "fuzzy") {
@@ -415,7 +415,7 @@ export class ElasticsearchService {
           "*firstnames_searchable_fz",
           "*birthplace_searchable_fz",
           "*birthname_searchable_fz",
-          "*role_display",
+          "*role_searchable",
         ];
         fields = fields.concat(fuzzyStringFields);
       }

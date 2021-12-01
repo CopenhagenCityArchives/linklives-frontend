@@ -49,8 +49,8 @@ export const mapSearchKeys = {
     fuzzy: "gender_searchable",
   },
   role: {
-    default: "role_display",
-    fuzzy: "role_display",
+    default: "role_searchable",
+    fuzzy: "role_searchable",
   },
 };
 
