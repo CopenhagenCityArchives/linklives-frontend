@@ -1,4 +1,4 @@
-<div *ngIf="auth.user$ | async as user" class="lls-container u-mt-4">
+<div *ngIf="user" class="lls-container u-mt-4">
   <div class="lls-results-header__link-section">
     <a routerLink="/" tabIndex="0" class="lls-link u-align-icon">
       <svg class="lls-icon">
@@ -57,11 +57,32 @@
           <tr>
             <td class="u-semi-bold">Brugernavn</td>
             <td>
-              {{ user.nickname }}</td>
+              <span *ngIf="!isEditingProfile">{{ user.nickname }}</span>
+              <div class="lls-input-group" *ngIf="isEditingProfile">
+                <input
+                  type="text"
+                  placeholder="Indtast brugernavn"
+                  class="lls-input-field lls-input-group__field"
+                  [(ngModel)]="newNickname"
+                  name="new-nickname"
+                />
+              </div>
+            </td>
           </tr>
           <tr>
             <td class="u-semi-bold">Email</td>
-            <td>{{ user.email }}</td>
+            <td>
+              <span *ngIf="!isEditingProfile">{{ user.email }}</span>
+              <div class="lls-input-group" *ngIf="isEditingProfile">
+                <input
+                  type="text"
+                  placeholder="Indtast email"
+                  class="lls-input-field lls-input-group__field"
+                  [(ngModel)]="newEmail"
+                  name="new-email"
+                />
+              </div>
+            </td>
           </tr>
         </table>
       </div>
@@ -69,8 +90,8 @@
         <button
           (click)="editProfile()"
           type="submit"
-          disabled
-          class="lls-btn lls-btn--disabled"
+          class="lls-btn"
+          *ngIf="!isEditingProfile"
         >
           <span>Rediger</span>
           <svg class="lls-icon lls-icon--right">

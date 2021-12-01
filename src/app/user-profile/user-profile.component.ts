@@ -12,15 +12,20 @@ import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 export class UserProfilePage implements OnInit {
   constructor(public auth: AuthService, private authUtil: AuthUtil, private elasticsearch: ElasticsearchService) {}
 
-  isEditingProfile:boolean = true;
+  isEditingProfile: boolean = false;
   ratedLifecourses: any;
   openSearchHistory: boolean = false;
+  newNickname: string = "";
+  newEmail: string = "";
+  user;
 
   get config() {
     return window["lls"];
   };
 
   editProfile() {
+    this.newNickname = this.user.nickname;
+    this.newEmail = this.user.email;
     this.isEditingProfile = true;
   };
 
@@ -34,5 +39,7 @@ export class UserProfilePage implements OnInit {
     this.elasticsearch.getRatedLifecourses().subscribe((ratedLifecourses) => {
       this.ratedLifecourses = ratedLifecourses;
     });
+
+    this.auth.user$.subscribe((user) => this.user = user);
   }
 }
