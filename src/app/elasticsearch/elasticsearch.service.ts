@@ -640,8 +640,13 @@ export class ElasticsearchService {
 
     // Special case: life_course_id
     const includeLifeCourseInQuery = (oldQuery) => {
+      const lifeCourseIdTerm = { term: { life_course_id: query.lifeCourseId } };
+      if(!oldQuery) {
+        return lifeCourseIdTerm;
+      }
+
       return mustQ([
-        { term: { life_course_id: query.lifeCourseId } },
+        lifeCourseIdTerm,
         oldQuery,
       ]);
     };
