@@ -28,7 +28,7 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
           personAppearance: pa,
         });
 
-        if(!pa.hh_id && (!pa.event_id || pa.event_persons < 2)) {
+        if(!pa.standard.household_id && (!pa.event_id || pa.event_persons < 2)) {
           return new Observable<PersonAppearanceResolverResult>(observer => {
             observer.next({
               pa,
@@ -39,41 +39,26 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
         }
 
         const matchList: Object[] = [
-          { "match": { "person_appearance.source_id": pa.source_id } },
+          { "match": { "source_id": pa.source_id } },
         ];
 
-        // we will only have either hh_id OR event_id
-        if(pa.hh_id) {
-          matchList.push(
-            { "match": { "person_appearance.hh_id": pa.hh_id } },
-          )
+        // we will only have either household_id OR event_id
+        if(pa.standard.household_id) {
+          matchList.push({ "match": { "standard.household_id": pa.standard.household_id } });
         }
         if(pa.event_id) {
-          matchList.push(
-            { "match": { "person_appearance.event_id": pa.event_id } },
-          )
+          matchList.push({ "match": { "event_id": pa.event_id } });
         }
 
         let body = {
           "from": 0,
           "size": 100,
           "query": {
-            "bool": {
-              "must": [
-                {
-                  "nested": {
-                    "path": "person_appearance",
-                    "query": {
-                      "bool" : {
-                        "must": matchList
-                      }
-                    }
-                  }
-                }
-              ]
-            }
-          }
-        }
+            "bool" : {
+              "must": matchList,
+            },
+          },
+        };
 
         return this.elasticsearch.search(['pas'], body).pipe(
           map((searchResult, index) => {

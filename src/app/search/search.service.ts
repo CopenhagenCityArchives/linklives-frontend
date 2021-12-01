@@ -85,7 +85,6 @@ export interface PersonAppearance {
   gender: string,
   gender_clean: string,
   gender_std: string,
-  hh_id: number,
   household_family_no: string,
   household_position: string,
   household_position_std: string,
@@ -131,6 +130,7 @@ export interface PersonAppearance {
   source: Source,
   standard: {
     event_type: string,
+    household_id: string,
     //TODO: add more
   },
   transcribed: {
