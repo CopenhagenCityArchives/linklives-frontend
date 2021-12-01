@@ -2,16 +2,16 @@ import { EventType } from "../elasticsearch/elasticsearch.service";
 
 export function eventIcon(eventType: EventType) {
   return {
-    "census": "archive",
-    "burial": "ll-funeral",
-    "burial_protocol": "ll-funeral",
     'arrival': 'clipboard',
     'baptism': "ll-baptism",
-    'birth': "ll-baptism",
+    'babtism': "ll-baptism",
+    "burial": "ll-funeral",
+    "burial_protocol": "ll-funeral",
+    "census": "archive",
     'confirmation': "ll-confirmation",
-    'death': "ll-funeral",
     'departure': "clipboard",
     'marriage': "heart",
+    'spouse': "heart",
   }[eventType] || "circle";
 };
 
