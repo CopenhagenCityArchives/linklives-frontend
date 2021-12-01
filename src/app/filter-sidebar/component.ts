@@ -82,32 +82,30 @@ export class FilterSidebar implements OnInit {
   onChange: Function = () => {};
   onTouched: Function = () => {};
 
-  sourceCategories(filterType) {
-    const sourceCategories = this.possibleFilters[filterType].map(x => {
+  sourceCategories() {
+    return this.possibleFilters.source.map(x => {
       return {
         label: x.source_type_display,
         type: x.source_type_wp4,
         icon: sourceIcon(x.source_type_wp4),
-        value: `${filterType}_${x.source_type_wp4}_${x.source_type_display}`,
+        value: `source_${x.source_type_wp4}_${x.source_type_display}`,
         count: prettyNumbers(x.count),
         chosen: false,
       };
     });
-    return sourceCategories;
   }
 
-  eventCategories(filterType) {
-    const eventCategories = this.possibleFilters[filterType].map(x => {
+  eventCategories() {
+    return this.possibleFilters.eventType.map(x => {
       return {
         label: x.event_type_display,
         type: x.event_type,
         icon: eventIcon(x.event_type),
-        value: `${filterType}_${x.event_type}_${x.event_type_display}`,
+        value: `eventType_${x.event_type}_${x.event_type_display}`,
         count: prettyNumbers(x.count),
         chosen: false,
       };
     });
-    return eventCategories;
   }
 
   histogramOptions(filterType) {
@@ -126,21 +124,12 @@ export class FilterSidebar implements OnInit {
 
   filtersCategories(filterType) {
     if(filterType == 'eventType') {
-      return this.eventCategories(filterType);
+      return this.eventCategories();
     }
     if(filterType == 'source') {
-      return this.sourceCategories(filterType);
+      return this.sourceCategories();
     }
-    if(filterType == 'eventYear') {
-      return this.histogramOptions(filterType);
-    }
-    if(filterType == 'sourceYear') {
-      return this.histogramOptions(filterType);
-    }
-    if(filterType == 'birthYear') {
-      return this.histogramOptions(filterType);
-    }
-    if(filterType == 'deathYear') {
+    if(filterType.endsWith('Year')) {
       return this.histogramOptions(filterType);
     }
   }
