@@ -45,17 +45,6 @@ export class SourceDataComponent implements OnInit {
     return i < list.length / 2 ? 'data-section__row--column-1' : 'data-section__row--column-2';
   }
 
-  get eventTypeClass() {
-    const eventType = this.pa.standard.event_type;
-    if(eventType !== 'burial') {
-      return eventType;
-    }
-    if(this.pa.source_type_wp4 === 'parish') {
-      return `${eventType}-pr`
-    }
-    return `${eventType}-cph`
-  }
-
   ngOnInit(): void {
     this.route.parent.data.subscribe((resolve) => {
       this.pa = resolve.item.pa as PersonAppearance;
