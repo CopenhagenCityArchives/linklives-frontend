@@ -1,10 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { getSearchHistory, onSearchHistoryEntry, SearchHistoryEntry, SearchHistoryEntryType } from '../search-history';
 import { searchFieldLabels } from '../search-term-values';
-import { eventType, prettyYearRange, eventIcon } from '../util/display-helpers';
-import { PersonAppearance } from '../search/search.service';
-
-
+import { prettyYearRange, eventIcon } from '../util/display-helpers';
 
 @Component({
   selector: 'app-search-history',
@@ -34,10 +31,6 @@ export class SearchHistoryComponent implements OnInit {
   searchFieldLabels = searchFieldLabels;
   prettyYearRange = prettyYearRange;
   eventIcon = eventIcon;
-
-  eventType(pa: PersonAppearance) {
-    return eventType(pa);
-  }
 
   queryKeys(entry) {
     return Object.keys(entry.query);

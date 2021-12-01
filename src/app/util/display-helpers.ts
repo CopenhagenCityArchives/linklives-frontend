@@ -1,19 +1,4 @@
 import { EventType } from "../elasticsearch/elasticsearch.service";
-import { PersonAppearance } from "../search/search.service";
-
-export function eventType(pa: PersonAppearance) {
-  return {
-    "census": "Folketælling",
-    "burial": "Begravelse",
-    'arrival': 'Arrival',
-    'baptism': "Dåb",
-    'birth': "Fødsel",
-    'confirmation': "Konfirmation",
-    'death': "Death",
-    'departure': "Departure",
-    'marriage': "Vielse",
-  }[pa.standard.event_type] || "Kilde"
-};
 
 export function eventIcon(eventType: EventType) {
   return {
