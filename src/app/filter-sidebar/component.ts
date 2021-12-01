@@ -1,7 +1,7 @@
 import { Component, OnInit, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
 import { EventTypeFilterIdentifier, SourceFilterIdentifier } from '../search/search.service';
-import { eventIcon, sourceIcon, eventType, prettyNumbers, filterTitle, filterTypes, yearFilterTypes } from '../util/display-helpers';
+import { eventType, prettyNumbers, filterTitle, filterTypes, yearFilterTypes } from '../util/display-helpers';
 
 export interface Option {
   label: string;
@@ -45,8 +45,6 @@ export class FilterSidebar implements OnInit {
 
   @Output() closeSidebar: EventEmitter<any> = new EventEmitter();
   @Output() removeFilter: EventEmitter<any> = new EventEmitter();
-  eventIcon = eventIcon;
-  sourceIcon = sourceIcon;
   eventType = eventType;
   filterTypes = filterTypes;
   yearFilterTypes = yearFilterTypes;
@@ -87,7 +85,6 @@ export class FilterSidebar implements OnInit {
       return {
         label: x.source_type_display,
         type: x.source_type_wp4,
-        icon: sourceIcon(x.source_type_wp4),
         value: `source_${x.source_type_wp4}_${x.source_type_display}`,
         count: prettyNumbers(x.count),
         chosen: false,
@@ -100,7 +97,6 @@ export class FilterSidebar implements OnInit {
       return {
         label: x.event_type_display,
         type: x.event_type,
-        icon: eventIcon(x.event_type),
         value: `eventType_${x.event_type}_${x.event_type_display}`,
         count: prettyNumbers(x.count),
         chosen: false,

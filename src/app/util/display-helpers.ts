@@ -30,12 +30,6 @@ export function eventIcon(eventType: EventType) {
   }[eventType] || "circle";
 };
 
-export function sourceIcon(sourceType: string) {
-  return {
-    "census": "archive",
-  }[sourceType] || "circle";
-};
-
 export const filterTypes = ['eventType', 'source', 'eventYear', 'sourceYear', 'birthYear', 'deathYear'];
 export const yearFilterTypes = ['eventYear', 'sourceYear', 'birthYear', 'deathYear'];
 
