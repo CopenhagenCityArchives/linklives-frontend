@@ -745,7 +745,23 @@ export class ElasticsearchService {
     return this.http.post<any>(`${environment.apiUrl}/LinkRating`, linkRating);
   }
 
-  getLinkRatingStats(key: string): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/Link/${key}/ratings/stats`);
+  getLinkRatingStats(key: string): Observable<{ headingRatings: any, totalRatings: number, ratedBy: string[] }> {
+    return this.http.get<any>(`${environment.apiUrl}/Link/${key}/ratings`)
+      .pipe(map(((ratings) => {
+        const headingRatings = {};
+
+        ratings.forEach((entry) => {
+          if(!headingRatings[entry.rating.heading]) {
+            headingRatings[entry.rating.heading] = 0;
+          }
+          headingRatings[entry.rating.heading]++;
+        });
+
+        return {
+          headingRatings,
+          totalRatings: ratings.length,
+          ratedBy: ratings.map((entry) => entry.user),
+        }
+      })));
   }
 };

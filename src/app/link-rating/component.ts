@@ -20,6 +20,7 @@ export class LinkRatingComponent implements OnInit {
   @Input() linkKey: string;
   @Input() totalRatings: number;
   @Input() ratingCountByCategory: any;
+  @Input() ratedBy: string[];
   @Input() chosenRatingId;
   @Output() close: EventEmitter<any> = new EventEmitter();
 
@@ -27,6 +28,31 @@ export class LinkRatingComponent implements OnInit {
   chosen: string = "";
   ratingOptions;
   currentPath = this.authUtil.currentPath();
+  user;
+
+  get ratingCategoriesWithCount() {
+    const result = {};
+    if(this.ratingOptions) {
+      this.ratingOptions.forEach((option) => {
+        result[option.category] = 0;
+      });
+    }
+
+    if(this.ratingCountByCategory) {
+      Object.keys(this.ratingCountByCategory).forEach((key) => {
+        result[key] = this.ratingCountByCategory[key];
+      });
+    }
+
+    return result;
+  }
+
+  get canRateLink() {
+    if(!this.ratedBy || !this.user) {
+      return true;
+    }
+    return !this.ratedBy.includes(this.user.sub);
+  }
 
   percent(ratingCount) {
     return Math.round(parseInt(ratingCount) / this.totalRatings * 100);
@@ -47,14 +73,11 @@ export class LinkRatingComponent implements OnInit {
     this.chosen = linkOption.category;
 
     this.elasticsearch.sendLinkRating(ratingData).subscribe(rate => {
-      // update rating stats
       this.totalRatings++;
+      if(!this.ratingCountByCategory[linkOption.category]) {
+        this.ratingCountByCategory[linkOption.category] = 0;
+      }
       this.ratingCountByCategory[linkOption.category]++;
-    });
-
-    this.elasticsearch.getLinkRatingStats(this.linkKey).subscribe(linkRatingData => {
-      this.totalRatings = linkRatingData.totalRatings
-      this.ratingCountByCategory = linkRatingData.headingRatings;
     });
 
     this.showForm = false;
@@ -90,7 +113,6 @@ export class LinkRatingComponent implements OnInit {
     if(this.chosenRatingId && parseInt(this.chosenRatingId) !== NaN) {
       this.linkRatingForm.setValue({option: parseInt(this.chosenRatingId)});
     }
-
   }
 
   closeOnEsc() {
@@ -101,7 +123,9 @@ export class LinkRatingComponent implements OnInit {
   }
 
   constructor(private router: Router, private elasticsearch: ElasticsearchService, public auth: AuthService, private authUtil: AuthUtil) {
-    this.elasticsearch.getLinkRatingOptions().subscribe(ratingOptions => {
+    auth.user$.subscribe((user) => this.user = user);
+
+    this.elasticsearch.getLinkRatingOptions().subscribe((ratingOptions) => {
       this.ratingOptions = ratingOptions;
     });
   }  
