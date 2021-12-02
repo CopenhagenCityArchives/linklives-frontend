@@ -39,7 +39,7 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
         .map((id) => {
           const filter_type = id.split("_")[0];
           if(filter_type == 'eventType') {
-            const [ filter_type, event_type, event_type_display ] = id.split("_");
+            const [ _, filter_type, event_type, event_type_display ] = id.match(/^([^_]+)_(.+)_([^_]+)$/);
             return {
               filter_type,
               event_type: event_type as EventType,
@@ -47,7 +47,7 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
             };
           }
           if(filter_type == 'source') {
-            const [ filter_type, source_type_wp4, source_type_display ] = id.split("_");
+            const [ _, filter_type, source_type_wp4, source_type_display ] = id.match(/^([^_]+)_(.+)_([^_]+)$/);
             return {
               filter_type,
               source_type_wp4,
