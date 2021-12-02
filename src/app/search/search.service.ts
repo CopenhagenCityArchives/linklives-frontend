@@ -114,6 +114,7 @@ export interface PersonAppearance {
   positions: string,
   role: string,
   role_display: string,
+  role_searchable: string,
   source_archive_display: string,
   source_id: number,
   source_reference: string,
