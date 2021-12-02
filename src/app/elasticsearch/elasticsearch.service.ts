@@ -72,8 +72,10 @@ interface SourceLookupKeys {
   source_type_display: string // only used for displaying
 }
 
+export type EventType = "arrival" | "babtism" | "baptism" | "burial" | "burial_protocol" | "census" | "confirmation" | "departure" | "marriage" | "spouse";
+
 interface EventLookupKeys {
-  event_type: string
+  event_type: EventType
   event_type_display: string // only used for displaying
 }
 
