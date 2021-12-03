@@ -26,7 +26,7 @@ export class SourceDataComponent implements OnInit {
     return Object.keys(this.pa.transcribed.transcription)
       .map((key) => ({
         label: key,
-        value: this.cleanValue(this.pa[key])
+        value: this.cleanValue(this.pa.transcribed.transcription[key])
       }));
   }
 
