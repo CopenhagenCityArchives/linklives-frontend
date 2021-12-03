@@ -105,6 +105,7 @@ export interface Link {
   score: number,
   key: string,
   ratings: Array<object>,
+  duplicates: number,
 }
 
 export interface LinksSearchResult {

@@ -4,11 +4,12 @@
 >
     <div
         class="lls-source-graph__source"
+        [class]="drawableLinks[0].duplicates ? 'lls-source-graph__source--link-with-duplicates' : ''"
         *ngFor="let pa of pas; index as i;"
         [style]="'top: ' + ((196 + 16) * i + (196 / 2) - 11) + 'px;'"
     >
         <div class="lls-source-graph__source-label">
-            {{ pa.event_year_display }}
+            {{ pa.event_year_display }} {{drawableLinks[0].duplicates}}
         </div>
         <div
             class="lls-source-graph__circle"
@@ -43,9 +44,9 @@
 
     <div
         class="lls-source-graph__tooltip"
-        [class]="activeLink === link.key ? 'lls-source-graph__tooltip--active' : ''"
+        [class]="(activeLink === link.key ? 'lls-source-graph__tooltip--active' : '') + (link.duplicates ? ' lls-source-graph__tooltip--link-with-duplicates' : '')"
         *ngFor="let link of drawableLinks; index as i;"
-        [style]="'top: ' + (link.offsetY + (link.lineHeight / 2) - 271) + 'px; left: ' + (link.pathTierX + 30) + 'px;'"
+        [style]="'top: ' + (link.offsetY + (link.lineHeight / 2) - (link.duplicates ? 326 : 271)) + 'px; left: ' + (link.pathTierX + 30) + 'px;'"
         (mouseenter)="onMouseEnterTooltip(link.key)"
         (mouseleave)="onMouseLeaveTooltip(link.key)"
     >
@@ -58,6 +59,9 @@
         >
             Linket er skabt med metoden<br>
             {{ link.linkingMethod.short }}
+        </div>
+        <div *ngIf="link.duplicates">
+            Dette link optræder i flere livsforløb og er dermed usikkert.
         </div>
         <div class="u-mt-2">
             <a class="lls-link lls-link--underline lls-link--white" href="https://link-lives.dk/saadan-skabes-livsforloeb/">

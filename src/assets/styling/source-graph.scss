@@ -30,6 +30,9 @@
   left: -11px;
   z-index: -2;
   box-sizing: content-box;
+  .lls-source-graph__source--link-with-duplicates & {
+    background-color: $marriage-red;
+  }
 }
 .lls-source-graph__link--active .lls-source-graph__circle:before {
   transform: scale(1.5);
@@ -125,6 +128,9 @@
 .lls-source-graph__tooltip--active {
   opacity: 1;
   pointer-events: all;
+}
+.lls-source-graph__tooltip--link-with-duplicates {
+  height: 320px;
 }
 
 .lls-source-graph__tooltip-label {
