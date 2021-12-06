@@ -39,10 +39,21 @@ export class UserProfilePage implements OnInit {
   async saveProfile() {
     this.saving = true;
 
-    await this.userManagement.updateProfile(this.user, {
-      userName: this.newUsername,
-      email: this.newEmail,
-    });
+    const changes: { userName?: string, email?: string } = {};
+    if(this.profile.userName != this.newUsername) {
+      changes.userName = this.newUsername;
+    }
+    if(this.profile.email != this.newEmail) {
+      changes.email = this.newEmail;
+    }
+
+    if(Object.keys(changes).length < 1) {
+      this.saving = false;
+      this.isEditingProfile = false;
+      return;
+    }
+
+    await this.userManagement.updateProfile(this.user, changes);
 
     this.profile.userName = this.newUsername;
     this.profile.email = this.newEmail;
