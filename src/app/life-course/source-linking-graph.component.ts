@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ElasticsearchService, Link } from '../elasticsearch/elasticsearch.service';
+import { Link } from '../elasticsearch/elasticsearch.service';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({
@@ -22,6 +22,7 @@ export class SourceLinkingGraphComponent implements OnInit {
     linkingMethod: { long: string, short: string },
     totalRatings: number,
     key: string,
+    duplicates: number,
   }[] = [];
 
   hoveredLink?: string = null;
@@ -110,6 +111,7 @@ export class SourceLinkingGraphComponent implements OnInit {
           linkingMethod: prettyLinkMethod(link),
           totalRatings: link.ratings ? link.ratings.length : 0, // TODO: Remove this guarding when the link.rating data is fixed. Right now it can be null.
           key: link.key,
+          duplicates: link.duplicates,
         };
       })
       .sort((a, b) => {
