@@ -58,8 +58,8 @@ export class UserProfilePage implements OnInit {
     this.profile.userName = this.newUsername;
     this.profile.email = this.newEmail;
 
-    this.saving = false;
     this.isEditingProfile = false;
+    this.authUtil.handleLogin();
   }
 
   logout(){
