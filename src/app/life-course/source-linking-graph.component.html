@@ -4,12 +4,11 @@
 >
     <div
         class="lls-source-graph__source"
-        [class]="drawableLinks[0].duplicates ? 'lls-source-graph__source--link-with-duplicates' : ''"
         *ngFor="let pa of pas; index as i;"
         [style]="'top: ' + ((196 + 16) * i + (196 / 2) - 11) + 'px;'"
     >
         <div class="lls-source-graph__source-label">
-            {{ pa.event_year_display }} {{drawableLinks[0].duplicates}}
+            {{ pa.event_year_display }}
         </div>
         <div
             class="lls-source-graph__circle"
@@ -38,6 +37,7 @@
 
         <div
             class="lls-source-graph__circle lls-source-graph__circle--action"
+            [class]="link.duplicates ? 'lls-source-graph__circle--link-with-duplicates' : ''"
             [style]="'transform: translate(' + (link.pathTierX - 26) + 'px, ' + (-link.lineHeight / 2) + 'px);'"
         ></div>
     </div>
