@@ -1,4 +1,4 @@
-<div *ngIf="user" class="lls-container u-mt-4">
+<div *ngIf="profile" class="lls-container u-mt-4">
   <app-loading-overlay
     [class]="saving ? '' : 'u-hide'"
   ></app-loading-overlay>
@@ -24,11 +24,11 @@
         Min side
       </h2>
       <h1 class="lls-data-page-header__title">
-        <ng-container *ngIf="user.firstname; else nicknameBlock">
-          {{ user.firstname }} {{ user.lastname }}
+        <ng-container *ngIf="profile.firstname; else nicknameBlock">
+          {{ profile.firstname }} {{ profile.lastname }}
         </ng-container>
         <ng-template #nicknameBlock>
-          {{ user.nickname }}
+          {{ profile.userName }}
         </ng-template>
       </h1>
       <p class="lls-data-page-header__data-summary">
@@ -46,7 +46,7 @@
 
   <div class="lls-card u-flex u-space-between">
     <div class="lls-row">
-      <div *ngIf="!user.picture" class="lls-profile-picture lls-columns-12 lls-columns-2--md lls-gap">
+      <div *ngIf="!profile.picture" class="lls-profile-picture lls-columns-12 lls-columns-2--md lls-gap">
         JP
       </div>
       <div *ngIf="user.picture" class="lls-profile-picture lls-columns-12 lls-columns-2--md lls-gap">
@@ -60,13 +60,13 @@
           <tr>
             <td class="u-semi-bold">Brugernavn</td>
             <td>
-              <span *ngIf="!isEditingProfile">{{ user.nickname }}</span>
+              <span *ngIf="!isEditingProfile">{{ profile.userName }}</span>
               <div class="lls-input-group" *ngIf="isEditingProfile">
                 <input
                   type="text"
                   placeholder="Indtast brugernavn"
                   class="lls-input-field lls-input-group__field"
-                  [(ngModel)]="newNickname"
+                  [(ngModel)]="newUsername"
                   name="new-nickname"
                   [disabled]="saving"
                 />
@@ -76,7 +76,7 @@
           <tr>
             <td class="u-semi-bold">Email</td>
             <td>
-              <span *ngIf="!isEditingProfile">{{ user.email }}</span>
+              <span *ngIf="!isEditingProfile">{{ profile.email }}</span>
               <div class="lls-input-group" *ngIf="isEditingProfile">
                 <input
                   type="text"

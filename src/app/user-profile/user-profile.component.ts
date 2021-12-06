@@ -20,9 +20,10 @@ export class UserProfilePage implements OnInit {
   isEditingProfile: boolean = false;
   ratedLifecourses: any;
   openSearchHistory: boolean = false;
-  newNickname: string = "";
+  newUsername: string = "";
   newEmail: string = "";
   user;
+  profile;
   saving: boolean = false;
 
   get config() {
@@ -30,8 +31,8 @@ export class UserProfilePage implements OnInit {
   };
 
   editProfile() {
-    this.newNickname = this.user.nickname;
-    this.newEmail = this.user.email;
+    this.newUsername = this.profile.userName;
+    this.newEmail = this.profile.email;
     this.isEditingProfile = true;
   }
 
@@ -39,12 +40,12 @@ export class UserProfilePage implements OnInit {
     this.saving = true;
 
     await this.userManagement.updateProfile(this.user, {
-      nickname: this.newNickname,
+      userName: this.newUsername,
       email: this.newEmail,
     });
 
-    this.user.nickname = this.newNickname;
-    this.user.email = this.newEmail;
+    this.profile.userName = this.newUsername;
+    this.profile.email = this.newEmail;
 
     this.saving = false;
     this.isEditingProfile = false;
@@ -71,8 +72,9 @@ export class UserProfilePage implements OnInit {
     });
 
     this.auth.user$.subscribe({
-      next: (user) => {
+      next: async (user) => {
         this.user = user;
+        this.profile = await this.userManagement.getProfile(this.user);
       },
     });
   }
