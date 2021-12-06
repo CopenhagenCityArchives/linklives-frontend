@@ -2,6 +2,52 @@
   <app-loading-overlay
     [class]="saving ? '' : 'u-hide'"
   ></app-loading-overlay>
+  <div
+    [class]="showWarning ? 'lls-overlay' : ''"
+    (click)="showWarning = false"
+  ></div>
+  <div class="lls-modal" *ngIf="showWarning">
+    <div class="lls-sidebar__header u-margin-0">
+      <h3 class="u-margin-0">
+        Er du sikker?
+      </h3>
+      <button
+        class="lls-btn lls-btn--outline"
+        [tabIndex]="showWarning ? 0 : -1"
+        (click)="showWarning = false"
+      >
+        <span>Luk</span>
+        <svg class="lls-icon lls-icon--right">
+          <use [attr.href]="featherIconPath + '#x'"></use>
+        </svg>
+      </button>
+    </div>
+    <div>
+      <p>
+        <strong>OBS</strong> - Når du ændrer din emailadresse, skal du bekræfte adressen inden din brugerprofil virker igen. Bekræft adressen ved at klikke på linket i den mail vi sender til den nye emailadresse.
+      </p>
+      <p>
+        Du er ved at ændre din emailadresse til <strong>{{ newEmail }}</strong>.
+      </p>
+    </div>
+    <div class="u-mt-2">
+      <button
+        class="lls-btn"
+        (click)="saveProfile()"
+      >
+        <span>Gem og skift email</span>
+        <svg class="lls-icon lls-icon--right">
+          <use [attr.href]="featherSpriteUrl + '#save'"></use>
+        </svg>
+      </button>
+      <button
+        class="lls-btn lls-btn--outline u-ml-2"
+        (click)="showWarning = false"
+      >
+        <span>Luk</span>
+      </button>
+    </div>
+  </div>
   <div class="lls-results-header__link-section">
     <a routerLink="/" tabIndex="0" class="lls-link u-align-icon">
       <svg class="lls-icon">
@@ -103,7 +149,7 @@
           </svg>
         </button>
         <button
-          (click)="saveProfile()"
+          (click)="profile.email === newEmail ? saveProfile() : showWarning = true"
           class="lls-btn"
           *ngIf="isEditingProfile"
           [disabled]="saving"

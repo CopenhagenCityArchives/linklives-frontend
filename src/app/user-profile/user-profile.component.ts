@@ -24,11 +24,16 @@ export class UserProfilePage implements OnInit {
   newEmail: string = "";
   user;
   profile;
+  showWarning = false;
   saving: boolean = false;
 
   get config() {
     return window["lls"];
   };
+
+  get featherIconPath() {
+    return this.config.featherIconPath;
+  }
 
   editProfile() {
     this.newUsername = this.profile.userName;
