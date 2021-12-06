@@ -25,6 +25,7 @@ import { FilterSidebar } from './filter-sidebar/component';
 import { RelatedPeopleComponent } from './person-appearance/related-people.component';
 import { SourceDataComponent } from './person-appearance/source-data.component';
 import { UserProfilePage } from './user-profile/user-profile.component';
+import { ModalComponent } from './modal/component';
 
 @NgModule({
   declarations: [
@@ -43,6 +44,7 @@ import { UserProfilePage } from './user-profile/user-profile.component';
     LinkRatingComponent,
     FilterSidebar,
     UserProfilePage,
+    ModalComponent,
   ],
   imports: [
     BrowserModule,

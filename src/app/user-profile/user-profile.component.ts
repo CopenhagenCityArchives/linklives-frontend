@@ -20,34 +20,63 @@ export class UserProfilePage implements OnInit {
   isEditingProfile: boolean = false;
   ratedLifecourses: any;
   openSearchHistory: boolean = false;
-  newNickname: string = "";
+  newUsername: string = "";
   newEmail: string = "";
   user;
+  profile;
+  showWarning = false;
+  error: string = null;
   saving: boolean = false;
 
   get config() {
     return window["lls"];
   };
 
+  get featherIconPath() {
+    return this.config.featherIconPath;
+  }
+
   editProfile() {
-    this.newNickname = this.user.nickname;
-    this.newEmail = this.user.email;
+    this.newUsername = this.profile.userName;
+    this.newEmail = this.profile.email;
     this.isEditingProfile = true;
   }
 
   async saveProfile() {
     this.saving = true;
 
-    await this.userManagement.updateProfile(this.user, {
-      nickname: this.newNickname,
-      email: this.newEmail,
-    });
+    const changes: { userName?: string, email?: string } = {};
+    if(this.profile.userName != this.newUsername) {
+      changes.userName = this.newUsername;
+    }
+    if(this.profile.email != this.newEmail) {
+      changes.email = this.newEmail;
+    }
 
-    this.user.nickname = this.newNickname;
-    this.user.email = this.newEmail;
+    if(Object.keys(changes).length < 1) {
+      this.saving = false;
+      this.isEditingProfile = false;
+      return;
+    }
 
-    this.saving = false;
+    try {
+      await this.userManagement.updateProfile(this.user, changes);
+    }
+    catch(error) {
+      if(typeof error.error === "string") {
+        console.error("Error while updating profile", error);
+        this.error = error.error;
+        this.saving = false;
+        return;
+      }
+      throw error;
+    }
+
+    this.profile.userName = this.newUsername;
+    this.profile.email = this.newEmail;
+
     this.isEditingProfile = false;
+    this.authUtil.handleLogin();
   }
 
   logout(){
@@ -71,8 +100,9 @@ export class UserProfilePage implements OnInit {
     });
 
     this.auth.user$.subscribe({
-      next: (user) => {
+      next: async (user) => {
         this.user = user;
+        this.profile = await this.userManagement.getProfile(this.user);
       },
     });
   }

@@ -1,7 +1,46 @@
-<div *ngIf="user" class="lls-container u-mt-4">
+<div *ngIf="profile" class="lls-container u-mt-4">
   <app-loading-overlay
     [class]="saving ? '' : 'u-hide'"
   ></app-loading-overlay>
+  <app-modal
+    [show]="!!error"
+    title="Fejl under opdatering"
+    [featherIconPath]="featherIconPath"
+    (close)="error = null"
+  >
+    <div>
+      <p>
+        Der opstod en fejl under opdatering af profilinformation. Den underliggende fejl er denne:
+      </p>
+      <code>{{ error }}</code>
+    </div>
+  </app-modal>
+  <app-modal
+    [show]="showWarning"
+    title="Er du sikker?"
+    [featherIconPath]="featherIconPath"
+    (close)="showWarning = false"
+  >
+    <div>
+      <p>
+        <strong>OBS</strong> - Når du ændrer din emailadresse, skal du bekræfte adressen inden din brugerprofil virker igen. Bekræft adressen ved at klikke på linket i den mail vi sender til den nye emailadresse.
+      </p>
+      <p>
+        Du er ved at ændre din emailadresse til <strong>{{ newEmail }}</strong>.
+      </p>
+    </div>
+    <div class="u-mt-2">
+      <button
+        class="lls-btn"
+        (click)="saveProfile()"
+      >
+        <span>Gem og skift email</span>
+        <svg class="lls-icon lls-icon--right">
+          <use [attr.href]="featherSpriteUrl + '#save'"></use>
+        </svg>
+      </button>
+    </div>
+  </app-modal>
   <div class="lls-results-header__link-section">
     <a routerLink="/" tabIndex="0" class="lls-link u-align-icon">
       <svg class="lls-icon">
@@ -24,11 +63,11 @@
         Min side
       </h2>
       <h1 class="lls-data-page-header__title">
-        <ng-container *ngIf="user.firstname; else nicknameBlock">
-          {{ user.firstname }} {{ user.lastname }}
+        <ng-container *ngIf="profile.firstname; else nicknameBlock">
+          {{ profile.firstname }} {{ profile.lastname }}
         </ng-container>
         <ng-template #nicknameBlock>
-          {{ user.nickname }}
+          {{ profile.userName }}
         </ng-template>
       </h1>
       <p class="lls-data-page-header__data-summary">
@@ -45,8 +84,8 @@
   </button>
 
   <div class="lls-card u-flex u-space-between">
-    <div class="lls-row">
-      <div *ngIf="!user.picture" class="lls-profile-picture lls-columns-12 lls-columns-2--md lls-gap">
+    <form class="lls-row" (submit)="profile.email === newEmail ? saveProfile() : showWarning = true">
+      <div *ngIf="!profile.picture" class="lls-profile-picture lls-columns-12 lls-columns-2--md lls-gap">
         JP
       </div>
       <div *ngIf="user.picture" class="lls-profile-picture lls-columns-12 lls-columns-2--md lls-gap">
@@ -60,13 +99,13 @@
           <tr>
             <td class="u-semi-bold">Brugernavn</td>
             <td>
-              <span *ngIf="!isEditingProfile">{{ user.nickname }}</span>
+              <span *ngIf="!isEditingProfile">{{ profile.userName }}</span>
               <div class="lls-input-group" *ngIf="isEditingProfile">
                 <input
                   type="text"
                   placeholder="Indtast brugernavn"
                   class="lls-input-field lls-input-group__field"
-                  [(ngModel)]="newNickname"
+                  [(ngModel)]="newUsername"
                   name="new-nickname"
                   [disabled]="saving"
                 />
@@ -76,7 +115,7 @@
           <tr>
             <td class="u-semi-bold">Email</td>
             <td>
-              <span *ngIf="!isEditingProfile">{{ user.email }}</span>
+              <span *ngIf="!isEditingProfile">{{ profile.email }}</span>
               <div class="lls-input-group" *ngIf="isEditingProfile">
                 <input
                   type="text"
@@ -103,9 +142,9 @@
           </svg>
         </button>
         <button
-          (click)="saveProfile()"
           class="lls-btn"
           *ngIf="isEditingProfile"
+          type="submit"
           [disabled]="saving"
         >
           <span>Gem</span>
@@ -114,7 +153,7 @@
           </svg>
         </button>
       </div>
-    </div>
+    </form>
   </div>
 
   <!-- Livsforløb -->
