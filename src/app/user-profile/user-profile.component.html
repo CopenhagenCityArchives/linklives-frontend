@@ -84,7 +84,7 @@
   </button>
 
   <div class="lls-card u-flex u-space-between">
-    <div class="lls-row">
+    <form class="lls-row" (submit)="profile.email === newEmail ? saveProfile() : showWarning = true">
       <div *ngIf="!profile.picture" class="lls-profile-picture lls-columns-12 lls-columns-2--md lls-gap">
         JP
       </div>
@@ -142,9 +142,9 @@
           </svg>
         </button>
         <button
-          (click)="profile.email === newEmail ? saveProfile() : showWarning = true"
           class="lls-btn"
           *ngIf="isEditingProfile"
+          type="submit"
           [disabled]="saving"
         >
           <span>Gem</span>
@@ -153,7 +153,7 @@
           </svg>
         </button>
       </div>
-    </div>
+    </form>
   </div>
 
   <!-- Livsforløb -->
