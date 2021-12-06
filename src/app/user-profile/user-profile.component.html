@@ -2,53 +2,25 @@
   <app-loading-overlay
     [class]="saving ? '' : 'u-hide'"
   ></app-loading-overlay>
-  <div
-    [class]="error ? 'lls-overlay' : ''"
-    (click)="error = null"
-  ></div>
-  <div class="lls-modal" *ngIf="error">
-    <div class="lls-sidebar__header u-margin-0">
-      <h3 class="u-margin-0">
-          Fejl under opdatering
-      </h3>
-      <button
-        class="lls-btn lls-btn--outline"
-        [tabIndex]="error ? 0 : -1"
-        (click)="error = null"
-      >
-        <span>Luk</span>
-        <svg class="lls-icon lls-icon--right">
-          <use [attr.href]="featherIconPath + '#x'"></use>
-        </svg>
-      </button>
-    </div>
+  <app-modal
+    [show]="!!error"
+    title="Fejl under opdatering"
+    [featherIconPath]="featherIconPath"
+    (close)="error = null"
+  >
     <div>
       <p>
         Der opstod en fejl under opdatering af profilinformation. Den underliggende fejl er denne:
       </p>
       <code>{{ error }}</code>
     </div>
-  </div>
-  <div
-    [class]="showWarning ? 'lls-overlay' : ''"
-    (click)="showWarning = false"
-  ></div>
-  <div class="lls-modal" *ngIf="showWarning">
-    <div class="lls-sidebar__header u-margin-0">
-      <h3 class="u-margin-0">
-        Er du sikker?
-      </h3>
-      <button
-        class="lls-btn lls-btn--outline"
-        [tabIndex]="showWarning ? 0 : -1"
-        (click)="showWarning = false"
-      >
-        <span>Luk</span>
-        <svg class="lls-icon lls-icon--right">
-          <use [attr.href]="featherIconPath + '#x'"></use>
-        </svg>
-      </button>
-    </div>
+  </app-modal>
+  <app-modal
+    [show]="showWarning"
+    title="Er du sikker?"
+    [featherIconPath]="featherIconPath"
+    (close)="showWarning = false"
+  >
     <div>
       <p>
         <strong>OBS</strong> - Når du ændrer din emailadresse, skal du bekræfte adressen inden din brugerprofil virker igen. Bekræft adressen ved at klikke på linket i den mail vi sender til den nye emailadresse.
@@ -68,7 +40,7 @@
         </svg>
       </button>
     </div>
-  </div>
+  </app-modal>
   <div class="lls-results-header__link-section">
     <a routerLink="/" tabIndex="0" class="lls-link u-align-icon">
       <svg class="lls-icon">
