@@ -3,6 +3,33 @@
     [class]="saving ? '' : 'u-hide'"
   ></app-loading-overlay>
   <div
+    [class]="error ? 'lls-overlay' : ''"
+    (click)="error = null"
+  ></div>
+  <div class="lls-modal" *ngIf="error">
+    <div class="lls-sidebar__header u-margin-0">
+      <h3 class="u-margin-0">
+          Fejl under opdatering
+      </h3>
+      <button
+        class="lls-btn lls-btn--outline"
+        [tabIndex]="error ? 0 : -1"
+        (click)="error = null"
+      >
+        <span>Luk</span>
+        <svg class="lls-icon lls-icon--right">
+          <use [attr.href]="featherIconPath + '#x'"></use>
+        </svg>
+      </button>
+    </div>
+    <div>
+      <p>
+        Der opstod en fejl under opdatering af profilinformation. Den underliggende fejl er denne:
+      </p>
+      <code>{{ error }}</code>
+    </div>
+  </div>
+  <div
     [class]="showWarning ? 'lls-overlay' : ''"
     (click)="showWarning = false"
   ></div>

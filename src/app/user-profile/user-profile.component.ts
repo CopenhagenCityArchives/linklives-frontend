@@ -25,6 +25,7 @@ export class UserProfilePage implements OnInit {
   user;
   profile;
   showWarning = false;
+  error: string = null;
   saving: boolean = false;
 
   get config() {
@@ -58,7 +59,18 @@ export class UserProfilePage implements OnInit {
       return;
     }
 
-    await this.userManagement.updateProfile(this.user, changes);
+    try {
+      await this.userManagement.updateProfile(this.user, changes);
+    }
+    catch(error) {
+      if(typeof error.error === "string") {
+        console.error("Error while updating profile", error);
+        this.error = error.error;
+        this.saving = false;
+        return;
+      }
+      throw error;
+    }
 
     this.profile.userName = this.newUsername;
     this.profile.email = this.newEmail;
