@@ -24,14 +24,17 @@ export interface LifecourseHit {
   pas: PersonAppearance[]
 }
 
-export interface SearchResult {
-  took: number,
+export interface EntryCounts {
   totalHits: number,
   indexHits: {
     lifeCourses?: number,
     pas?: number,
     links?: number
   },
+}
+
+export type SearchResult = EntryCounts & {
+  took: number,
   hits: SearchHit[],
   meta: {
     possibleFilters: {

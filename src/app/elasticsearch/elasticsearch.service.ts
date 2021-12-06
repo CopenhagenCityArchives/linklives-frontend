@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { PersonAppearance, Lifecourse, SearchResult, SearchHit, AdvancedSearchQuery, Source, FilterIdentifier } from '../search/search.service';
+import { PersonAppearance, Lifecourse, SearchResult, SearchHit, AdvancedSearchQuery, Source, FilterIdentifier, EntryCounts } from '../search/search.service';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -135,6 +135,17 @@ export interface LinkRatingCategegory {
 }
 export interface LinkRatingOptions {
   [index: number]: LinkRatingCategegory;
+}
+
+interface EntryCountsEsResult {
+  aggregations: {
+    count: {
+      buckets: {
+        key: string,
+        doc_count: number
+      }[],
+    },
+  },
 }
 
 @Injectable({
@@ -658,6 +669,38 @@ export class ElasticsearchService {
       resultLookupQuery: includeLifeCourseInQuery(resultLookupQuery),
       sourceLookupQuery: includeLifeCourseInQuery(sourceLookupQuery),
     };
+  }
+
+  getEntryCounts(): Observable<EntryCounts> {
+    const body = {
+      aggs: {
+        count: {
+          terms: {
+            field: "_index"
+          }
+        },
+      },
+    };
+
+    return this.http.post<EntryCountsEsResult>(`${environment.esUrl}/pas,lifecourses/_search`, body)
+      .pipe(map((esResult): EntryCounts => {
+        const result: EntryCounts = {
+          totalHits: 0,
+          indexHits: {},
+        };
+
+        esResult.aggregations.count.buckets.forEach((value) => {
+          result.totalHits += value.doc_count;
+          if (value.key.includes("pas")) {
+            result.indexHits.pas = value.doc_count;
+          }
+          if (value.key.includes("lifecourses")) {
+            result.indexHits.lifeCourses = value.doc_count;
+          }
+        });
+
+        return result;
+      }));
   }
 
   getLifecourse(key: string): Observable<Lifecourse> {
