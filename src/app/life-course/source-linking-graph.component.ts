@@ -1,6 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import * as internal from 'assert';
-import { ElasticsearchService, Link } from '../elasticsearch/elasticsearch.service';
+import { Link } from '../elasticsearch/elasticsearch.service';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({
@@ -71,7 +70,6 @@ export class SourceLinkingGraphComponent implements OnInit {
     return this.links
       .sort(shortestLinkFirst)
       .map((link, i) => {
-        console.warn("LINK", link)
         const { indexDiff, firstIndex, lastIndex } = getIndexLength(link);
 
         const maxTiersInRange: number[] = maxTiers.slice(firstIndex, lastIndex);
