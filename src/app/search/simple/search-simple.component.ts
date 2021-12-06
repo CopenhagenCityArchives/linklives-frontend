@@ -1,8 +1,9 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AdvancedSearchQuery } from '../search.service';
+import { Router } from '@angular/router';
+import { AdvancedSearchQuery, EntryCounts } from '../search.service';
 import { searchFieldPlaceholders, searchFieldLabels, getFieldOptions, genderOptions } from 'src/app/search-term-values';
 import { prettyNumbers } from 'src/app/util/display-helpers';
+import { ElasticsearchService } from 'src/app/elasticsearch/elasticsearch.service';
 
 @Component({
   selector: 'app-search-simple',
@@ -67,13 +68,31 @@ export class SimpleSearchComponent implements OnInit {
     return genderOptions;
   }
 
-  constructor(private router: Router, private route: ActivatedRoute, private elements: ElementRef) { }
+  constructor(private router: Router, private elasticSearch: ElasticsearchService, private elements: ElementRef) { }
 
   ngOnInit(): void {
-    this.route.data.subscribe(({ sourceCounts }) => {
-      this.personAppearanceCount = sourceCounts.personAppearanceCount;
-      this.lifecourseCount = sourceCounts.lifecourseCount;
+    this.elasticSearch.getEntryCounts().subscribe((entryCounts) => {
+      this.animateCountIncrease(entryCounts);
     });
+  }
+
+  animateCountIncrease(entryCounts: EntryCounts) {
+    const personAppearanceCount = entryCounts.indexHits.pas;
+    const lifecourseCount = entryCounts.indexHits.lifeCourses;
+
+    const steps = 30;
+    const personAppearanceStep = personAppearanceCount / steps;
+    const lifecourseStep = lifecourseCount / steps;
+
+    const interval = setInterval(() => {
+      if(this.personAppearanceCount == personAppearanceCount && this.lifecourseCount == lifecourseCount) {
+        clearInterval(interval);
+        return;
+      }
+
+      this.personAppearanceCount = Math.min(personAppearanceCount, this.personAppearanceCount + personAppearanceStep);
+      this.lifecourseCount = Math.min(lifecourseCount, this.lifecourseCount + lifecourseStep);
+    }, 80);
   }
 
   searchSimple(): void {
