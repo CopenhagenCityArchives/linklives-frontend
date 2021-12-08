@@ -9,7 +9,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "dev-remote-api": "ng serve --configuration=dev-remote-api",
-    "dev-staging-api": "ng serve --configuration=dev-staging-api"
+    "dev-staging-api": "ng serve --configuration=dev-staging-api",
+    "dev-local": "ng serve --configuration=dev-local"
   },
   "private": true,
   "dependencies": {
