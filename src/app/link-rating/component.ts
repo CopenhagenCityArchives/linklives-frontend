@@ -1,9 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
 import { AuthService } from '@auth0/auth0-angular';
 import { Router } from '@angular/router';
 import { AuthUtil } from '../auth/util'
+import { RatingService } from '../rating/service';
 
 
 @Component({
@@ -72,7 +72,7 @@ export class LinkRatingComponent implements OnInit {
     const linkOption = this.ratingOptions.find(optionCategory => optionCategory.options.some(option => option.value == chosenRatingId));
     this.chosen = linkOption.category;
 
-    this.elasticsearch.sendLinkRating(ratingData).subscribe(rate => {
+    this.ratingService.sendLinkRating(ratingData).subscribe(rate => {
       this.totalRatings++;
       if(!this.ratingCountByCategory[linkOption.category]) {
         this.ratingCountByCategory[linkOption.category] = 0;
@@ -122,10 +122,10 @@ export class LinkRatingComponent implements OnInit {
     }
   }
 
-  constructor(private router: Router, private elasticsearch: ElasticsearchService, public auth: AuthService, private authUtil: AuthUtil) {
+  constructor(private router: Router, private ratingService: RatingService, public auth: AuthService, private authUtil: AuthUtil) {
     auth.user$.subscribe((user) => this.user = user);
 
-    this.elasticsearch.getLinkRatingOptions().subscribe((ratingOptions) => {
+    this.ratingService.getLinkRatingOptions().subscribe((ratingOptions) => {
       this.ratingOptions = ratingOptions;
     });
   }  

@@ -4,7 +4,7 @@ import { Link } from '../elasticsearch/elasticsearch.service';
 import { prettyDate } from '../util/display-helpers';
 import { PersonAppearance } from '../search/search.service';
 import { getLatestSearchQuery } from '../search-history';
-import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
+import { RatingService } from '../rating/service';
 
 @Component({
   selector: 'app-life-course',
@@ -68,14 +68,14 @@ export class LifeCourseComponent implements OnInit {
     this.currentLinkKey = linkKey;
     this.chosenRatingId = chosenRatingId;
 
-    this.elasticsearch.getLinkRatingStats(linkKey).subscribe(({ totalRatings, headingRatings, ratedBy }) => {
+    this.ratingService.getLinkRatingStats(linkKey).subscribe(({ totalRatings, headingRatings, ratedBy }) => {
       this.totalRatings = totalRatings;
       this.ratingCountByCategory = headingRatings;
       this.ratedBy = ratedBy;
     });
   }
 
-  constructor(private route: ActivatedRoute, private elasticsearch: ElasticsearchService) { }
+  constructor(private route: ActivatedRoute, private ratingService: RatingService) { }
 
   ngOnInit(): void {
     this.route.data.subscribe(next => {
