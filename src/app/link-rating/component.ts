@@ -72,12 +72,21 @@ export class LinkRatingComponent implements OnInit {
     const linkOption = this.ratingOptions.find(optionCategory => optionCategory.options.some(option => option.value == chosenRatingId));
     this.chosen = linkOption.category;
 
-    this.ratingService.sendLinkRating(ratingData).subscribe(rate => {
-      this.totalRatings++;
-      if(!this.ratingCountByCategory[linkOption.category]) {
-        this.ratingCountByCategory[linkOption.category] = 0;
+    this.ratingService.sendLinkRating(ratingData).subscribe({
+      error: (e) => {
+        if(e.message.match(/Login required/i)) {
+          this.authUtil.handleLogin();
+          return;
+        }
+        throw e;
+      },
+      complete: () => {
+        this.totalRatings++;
+        if(!this.ratingCountByCategory[linkOption.category]) {
+          this.ratingCountByCategory[linkOption.category] = 0;
+        }
+        this.ratingCountByCategory[linkOption.category]++;
       }
-      this.ratingCountByCategory[linkOption.category]++;
     });
 
     this.showForm = false;

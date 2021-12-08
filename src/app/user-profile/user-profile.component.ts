@@ -70,6 +70,10 @@ export class UserProfilePage implements OnInit {
         this.saving = false;
         return;
       }
+      if(error.message.match(/Login required/i)) {
+        this.authUtil.handleLogin();
+        return;
+      }
       throw error;
     }
 
@@ -82,7 +86,16 @@ export class UserProfilePage implements OnInit {
 
   async deleteProfile() {
     this.saving = true;
-    await this.userManagement.deleteProfile();
+    try {
+      await this.userManagement.deleteProfile();
+    }
+    catch(e) {
+      if(e.message.match(/Login required/i)) {
+        this.authUtil.handleLogin();
+        return;
+      }
+      throw e;
+    }
     this.authUtil.handleLogout();
   }
 
@@ -109,7 +122,16 @@ export class UserProfilePage implements OnInit {
     this.auth.user$.subscribe({
       next: async (user) => {
         this.user = user;
-        this.profile = await this.userManagement.getProfile(this.user);
+        try {
+          this.profile = await this.userManagement.getProfile(this.user);
+        }
+        catch(e) {
+          if(e.message.match(/Login required/i)) {
+            this.authUtil.handleLogin();
+            return;
+          }
+          throw e;
+        }
       },
     });
   }
