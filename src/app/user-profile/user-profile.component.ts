@@ -18,7 +18,7 @@ export class UserProfilePage implements OnInit {
   ) {}
 
   isEditingProfile: boolean = false;
-  ratedLifecourses: any;
+  ratedLifecourses: any[] = [];
   openSearchHistory: boolean = false;
   newUsername: string = "";
   newEmail: string = "";
