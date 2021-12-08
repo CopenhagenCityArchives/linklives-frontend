@@ -93,7 +93,7 @@ export class UserProfilePage implements OnInit {
   featherSpriteUrl = this.config.featherIconPath;
   
   ngOnInit(): void {
-    /*this.elasticsearch.getRatedLifecourses().subscribe({
+    this.elasticsearch.getRatedLifecourses().subscribe({
       error: (e) => {
         if(e.message.match(/Login required/i)) {
           this.authUtil.handleLogin();
@@ -104,8 +104,7 @@ export class UserProfilePage implements OnInit {
       next: (ratedLifecourses) => {
         this.ratedLifecourses = ratedLifecourses;
       },
-    });*/
-    this.ratedLifecourses = [];
+    });
 
     this.auth.user$.subscribe({
       next: async (user) => {
