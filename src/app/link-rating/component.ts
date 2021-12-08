@@ -4,6 +4,7 @@ import { AuthService } from '@auth0/auth0-angular';
 import { Router } from '@angular/router';
 import { AuthUtil } from '../auth/util'
 import { RatingService } from '../data/rating.service';
+import { UserManagementService } from '../user-management/service';
 
 
 @Component({
@@ -105,7 +106,6 @@ export class LinkRatingComponent implements OnInit {
   }
 
   login() {
-
     // changes the route without moving from the current view or
     // triggering a navigation event,
     this.router.navigate([this.currentPath], {
@@ -118,7 +118,13 @@ export class LinkRatingComponent implements OnInit {
     });
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    this.user = await this.userManagement.getUser();
+
+    this.ratingService.getLinkRatingOptions().subscribe((ratingOptions) => {
+      this.ratingOptions = ratingOptions;
+    });
+
     if(this.chosenRatingId && parseInt(this.chosenRatingId) !== NaN) {
       this.linkRatingForm.setValue({option: parseInt(this.chosenRatingId)});
     }
@@ -131,11 +137,10 @@ export class LinkRatingComponent implements OnInit {
     }
   }
 
-  constructor(private router: Router, private ratingService: RatingService, public auth: AuthService, private authUtil: AuthUtil) {
-    auth.user$.subscribe((user) => this.user = user);
-
-    this.ratingService.getLinkRatingOptions().subscribe((ratingOptions) => {
-      this.ratingOptions = ratingOptions;
-    });
-  }  
+  constructor(
+    private router: Router,
+    private ratingService: RatingService,
+    public userManagement: UserManagementService,
+    private authUtil: AuthUtil
+  ) {}
 }

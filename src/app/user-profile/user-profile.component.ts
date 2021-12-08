@@ -105,7 +105,7 @@ export class UserProfilePage implements OnInit {
 
   featherSpriteUrl = this.config.featherIconPath;
   
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     this.ratingService.getRatedLifecourses().subscribe({
       error: (e) => {
         if(e.message.match(/Login required/i)) {
@@ -119,20 +119,16 @@ export class UserProfilePage implements OnInit {
       },
     });
 
-    this.auth.user$.subscribe({
-      next: async (user) => {
-        this.user = user;
-        try {
-          this.profile = await this.userManagement.getProfile(this.user);
-        }
-        catch(e) {
-          if(e.message.match(/Login required/i)) {
-            this.authUtil.handleLogin();
-            return;
-          }
-          throw e;
-        }
-      },
-    });
+    this.user = await this.userManagement.getUser();
+    try {
+      this.profile = await this.userManagement.getProfile(this.user);
+    }
+    catch(e) {
+      if(e.message.match(/Login required/i)) {
+        this.authUtil.handleLogin();
+        return;
+      }
+      throw e;
+    }
   }
 }

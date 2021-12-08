@@ -1,5 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
+import { AuthService } from "@auth0/auth0-angular";
 import { Observable } from "rxjs";
 import { environment } from "src/environments/environment";
 
@@ -7,7 +8,7 @@ import { environment } from "src/environments/environment";
   providedIn: 'root'
 })
 export class UserManagementService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private auth: AuthService) { }
 
   updateProfile(user, data) {
     const observable = this.http.put<any>(`${environment.apiUrl}/manage/User/${user.sub}`, data);
@@ -30,6 +31,11 @@ export class UserManagementService {
         },
       });
     })
+  }
+
+  getUser() {
+    const observable = this.auth.user$;
+    return this.promisifyObservable(observable);
   }
 
   getProfile(user) {
