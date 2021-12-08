@@ -35,8 +35,7 @@ export class UserManagementService {
   }
 
   getUser() {
-    const observable = this.auth.user$;
-    return this.promisifyObservable(observable);
+    return new Promise((resolve) => this.auth.user$.subscribe(resolve));
   }
 
   async getProfile() {
