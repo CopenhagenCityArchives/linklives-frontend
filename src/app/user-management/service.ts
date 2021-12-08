@@ -49,4 +49,36 @@ export class UserManagementService {
     const observable = this.http.delete<any>(`${environment.apiUrl}/manage/User`);
     return this.promisifyObservable(observable);
   }
+
+  handleLogin() {
+    const path = this.currentPath();
+    const redirect_uri = this.baseUrl();
+    const onLoginCompleted: { path: string, query?: string } = {
+      path,
+    };
+
+    if(window.location.search.length > 1) {
+      onLoginCompleted.query = window.location.search.substring(1);
+    }
+    localStorage.setItem('onLoginCompleted', JSON.stringify(onLoginCompleted));
+    this.auth.loginWithRedirect({
+      redirect_uri,
+      appState: { target: 'login-completed' }
+    })
+  }
+
+  handleLogout() {
+    this.auth.logout({ returnTo: this.baseUrl() });
+  }
+
+  currentPath() {
+    if(!environment.pathPrefix.length) {
+      return window.location.pathname;
+    }
+    return window.location.pathname.replace(environment.pathPrefix, '');
+  }
+
+  baseUrl() {
+    return `${window.location.protocol}//${window.location.host}${environment.pathPrefix}`;
+  }
 }

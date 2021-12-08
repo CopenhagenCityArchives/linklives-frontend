@@ -1,8 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { AuthService } from '@auth0/auth0-angular';
 import { Router } from '@angular/router';
-import { AuthUtil } from '../auth/util'
 import { RatingService } from '../data/rating.service';
 import { UserManagementService } from '../user-management/service';
 
@@ -28,7 +26,7 @@ export class LinkRatingComponent implements OnInit {
   showForm = true;
   chosen: string = "";
   ratingOptions;
-  currentPath = this.authUtil.currentPath();
+  currentPath = this.userManagement.currentPath();
   user;
 
   get ratingCategoriesWithCount() {
@@ -76,7 +74,7 @@ export class LinkRatingComponent implements OnInit {
     this.ratingService.sendLinkRating(ratingData).subscribe({
       error: (e) => {
         if(e.message.match(/Login required/i)) {
-          this.authUtil.handleLogin();
+          this.userManagement.handleLogin();
           return;
         }
         throw e;
@@ -114,7 +112,7 @@ export class LinkRatingComponent implements OnInit {
         chosenRatingId: this.linkRatingForm.value.option
       }
     }).then(() => {
-      this.authUtil.handleLogin();
+      this.userManagement.handleLogin();
     });
   }
 
@@ -142,6 +140,5 @@ export class LinkRatingComponent implements OnInit {
     private router: Router,
     private ratingService: RatingService,
     public userManagement: UserManagementService,
-    private authUtil: AuthUtil
   ) {}
 }

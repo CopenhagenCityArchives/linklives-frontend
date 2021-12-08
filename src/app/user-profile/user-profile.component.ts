@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { AuthUtil } from '../auth/util';
 import { RatingService } from '../data/rating.service';
 import { UserManagementService } from '../user-management/service';
 
@@ -12,7 +11,6 @@ import { UserManagementService } from '../user-management/service';
 export class UserProfilePage implements OnInit {
   constructor(
     public auth: AuthService,
-    private authUtil: AuthUtil,
     private ratingService: RatingService,
     private userManagement: UserManagementService,
   ) {}
@@ -71,7 +69,7 @@ export class UserProfilePage implements OnInit {
         return;
       }
       if(error.message.match(/Login required/i)) {
-        this.authUtil.handleLogin();
+        this.userManagement.handleLogin();
         return;
       }
       throw error;
@@ -81,7 +79,7 @@ export class UserProfilePage implements OnInit {
     this.profile.email = this.newEmail;
 
     this.isEditingProfile = false;
-    this.authUtil.handleLogin();
+    this.userManagement.handleLogin();
   }
 
   async deleteProfile() {
@@ -91,16 +89,16 @@ export class UserProfilePage implements OnInit {
     }
     catch(e) {
       if(e.message.match(/Login required/i)) {
-        this.authUtil.handleLogin();
+        this.userManagement.handleLogin();
         return;
       }
       throw e;
     }
-    this.authUtil.handleLogout();
+    this.userManagement.handleLogout();
   }
 
   logout(){
-    this.authUtil.handleLogout();
+    this.userManagement.handleLogout();
   }
 
   featherSpriteUrl = this.config.featherIconPath;
@@ -109,7 +107,7 @@ export class UserProfilePage implements OnInit {
     this.ratingService.getRatedLifecourses().subscribe({
       error: (e) => {
         if(e.message.match(/Login required/i)) {
-          this.authUtil.handleLogin();
+          this.userManagement.handleLogin();
           return;
         }
         throw e;
@@ -124,7 +122,7 @@ export class UserProfilePage implements OnInit {
     }
     catch(e) {
       if(e.message.match(/Login required/i)) {
-        this.authUtil.handleLogin();
+        this.userManagement.handleLogin();
         return;
       }
       throw e;
