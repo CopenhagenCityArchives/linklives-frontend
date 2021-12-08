@@ -125,8 +125,9 @@ export class LinkRatingComponent implements OnInit {
       this.ratingOptions = ratingOptions;
     });
 
-    if(this.chosenRatingId && parseInt(this.chosenRatingId) !== NaN) {
-      this.linkRatingForm.setValue({option: parseInt(this.chosenRatingId)});
+    const chosenValue = parseInt(this.chosenRatingId);
+    if(this.chosenRatingId && !Number.isNaN(chosenValue)) {
+      this.linkRatingForm.setValue({ option: chosenValue });
     }
   }
 
