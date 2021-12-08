@@ -99,6 +99,14 @@ import { environment } from 'src/environments/environment';
           },
           {
             // Match requests to the custom API (test)
+            uri: 'https://api-test.link-lives.dk/manage/User',
+            tokenOptions: {
+              // The attached token should target this audience (auht0 API ID)
+              audience: 'https://api.linklives.dk',
+            }
+          },
+          {
+            // Match requests to the custom API (local)
             uri: 'http://localhost:5923/LinkRating',
             tokenOptions: {
               // The attached token should target this audience (auht0 API ID)
@@ -106,7 +114,7 @@ import { environment } from 'src/environments/environment';
             }
           },
           {
-            // Match requests to the custom API (test)
+            // Match requests to the custom API (local)
             uri: 'http://localhost:5923/user/ratings/lifecourses',
             tokenOptions: {
               // The attached token should target this audience (auht0 API ID)
@@ -114,8 +122,16 @@ import { environment } from 'src/environments/environment';
             }
           },
           {
-            // Match requests to the custom API (test)
+            // Match requests to the custom API (local)
             uri: 'http://localhost:5923/manage/User/*',
+            tokenOptions: {
+              // The attached token should target this audience (auht0 API ID)
+              audience: 'https://api.linklives.dk',
+            }
+          },
+          {
+            // Match requests to the custom API (local)
+            uri: 'http://localhost:5923/manage/User',
             tokenOptions: {
               // The attached token should target this audience (auht0 API ID)
               audience: 'https://api.linklives.dk',
@@ -140,6 +156,14 @@ import { environment } from 'src/environments/environment';
           {
             // Match requests to the custom API (production)
             uri: 'https://api.link-lives.dk/manage/User/*',
+            tokenOptions: {
+              // The attached token should target this audience (auht0 API ID)
+              audience: 'https://api.linklives.dk',
+            }
+          },
+          {
+            // Match requests to the custom API (production)
+            uri: 'https://api.link-lives.dk/manage/User',
             tokenOptions: {
               // The attached token should target this audience (auht0 API ID)
               audience: 'https://api.linklives.dk',
