@@ -26,6 +26,7 @@ import { RelatedPeopleComponent } from './person-appearance/related-people.compo
 import { SourceDataComponent } from './person-appearance/source-data.component';
 import { UserProfilePage } from './user-profile/user-profile.component';
 import { ModalComponent } from './modal/component';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,7 @@ import { ModalComponent } from './modal/component';
     // Import the module into the application, with configuration
     AuthModule.forRoot({
       domain: 'linklives.eu.auth0.com',
-      clientId: '7lYbAwzUER3epciKfadgIoO8LUmhIk5x',
+      clientId: environment.auth0ClientId,
       // Request this audience at user authentication time
       audience: 'https://api.linklives.dk',
 
