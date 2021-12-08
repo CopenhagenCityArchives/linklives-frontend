@@ -10,9 +10,10 @@ import { environment } from "src/environments/environment";
 export class UserManagementService {
   constructor(private http: HttpClient, private auth: AuthService) { }
 
-  updateProfile(user, data) {
+  async updateProfile(data) {
+    const user = await this.getUser();
     const observable = this.http.put<any>(`${environment.apiUrl}/manage/User/${user.sub}`, data);
-    return this.promisifyObservable(observable);
+    return await this.promisifyObservable(observable);
   }
 
   private promisifyObservable<T>(observable: Observable<T>): Promise<T> {
@@ -38,9 +39,11 @@ export class UserManagementService {
     return this.promisifyObservable(observable);
   }
 
-  getProfile(user) {
+  async getProfile() {
+    const user = await this.getUser();
     const observable = this.http.get<any>(`${environment.apiUrl}/manage/User/${user.sub}`);
-    return this.promisifyObservable(observable);
+    const profile = await this.promisifyObservable(observable);
+    return { ...user, ...profile };
   }
 
   deleteProfile() {

@@ -61,7 +61,7 @@ export class UserProfilePage implements OnInit {
     }
 
     try {
-      await this.userManagement.updateProfile(this.user, changes);
+      await this.userManagement.updateProfile(changes);
     }
     catch(error) {
       if(typeof error.error === "string") {
@@ -119,9 +119,8 @@ export class UserProfilePage implements OnInit {
       },
     });
 
-    this.user = await this.userManagement.getUser();
     try {
-      this.profile = await this.userManagement.getProfile(this.user);
+      this.profile = await this.userManagement.getProfile();
     }
     catch(e) {
       if(e.message.match(/Login required/i)) {
