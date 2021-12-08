@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { AuthUtil } from '../auth/util';
-import { DataService } from '../data/data.service';
+import { RatingService } from '../data/rating.service';
 import { UserManagementService } from '../user-management/service';
 
 
@@ -13,7 +13,7 @@ export class UserProfilePage implements OnInit {
   constructor(
     public auth: AuthService,
     private authUtil: AuthUtil,
-    private elasticsearch: DataService,
+    private ratingService: RatingService,
     private userManagement: UserManagementService,
   ) {}
 
@@ -93,7 +93,7 @@ export class UserProfilePage implements OnInit {
   featherSpriteUrl = this.config.featherIconPath;
   
   ngOnInit(): void {
-    this.elasticsearch.getRatedLifecourses().subscribe({
+    this.ratingService.getRatedLifecourses().subscribe({
       error: (e) => {
         if(e.message.match(/Login required/i)) {
           this.authUtil.handleLogin();
