@@ -24,7 +24,7 @@ export class UserProfilePage implements OnInit {
   newEmail: string = "";
   user;
   profile;
-  showWarning = false;
+  showEmailChangeWarning = false;
   showDeleteWarning = false;
   error: string = null;
   saving: boolean = false;

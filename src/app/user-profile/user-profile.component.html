@@ -23,10 +23,10 @@
     </div>
   </app-modal>
   <app-modal
-    [show]="showWarning"
+    [show]="showEmailChangeWarning"
     title="Er du sikker?"
     [featherIconPath]="featherIconPath"
-    (close)="showWarning = false"
+    (close)="showEmailChangeWarning = false"
   >
     <div>
       <p>
@@ -39,7 +39,7 @@
     <div class="u-mt-2">
       <button
         class="lls-btn"
-        (click)="saveProfile(); showWarning = false;"
+        (click)="saveProfile(); showEmailChangeWarning = false;"
       >
         <span>Gem og skift email</span>
         <svg class="lls-icon lls-icon--right">
@@ -114,7 +114,7 @@
   </button>
 
   <div class="lls-card u-flex u-space-between">
-    <form class="lls-row" (submit)="profile.email === newEmail ? saveProfile() : showWarning = true">
+    <form class="lls-row" (submit)="profile.email === newEmail ? saveProfile() : showEmailChangeWarning = true">
       <div *ngIf="!profile.picture" class="lls-profile-picture lls-columns-12 lls-columns-2--md lls-gap">
         JP
       </div>
