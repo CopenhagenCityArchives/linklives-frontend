@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Link } from '../elasticsearch/elasticsearch.service';
+import { Link } from '../data/data.service';
 import { PersonAppearance } from '../search/search.service';
 
 @Component({

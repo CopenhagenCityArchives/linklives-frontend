@@ -3,7 +3,7 @@ import { Lifecourse, PersonAppearance } from '../search/search.service';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, mergeMap } from 'rxjs/operators';
-import { ElasticsearchService, Link } from '../elasticsearch/elasticsearch.service';
+import { DataService, Link } from '../data/data.service';
 import { addSearchHistoryEntry, SearchHistoryEntryType } from '../search-history';
 
 @Injectable({
@@ -11,7 +11,7 @@ import { addSearchHistoryEntry, SearchHistoryEntryType } from '../search-history
 })
 export class LifeCourseResolverService implements Resolve<{lifecourseKey: string, personAppearances: PersonAppearance[]}> {
 
-  constructor(private elasticsearch: ElasticsearchService) { }
+  constructor(private elasticsearch: DataService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ lifecourseKey: string; personAppearances: PersonAppearance[]; links: Link[]; currentLinkKey: string; chosenRatingId: string; lifecourseId: number; }> {
     const lifecourseKey = route.params.key;

@@ -1,4 +1,4 @@
-import { EventType } from "../elasticsearch/elasticsearch.service";
+import { EventType } from "../data/data.service";
 
 export function eventIcon(eventType: EventType) {
   return {

@@ -130,7 +130,7 @@ interface EntryCountsEsResult {
 @Injectable({
   providedIn: 'root'
 })
-export class ElasticsearchService {
+export class DataService {
   constructor(private http: HttpClient) { }
 
   private handleHit(elasticHit: ElasticSearchHit): SearchHit {

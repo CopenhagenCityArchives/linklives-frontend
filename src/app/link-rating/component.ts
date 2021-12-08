@@ -3,7 +3,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { AuthService } from '@auth0/auth0-angular';
 import { Router } from '@angular/router';
 import { AuthUtil } from '../auth/util'
-import { RatingService } from '../rating/service';
+import { RatingService } from '../data/rating.service';
 
 
 @Component({
