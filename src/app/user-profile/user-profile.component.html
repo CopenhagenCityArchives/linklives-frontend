@@ -4,13 +4,20 @@
   ></app-loading-overlay>
   <app-modal
     [show]="!!error"
-    title="Fejl under opdatering"
+    title="Der opstod en fejl"
     [featherIconPath]="featherIconPath"
     (close)="error = null"
   >
     <div>
       <p>
-        Der opstod en fejl under opdatering af profilinformation. Den underliggende fejl er denne:
+        Fejlen kan fx skyldes at du enten:
+      </p>
+      <ol>
+        <li>Opdaterede både brugernavn og email på samme tid. Opdater en oplysning af gangen og klik 'gem' efter hver gang.</li>
+        <li>Opdaterede dit brugernavn med et ikke gyldigt tegn. Godkendte tegn i brugernavne er små og store bogstaver, samt tal og følgende specialtegn: '_', '+', '-', '.', '!', '#', '$', '^', '`' og '''</li>
+      </ol>
+      <p>
+        Den fulde fejlbesked kan læses nedenfor på engelsk:
       </p>
       <code>{{ error }}</code>
     </div>
