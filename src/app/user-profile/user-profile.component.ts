@@ -25,6 +25,7 @@ export class UserProfilePage implements OnInit {
   user;
   profile;
   showWarning = false;
+  showDeleteWarning = false;
   error: string = null;
   saving: boolean = false;
 
@@ -77,6 +78,12 @@ export class UserProfilePage implements OnInit {
 
     this.isEditingProfile = false;
     this.authUtil.handleLogin();
+  }
+
+  async deleteProfile() {
+    this.saving = true;
+    await this.userManagement.deleteProfile();
+    this.authUtil.handleLogout();
   }
 
   logout(){

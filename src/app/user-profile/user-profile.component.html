@@ -48,6 +48,29 @@
       </button>
     </div>
   </app-modal>
+  <app-modal
+    [show]="showDeleteWarning"
+    title="Er du sikker?"
+    [featherIconPath]="featherIconPath"
+    (close)="showDeleteWarning = false"
+  >
+    <div>
+      <p>
+        <strong>OBS</strong> - Hvis du først har slettet din bruger, kan den ikke gendannes. Sletningen er permanent.
+      </p>
+    </div>
+    <div class="u-mt-2">
+      <button
+        class="lls-btn lls-btn--danger"
+        (click)="deleteProfile(); showDeleteWarning = false;"
+      >
+        <span>Slet bruger permanent</span>
+        <svg class="lls-icon lls-icon--right">
+          <use [attr.href]="featherSpriteUrl + '#trash'"></use>
+        </svg>
+      </button>
+    </div>
+  </app-modal>
   <div class="lls-results-header__link-section">
     <a routerLink="/" tabIndex="0" class="lls-link u-align-icon">
       <svg class="lls-icon">
@@ -137,9 +160,9 @@
           </tr>
         </table>
       </div>
-      <div class="lls-columns-12 lls-columns-2--md u-flex u-justify-end u-align-items-start">
+      <div class="lls-columns-12 lls-columns-2--md u-flex u-flex--xs-column u-align-items-end u-justify-start">
         <button
-          (click)="editProfile()"
+          (click)="editProfile(); $event.preventDefault();"
           class="lls-btn"
           *ngIf="!isEditingProfile"
         >
@@ -157,6 +180,15 @@
           <span>Gem</span>
           <svg class="lls-icon lls-icon--right">
             <use [attr.href]="featherSpriteUrl + '#save'"></use>
+          </svg>
+        </button>
+        <button
+          (click)="showDeleteWarning = true; $event.preventDefault();"
+          class="lls-btn lls-btn--danger u-mt-2"
+        >
+          <span>Slet bruger</span>
+          <svg class="lls-icon lls-icon--right">
+            <use [attr.href]="featherSpriteUrl + '#trash'"></use>
           </svg>
         </button>
       </div>

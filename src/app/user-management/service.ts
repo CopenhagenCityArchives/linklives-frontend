@@ -36,4 +36,9 @@ export class UserManagementService {
     const observable = this.http.get<any>(`${environment.apiUrl}/manage/User/${user.sub}`);
     return this.promisifyObservable(observable);
   }
+
+  deleteProfile() {
+    const observable = this.http.delete<any>(`${environment.apiUrl}/manage/User`);
+    return this.promisifyObservable(observable);
+  }
 }
