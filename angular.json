@@ -103,6 +103,14 @@
                   "with": "src/environments/environment.dev-staging-api.ts"
                 }
               ]
+            },
+            "dev-local": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.dev-local.ts"
+                }
+              ]
             }
           }
         },
@@ -123,6 +131,9 @@
             },
             "dev-staging-api": {
               "browserTarget": "linklives:build:dev-staging-api"
+            },
+            "dev-local": {
+              "browserTarget": "linklives:build:dev-local"
             }
           }
         },

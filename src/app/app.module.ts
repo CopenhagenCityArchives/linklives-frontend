@@ -26,6 +26,7 @@ import { RelatedPeopleComponent } from './person-appearance/related-people.compo
 import { SourceDataComponent } from './person-appearance/source-data.component';
 import { UserProfilePage } from './user-profile/user-profile.component';
 import { ModalComponent } from './modal/component';
+import { environment } from 'src/environments/environment';
 import { AnalyticsModule } from './analytics.module';
 
 @NgModule({
@@ -59,7 +60,7 @@ import { AnalyticsModule } from './analytics.module';
     // Import the module into the application, with configuration
     AuthModule.forRoot({
       domain: 'linklives.eu.auth0.com',
-      clientId: '7lYbAwzUER3epciKfadgIoO8LUmhIk5x',
+      clientId: environment.auth0ClientId,
       // Request this audience at user authentication time
       audience: 'https://api.linklives.dk',
 
@@ -99,6 +100,46 @@ import { AnalyticsModule } from './analytics.module';
             }
           },
           {
+            // Match requests to the custom API (test)
+            uri: 'https://api-test.link-lives.dk/manage/User',
+            tokenOptions: {
+              // The attached token should target this audience (auht0 API ID)
+              audience: 'https://api.linklives.dk',
+            }
+          },
+          {
+            // Match requests to the custom API (local)
+            uri: 'http://localhost:5923/LinkRating',
+            tokenOptions: {
+              // The attached token should target this audience (auht0 API ID)
+              audience: 'https://api.linklives.dk',
+            }
+          },
+          {
+            // Match requests to the custom API (local)
+            uri: 'http://localhost:5923/user/ratings/lifecourses',
+            tokenOptions: {
+              // The attached token should target this audience (auht0 API ID)
+              audience: 'https://api.linklives.dk',
+            }
+          },
+          {
+            // Match requests to the custom API (local)
+            uri: 'http://localhost:5923/manage/User/*',
+            tokenOptions: {
+              // The attached token should target this audience (auht0 API ID)
+              audience: 'https://api.linklives.dk',
+            }
+          },
+          {
+            // Match requests to the custom API (local)
+            uri: 'http://localhost:5923/manage/User',
+            tokenOptions: {
+              // The attached token should target this audience (auht0 API ID)
+              audience: 'https://api.linklives.dk',
+            }
+          },
+          {
             // Match requests to the custom API (production)
             uri: 'https://api.link-lives.dk/LinkRating',
             tokenOptions: {
@@ -117,6 +158,14 @@ import { AnalyticsModule } from './analytics.module';
           {
             // Match requests to the custom API (production)
             uri: 'https://api.link-lives.dk/manage/User/*',
+            tokenOptions: {
+              // The attached token should target this audience (auht0 API ID)
+              audience: 'https://api.linklives.dk',
+            }
+          },
+          {
+            // Match requests to the custom API (production)
+            uri: 'https://api.link-lives.dk/manage/User',
             tokenOptions: {
               // The attached token should target this audience (auht0 API ID)
               audience: 'https://api.linklives.dk',

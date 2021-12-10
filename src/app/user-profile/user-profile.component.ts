@@ -18,13 +18,14 @@ export class UserProfilePage implements OnInit {
   ) {}
 
   isEditingProfile: boolean = false;
-  ratedLifecourses: any;
+  ratedLifecourses: any[] = [];
   openSearchHistory: boolean = false;
   newUsername: string = "";
   newEmail: string = "";
   user;
   profile;
-  showWarning = false;
+  showEmailChangeWarning = false;
+  showDeleteWarning = false;
   error: string = null;
   saving: boolean = false;
 
@@ -77,6 +78,12 @@ export class UserProfilePage implements OnInit {
 
     this.isEditingProfile = false;
     this.authUtil.handleLogin();
+  }
+
+  async deleteProfile() {
+    this.saving = true;
+    await this.userManagement.deleteProfile();
+    this.authUtil.handleLogout();
   }
 
   logout(){
