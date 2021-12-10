@@ -1,5 +1,4 @@
-import { Component, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
 import { UserManagementService } from 'src/app/user-management/service';
 
@@ -8,9 +7,17 @@ import { UserManagementService } from 'src/app/user-management/service';
   templateUrl: './component.html',
 })
 
-export class AuthButtonComponent {
-  window = window;
-  constructor(@Inject(DOCUMENT) public document: Document, private userManagement: UserManagementService, public auth: AuthService) { }
+export class AuthButtonComponent implements OnInit {
+  isAuthenticated: boolean = false;  
+
+  constructor(private userManagement: UserManagementService, public auth: AuthService) { }
+
+  ngOnInit() {
+    this.auth.isAuthenticated$
+      .subscribe((isAuthenticated) => {
+        this.isAuthenticated = isAuthenticated;
+      });
+  }
 
   login() {
     this.userManagement.handleLogin();
