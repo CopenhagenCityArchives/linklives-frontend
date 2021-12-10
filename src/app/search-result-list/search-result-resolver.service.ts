@@ -3,7 +3,7 @@ import { AdvancedSearchQuery, SearchResult, SearchService, FilterIdentifier } fr
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable, EMPTY } from 'rxjs';
 import { addSearchHistoryEntry, SearchHistoryEntryType } from '../search-history';
-import { EventType } from '../elasticsearch/elasticsearch.service';
+import { EventType } from '../data/data.service';
 
 @Injectable({
   providedIn: 'root'

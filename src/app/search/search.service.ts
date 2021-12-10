@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { ElasticsearchService, EventType, Link } from '../elasticsearch/elasticsearch.service';
+import { DataService, EventType, Link } from '../data/data.service';
 
 export type SearchHit = PersonAppearanceHit | LinkHit | LifecourseHit;
 
@@ -197,7 +197,7 @@ export interface AdvancedSearchQuery {
 })
 export class SearchService {
 
-  constructor(private elasticsearch: ElasticsearchService) { }
+  constructor(private elasticsearch: DataService) { }
 
   advancedSearch(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: FilterIdentifier[], mode: string = "default"): Observable<SearchResult> {
     return this.elasticsearch.searchAdvanced(query, indices, from, size, sortBy, sortOrder, sourceFilter, mode);

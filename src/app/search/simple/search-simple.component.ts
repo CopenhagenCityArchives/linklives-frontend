@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { AdvancedSearchQuery, EntryCounts } from '../search.service';
 import { searchFieldPlaceholders, searchFieldLabels, getFieldOptions, genderOptions } from 'src/app/search-term-values';
 import { prettyNumbers } from 'src/app/util/display-helpers';
-import { ElasticsearchService } from 'src/app/elasticsearch/elasticsearch.service';
+import { DataService } from 'src/app/data/data.service';
 
 @Component({
   selector: 'app-search-simple',
@@ -68,7 +68,7 @@ export class SimpleSearchComponent implements OnInit {
     return genderOptions;
   }
 
-  constructor(private router: Router, private elasticSearch: ElasticsearchService, private elements: ElementRef) { }
+  constructor(private router: Router, private elasticSearch: DataService, private elements: ElementRef) { }
 
   ngOnInit(): void {
     this.elasticSearch.getEntryCounts().subscribe((entryCounts) => {

@@ -3,7 +3,7 @@ import { Router, ActivatedRoute  } from '@angular/router';
 import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
 import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, possibleSearchQueryParams, getFieldOptions, genderOptions } from 'src/app/search-term-values';
 import { eventIcon, filterTitle } from '../util/display-helpers';
-import { EventType } from '../elasticsearch/elasticsearch.service';
+import { EventType } from '../data/data.service';
 
 interface SearchQueryParams {
   query?: string,

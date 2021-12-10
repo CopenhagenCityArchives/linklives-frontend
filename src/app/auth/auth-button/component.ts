@@ -1,7 +1,7 @@
 import { Component, Inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { AuthService } from '@auth0/auth0-angular';
-import { AuthUtil } from '../util';
+import { UserManagementService } from 'src/app/user-management/service';
 
 @Component({
   selector: 'lls-auth-button',
@@ -10,13 +10,13 @@ import { AuthUtil } from '../util';
 
 export class AuthButtonComponent {
   window = window;
-  constructor(@Inject(DOCUMENT) public document: Document, private authUtil: AuthUtil, public auth: AuthService) { }
+  constructor(@Inject(DOCUMENT) public document: Document, private userManagement: UserManagementService, public auth: AuthService) { }
 
   login() {
-    this.authUtil.handleLogin();
+    this.userManagement.handleLogin();
   }
 
   logout() {
-    this.authUtil.handleLogout();
+    this.userManagement.handleLogout();
   }
 }
