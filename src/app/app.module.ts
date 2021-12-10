@@ -28,6 +28,7 @@ import { UserProfilePage } from './user-profile/user-profile.component';
 import { ModalComponent } from './modal/component';
 import { environment } from 'src/environments/environment';
 import { AnalyticsModule } from './analytics.module';
+import { UserManagementService } from './user-management/service';
 
 @NgModule({
   declarations: [
@@ -61,6 +62,7 @@ import { AnalyticsModule } from './analytics.module';
       domain: 'linklives.eu.auth0.com',
       clientId: environment.auth0ClientId,
       audience: 'https://api.linklives.dk',
+      redirectUri: UserManagementService.baseUrl(),
       httpInterceptor: {
         allowedList: [
 

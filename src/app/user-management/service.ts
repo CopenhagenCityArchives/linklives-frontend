@@ -52,7 +52,7 @@ export class UserManagementService {
 
   handleLogin() {
     const path = this.currentPath();
-    const redirect_uri = this.baseUrl();
+    const redirect_uri = UserManagementService.baseUrl();
     const onLoginCompleted: { path: string, query?: string } = {
       path,
     };
@@ -68,7 +68,7 @@ export class UserManagementService {
   }
 
   handleLogout() {
-    this.auth.logout({ returnTo: this.baseUrl() });
+    this.auth.logout({ returnTo: UserManagementService.baseUrl() });
   }
 
   currentPath() {
@@ -78,7 +78,7 @@ export class UserManagementService {
     return window.location.pathname.replace(environment.pathPrefix, '');
   }
 
-  baseUrl() {
+  static baseUrl() {
     return `${window.location.protocol}//${window.location.host}${environment.pathPrefix}`;
   }
 }
