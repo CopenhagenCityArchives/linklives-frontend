@@ -27,6 +27,7 @@ import { SourceDataComponent } from './person-appearance/source-data.component';
 import { UserProfilePage } from './user-profile/user-profile.component';
 import { ModalComponent } from './modal/component';
 import { environment } from 'src/environments/environment';
+import { AnalyticsModule } from './analytics.module';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { environment } from 'src/environments/environment';
     ReactiveFormsModule,
     FormElementsModule,
     HttpClientModule,
+    AnalyticsModule,
     // Import the module into the application, with configuration
     AuthModule.forRoot({
       domain: 'linklives.eu.auth0.com',
