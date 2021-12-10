@@ -807,7 +807,7 @@ export class ElasticsearchService {
           headingRatings,
           totalRatings: ratings.length,
           ratedBy: ratings.map((entry) => entry.user),
-        }
+        };
       })));
   }
 };
