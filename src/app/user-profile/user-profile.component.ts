@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { AuthUtil } from '../auth/util';
-import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
+import { RatingService } from '../data/rating.service';
 import { UserManagementService } from '../user-management/service';
 
 
@@ -12,8 +11,7 @@ import { UserManagementService } from '../user-management/service';
 export class UserProfilePage implements OnInit {
   constructor(
     public auth: AuthService,
-    private authUtil: AuthUtil,
-    private elasticsearch: ElasticsearchService,
+    private ratingService: RatingService,
     private userManagement: UserManagementService,
   ) {}
 
@@ -61,13 +59,17 @@ export class UserProfilePage implements OnInit {
     }
 
     try {
-      await this.userManagement.updateProfile(this.user, changes);
+      await this.userManagement.updateProfile(changes);
     }
     catch(error) {
       if(typeof error.error === "string") {
         console.error("Error while updating profile", error);
         this.error = error.error;
         this.saving = false;
+        return;
+      }
+      if(error.message.match(/Login required/i)) {
+        this.userManagement.handleLogin();
         return;
       }
       throw error;
@@ -77,26 +79,35 @@ export class UserProfilePage implements OnInit {
     this.profile.email = this.newEmail;
 
     this.isEditingProfile = false;
-    this.authUtil.handleLogin();
+    this.userManagement.handleLogin();
   }
 
   async deleteProfile() {
     this.saving = true;
-    await this.userManagement.deleteProfile();
-    this.authUtil.handleLogout();
+    try {
+      await this.userManagement.deleteProfile();
+    }
+    catch(e) {
+      if(e.message.match(/Login required/i)) {
+        this.userManagement.handleLogin();
+        return;
+      }
+      throw e;
+    }
+    this.userManagement.handleLogout();
   }
 
   logout(){
-    this.authUtil.handleLogout();
+    this.userManagement.handleLogout();
   }
 
   featherSpriteUrl = this.config.featherIconPath;
   
-  ngOnInit(): void {
-    this.elasticsearch.getRatedLifecourses().subscribe({
+  async ngOnInit(): Promise<void> {
+    this.ratingService.getRatedLifecourses().subscribe({
       error: (e) => {
         if(e.message.match(/Login required/i)) {
-          this.authUtil.handleLogin();
+          this.userManagement.handleLogin();
           return;
         }
         throw e;
@@ -106,11 +117,15 @@ export class UserProfilePage implements OnInit {
       },
     });
 
-    this.auth.user$.subscribe({
-      next: async (user) => {
-        this.user = user;
-        this.profile = await this.userManagement.getProfile(this.user);
-      },
-    });
+    try {
+      this.profile = await this.userManagement.getProfile();
+    }
+    catch(e) {
+      if(e.message.match(/Login required/i)) {
+        this.userManagement.handleLogin();
+        return;
+      }
+      throw e;
+    }
   }
 }
