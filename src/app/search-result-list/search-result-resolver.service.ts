@@ -27,6 +27,7 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
     }
 
     let mode: string = route.queryParamMap.get('mode') || 'default';
+    let excludeDubiousLinks: string = route.queryParamMap.get('excludeDubiousLinks') || "false";
     let sortBy: string = route.queryParamMap.get('sortBy') || "relevance";
     let sortOrder: "asc" | "desc" = route.queryParamMap.get('sortOrder') === "desc" ? "desc" : "asc";
     const sourceFilterRaw = route.queryParamMap.get("sourceFilter");
@@ -111,8 +112,9 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       pagination: { page, size },
       sort: { sortBy, sortOrder },
       mode,
+      excludeDubiousLinks,
     });
 
-    return this.service.advancedSearch(actualSearchTerms, index, (page - 1) * size, size, sortBy, sortOrder, sourceFilter, mode);
+    return this.service.advancedSearch(actualSearchTerms, index, (page - 1) * size, size, sortBy, sortOrder, sourceFilter, mode, excludeDubiousLinks);
   }
 }

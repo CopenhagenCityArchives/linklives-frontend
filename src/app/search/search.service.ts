@@ -199,7 +199,28 @@ export class SearchService {
 
   constructor(private elasticsearch: DataService) { }
 
-  advancedSearch(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: FilterIdentifier[], mode: string = "default"): Observable<SearchResult> {
-    return this.elasticsearch.searchAdvanced(query, indices, from, size, sortBy, sortOrder, sourceFilter, mode);
+  advancedSearch(
+    query: AdvancedSearchQuery,
+    indices: string[],
+    from: number,
+    size: number,
+    sortBy: string,
+    sortOrder: string,
+    sourceFilter: FilterIdentifier[],
+    mode: string = "default",
+    excludeDubiousLinksString: string = "false"
+  ): Observable<SearchResult> {
+    const excludeDubiousLinks = excludeDubiousLinksString === "true";
+    return this.elasticsearch.searchAdvanced(
+      query,
+      indices,
+      from,
+      size,
+      sortBy,
+      sortOrder,
+      sourceFilter,
+      mode,
+      excludeDubiousLinks,
+    );
   }
 }
