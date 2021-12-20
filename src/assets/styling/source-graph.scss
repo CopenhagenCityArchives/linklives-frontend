@@ -65,9 +65,35 @@
 .lls-source-graph__circle--census:after {
   background-color: $yellow;
 }
-.lls-source-graph__circle--burial:after {
+
+.lls-source-graph__circle--burial:after,
+.lls-source-graph__circle--burial_protocol:after {
+  background-color: $burial-black;
+}
+
+.lls-source-graph__circle--burial-cph:after {
   background-color: $burial-grey;
 }
+
+.lls-source-graph__circle--confirmation:after {
+  background-color: $confirmation-blue;
+}
+
+.lls-source-graph__circle--marriage:after,
+.lls-source-graph__circle--spouse:after {
+  background-color: $marriage-red;
+}
+
+.lls-source-graph__circle--baptism:after,
+.lls-source-graph__circle--babtism:after {
+  background-color: $baptism-green;
+}
+
+.lls-source-graph__circle--arrival:after,
+.lls-source-graph__circle--departure:after {
+  background-color: $departure-green;
+}
+
 .lls-source-graph__circle--action:after {
   border-width: 5px;
   background-color: black;
