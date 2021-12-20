@@ -270,7 +270,17 @@ export class DataService {
     });
   }
 
-  searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: FilterIdentifier[], mode: string = "default") {
+  searchAdvanced(
+    query: AdvancedSearchQuery,
+    indices: string[],
+    from: number,
+    size: number,
+    sortBy: string,
+    sortOrder: string,
+    sourceFilter: FilterIdentifier[],
+    mode: string = "default",
+    excludeDubiousLinks: boolean = false,
+  ) {
     if(indices.length < 1) {
       const emptySearchResult = new Observable<SearchResult>((observer) => {
         observer.next({
@@ -297,7 +307,7 @@ export class DataService {
 
     const sort = this.createSortClause(sortBy, sortOrder);
 
-    const { resultLookupQuery, sourceLookupQuery } = this.createQueries(query, sourceFilter, mode);
+    const { resultLookupQuery, sourceLookupQuery } = this.createQueries(query, sourceFilter, mode, excludeDubiousLinks);
 
     const body = {
       from: from,
@@ -382,7 +392,7 @@ export class DataService {
     return this.search(indices, body, filterBody);
   }
 
-  createQueries(query: AdvancedSearchQuery, sourceFilter: FilterIdentifier[], mode: string) {
+  createQueries(query: AdvancedSearchQuery, sourceFilter: FilterIdentifier[], mode: string, excludeDubiousLinks: boolean) {
     const queryIncludingNested = (key, fun) => [ fun(key), fun(`person_appearance.${key}`) ];
     const matchQ = (key, val) => queryIncludingNested(key, (key) => {
       return { match: { [key]: val } };
@@ -395,6 +405,17 @@ export class DataService {
     };
 
     const must = [];
+
+    if(excludeDubiousLinks) {
+      must.push({
+        bool: {
+          must_not: [
+            { range: { "links.duplicates": { gt: 1 } } },
+          ],
+        }
+      });
+    }
+
     let sourceLookupFilter = must;
 
     const addFreeTextQuery = (must, value) => {

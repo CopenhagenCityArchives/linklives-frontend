@@ -30,6 +30,7 @@ export interface SearchHistoryEntry {
   pagination?: SearchResultPagination,
   sort?: SearchResultSorting,
   mode?: string,
+  excludeDubiousLinks?: string,
 }
 
 export interface LifecourseSearchHistoryEntry {
@@ -155,6 +156,10 @@ export function getLatestSearchQuery() {
 
     if(entry.mode) {
       queryParams.mode = entry.mode;
+    }
+
+    if(entry.excludeDubiousLinks) {
+      queryParams.excludeDubiousLinks = entry.excludeDubiousLinks;
     }
 
     if(Array.isArray(entry.index)) {
