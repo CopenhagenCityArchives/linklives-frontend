@@ -14,7 +14,6 @@ import { UserManagementService } from '../user-management/service';
 })
 
 export class LinkRatingComponent implements OnInit {
-  @Input() openLinkRating: boolean;
   @Input() featherIconPath: string;
   @Input() linkId: string;
   @Input() totalRatings: number;
@@ -28,6 +27,10 @@ export class LinkRatingComponent implements OnInit {
   ratingOptions;
   currentPath = this.userManagement.currentPath();
   user;
+
+  get openLinkRating() {
+    return Boolean(this.linkId);
+  }
 
   get ratingCategoriesWithCount() {
     const result = {};
@@ -94,7 +97,7 @@ export class LinkRatingComponent implements OnInit {
   closeLinkRating() {
     this.showForm = true;
     this.chosen = "";
-    this.openLinkRating = false;
+    this.linkId = null;
     this.linkRatingForm.reset();
     // reset url query
     this.router.navigate([this.currentPath], {
