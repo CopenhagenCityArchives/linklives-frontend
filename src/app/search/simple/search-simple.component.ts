@@ -132,6 +132,10 @@ export class SimpleSearchComponent implements OnInit {
       .filter((term) => term.value !== "")
       .forEach((term) => searchParams[term.field] = term.value);
 
+    if (Object.keys(searchParams).length === 0) {
+      searchParams.query = "";
+    }
+
     this.router.navigate(['/results'], {
       queryParams: {
         ...searchParams,
