@@ -104,6 +104,7 @@ export interface Link {
   method_subtype1: string,
   score: number,
   key: string,
+  id: string,
   ratings: Array<object>,
   duplicates: number,
 }

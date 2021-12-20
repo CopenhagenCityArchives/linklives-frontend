@@ -84,8 +84,8 @@ export class RatingService {
     return this.http.post<any>(`${environment.apiUrl}/LinkRating`, linkRating);
   }
 
-  getLinkRatingStats(key: string): Observable<{ headingRatings: any, totalRatings: number, ratedBy: string[] }> {
-    return this.http.get<any>(`${environment.apiUrl}/Link/${key}/ratings`)
+  getLinkRatingStats(id: string): Observable<{ headingRatings: any, totalRatings: number, ratedBy: string[] }> {
+    return this.http.get<any>(`${environment.apiUrl}/Link/${id}/ratings`)
       .pipe(map(((ratings) => {
         const headingRatings = {};
 
