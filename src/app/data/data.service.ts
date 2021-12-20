@@ -273,9 +273,9 @@ export class DataService {
   searchAdvanced(
     query: AdvancedSearchQuery,
     indices: string[],
-    from: number, size:
-    number, sortBy:
-    string,
+    from: number,
+    size: number,
+    sortBy: string,
     sortOrder: string,
     sourceFilter: FilterIdentifier[],
     mode: string = "default",
