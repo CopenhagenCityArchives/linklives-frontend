@@ -78,9 +78,9 @@ export class LifeCourseComponent implements OnInit {
   constructor(private route: ActivatedRoute, private ratingService: RatingService) { }
 
   ngOnInit(): void {
-    this.route.data.subscribe(next => {
+    this.route.data.subscribe(({ lifecourse }) => {
       // Sort person appearances by event year
-      this.pas = next.lifecourse.personAppearances.sort(function(a, b) {
+      this.pas = lifecourse.personAppearances.sort(function(a, b) {
         if (a.event_year_display > b.event_year_display) {
           return 1;
         }
@@ -90,12 +90,12 @@ export class LifeCourseComponent implements OnInit {
         return 0;
       }) as PersonAppearance[];
 
-      this.lifecourseKey = next.lifecourse.lifecourseKey;
-      this.lifecourseId = next.lifecourse.lifecourseId;
-      this.links = next.lifecourse.links;
+      this.lifecourseKey = lifecourse.lifecourseKey;
+      this.lifecourseId = lifecourse.lifecourseId;
+      this.links = lifecourse.links;
 
-      if(next.lifecourse.currentLinkId) {
-        this.openLinkRating(next.lifecourse.currentLinkId, next.lifecourse.chosenRatingId);
+      if(lifecourse.currentLinkId) {
+        this.openLinkRating(lifecourse.currentLinkId, lifecourse.chosenRatingId);
       }
     });
   }
