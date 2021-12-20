@@ -18,36 +18,23 @@ export class LifeCourseResolverService implements Resolve<{lifecourseKey: string
     const currentLinkId = route.queryParamMap.get('currentLinkId') || '';
     const chosenRatingId = route.queryParamMap.get('chosenRatingId') || '';
 
-    return new Observable(
-      observer => {
-        this.elasticsearch.getLifecourse(lifecourseKey)
-          .pipe(map((lifecourse: Lifecourse, index) => {
-            addSearchHistoryEntry({
-              type: SearchHistoryEntryType.Lifecourse,
-              lifecourse: {
-                key: lifecourseKey,
-                personAppearances: lifecourse.personAppearances || [],
-              },
-            });
-            return {
-              lifecourseKey,
-              lifecourseId: lifecourse.life_course_id,
-              personAppearances: lifecourse.personAppearances,
-              links: lifecourse.links,
-              currentLinkId,
-              chosenRatingId,
-            };
-          }
-          ))
-          .subscribe(next => {
-            observer.next(next);
-          }, error => {
-            observer.error(error);
-          }, () => {
-            observer.complete();
-          }
-        )
-      }
-    );
+    return this.elasticsearch.getLifecourse(lifecourseKey)
+      .pipe(map((lifecourse: Lifecourse, index) => {
+        addSearchHistoryEntry({
+          type: SearchHistoryEntryType.Lifecourse,
+          lifecourse: {
+            key: lifecourseKey,
+            personAppearances: lifecourse.personAppearances || [],
+          },
+        });
+        return {
+          lifecourseKey,
+          lifecourseId: lifecourse.life_course_id,
+          personAppearances: lifecourse.personAppearances,
+          links: lifecourse.links,
+          currentLinkId,
+          chosenRatingId,
+        };
+      }));
   }
 }
