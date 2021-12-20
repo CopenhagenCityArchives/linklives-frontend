@@ -60,6 +60,7 @@ export class SearchResultListComponent implements OnInit {
   sortAscending = false;
 
   modeFuzzy = false;
+  includeDubiousLinks = true;
 
   searchTerms = [];
   searchFieldPlaceholders = searchFieldPlaceholders;
@@ -221,6 +222,7 @@ export class SearchResultListComponent implements OnInit {
       this.sortAscending = this.sortBy === "relevance" ? sortOrder !== "asc" : sortOrder !== "desc";
 
       this.modeFuzzy = queryParamMap.get('mode') === "fuzzy";
+      this.includeDubiousLinks = queryParamMap.get('excludeDubiousLinks') !== 'true';
       const sourceFilters = queryParamMap.get('sourceFilter');
       if(sourceFilters) {
         this.sourceFilter = sourceFilters
@@ -347,6 +349,7 @@ export class SearchResultListComponent implements OnInit {
     return {
       ...this.queryParams,
       mode: this.modeFuzzy ? "fuzzy" : "default",
+      excludeDubiousLinks: this.includeDubiousLinks ? null : "true",
       size: this.pagination.size,
       pg: page,
     };
@@ -364,6 +367,7 @@ export class SearchResultListComponent implements OnInit {
         sortOrder: this.queryParams.sortOrder,
         sourceFilter: this.queryParams.sourceFilter,
         mode: this.modeFuzzy ? "fuzzy" : "default",
+        excludeDubiousLinks: this.includeDubiousLinks ? null : "true",
         pg: page || this.pagination.current || 1,
         size: this.pagination.size,
       },
