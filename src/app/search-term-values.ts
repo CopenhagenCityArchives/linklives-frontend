@@ -2,7 +2,7 @@ import { Category, Option } from './form-elements/dropdown/component';
 
 export const mapSearchKeys = {
   id: {
-    exact: "id",
+    exact: "pa_id",
   },
   name: {
     default: "name_searchable",
