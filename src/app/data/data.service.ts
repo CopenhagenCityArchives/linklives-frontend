@@ -428,6 +428,7 @@ export class DataService {
         "*sourceplace_searchable",
         "*gender_searchable",
         "*birthname_searchable",
+        "*occupation_searchable",
         "*role_searchable",
       ];
 
@@ -438,6 +439,7 @@ export class DataService {
           "*firstnames_searchable_fz",
           "*birthplace_searchable_fz",
           "*birthname_searchable_fz",
+          "*occupation_searchable",
           "*role_searchable",
         ];
         fields = fields.concat(fuzzyStringFields);

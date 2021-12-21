@@ -90,6 +90,7 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       "id",
       "lifeCourseId",
       "gender",
+      "occupation",
       "role",
       //"maritalStatus",
     ];

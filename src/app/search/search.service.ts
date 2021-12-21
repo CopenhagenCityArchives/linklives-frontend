@@ -107,6 +107,7 @@ export interface PersonAppearance {
   name_std: string,
   occupation: string,
   occupation_display: string,
+  occupation_searchable: string,
   pa_id: number,
   pa_entry_permalink_wp4: string,
   parish: string,
