@@ -61,6 +61,7 @@ export class SearchResultListComponent implements OnInit {
 
   modeFuzzy = false;
   includeDubiousLinks = true;
+  includeUndoubtedLinks = true;
 
   searchTerms = [];
   searchFieldPlaceholders = searchFieldPlaceholders;
@@ -223,6 +224,7 @@ export class SearchResultListComponent implements OnInit {
 
       this.modeFuzzy = queryParamMap.get('mode') === "fuzzy";
       this.includeDubiousLinks = queryParamMap.get('excludeDubiousLinks') !== 'true';
+      this.includeUndoubtedLinks = queryParamMap.get('excludeUndoubtedLinks') !== 'true';
       const sourceFilters = queryParamMap.get('sourceFilter');
       if(sourceFilters) {
         this.sourceFilter = sourceFilters
@@ -350,6 +352,7 @@ export class SearchResultListComponent implements OnInit {
       ...this.queryParams,
       mode: this.modeFuzzy ? "fuzzy" : "default",
       excludeDubiousLinks: this.includeDubiousLinks ? null : "true",
+      excludeUndoubtedLinks: this.includeUndoubtedLinks ? null : "true",
       size: this.pagination.size,
       pg: page,
     };
@@ -368,6 +371,7 @@ export class SearchResultListComponent implements OnInit {
         sourceFilter: this.queryParams.sourceFilter,
         mode: this.modeFuzzy ? "fuzzy" : "default",
         excludeDubiousLinks: this.includeDubiousLinks ? null : "true",
+        excludeUndoubtedLinks: this.includeUndoubtedLinks ? null : "true",
         pg: page || this.pagination.current || 1,
         size: this.pagination.size,
       },

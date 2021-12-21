@@ -209,9 +209,11 @@ export class SearchService {
     sortOrder: string,
     sourceFilter: FilterIdentifier[],
     mode: string = "default",
-    excludeDubiousLinksString: string = "false"
+    excludeDubiousLinksString: string = "false",
+    excludeUndoubtedLinksString: string = "false",
   ): Observable<SearchResult> {
     const excludeDubiousLinks = excludeDubiousLinksString === "true";
+    const excludeUndoubtedLinks = excludeUndoubtedLinksString === "true";
     return this.elasticsearch.searchAdvanced(
       query,
       indices,
@@ -222,6 +224,7 @@ export class SearchService {
       sourceFilter,
       mode,
       excludeDubiousLinks,
+      excludeUndoubtedLinks,
     );
   }
 }
