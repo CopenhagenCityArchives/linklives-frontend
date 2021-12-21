@@ -113,7 +113,7 @@ export class SourceLinkingGraphComponent implements OnInit {
           linkingMethod: prettyLinkMethod(link),
           totalRatings: link.ratings ? link.ratings.length : 0, // TODO: Remove this guarding when the link.rating data is fixed. Right now it can be null.
           id: link.id,
-          duplicates: link.duplicates,
+          duplicates: link.duplicates > 1,
         };
       })
       .sort((a, b) => {
