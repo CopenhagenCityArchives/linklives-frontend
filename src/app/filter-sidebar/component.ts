@@ -94,7 +94,7 @@ export class FilterSidebar implements OnInit {
   eventCategories() {
     return this.possibleFilters.eventType.map(x => {
       return {
-        label: x.event_type_display,
+        label: x.event_type === "burial_protocol" ? `${x.event_type_display} (KBH)` : x.event_type_display,
         type: x.event_type,
         value: `eventType_${x.event_type}_${x.event_type_display}`,
         count: prettyNumbers(x.count),
