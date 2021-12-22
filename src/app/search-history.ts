@@ -31,6 +31,7 @@ export interface SearchHistoryEntry {
   sort?: SearchResultSorting,
   mode?: string,
   excludeDubiousLinks?: string,
+  excludeUndoubtedLinks?: string,
 }
 
 export interface LifecourseSearchHistoryEntry {
@@ -160,6 +161,10 @@ export function getLatestSearchQuery() {
 
     if(entry.excludeDubiousLinks) {
       queryParams.excludeDubiousLinks = entry.excludeDubiousLinks;
+    }
+
+    if(entry.excludeUndoubtedLinks) {
+      queryParams.excludeUndoubtedLinks = entry.excludeUndoubtedLinks;
     }
 
     if(Array.isArray(entry.index)) {

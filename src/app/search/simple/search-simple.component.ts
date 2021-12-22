@@ -22,6 +22,7 @@ export class SimpleSearchComponent implements OnInit {
   // Advanced search
   modeFuzzy = false;
   includeDubiousLinks = true;
+  includeUndoubtedLinks = true;
   searchFieldPlaceholders = searchFieldPlaceholders;
   searchFieldLabels = searchFieldLabels;
 
@@ -143,7 +144,8 @@ export class SimpleSearchComponent implements OnInit {
         index: this.computedIndex,
         mode: this.modeFuzzy ? "fuzzy" : "default",
         excludeDubiousLinks: this.includeDubiousLinks ? null : "true",
-      }
+        excludeUndoubtedLinks: this.includeUndoubtedLinks ? null : "true",
+      },
     });
   }
 

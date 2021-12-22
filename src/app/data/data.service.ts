@@ -281,6 +281,7 @@ export class DataService {
     sourceFilter: FilterIdentifier[],
     mode: string = "default",
     excludeDubiousLinks: boolean = false,
+    excludeUndoubtedLinks: boolean = false,
   ) {
     if(indices.length < 1) {
       const emptySearchResult = new Observable<SearchResult>((observer) => {
@@ -308,7 +309,7 @@ export class DataService {
 
     const sort = this.createSortClause(sortBy, sortOrder);
 
-    const { resultLookupQuery, sourceLookupQuery } = this.createQueries(query, sourceFilter, mode, excludeDubiousLinks);
+    const { resultLookupQuery, sourceLookupQuery } = this.createQueries(query, sourceFilter, mode, excludeDubiousLinks, excludeUndoubtedLinks);
 
     const body = {
       from: from,
@@ -393,7 +394,7 @@ export class DataService {
     return this.search(indices, body, filterBody);
   }
 
-  createQueries(query: AdvancedSearchQuery, sourceFilter: FilterIdentifier[], mode: string, excludeDubiousLinks: boolean) {
+  createQueries(query: AdvancedSearchQuery, sourceFilter: FilterIdentifier[], mode: string, excludeDubiousLinks: boolean, excludeUndoubtedLinks: boolean) {
     const queryIncludingNested = (key, fun) => [ fun(key), fun(`person_appearance.${key}`) ];
     const matchQ = (key, val) => queryIncludingNested(key, (key) => {
       return { match: { [key]: val } };
@@ -407,14 +408,16 @@ export class DataService {
 
     const must = [];
 
-    if(excludeDubiousLinks) {
-      must.push({
-        bool: {
-          must_not: [
-            { range: { "links.duplicates": { gt: 1 } } },
-          ],
-        }
-      });
+    if(excludeDubiousLinks || excludeUndoubtedLinks) {
+      const excludedRanges = [];
+      if(excludeDubiousLinks) {
+        excludedRanges.push({ range: { "links.duplicates": { gt: 1 } } });
+      }
+      if(excludeUndoubtedLinks) {
+        excludedRanges.push({ match: { "links.duplicates": 1 } });
+      }
+
+      must.push({ bool: { must_not: excludedRanges } });
     }
 
     let sourceLookupFilter = must;
