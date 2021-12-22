@@ -51,14 +51,13 @@
         (close)="openSearchHistory = false"
     ></app-search-history>
     <app-link-rating
-        [openLinkRating]="currentLinkKey"
-        [linkKey]="currentLinkKey"
+        [linkId]="currentLinkId"
         [chosenRatingId]="chosenRatingId"
         [totalRatings]="totalRatings"
         [ratingCountByCategory]="ratingCountByCategory"
         [ratedBy]="ratedBy"
         [featherIconPath]="featherSpriteUrl"
-        (close)="currentLinkKey = ''"
+        (close)="currentLinkId = ''"
     ></app-link-rating>
     <div class="lls-row my-4">
         <div class="lls-columns-12 lls-columns-6--md"></div>

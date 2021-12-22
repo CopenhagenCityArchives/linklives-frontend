@@ -2,6 +2,17 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Link } from '../data/data.service';
 import { PersonAppearance } from '../search/search.service';
 
+interface DrawableLink{
+  offsetY: number,
+  pathTierX: number,
+  lineHeight: number,
+  confidencePct: number,
+  linkingMethod: { long: string, short: string },
+  totalRatings: number,
+  id: string,
+  duplicates: number,
+};
+
 @Component({
   selector: 'app-source-linking-graph',
   templateUrl: './source-linking-graph.component.html',
@@ -14,16 +25,7 @@ export class SourceLinkingGraphComponent implements OnInit {
   @Output()
   openLinkRating: EventEmitter<string> = new EventEmitter<string>();
 
-  drawableLinks: {
-    offsetY: number,
-    pathTierX: number,
-    lineHeight: number,
-    confidencePct: number,
-    linkingMethod: { long: string, short: string },
-    totalRatings: number,
-    key: string,
-    duplicates: number,
-  }[] = [];
+  drawableLinks: DrawableLink[] = [];
 
   hoveredLink?: string = null;
   hoveredTooltip?: string = null;
@@ -36,7 +38,7 @@ export class SourceLinkingGraphComponent implements OnInit {
     return [ ...this.pas ].reverse();
   }
 
-  calculateDrawableLinks() {
+  calculateDrawableLinks(): DrawableLink[] {
     //These represent gaps, not PAs, so there is one less than there are PAs in order.
     const maxTiers = Array(this.pas.length - 1).fill(-1);
 
@@ -110,7 +112,7 @@ export class SourceLinkingGraphComponent implements OnInit {
           confidencePct: Math.round((1 - link.score) * 100),
           linkingMethod: prettyLinkMethod(link),
           totalRatings: link.ratings ? link.ratings.length : 0, // TODO: Remove this guarding when the link.rating data is fixed. Right now it can be null.
-          key: link.key,
+          id: link.id,
           duplicates: link.duplicates,
         };
       })
@@ -130,22 +132,22 @@ export class SourceLinkingGraphComponent implements OnInit {
     this.drawableLinks = this.calculateDrawableLinks();
   }
 
-  onMouseEnterLink(key) {
-    this.hoveredLink = key;
+  onMouseEnterLink(id) {
+    this.hoveredLink = id;
   }
 
-  onMouseLeaveLink(key) {
-    if(this.hoveredLink === key) {
+  onMouseLeaveLink(id) {
+    if(this.hoveredLink === id) {
       this.hoveredLink = null;
     }
   }
 
-  onMouseEnterTooltip(key) {
-    this.hoveredTooltip = key;
+  onMouseEnterTooltip(id) {
+    this.hoveredTooltip = id;
   }
 
-  onMouseLeaveTooltip(key) {
-    if(this.hoveredTooltip === key) {
+  onMouseLeaveTooltip(id) {
+    if(this.hoveredTooltip === id) {
       this.hoveredTooltip = null;
     }
   }

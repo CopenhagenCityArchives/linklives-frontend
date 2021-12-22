@@ -24,11 +24,11 @@
 
     <div
         class="lls-source-graph__link"
-        [class]="activeLink === link.key ? 'lls-source-graph__link--active' : ''"
+        [class]="activeLink === link.id ? 'lls-source-graph__link--active' : ''"
         *ngFor="let link of drawableLinks; index as i;"
         [style]="'top: ' + link.offsetY + 'px;'"
-        (mouseenter)="onMouseEnterLink(link.key)"
-        (mouseleave)="onMouseLeaveLink(link.key)"
+        (mouseenter)="onMouseEnterLink(link.id)"
+        (mouseleave)="onMouseLeaveLink(link.id)"
     >
         <div
             class="lls-source-graph__link-path"
@@ -44,11 +44,11 @@
 
     <div
         class="lls-source-graph__tooltip"
-        [class]="(activeLink === link.key ? 'lls-source-graph__tooltip--active' : '') + (link.duplicates ? ' lls-source-graph__tooltip--link-with-duplicates' : '')"
+        [class]="(activeLink === link.id ? 'lls-source-graph__tooltip--active' : '') + (link.duplicates ? ' lls-source-graph__tooltip--link-with-duplicates' : '')"
         *ngFor="let link of drawableLinks; index as i;"
         [style]="'top: ' + (link.offsetY + (link.lineHeight / 2) - (link.duplicates ? 326 : 271)) + 'px; left: ' + (link.pathTierX + 30) + 'px;'"
-        (mouseenter)="onMouseEnterTooltip(link.key)"
-        (mouseleave)="onMouseLeaveTooltip(link.key)"
+        (mouseenter)="onMouseEnterTooltip(link.id)"
+        (mouseleave)="onMouseLeaveTooltip(link.id)"
     >
         <div class="lls-source-graph__tooltip-text lls-source-graph__tooltip-text--large u-bold u-mt-0">
             Om dette link
@@ -71,7 +71,7 @@
         <div class="u-mt-2 mb-2 u-bold">
             Er linket troværdigt?
         </div>
-        <button class="lls-btn lls-btn--small lls-btn--blue" (click)="openLinkRating.emit(link.key)">
+        <button class="lls-btn lls-btn--small lls-btn--blue" (click)="openLinkRating.emit(link.id)">
             Giv feedback
         </button>
         <div class="u-mt-2">

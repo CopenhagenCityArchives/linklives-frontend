@@ -13,41 +13,28 @@ export class LifeCourseResolverService implements Resolve<{lifecourseKey: string
 
   constructor(private elasticsearch: DataService) { }
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ lifecourseKey: string; personAppearances: PersonAppearance[]; links: Link[]; currentLinkKey: string; chosenRatingId: string; lifecourseId: number; }> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<{ lifecourseKey: string; personAppearances: PersonAppearance[]; links: Link[]; currentLinkId: string; chosenRatingId: string; lifecourseId: number; }> {
     const lifecourseKey = route.params.key;
-    const currentLinkKey = route.queryParamMap.get('currentLinkKey') || '';
+    const currentLinkId = route.queryParamMap.get('currentLinkId') || '';
     const chosenRatingId = route.queryParamMap.get('chosenRatingId') || '';
 
-    return new Observable(
-      observer => {
-        this.elasticsearch.getLifecourse(lifecourseKey)
-          .pipe(map((lifecourse: Lifecourse, index) => {
-            addSearchHistoryEntry({
-              type: SearchHistoryEntryType.Lifecourse,
-              lifecourse: {
-                key: lifecourseKey,
-                personAppearances: lifecourse.personAppearances || [],
-              },
-            });
-            return {
-              lifecourseKey,
-              lifecourseId: lifecourse.life_course_id,
-              personAppearances: lifecourse.personAppearances,
-              links: lifecourse.links,
-              currentLinkKey,
-              chosenRatingId,
-            };
-          }
-          ))
-          .subscribe(next => {
-            observer.next(next);
-          }, error => {
-            observer.error(error);
-          }, () => {
-            observer.complete();
-          }
-        )
-      }
-    );
+    return this.elasticsearch.getLifecourse(lifecourseKey)
+      .pipe(map((lifecourse: Lifecourse, index) => {
+        addSearchHistoryEntry({
+          type: SearchHistoryEntryType.Lifecourse,
+          lifecourse: {
+            key: lifecourseKey,
+            personAppearances: lifecourse.personAppearances || [],
+          },
+        });
+        return {
+          lifecourseKey,
+          lifecourseId: lifecourse.life_course_id,
+          personAppearances: lifecourse.personAppearances,
+          links: lifecourse.links,
+          currentLinkId,
+          chosenRatingId,
+        };
+      }));
   }
 }

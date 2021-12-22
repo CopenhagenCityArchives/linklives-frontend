@@ -14,9 +14,8 @@ import { UserManagementService } from '../user-management/service';
 })
 
 export class LinkRatingComponent implements OnInit {
-  @Input() openLinkRating: boolean;
   @Input() featherIconPath: string;
-  @Input() linkKey: string;
+  @Input() linkId: string;
   @Input() totalRatings: number;
   @Input() ratingCountByCategory: any;
   @Input() ratedBy: string[];
@@ -28,6 +27,10 @@ export class LinkRatingComponent implements OnInit {
   ratingOptions;
   currentPath = this.userManagement.currentPath();
   user;
+
+  get openLinkRating() {
+    return Boolean(this.linkId);
+  }
 
   get ratingCategoriesWithCount() {
     const result = {};
@@ -65,7 +68,7 @@ export class LinkRatingComponent implements OnInit {
     const chosenRatingId = this.linkRatingForm.value.option;
     const ratingData = {
       ratingId: chosenRatingId,
-      linkKey: this.linkKey,
+      linkId: this.linkId,
     }
 
     const linkOption = this.ratingOptions.find(optionCategory => optionCategory.options.some(option => option.value == chosenRatingId));
@@ -94,7 +97,7 @@ export class LinkRatingComponent implements OnInit {
   closeLinkRating() {
     this.showForm = true;
     this.chosen = "";
-    this.openLinkRating = false;
+    this.linkId = null;
     this.linkRatingForm.reset();
     // reset url query
     this.router.navigate([this.currentPath], {
@@ -108,7 +111,7 @@ export class LinkRatingComponent implements OnInit {
     // triggering a navigation event,
     this.router.navigate([this.currentPath], {
       queryParams: {
-        currentLinkKey: this.linkKey,
+        currentLinkId: this.linkId,
         chosenRatingId: this.linkRatingForm.value.option
       }
     }).then(() => {
