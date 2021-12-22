@@ -257,15 +257,11 @@ export class DataService {
         // Special case: _score is top-level, not on person_appearance
         return { _score: { order: sortOrder } };
       }
-      const qualifiedKey = `person_appearance.${key}`;
 
       return {
-        [qualifiedKey]: {
+        [key]: {
           order: sortOrder,
           mode: "max",
-          nested: {
-            path: "person_appearance",
-          },
         }
       };
     });
@@ -312,8 +308,8 @@ export class DataService {
     const { resultLookupQuery, sourceLookupQuery } = this.createQueries(query, sourceFilter, mode, excludeDubiousLinks, excludeUndoubtedLinks);
 
     const body = {
-      from: from,
-      size: size,
+      from,
+      size,
       indices_boost: [
         { 'lifecourses': 1.05 },
       ],
