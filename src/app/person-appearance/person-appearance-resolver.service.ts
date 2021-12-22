@@ -28,7 +28,7 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
           personAppearance: pa,
         });
 
-        if(!pa.standard.household_id && (!pa.event_id || pa.event_persons < 2)) {
+        if(!pa.pa_grouping_id_wp4) {
           return new Observable<PersonAppearanceResolverResult>(observer => {
             observer.next({
               pa,
@@ -40,15 +40,8 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
 
         const matchList: Object[] = [
           { "match": { "source_id": pa.source_id } },
+          { "match": { "pa_grouping_id_wp4": pa.pa_grouping_id_wp4 } },
         ];
-
-        // we will only have either household_id OR event_id
-        if(pa.standard.household_id) {
-          matchList.push({ "match": { "standard.household_id": pa.standard.household_id } });
-        }
-        if(pa.event_id) {
-          matchList.push({ "match": { "event_id": pa.event_id } });
-        }
 
         let body = {
           "from": 0,
