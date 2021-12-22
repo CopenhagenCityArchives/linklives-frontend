@@ -82,7 +82,7 @@ export class SourceLinkingGraphComponent implements OnInit {
           if(method === "Manual") {
             return {
               short: "Manuelt",
-              long: "Manuelt skabt link af en peson i Link-Lives teamet.",
+              long: "Manuelt skabt link af en person i Link-Lives teamet.",
             };
           }
           if(method === "Rule Based" && subtype === "household") {
