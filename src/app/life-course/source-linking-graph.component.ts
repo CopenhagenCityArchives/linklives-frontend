@@ -78,22 +78,22 @@ export class SourceLinkingGraphComponent implements OnInit {
         const tier = Math.max.apply(Math, maxTiersInRange) + 1;
         maxTiers.fill(tier, firstIndex, lastIndex);
 
-        const prettyLinkMethod = ({ method_type: method, method_subtype1: subtype }) => {
-          if(method === "Manual") {
+        const prettyLinkMethod = (methodId: "0"|"1"|"2") => {
+          if(methodId === "2") {
             return {
               short: "Manuelt",
               long: "Manuelt skabt link af en person i Link-Lives teamet.",
             };
           }
-          if(method === "Rule Based" && subtype === "household") {
+          if(methodId === "1") {
             return {
-              short: "Regel - husstandsinfo",
+              short: "Regel - husstand",
               long: "Regelbaseret link skabt ud fra sammenhængen mellem person og husstand.",
             };
           }
-          if(method === "Rule Based") {
+          if(methodId === "0") {
             return {
-              short: "Regel - personinfo",
+              short: "Regel - person",
               long: "Regelbaseret link skabt ud fra personinformationer som alder, køn, navn, og fødested.",
             };
           }
@@ -110,7 +110,7 @@ export class SourceLinkingGraphComponent implements OnInit {
           pathTierX: tier * 16 + 10,
           lineHeight,
           confidencePct: Math.round((1 - link.score) * 100),
-          linkingMethod: prettyLinkMethod(link),
+          linkingMethod: prettyLinkMethod(link.method_id),
           totalRatings: link.ratings ? link.ratings.length : 0, // TODO: Remove this guarding when the link.rating data is fixed. Right now it can be null.
           id: link.id,
           duplicates: link.duplicates > 1,
