@@ -102,6 +102,7 @@ export interface Link {
   source_id2: string,
   method_type: string,
   method_subtype1: string,
+  method_id: "0"|"1"|"2",
   score: number,
   key: string,
   id: string,
