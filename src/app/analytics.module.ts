@@ -15,7 +15,7 @@ export class AnalyticsModule {
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe({
         next: (event) => {
-          ga('track', 'pageview');
+          ga('send', 'pageview');
         },
       });
   }
