@@ -2,7 +2,7 @@ import { NgModule } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { filter } from "rxjs/operators";
 
-type GoogleAnalyticsFunction = (command: string, field: string) => void;
+type GoogleAnalyticsFunction = (command: string, field: string, other?: any) => void;
 type WindowWithGoogleAnalytics = Window & typeof globalThis & {
   ga: GoogleAnalyticsFunction,
 };
@@ -14,7 +14,7 @@ export class AnalyticsModule {
     router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe({
-        next: (event) => {
+        next: (event: NavigationEnd) => {
           console.log("has ga?", ga);
           //TODO: should we set prefix on url as we are on a subpage?
           ga('set', 'page', event.url);
