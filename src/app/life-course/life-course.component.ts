@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Link } from '../data/data.service';
-import { prettyDate } from '../util/display-helpers';
 import { PersonAppearance } from '../search/search.service';
 import { getLatestSearchQuery } from '../search-history';
 import { RatingService } from '../data/rating.service';
@@ -28,6 +27,7 @@ export class LifeCourseComponent implements OnInit {
   totalRatings;
   ratingCountByCategory;
   ratedBy;
+  data_version: string;
 
   get aboutLifeCourseText() {
     return this.config.aboutLifeCourseText;
@@ -53,15 +53,6 @@ export class LifeCourseComponent implements OnInit {
 
   get deathYear() {
     return this.latestPersonAppearance.deathyear_display || "";
-  }
-
-  get lastUpdated() {
-    const dates = this.pas
-      .map((pa) => pa.last_updated_wp4)
-      .sort();
-    const date = dates[dates.length - 1];
-
-    return prettyDate(date);
   }
 
   openLinkRating(linkId, chosenRatingId="") {
@@ -93,6 +84,7 @@ export class LifeCourseComponent implements OnInit {
       this.lifecourseKey = lifecourse.lifecourseKey;
       this.lifecourseId = lifecourse.lifecourseId;
       this.links = lifecourse.links;
+      this.data_version = lifecourse.data_version;
 
       if(lifecourse.currentLinkId) {
         this.openLinkRating(lifecourse.currentLinkId, lifecourse.chosenRatingId);
