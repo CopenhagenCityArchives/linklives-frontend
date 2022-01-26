@@ -111,6 +111,7 @@ export interface PersonAppearance {
   pa_id: number,
   pa_entry_permalink_wp4: string,
   pa_grouping_id_wp4: string,
+  pa_grouping_id_wp4_sortable: string,
   parish: string,
   parish_type: string,
   patronyms: string[],
