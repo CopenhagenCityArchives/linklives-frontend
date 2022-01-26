@@ -10,18 +10,22 @@ type WindowWithGoogleAnalytics = Window & typeof globalThis & {
 @NgModule()
 export class AnalyticsModule {
   constructor(private router: Router) {
-    const ga = (window as WindowWithGoogleAnalytics).ga;
     router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe({
         next: (event: NavigationEnd) => {
-          console.log("has ga?", ga);
-          const ga2 = (window as WindowWithGoogleAnalytics).ga;
-          console.log("ga late?", ga2);
-          console.log("url", event.url);
+          const ga = (window as WindowWithGoogleAnalytics).ga;
+          console.log("ga later?", ga);
+          console.log("url", event.url, location.pathname, location.search, location.hash, `${location.pathname}${location.search}${location.hash}`);
           //TODO: should we set prefix on url as we are on a subpage?
-          ga2('set', 'page', event.url);
-          ga2('send', 'pageview');
+          if(ga) {
+            console.log("ga loaded");
+            ga('set', 'page', `${location.pathname}${location.search}${location.hash}`);
+            ga('send', 'pageview');
+          }
+          else {
+            console.log("no ga loaded", ga);
+          }
         },
       });
   }
