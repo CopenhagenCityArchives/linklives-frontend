@@ -15,6 +15,9 @@ export class AnalyticsModule {
       .pipe(filter((event) => event instanceof NavigationEnd))
       .subscribe({
         next: (event) => {
+          console.log("has ga?", ga);
+          //TODO: should we set prefix on url as we are on a subpage?
+          ga('set', 'page', event.url);
           ga('send', 'pageview');
         },
       });
