@@ -149,7 +149,8 @@ export interface Lifecourse {
   key: string, // actual identifier
   life_course_id: number,
   personAppearances: PersonAppearance[]
-  links: Link[]
+  links: Link[],
+  data_version: string,
 }
 
 export interface Source {
