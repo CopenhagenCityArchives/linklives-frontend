@@ -16,9 +16,12 @@ export class AnalyticsModule {
       .subscribe({
         next: (event: NavigationEnd) => {
           console.log("has ga?", ga);
+          const ga2 = (window as WindowWithGoogleAnalytics).ga;
+          console.log("ga late?", ga2);
+          console.log("url", event.url);
           //TODO: should we set prefix on url as we are on a subpage?
-          ga('set', 'page', event.url);
-          ga('send', 'pageview');
+          ga2('set', 'page', event.url);
+          ga2('send', 'pageview');
         },
       });
   }
