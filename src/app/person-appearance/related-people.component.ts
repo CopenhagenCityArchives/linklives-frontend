@@ -17,10 +17,10 @@ export class RelatedPeopleComponent implements OnInit {
   ngOnInit(): void {
     this.route.parent.data.subscribe((resolve) => {
       if(!resolve.item.hh) {
-        this.router.navigate([ "pa", resolve.item.pa.id, "source-data" ]);
+        this.router.navigate([ "pa", resolve.item.pa.key, "source-data" ]);
         return;
       }
-      this.relatedPas = this.sortBy(resolve.item.hh, "transcription_id") as PersonAppearance[];
+      this.relatedPas = this.sortBy(resolve.item.hh, "pa_grouping_id_wp4_sortable") as PersonAppearance[];
       this.currentPa = resolve.item.pa;
     });
   }

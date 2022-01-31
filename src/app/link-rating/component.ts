@@ -1,9 +1,8 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
-import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
-import { AuthService } from '@auth0/auth0-angular';
 import { Router } from '@angular/router';
-import { AuthUtil } from '../auth/util'
+import { RatingService } from '../data/rating.service';
+import { UserManagementService } from '../user-management/service';
 
 
 @Component({
@@ -15,18 +14,47 @@ import { AuthUtil } from '../auth/util'
 })
 
 export class LinkRatingComponent implements OnInit {
-  @Input() openLinkRating: boolean;
   @Input() featherIconPath: string;
-  @Input() linkKey: string;
+  @Input() linkId: string;
   @Input() totalRatings: number;
   @Input() ratingCountByCategory: any;
+  @Input() ratedBy: string[];
   @Input() chosenRatingId;
   @Output() close: EventEmitter<any> = new EventEmitter();
 
   showForm = true;
   chosen: string = "";
   ratingOptions;
-  currentPath = this.authUtil.currentPath();
+  currentPath = this.userManagement.currentPath();
+  user;
+
+  get openLinkRating() {
+    return Boolean(this.linkId);
+  }
+
+  get ratingCategoriesWithCount() {
+    const result = {};
+    if(this.ratingOptions) {
+      this.ratingOptions.forEach((option) => {
+        result[option.category] = 0;
+      });
+    }
+
+    if(this.ratingCountByCategory) {
+      Object.keys(this.ratingCountByCategory).forEach((key) => {
+        result[key] = this.ratingCountByCategory[key];
+      });
+    }
+
+    return result;
+  }
+
+  get canRateLink() {
+    if(!this.ratedBy || !this.user) {
+      return true;
+    }
+    return !this.ratedBy.includes(this.user.sub);
+  }
 
   percent(ratingCount) {
     return Math.round(parseInt(ratingCount) / this.totalRatings * 100);
@@ -40,21 +68,27 @@ export class LinkRatingComponent implements OnInit {
     const chosenRatingId = this.linkRatingForm.value.option;
     const ratingData = {
       ratingId: chosenRatingId,
-      linkKey: this.linkKey,
+      linkId: this.linkId,
     }
 
     const linkOption = this.ratingOptions.find(optionCategory => optionCategory.options.some(option => option.value == chosenRatingId));
     this.chosen = linkOption.category;
 
-    this.elasticsearch.sendLinkRating(ratingData).subscribe(rate => {
-      // update rating stats
-      this.totalRatings++;
-      this.ratingCountByCategory[linkOption.category]++;
-    });
-
-    this.elasticsearch.getLinkRatingStats(this.linkKey).subscribe(linkRatingData => {
-      this.totalRatings = linkRatingData.totalRatings
-      this.ratingCountByCategory = linkRatingData.headingRatings;
+    this.ratingService.sendLinkRating(ratingData).subscribe({
+      error: (e) => {
+        if(e.message.match(/Login required/i)) {
+          this.userManagement.handleLogin();
+          return;
+        }
+        throw e;
+      },
+      complete: () => {
+        this.totalRatings++;
+        if(!this.ratingCountByCategory[linkOption.category]) {
+          this.ratingCountByCategory[linkOption.category] = 0;
+        }
+        this.ratingCountByCategory[linkOption.category]++;
+      }
     });
 
     this.showForm = false;
@@ -63,7 +97,7 @@ export class LinkRatingComponent implements OnInit {
   closeLinkRating() {
     this.showForm = true;
     this.chosen = "";
-    this.openLinkRating = false;
+    this.linkId = null;
     this.linkRatingForm.reset();
     // reset url query
     this.router.navigate([this.currentPath], {
@@ -73,24 +107,29 @@ export class LinkRatingComponent implements OnInit {
   }
 
   login() {
-
     // changes the route without moving from the current view or
     // triggering a navigation event,
     this.router.navigate([this.currentPath], {
       queryParams: {
-        currentLinkKey: this.linkKey,
+        currentLinkId: this.linkId,
         chosenRatingId: this.linkRatingForm.value.option
       }
     }).then(() => {
-      this.authUtil.handleLogin();
+      this.userManagement.handleLogin();
     });
   }
 
-  ngOnInit(): void {
-    if(this.chosenRatingId && parseInt(this.chosenRatingId) !== NaN) {
-      this.linkRatingForm.setValue({option: parseInt(this.chosenRatingId)});
-    }
+  async ngOnInit(): Promise<void> {
+    this.user = await this.userManagement.getUser();
 
+    this.ratingService.getLinkRatingOptions().subscribe((ratingOptions) => {
+      this.ratingOptions = ratingOptions;
+    });
+
+    const chosenValue = parseInt(this.chosenRatingId);
+    if(this.chosenRatingId && !Number.isNaN(chosenValue)) {
+      this.linkRatingForm.setValue({ option: chosenValue });
+    }
   }
 
   closeOnEsc() {
@@ -100,9 +139,9 @@ export class LinkRatingComponent implements OnInit {
     }
   }
 
-  constructor(private router: Router, private elasticsearch: ElasticsearchService, public auth: AuthService, private authUtil: AuthUtil) {
-    this.elasticsearch.getLinkRatingOptions().subscribe(ratingOptions => {
-      this.ratingOptions = ratingOptions;
-    });
-  }  
+  constructor(
+    private router: Router,
+    private ratingService: RatingService,
+    public userManagement: UserManagementService,
+  ) {}
 }

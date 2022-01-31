@@ -1,7 +1,9 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AdvancedSearchQuery } from '../search.service';
+import { AdvancedSearchQuery, EntryCounts } from '../search.service';
 import { searchFieldPlaceholders, searchFieldLabels, getFieldOptions, genderOptions } from 'src/app/search-term-values';
+import { prettyNumbers } from 'src/app/util/display-helpers';
+import { DataService } from 'src/app/data/data.service';
 
 @Component({
   selector: 'app-search-simple',
@@ -19,14 +21,26 @@ export class SimpleSearchComponent implements OnInit {
 
   // Advanced search
   modeFuzzy = false;
+  includeDubiousLinks = true;
+  includeUndoubtedLinks = true;
   searchFieldPlaceholders = searchFieldPlaceholders;
   searchFieldLabels = searchFieldLabels;
 
-  searchTerms = [
+  hardcodedSearchTerms = [
     { field: "firstName", value: "" },
     { field: "lastName", value: "" },
+    { field: "birthYear", value: "" },
     { field: "birthPlace", value: "" },
+    { field: "deathYear", value: "" },
+    { field: "deathPlace", value: "" },
+    { field: "sourceYear", value: "" },
+    { field: "sourcePlace", value: "" },
   ];
+
+  addedSearchTerms = [];
+
+  personAppearanceCount = 0;
+  lifecourseCount = 0;
 
   indices = {
     pas: { value: true, label: "Personregistrering" },
@@ -43,6 +57,10 @@ export class SimpleSearchComponent implements OnInit {
       .join(",") || null;
   }
 
+  get searchTerms() {
+    return [ ...this.hardcodedSearchTerms, ...this.addedSearchTerms ];
+  }
+
   get fieldOptions() {
     const isNotUsed = (option) => !this.searchTerms.some((term) => option.value && term.field == option.value);
     return getFieldOptions(isNotUsed);
@@ -52,9 +70,32 @@ export class SimpleSearchComponent implements OnInit {
     return genderOptions;
   }
 
-  constructor(private router: Router, private elements: ElementRef) { }
+  constructor(private router: Router, private elasticSearch: DataService, private elements: ElementRef) { }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.elasticSearch.getEntryCounts().subscribe((entryCounts) => {
+      this.animateCountIncrease(entryCounts);
+    });
+  }
+
+  animateCountIncrease(entryCounts: EntryCounts) {
+    const personAppearanceCount = entryCounts.indexHits.pas;
+    const lifecourseCount = entryCounts.indexHits.lifeCourses;
+
+    const steps = 30;
+    const personAppearanceStep = personAppearanceCount / steps;
+    const lifecourseStep = lifecourseCount / steps;
+
+    const interval = setInterval(() => {
+      if(this.personAppearanceCount == personAppearanceCount && this.lifecourseCount == lifecourseCount) {
+        clearInterval(interval);
+        return;
+      }
+
+      this.personAppearanceCount = Math.min(personAppearanceCount, this.personAppearanceCount + personAppearanceStep);
+      this.lifecourseCount = Math.min(lifecourseCount, this.lifecourseCount + lifecourseStep);
+    }, 80);
+  }
 
   searchSimple(): void {
     this.router.navigate(['/results'], {
@@ -65,26 +106,25 @@ export class SimpleSearchComponent implements OnInit {
     });
   }
 
-  removeSearchTerm(i: number, $event): void {
+  clearHardcodedSearchTerm(searchTerm, $event): void {
     $event.preventDefault();
-    if(this.searchTerms.length > 1) {
-      this.searchTerms.splice(i, 1);
-    }
+    searchTerm.value = "";
+  }
+
+  clearAddedSearchTerm(searchTerm, $event): void {
+    $event.preventDefault();
+    searchTerm.value = "";
   }
 
   addField(field) {
-    this.searchTerms.push({ field, value: "" });
+    this.addedSearchTerms.push({ field, value: "" });
     setTimeout(() => {
       this.elements.nativeElement.querySelector(`[data-search-term=${field}]`).focus();
     }, 0);
   }
 
   clearSearchTerms() {
-    this.searchTerms = [
-      { field: "firstName", value: "" },
-      { field: "lastName", value: "" },
-      { field: "birthPlace", value: "" },
-    ];
+    this.addedSearchTerms = [];
   }
 
   searchAdvanced(): void {
@@ -94,12 +134,24 @@ export class SimpleSearchComponent implements OnInit {
       .filter((term) => term.value !== "")
       .forEach((term) => searchParams[term.field] = term.value);
 
+    if (Object.keys(searchParams).length === 0) {
+      searchParams.query = "";
+    }
+
     this.router.navigate(['/results'], {
       queryParams: {
         ...searchParams,
         index: this.computedIndex,
         mode: this.modeFuzzy ? "fuzzy" : "default",
-      }
+        excludeDubiousLinks: this.includeDubiousLinks ? null : "true",
+        excludeUndoubtedLinks: this.includeUndoubtedLinks ? null : "true",
+      },
     });
+  }
+
+  enhanceText(text: String) {
+    return text
+      .replace("%PA_COUNT%", prettyNumbers(this.personAppearanceCount, 0))
+      .replace("%LIFECOURSE_COUNT%", prettyNumbers(this.lifecourseCount, 0));
   }
 }

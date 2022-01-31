@@ -1,5 +1,5 @@
 import { Component, Injectable } from '@angular/core';
-import { ElasticsearchService } from './elasticsearch/elasticsearch.service';
+import { DataService } from './data/data.service';
 
 @Component({
   selector: 'app-root',
@@ -12,7 +12,7 @@ export class AppComponent {
   title = 'linklives';
   loading = false;
 
-  constructor(private elasticsearch: ElasticsearchService) {
+  constructor(private elasticsearch: DataService) {
     this.elasticsearch.loading.subscribe((loading) => this.loading = loading);
   }
 }

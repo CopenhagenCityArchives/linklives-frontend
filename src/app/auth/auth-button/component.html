@@ -1,5 +1,5 @@
 <!-- log-out btn + 'gå til min side' -->
-<ng-container *ngIf="auth.isAuthenticated$ | async; else loggedOut">
+<ng-container *ngIf="isAuthenticated; else loggedOut">
   <a class="lls-link" routerLink="/my-page">
     Gå til min side
   </a>

@@ -2,7 +2,7 @@
     [class]="openSearchHistory ? 'lls-overlay' : ''"
     (click)="closeSearchHistory()"
 ></div>
-<aside class="lls-search-history lls-sidebar lls-sidebar--right" [class]="openSearchHistory ? 'lls-sidebar--open' : ''">
+<aside class="lls-search-history lls-sidebar lls-sidebar--sticky-header lls-sidebar--right" [class]="openSearchHistory ? 'lls-sidebar--open' : ''">
     <div class="lls-sidebar__header">
         <h3 class="u-margin-0">
             Min Søgehistorik
@@ -79,16 +79,16 @@
             *ngSwitchCase="'census'"
             class="lls-sidebar__item lls-sidebar__item--link lls-search-history__item lls-search-history__item-link"
             [tabIndex]="openSearchHistory ? 0 : -1"
-            [routerLink]="['/pa', entry.personAppearance.id]"
+            [routerLink]="['/pa', entry.personAppearance.key]"
             (click)="closeSearchHistory()"
         >
             <div>
                 <h3 class="lls-search-history__item-header">
                     <svg class="lls-icon lls-icon--left u-mr-2">
-                        <use [attr.href]="featherIconPath + '#' + eventIcon(entry.personAppearance.event_type)"></use>
+                        <use [attr.href]="featherIconPath + '#' + eventIcon(entry.personAppearance.standard.event_type)"></use>
                     </svg>
                     <span>
-                        {{ entry.personAppearance.event_type_display }} {{ entry.personAppearance.source_year_display }}
+                        {{ entry.personAppearance.event_type_display }} {{ entry.personAppearance.sourceyear_display }}
                     </span>
                 </h3>
                 <p class="u-text-capitalize u-margin-0" *ngIf="entry.personAppearance.name_display">

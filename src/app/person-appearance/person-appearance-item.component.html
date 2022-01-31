@@ -13,7 +13,7 @@
         </p>
     </div>
     
-    <div class="lls-source__section lls-source__section--bordered">
+    <div class="lls-source__person-data lls-source__section lls-source__section--bordered">
         <p class="lls-source__subtitle u-text-capitalize" *ngIf="personAppearance.role_display">
             {{ personAppearance.role_display }}
         </p>
@@ -47,10 +47,10 @@
         </p>
     </div>
 
-    <div class="lls-source__section">
+    <div class="lls-source__section lls-source__person-data">
         <p class="lls-source__subtitle">Registrering</p>
         <p class="u-margin-0">
-            {{ personAppearance.source_type_display }} {{ personAppearance.source_year_display }}
+            {{ personAppearance.source_type_display }} {{ personAppearance.sourceyear_display }}
         </p>
         <p class="u-text-capitalize u-margin-0">
             {{ personAppearance.sourceplace_display }}
@@ -59,7 +59,7 @@
     
     <div class="lls-source__section lls-source__section--cta">
         <div *ngIf="!selected">
-            <a [routerLink]="['/pa', personAppearance.id]" class="lls-btn lls-btn--link">
+            <a [routerLink]="['/pa', personAppearance.key]" class="lls-btn lls-btn--link">
                 <span>Se data</span>
                 <svg class="lls-icon lls-icon--right">
                     <use [attr.href]="featherSpriteUrl + '#arrow-right'"></use>
@@ -67,9 +67,12 @@
             </a>
         </div>
         <div *ngIf="selected">
-            <svg class="lls-icon lls-icon--large" [class]="'lls-icon--' + personAppearance.event_type">
-                <use [attr.href]="featherSpriteUrl + '#flag'"></use>
-            </svg>
+            <div class="lls-source__item-selected">
+                <span>Valgt</span>
+                <svg class="lls-icon lls-icon--right">
+                    <use [attr.href]="featherSpriteUrl + '#check'"></use>
+                </svg>
+            </div>
         </div>
     </div>
 </div>

@@ -9,8 +9,10 @@
   border-radius: 2px;
   text-transform: uppercase;
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 0.925rem;
   letter-spacing: 1.2px;
+  line-height: 1.5rem;
+  transition: background-color 0.2s;
 
   &:hover {
     background-color: lighten(#000, 5%);
@@ -97,6 +99,15 @@
 
 .lls-btn--outline-thin {
   border: 1px solid;
+}
+
+.lls-btn--danger {
+  background-color: $marriage-red;
+  border-color: $marriage-red;
+
+  &:hover {
+    background-color: lighten($marriage-red, 5%);
+  }
 }
 
 .lls-btn--right {

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { PersonAppearance, PersonAppearanceHit, Source } from '../search/search.service';
+import { PersonAppearance, PersonAppearanceHit } from '../search/search.service';
 import { map, mergeMap } from 'rxjs/operators';
-import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
+import { DataService } from '../data/data.service';
 import { addSearchHistoryEntry, SearchHistoryEntryType } from '../search-history';
 import { Observable } from 'rxjs';
 
@@ -16,7 +16,7 @@ interface PersonAppearanceResolverResult {
 })
 export class PersonAppearanceResolverService implements Resolve<PersonAppearanceResolverResult> {
 
-  constructor(private elasticsearch: ElasticsearchService) { }
+  constructor(private elasticsearch: DataService) { }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<PersonAppearanceResolverResult> {
     return this.elasticsearch.getPersonAppearance(route.params.id)
@@ -28,7 +28,7 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
           personAppearance: pa,
         });
 
-        if(!pa.hh_id && (!pa.event_id || pa.event_persons < 2)) {
+        if(!pa.pa_grouping_id_wp4) {
           return new Observable<PersonAppearanceResolverResult>(observer => {
             observer.next({
               pa,
@@ -39,41 +39,19 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
         }
 
         const matchList: Object[] = [
-          { "match": { "person_appearance.source_id": pa.source_id } },
+          { "match": { "source_id": pa.source_id } },
+          { "match": { "pa_grouping_id_wp4": pa.pa_grouping_id_wp4 } },
         ];
-
-        // we will only have either hh_id OR event_id
-        if(pa.hh_id) {
-          matchList.push(
-            { "match": { "person_appearance.hh_id": pa.hh_id } },
-          )
-        }
-        if(pa.event_id) {
-          matchList.push(
-            { "match": { "person_appearance.event_id": pa.event_id } },
-          )
-        }
 
         let body = {
           "from": 0,
           "size": 100,
           "query": {
-            "bool": {
-              "must": [
-                {
-                  "nested": {
-                    "path": "person_appearance",
-                    "query": {
-                      "bool" : {
-                        "must": matchList
-                      }
-                    }
-                  }
-                }
-              ]
-            }
-          }
-        }
+            "bool" : {
+              "must": matchList,
+            },
+          },
+        };
 
         return this.elasticsearch.search(['pas'], body).pipe(
           map((searchResult, index) => {

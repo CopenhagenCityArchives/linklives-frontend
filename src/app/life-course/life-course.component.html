@@ -9,12 +9,12 @@
                 Tilbage til søgeresultat
             </a>
             <a
-                class="lls-data-page-header__utility-link"
+                class="lls-data-page-header__utility-link lls-btn"
                 (click)="openSearchHistory = true"
                 (keyup.enter)="openSearchHistory = true"
                 tabindex="0"
             >
-                Min søgehistorik
+                Søgehistorik
             </a>
         </div>
         <div class="lls-data-page-header__classification">
@@ -51,14 +51,27 @@
         (close)="openSearchHistory = false"
     ></app-search-history>
     <app-link-rating
-        [openLinkRating]="currentLinkKey"
-        [linkKey]="currentLinkKey"
+        [linkId]="currentLinkId"
         [chosenRatingId]="chosenRatingId"
         [totalRatings]="totalRatings"
         [ratingCountByCategory]="ratingCountByCategory"
+        [ratedBy]="ratedBy"
         [featherIconPath]="featherSpriteUrl"
-        (close)="currentLinkKey = ''"
+        (close)="currentLinkId = ''"
     ></app-link-rating>
+    <div class="lls-row my-4">
+        <div class="lls-columns-12 lls-columns-6--md"></div>
+        <div class="lls-source-info lls-columns-12 lls-columns-6--md">
+            <div class="lls-source-info__entry">
+                <div class="lls-source-info__entry-label">Forløbs ID</div>
+                <span>{{ lifecourseId }}</span>
+            </div>
+            <div class="lls-source-info__entry">
+                <div class="lls-source-info__entry-label">Version</div>
+                <span>{{ data_version }}</span>
+            </div>
+        </div>
+    </div>
     <div class="lls-life-course-source-container">
         <section class="lls-life-course-source-container__source-list lls-row">
             <h3 class="lls-columns-12 u-margin-0">Personregistreringer</h3>
@@ -68,8 +81,22 @@
                 [item]="pa"
                 truncatableName="true"
             ></app-person-appearance-item>
+            <div class="u-mt-4 lls-columns-12">
+                <div class="lls-source-info__entry">
+                    <h3 class="lls-source-info__entry-label">
+                        Om livsforløb
+                    </h3>
+                    <div [innerHTML]="aboutLifeCourseText"></div>
+                </div>
+            </div>
         </section>
         <section class="lls-life-course-source-container__source-linking-graph">
+            <div class="lls-life-course-source-container__source-linking-title">
+                <h3 class="u-margin-0">Links</h3>
+                <a class="lls-link lls-link--underline" href="https://link-lives.dk/saadan-skabes-livsforloeb/">
+                    Se linkningsmetode
+                </a>
+            </div>
             <app-source-linking-graph
                 [pas]="pas"
                 [links]="links"
@@ -77,28 +104,4 @@
             ></app-source-linking-graph>
         </section>
     </div>
-    <section>
-        <div class="lls-data-page-footer">
-            <div class="lls-data-page-footer__entry">
-                <div class="lls-data-page-footer__entry-label">
-                    Forløbs ID
-                </div>
-                <a [href]="'life-course/' + lifecourseKey">{{ lifecourseKey }}</a>
-            </div>
-            <div class="lls-data-page-footer__entry">
-                <div class="lls-data-page-footer__entry-label">
-                    Senest opdateret
-                </div>
-                <p>{{ lastUpdated }}</p>
-            </div>
-        </div>
-        <div class="lls-data-page-footer">
-            <div class="lls-data-page-footer__entry">
-                <h3 class="lls-data-page-footer__entry-label">
-                    Om livsforløb
-                </h3>
-                <div [innerHTML]="aboutLifeCourseText"></div>
-            </div>
-        </div>
-    </section>
 </div>

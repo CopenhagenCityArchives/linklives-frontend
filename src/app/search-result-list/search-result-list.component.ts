@@ -3,6 +3,7 @@ import { Router, ActivatedRoute  } from '@angular/router';
 import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
 import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, possibleSearchQueryParams, getFieldOptions, genderOptions } from 'src/app/search-term-values';
 import { eventIcon, filterTitle } from '../util/display-helpers';
+import { EventType } from '../data/data.service';
 
 interface SearchQueryParams {
   query?: string,
@@ -59,6 +60,8 @@ export class SearchResultListComponent implements OnInit {
   sortAscending = false;
 
   modeFuzzy = false;
+  includeDubiousLinks = true;
+  includeUndoubtedLinks = true;
 
   searchTerms = [];
   searchFieldPlaceholders = searchFieldPlaceholders;
@@ -220,6 +223,8 @@ export class SearchResultListComponent implements OnInit {
       this.sortAscending = this.sortBy === "relevance" ? sortOrder !== "asc" : sortOrder !== "desc";
 
       this.modeFuzzy = queryParamMap.get('mode') === "fuzzy";
+      this.includeDubiousLinks = queryParamMap.get('excludeDubiousLinks') !== 'true';
+      this.includeUndoubtedLinks = queryParamMap.get('excludeUndoubtedLinks') !== 'true';
       const sourceFilters = queryParamMap.get('sourceFilter');
       if(sourceFilters) {
         this.sourceFilter = sourceFilters
@@ -245,7 +250,7 @@ export class SearchResultListComponent implements OnInit {
     let totalPages = Math.ceil(this.searchResult.totalHits / size);
 
     // Adjust total pages so we max include 10.000 items (limit in elasticsearch)
-    totalPages = Math.min(totalPages, Math.ceil(10000 / size));
+    totalPages = Math.min(totalPages, Math.ceil(1000 / size));
 
     // page defaults to 1
     let page = Number(queryParamMap.get('pg'));
@@ -285,7 +290,7 @@ export class SearchResultListComponent implements OnInit {
     const filter_type = filterValue.split("_")[0];
     if(filter_type == 'eventType') {
       const [_, event_type, __] = filterValue.split("_");
-      return eventIcon(event_type);
+      return eventIcon(event_type as EventType);
     }
   }
 
@@ -296,7 +301,12 @@ export class SearchResultListComponent implements OnInit {
 
   getLabelFromFilterValue(filterValue: string) {
     const filterList = filterValue.split("_");
-    return filterList[filterList.length - 1]; // the display fields is alway the last field
+    const lastField = filterList[filterList.length - 1];
+    if(filterList[0].endsWith("Year")) {
+      const value = parseInt(lastField);
+      return `${value} – ${value + 9}`;
+    }
+    return lastField; // the display fields is alway the last field
   }
 
   addField(field) {
@@ -341,6 +351,8 @@ export class SearchResultListComponent implements OnInit {
     return {
       ...this.queryParams,
       mode: this.modeFuzzy ? "fuzzy" : "default",
+      excludeDubiousLinks: this.includeDubiousLinks ? null : "true",
+      excludeUndoubtedLinks: this.includeUndoubtedLinks ? null : "true",
       size: this.pagination.size,
       pg: page,
     };
@@ -358,6 +370,8 @@ export class SearchResultListComponent implements OnInit {
         sortOrder: this.queryParams.sortOrder,
         sourceFilter: this.queryParams.sourceFilter,
         mode: this.modeFuzzy ? "fuzzy" : "default",
+        excludeDubiousLinks: this.includeDubiousLinks ? null : "true",
+        excludeUndoubtedLinks: this.includeUndoubtedLinks ? null : "true",
         pg: page || this.pagination.current || 1,
         size: this.pagination.size,
       },

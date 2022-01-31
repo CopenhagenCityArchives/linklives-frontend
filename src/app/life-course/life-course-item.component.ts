@@ -28,7 +28,7 @@ export class LifeCourseItemComponent implements OnChanges {
   }
 
   get sourceList() {
-    const sources = this.personAppearances.map(pa => `${pa.source_type_display} ${pa.source_year_display}`);
+    const sources = this.personAppearances.map(pa => `${pa.source_type_display} ${pa.sourceyear_display}`);
     const formattedSources = sources.join(", ");
     return formattedSources;
   }

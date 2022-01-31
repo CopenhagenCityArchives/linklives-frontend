@@ -6,16 +6,24 @@
 
 .lls-info-box {
   width: 100%;
-  padding: 2rem;
+  padding: 1.5rem 2rem;
   color: white;
   background-color: $blue--dark;
-  margin-top: 1rem;
-  font-size: 1rem;
+  font-size: 1.125rem;
+  line-height: 1.5rem;
   flex-grow: 0;
   flex-shrink: 1;
 
   @media(min-width: $breakpointMd) {
     flex-basis: 300px;
+  }
+
+  @media(min-width: $breakpointXl) {
+    flex-basis: 375px;
+  }
+
+  h3 {
+    font-size: 1.125rem;
   }
 
   & strong {

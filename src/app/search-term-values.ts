@@ -2,7 +2,7 @@ import { Category, Option } from './form-elements/dropdown/component';
 
 export const mapSearchKeys = {
   id: {
-    exact: "id",
+    exact: "key",
   },
   name: {
     default: "name_searchable",
@@ -40,9 +40,21 @@ export const mapSearchKeys = {
     default: "deathyear_searchable",
     fuzzy: "deathyear_searchable_fz",
   },
+  deathPlace: {
+    default: "deathplace_searchable",
+    fuzzy: "deathplace_searchable_fz",
+  },
   gender: {
     default: "gender_searchable",
     fuzzy: "gender_searchable",
+  },
+  occupation: {
+    default: "occupation_searchable",
+    fuzzy: "occupation_searchable",
+  },
+  role: {
+    default: "role_searchable",
+    fuzzy: "role_searchable",
   },
 };
 
@@ -61,14 +73,16 @@ export const searchFieldPlaceholders = {
   lastName: "Indtast efternavn",
   birthName: "Indtast fødenavn",
   birthPlace: "Indtast fødested",
-  sourcePlace: "Indtast kildested",
-  //deathPlace: "Indtast dødssted",
+  sourcePlace: "Indtast hændelsessted",
+  deathPlace: "Indtast dødssted",
   birthYear: "Indtast fødeår",
-  sourceYear: "Indtast kildeår",
+  sourceYear: "Indtast hændelsesår",
   deathYear: "Indtast dødsår",
   id: "Personregistrerings ID",
   lifeCourseId: "Livsforløbs ID",
-  gender: "Vælg køn"
+  gender: "Vælg køn",
+  occupation: "Indtast Erhverv",
+  role: "Indtast Rolle",
   //maritalStatus: "Indtast civilstand",
 };
 
@@ -88,14 +102,16 @@ export const searchFieldLabels = {
   lastName: "Efternavn",
   birthName: "Fødenavn",
   birthPlace: "Fødested",
-  sourcePlace: "Kildested",
+  sourcePlace: "Hændelsessted",
   deathPlace: "Dødssted",
   birthYear: "Fødselsår",
-  sourceYear: "Kildeår",
+  sourceYear: "Hændelsesår",
   deathYear: "Dødsår",
   id: "Personregistrerings ID",
   lifeCourseId: "Livsforløbs ID",
   gender: "Køn",
+  occupation: "Erhverv",
+  role: "Rolle",
   // index: "Resultattype",
   // maritalStatus: "Civilstand",
 };
@@ -112,23 +128,25 @@ export const allNameFields: Array<Option | Category> = [
   "name",
   "firstName",
   "lastName",
-  "birthName"
+  "birthName",
 ].map((f) => toFieldOption(f));
 
 export const allPlaceFields: Array<Option | Category> = [
   "birthPlace",
   "sourcePlace",
-  "deathPlace"
+  "deathPlace",
 ].map((f) => toFieldOption(f));
 
 export const allYearFields: Array<Option | Category> = [
   "birthYear",
   "sourceYear",
-  "deathYear"
+  "deathYear",
 ].map((f) => toFieldOption(f));
 
 export const allOtherFields: Array<Option | Category> = [
   "gender",
+  "occupation",
+  "role",
   "query",
   "id",
   "lifeCourseId",
