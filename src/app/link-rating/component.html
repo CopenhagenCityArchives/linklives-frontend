@@ -5,7 +5,7 @@
 <div [class]="openLinkRating ? 'lls-modal' : 'u-hide'">
 
   <!-- link rating form -->
-  <ng-container *ngIf="showForm">
+  <ng-container *ngIf="showForm && canRateLink">
     <div class="lls-sidebar__header u-margin-0">
       <h3 class="u-margin-0">
           Er linket troværdigt?
@@ -39,16 +39,15 @@
         </div>
       </div>
       <div class="u-flex u-align-items u-mt-4">
-        <button *ngIf="auth.user$ | async as user; else loggedOut" class="lls-btn lls-btn--small lls-btn--blue u-mr-2" type="submit">Giv feedback</button>
-        <ng-template #loggedOut>
-          <button
-            class="lls-btn lls-btn--small u-mr-2"
-            (click)="login()"
-            type='button'
-          >
-            Log ind for at bedømme
-          </button>
-        </ng-template>
+        <button *ngIf="user" class="lls-btn lls-btn--small lls-btn--blue u-mr-2" type="submit">Giv feedback</button>
+        <button
+          class="lls-btn lls-btn--small u-mr-2"
+          (click)="login()"
+          type='button'
+          *ngIf="!user"
+        >
+          Log ind for at bedømme
+        </button>
         <p class="u-text-small u-margin-0">{{ totalRatings }} brugere har givet feedback</p>
       </div>
     </form>
@@ -60,10 +59,10 @@
   </ng-container>
 
   <!-- feedback page -->
-  <ng-container *ngIf="!showForm">
+  <ng-container *ngIf="!showForm || !canRateLink">
     <div class="lls-sidebar__header u-margin-0">
       <h3 class="u-margin-0">
-          Tak for din feedback
+          {{ canRateLink ? 'Tak for din feedback' : 'Du har tidligere bedømt linket' }}
       </h3>
       <button
         class="lls-btn lls-btn--outline"
@@ -79,7 +78,7 @@
     <p>
       Her er hvad du og de {{ totalRatings - 1 }} brugere har svaret.
     </p>
-      <div *ngFor="let ratingCount of ratingCountByCategory | keyvalue">
+      <div *ngFor="let ratingCount of ratingCategoriesWithCount | keyvalue">
         <div class="u-flex u-space-between u-align-items u-mt-4">
           <h4 class='u-margin-0'>
             {{ ratingCount.key }}

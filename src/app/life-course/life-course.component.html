@@ -51,13 +51,13 @@
         (close)="openSearchHistory = false"
     ></app-search-history>
     <app-link-rating
-        [openLinkRating]="currentLinkKey"
-        [linkKey]="currentLinkKey"
+        [linkId]="currentLinkId"
         [chosenRatingId]="chosenRatingId"
         [totalRatings]="totalRatings"
         [ratingCountByCategory]="ratingCountByCategory"
+        [ratedBy]="ratedBy"
         [featherIconPath]="featherSpriteUrl"
-        (close)="currentLinkKey = ''"
+        (close)="currentLinkId = ''"
     ></app-link-rating>
     <div class="lls-row my-4">
         <div class="lls-columns-12 lls-columns-6--md"></div>
@@ -67,8 +67,8 @@
                 <span>{{ lifecourseId }}</span>
             </div>
             <div class="lls-source-info__entry">
-                <div class="lls-source-info__entry-label">Senest opdateret</div>
-                <span>{{ lastUpdated }}</span>
+                <div class="lls-source-info__entry-label">Version</div>
+                <span>{{ data_version }}</span>
             </div>
         </div>
     </div>
@@ -81,6 +81,14 @@
                 [item]="pa"
                 truncatableName="true"
             ></app-person-appearance-item>
+            <div class="u-mt-4 lls-columns-12">
+                <div class="lls-source-info__entry">
+                    <h3 class="lls-source-info__entry-label">
+                        Om livsforløb
+                    </h3>
+                    <div [innerHTML]="aboutLifeCourseText"></div>
+                </div>
+            </div>
         </section>
         <section class="lls-life-course-source-container__source-linking-graph">
             <div class="lls-life-course-source-container__source-linking-title">
@@ -96,14 +104,4 @@
             ></app-source-linking-graph>
         </section>
     </div>
-    <section>
-        <div class="lls-source-info">
-            <div class="lls-source-info__entry">
-                <h3 class="lls-source-info__entry-label">
-                    Om livsforløb
-                </h3>
-                <div [innerHTML]="aboutLifeCourseText"></div>
-            </div>
-        </div>
-    </section>
 </div>

@@ -1,8 +1,9 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { AdvancedSearchQuery } from '../search.service';
+import { Router } from '@angular/router';
+import { AdvancedSearchQuery, EntryCounts } from '../search.service';
 import { searchFieldPlaceholders, searchFieldLabels, getFieldOptions, genderOptions } from 'src/app/search-term-values';
 import { prettyNumbers } from 'src/app/util/display-helpers';
+import { DataService } from 'src/app/data/data.service';
 
 @Component({
   selector: 'app-search-simple',
@@ -20,6 +21,8 @@ export class SimpleSearchComponent implements OnInit {
 
   // Advanced search
   modeFuzzy = false;
+  includeDubiousLinks = true;
+  includeUndoubtedLinks = true;
   searchFieldPlaceholders = searchFieldPlaceholders;
   searchFieldLabels = searchFieldLabels;
 
@@ -67,13 +70,31 @@ export class SimpleSearchComponent implements OnInit {
     return genderOptions;
   }
 
-  constructor(private router: Router, private route: ActivatedRoute, private elements: ElementRef) { }
+  constructor(private router: Router, private elasticSearch: DataService, private elements: ElementRef) { }
 
   ngOnInit(): void {
-    this.route.data.subscribe(({ sourceCounts }) => {
-      this.personAppearanceCount = sourceCounts.personAppearanceCount;
-      this.lifecourseCount = sourceCounts.lifecourseCount;
+    this.elasticSearch.getEntryCounts().subscribe((entryCounts) => {
+      this.animateCountIncrease(entryCounts);
     });
+  }
+
+  animateCountIncrease(entryCounts: EntryCounts) {
+    const personAppearanceCount = entryCounts.indexHits.pas;
+    const lifecourseCount = entryCounts.indexHits.lifeCourses;
+
+    const steps = 30;
+    const personAppearanceStep = personAppearanceCount / steps;
+    const lifecourseStep = lifecourseCount / steps;
+
+    const interval = setInterval(() => {
+      if(this.personAppearanceCount == personAppearanceCount && this.lifecourseCount == lifecourseCount) {
+        clearInterval(interval);
+        return;
+      }
+
+      this.personAppearanceCount = Math.min(personAppearanceCount, this.personAppearanceCount + personAppearanceStep);
+      this.lifecourseCount = Math.min(lifecourseCount, this.lifecourseCount + lifecourseStep);
+    }, 80);
   }
 
   searchSimple(): void {
@@ -113,12 +134,18 @@ export class SimpleSearchComponent implements OnInit {
       .filter((term) => term.value !== "")
       .forEach((term) => searchParams[term.field] = term.value);
 
+    if (Object.keys(searchParams).length === 0) {
+      searchParams.query = "";
+    }
+
     this.router.navigate(['/results'], {
       queryParams: {
         ...searchParams,
         index: this.computedIndex,
         mode: this.modeFuzzy ? "fuzzy" : "default",
-      }
+        excludeDubiousLinks: this.includeDubiousLinks ? null : "true",
+        excludeUndoubtedLinks: this.includeUndoubtedLinks ? null : "true",
+      },
     });
   }
 

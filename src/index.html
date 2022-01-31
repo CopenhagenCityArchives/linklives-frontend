@@ -69,6 +69,11 @@ i søgningen og der kan komme flere detaljer på et livsforløb.
           `,
         };
       </script>
+      <script>
+        window.ga = function() {
+          console.debug("Google Analytics call", arguments);
+        };
+      </script>
       <app-root></app-root>
     </main>
   </div>

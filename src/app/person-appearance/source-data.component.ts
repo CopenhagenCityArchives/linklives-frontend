@@ -23,15 +23,10 @@ export class SourceDataComponent implements OnInit {
   }
 
   get originalDataLines() {
-    //TODO: remove this guarding that only exists because of broken staging data
-    if(!this.pa.transcribed) {
-      return [];
-    }
-
-    return Object.keys(this.pa.transcribed)
+    return Object.keys(this.pa.transcribed.transcription)
       .map((key) => ({
         label: key,
-        value: this.cleanValue(this.pa[key])
+        value: this.cleanValue(this.pa.transcribed.transcription[key])
       }));
   }
 
@@ -48,17 +43,6 @@ export class SourceDataComponent implements OnInit {
 
   getColumnClass(i: number, list: any[]) {
     return i < list.length / 2 ? 'data-section__row--column-1' : 'data-section__row--column-2';
-  }
-
-  get eventTypeClass() {
-    const eventType = this.pa.standard.event_type;
-    if(eventType !== 'burial') {
-      return eventType;
-    }
-    if(this.pa.source_type_wp4 === 'parish') {
-      return `${eventType}-pr`
-    }
-    return `${eventType}-cph`
   }
 
   ngOnInit(): void {

@@ -58,8 +58,7 @@
 }
 
 .lls-source--burial-pr,
-.lls-source--burial_protocol,
-.lls-source--death {
+.lls-source--burial_protocol {
   border-color: $burial-black;
 
   &::before {
@@ -68,7 +67,7 @@
 }
 
 .lls-source--baptism,
-.lls-source--birth {
+.lls-source--babtism {
   border-color: $baptism-green;
 
   &::before {
@@ -76,7 +75,8 @@
   }
 }
 
-.lls-source--marriage {
+.lls-source--marriage,
+.lls-source--spouse {
   border-color: $marriage-red;
 
   &::before {

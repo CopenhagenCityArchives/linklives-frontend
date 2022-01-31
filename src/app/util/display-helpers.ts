@@ -1,38 +1,18 @@
-import { PersonAppearance } from './../search/search.service';
+import { EventType } from "../data/data.service";
 
-export function eventType({ standard: { event_type } }) {
+export function eventIcon(eventType: EventType) {
   return {
-    "census": "Folketælling",
-    "burial": "Begravelse",
-    'arrival': 'Arrival',
-    'baptism': "Dåb",
-    'birth': "Fødsel",
-    'confirmation': "Konfirmation",
-    'death': "Death",
-    'departure': "Departure",
-    'marriage': "Vielse",
-  }[event_type] || "Kilde"
-};
-
-export function eventIcon(eventType: string) {
-  return {
-    "census": "archive",
-    "burial": "ll-funeral",
-    "burial_protocol": "ll-funeral",
     'arrival': 'clipboard',
     'baptism': "ll-baptism",
-    'birth': "ll-baptism",
+    'babtism': "ll-baptism",
+    "burial": "ll-funeral",
+    "burial_protocol": "ll-funeral",
+    "census": "archive",
     'confirmation': "ll-confirmation",
-    'death': "ll-funeral",
     'departure': "clipboard",
     'marriage': "heart",
+    'spouse': "heart",
   }[eventType] || "circle";
-};
-
-export function sourceIcon(sourceType: string) {
-  return {
-    "census": "archive",
-  }[sourceType] || "circle";
 };
 
 export const filterTypes = ['eventType', 'source', 'eventYear', 'sourceYear', 'birthYear', 'deathYear'];

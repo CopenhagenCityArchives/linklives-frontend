@@ -1,4 +1,79 @@
-<div *ngIf="auth.user$ | async as user" class="lls-container u-mt-4">
+<div *ngIf="profile" class="lls-container u-mt-4">
+  <app-loading-overlay
+    [class]="saving ? '' : 'u-hide'"
+  ></app-loading-overlay>
+  <app-modal
+    [show]="!!error"
+    title="Der opstod en fejl"
+    [featherIconPath]="featherIconPath"
+    (close)="error = null"
+  >
+    <div>
+      <p>
+        Fejlen kan fx skyldes at du enten:
+      </p>
+      <ol>
+        <li>Opdaterede både brugernavn og email på samme tid. Opdater en oplysning af gangen og klik 'gem' efter hver gang.</li>
+        <li>Opdaterede dit brugernavn med et ikke gyldigt tegn. Godkendte tegn i brugernavne er små og store bogstaver, samt tal og følgende specialtegn: '_', '+', '-', '.', '!', '#', '$', '^', '`' og '''</li>
+      </ol>
+      <p>
+        Den fulde fejlbesked kan læses nedenfor på engelsk:
+      </p>
+      <code>{{ error }}</code>
+    </div>
+  </app-modal>
+  <app-modal
+    [show]="showEmailChangeWarning"
+    title="Er du sikker?"
+    [featherIconPath]="featherIconPath"
+    (close)="showEmailChangeWarning = false"
+  >
+    <div>
+      <p>
+        <strong>OBS</strong> - Når du ændrer din emailadresse, skal du bekræfte adressen inden din brugerprofil virker igen. Bekræft adressen ved at klikke på linket i den mail vi sender til den nye emailadresse.
+      </p>
+      <p>
+        Du er ved at ændre din emailadresse til <strong>{{ newEmail }}</strong>.
+      </p>
+    </div>
+    <div class="u-mt-2">
+      <button
+        class="lls-btn"
+        (click)="saveProfile(); showEmailChangeWarning = false;"
+      >
+        <span>Gem og skift email</span>
+        <svg class="lls-icon lls-icon--right">
+          <use [attr.href]="featherSpriteUrl + '#save'"></use>
+        </svg>
+      </button>
+    </div>
+  </app-modal>
+  <app-modal
+    [show]="showDeleteWarning"
+    title="Er du sikker?"
+    [featherIconPath]="featherIconPath"
+    (close)="showDeleteWarning = false"
+  >
+    <div>
+      <p>
+        <strong>OBS</strong> - Hvis du sletter din brugerprofil kan den ikke gendannes.
+      </p>
+      <p>
+        Når du sletter din brugerprofil, sletter vi navn, brugernavn og email, men ikke den feedback du har givet på links. Feedbacken gemmes i anonymiseret form.
+      </p>
+    </div>
+    <div class="u-mt-2">
+      <button
+        class="lls-btn lls-btn--danger"
+        (click)="deleteProfile(); showDeleteWarning = false;"
+      >
+        <span>Slet bruger permanent</span>
+        <svg class="lls-icon lls-icon--right">
+          <use [attr.href]="featherSpriteUrl + '#trash'"></use>
+        </svg>
+      </button>
+    </div>
+  </app-modal>
   <div class="lls-results-header__link-section">
     <a
       class="lls-link u-align-icon"
@@ -15,11 +90,11 @@
         Min side
       </h2>
       <h1 class="lls-data-page-header__title">
-        <ng-container *ngIf="user.firstname; else nicknameBlock">
-          {{ user.firstname }} {{ user.lastname }}
+        <ng-container *ngIf="profile.firstname; else nicknameBlock">
+          {{ profile.firstname }} {{ profile.lastname }}
         </ng-container>
         <ng-template #nicknameBlock>
-          {{ user.nickname }}
+          {{ profile.userName }}
         </ng-template>
       </h1>
       <p class="lls-data-page-header__data-summary">
@@ -36,12 +111,12 @@
   </button>
 
   <div class="lls-card u-flex u-space-between">
-    <div class="lls-row">
-      <div *ngIf="!user.picture" class="lls-profile-picture lls-columns-12 lls-columns-2--md lls-gap">
+    <form class="lls-row" (submit)="profile.email === newEmail ? saveProfile() : showEmailChangeWarning = true">
+      <div *ngIf="!profile.picture" class="lls-profile-picture lls-columns-12 lls-columns-2--md lls-gap">
         JP
       </div>
-      <div *ngIf="user.picture" class="lls-profile-picture lls-columns-12 lls-columns-2--md lls-gap">
-        <img [src]="user.picture" class="lls-profile-picture" alt="">
+      <div *ngIf="profile.picture" class="lls-profile-picture lls-columns-12 lls-columns-2--md lls-gap">
+        <img [src]="profile.picture" class="lls-profile-picture" alt="">
       </div>
       <div class="lls-columns-12 lls-columns-8--md">
         <h3 class="lls-card__title">
@@ -51,28 +126,70 @@
           <tr>
             <td class="u-semi-bold">Brugernavn</td>
             <td>
-              {{ user.nickname }}</td>
+              <span *ngIf="!isEditingProfile">{{ profile.userName }}</span>
+              <div class="lls-input-group" *ngIf="isEditingProfile">
+                <input
+                  type="text"
+                  placeholder="Indtast brugernavn"
+                  class="lls-input-field lls-input-group__field"
+                  [(ngModel)]="newUsername"
+                  name="new-nickname"
+                  [disabled]="saving"
+                />
+              </div>
+            </td>
           </tr>
           <tr>
             <td class="u-semi-bold">Email</td>
-            <td>{{ user.email }}</td>
+            <td>
+              <span *ngIf="!isEditingProfile">{{ profile.email }}</span>
+              <div class="lls-input-group" *ngIf="isEditingProfile">
+                <input
+                  type="text"
+                  placeholder="Indtast email"
+                  class="lls-input-field lls-input-group__field"
+                  [(ngModel)]="newEmail"
+                  name="new-email"
+                  [disabled]="saving"
+                />
+              </div>
+            </td>
           </tr>
         </table>
       </div>
-      <div class="lls-columns-12 lls-columns-2--md">
+      <div class="lls-columns-12 lls-columns-2--md u-flex u-flex--xs-column u-align-items-end u-justify-start">
         <button
-          (click)="editProfile()"
-          type="submit"
-          disabled
-          class="lls-btn lls-btn--disabled"
+          (click)="editProfile(); $event.preventDefault();"
+          class="lls-btn"
+          *ngIf="!isEditingProfile"
         >
           <span>Rediger</span>
           <svg class="lls-icon lls-icon--right">
             <use [attr.href]="featherSpriteUrl + '#edit-2'"></use>
           </svg>
         </button>
+        <button
+          class="lls-btn"
+          *ngIf="isEditingProfile"
+          type="submit"
+          [disabled]="saving"
+        >
+          <span>Gem</span>
+          <svg class="lls-icon lls-icon--right">
+            <use [attr.href]="featherSpriteUrl + '#save'"></use>
+          </svg>
+        </button>
+        <button
+          (click)="showDeleteWarning = true; $event.preventDefault();"
+          class="lls-btn lls-btn--danger u-mt-2"
+        >
+          <span>Slet bruger</span>
+          <svg class="lls-icon lls-icon--right">
+            <use [attr.href]="featherSpriteUrl + '#trash'"></use>
+          </svg>
+        </button>
       </div>
-    </div>
+    </form>
   </div>
 
   <!-- Livsforløb -->

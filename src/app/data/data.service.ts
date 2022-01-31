@@ -1,5 +1,5 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { PersonAppearance, Lifecourse, SearchResult, SearchHit, AdvancedSearchQuery, Source, FilterIdentifier } from '../search/search.service';
+import { PersonAppearance, Lifecourse, SearchResult, SearchHit, AdvancedSearchQuery, Source, FilterIdentifier, EntryCounts } from '../search/search.service';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -72,28 +72,11 @@ interface SourceLookupKeys {
   source_type_display: string // only used for displaying
 }
 
+export type EventType = "arrival" | "babtism" | "baptism" | "burial" | "burial_protocol" | "census" | "confirmation" | "departure" | "marriage" | "spouse";
+
 interface EventLookupKeys {
-  event_type: string
+  event_type: EventType
   event_type_display: string // only used for displaying
-}
-
-interface SourceYearLookupKeys {
-  source_year_searchable: string
-  source_year_display: string // only used for displaying
-}
-
-interface EventYearLookupKeys {
-  //event_year: string
-  event_year_display: string // only used for displaying
-}
-interface BirthYearLookupKeys {
-  birthyear_searchable: string
-  birthyear_display: string // only used for displaying
-}
-
-interface DeathYearLookupKeys {
-  deathyear_searchable: string
-  deathyear_display: string // only used for displaying
 }
 
 interface AggregationBucket<T> {
@@ -103,14 +86,12 @@ interface AggregationBucket<T> {
 
 export interface ElasticLookupResult {
   aggregations?: {
-    person_appearance: {
-      eventType: { buckets: AggregationBucket<EventLookupKeys>[] },
-      source: { buckets: AggregationBucket<SourceLookupKeys>[] },
-      eventYear: { buckets: AggregationBucket<EventYearLookupKeys>[] },
-      sourceYear: { buckets: AggregationBucket<SourceYearLookupKeys>[] },
-      birthYear: { buckets: AggregationBucket<BirthYearLookupKeys>[] },
-      deathYear: { buckets: AggregationBucket<DeathYearLookupKeys>[] },
-    },
+    eventType: { buckets: AggregationBucket<EventLookupKeys>[] },
+    source: { buckets: AggregationBucket<SourceLookupKeys>[] },
+    eventYear: { buckets: AggregationBucket<number>[] },
+    sourceYear: { buckets: AggregationBucket<number>[] },
+    birthYear: { buckets: AggregationBucket<number>[] },
+    deathYear: { buckets: AggregationBucket<number>[] },
   },
 }
 
@@ -119,11 +100,12 @@ export interface Link {
   pa_id2: string,
   source_id1: string,
   source_id2: string,
-  method_type: string,
-  method_subtype1: string,
+  method_id: "0"|"1"|"2",
   score: number,
   key: string,
+  id: string,
   ratings: Array<object>,
+  duplicates: number,
 }
 
 export interface LinksSearchResult {
@@ -134,33 +116,21 @@ export interface LinksSearchResult {
   }
 }
 
-export interface RatingOption {
-  id: number,
-  text: string,
-  heading: string,
-}
-
-export interface LinkRatingOptionsResult {
-  [index: number]: RatingOption;
-}
-
-export interface Option {
-  value: number,
-  label: string,
-}
-export interface LinkRatingCategegory {
-  category: string,
-  options: Option[]
-}
-export interface LinkRatingOptions {
-  [index: number]: LinkRatingCategegory;
+interface EntryCountsEsResult {
+  aggregations: {
+    count: {
+      buckets: {
+        key: string,
+        doc_count: number
+      }[],
+    },
+  },
 }
 
 @Injectable({
   providedIn: 'root'
 })
-export class ElasticsearchService {
-
+export class DataService {
   constructor(private http: HttpClient) { }
 
   private handleHit(elasticHit: ElasticSearchHit): SearchHit {
@@ -201,12 +171,12 @@ export class ElasticsearchService {
 
   private handleResult(searchResult: ElasticSearchResult, filterLookupResult?: ElasticLookupResult): SearchResult {
     const possibleFilters = {
-      eventType: filterLookupResult?.aggregations?.person_appearance?.eventType?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      source: filterLookupResult?.aggregations?.person_appearance?.source?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      eventYear: filterLookupResult?.aggregations?.person_appearance?.eventYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      sourceYear: filterLookupResult?.aggregations?.person_appearance?.sourceYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      birthYear: filterLookupResult?.aggregations?.person_appearance?.birthYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      deathYear: filterLookupResult?.aggregations?.person_appearance?.deathYear?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+      eventType: filterLookupResult?.aggregations?.eventType?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+      source: filterLookupResult?.aggregations?.source?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
+      eventYear: filterLookupResult?.aggregations?.eventYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
+      sourceYear: filterLookupResult?.aggregations?.sourceYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
+      birthYear: filterLookupResult?.aggregations?.birthYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
+      deathYear: filterLookupResult?.aggregations?.deathYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
     }
     const result: SearchResult = {
       took: searchResult.took,
@@ -244,11 +214,11 @@ export class ElasticsearchService {
       filterLookup?: Observable<ElasticLookupResult>,
     };
     const requests: SearchRequests = {
-      search: this.http.post<ElasticSearchResult>(`${environment.apiUrl}/search/${indices.join(',')}`, body).pipe(share()),
+      search: this.http.post<ElasticSearchResult>(`${environment.esUrl}/${indices.join(',')}/_search`, body).pipe(share()),
     };
 
     if(filterBody) {
-      requests.filterLookup = this.http.post<ElasticLookupResult>(`${environment.apiUrl}/search/pas`, filterBody).pipe(share());
+      requests.filterLookup = this.http.post<ElasticLookupResult>(`${environment.esUrl}/pas/_search`, filterBody).pipe(share());
     }
 
     // Prep observable that will send both requests and merge results in handleResult
@@ -286,21 +256,28 @@ export class ElasticsearchService {
         // Special case: _score is top-level, not on person_appearance
         return { _score: { order: sortOrder } };
       }
-      const qualifiedKey = `person_appearance.${key}`;
 
       return {
-        [qualifiedKey]: {
+        [key]: {
           order: sortOrder,
           mode: "max",
-          nested: {
-            path: "person_appearance",
-          },
         }
       };
     });
   }
 
-  searchAdvanced(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: FilterIdentifier[], mode: string = "default") {
+  searchAdvanced(
+    query: AdvancedSearchQuery,
+    indices: string[],
+    from: number,
+    size: number,
+    sortBy: string,
+    sortOrder: string,
+    sourceFilter: FilterIdentifier[],
+    mode: string = "default",
+    excludeDubiousLinks: boolean = false,
+    excludeUndoubtedLinks: boolean = false,
+  ) {
     if(indices.length < 1) {
       const emptySearchResult = new Observable<SearchResult>((observer) => {
         observer.next({
@@ -308,8 +285,8 @@ export class ElasticsearchService {
           totalHits: 0,
           indexHits: {},
           hits: [],
-          meta: { possibleFilters:
-            {
+          meta: {
+            possibleFilters: {
               eventType: [],
               source: [],
               eventYear: [],
@@ -327,11 +304,11 @@ export class ElasticsearchService {
 
     const sort = this.createSortClause(sortBy, sortOrder);
 
-    const { resultLookupQuery, sourceLookupQuery } = this.createQueries(query, sourceFilter, mode);
+    const { resultLookupQuery, sourceLookupQuery } = this.createQueries(query, sourceFilter, mode, excludeDubiousLinks, excludeUndoubtedLinks);
 
     const body = {
-      from: from,
-      size: size,
+      from,
+      size,
       indices_boost: [
         { 'lifecourses': 1.05 },
       ],
@@ -353,29 +330,29 @@ export class ElasticsearchService {
 
     const filters = {
       eventType: [
-        { event_type: { terms: { field: "person_appearance.event_type" } } },
-        { event_type_display: { terms: { field: "person_appearance.event_type_display" } } },
+        { event_type: { terms: { field: "standard.event_type" } } },
+        { event_type_display: { terms: { field: "event_type_display" } } },
       ],
       source: [
-        { source_type_wp4: { terms: { field: "person_appearance.source_type_wp4" } } },
-        { source_type_display: { terms: { field: "person_appearance.source_type_display" } } },
+        { source_type_wp4: { terms: { field: "source_type_wp4" } } },
+        { source_type_display: { terms: { field: "source_type_display" } } },
       ],
-      eventYear: [
-        //{ event_year: { terms: { field: "person_appearance.event_year" } } },
-        { event_year_display: { terms: { field: "person_appearance.event_year_display" } } },
-      ],
-      sourceYear: [
-        { source_year_searchable: { terms: { field: "person_appearance.source_year_searchable" } } },
-        { source_year_display: { terms: { field: "person_appearance.source_year_display" } } },
-      ],
-      birthYear: [
-        { birthyear_searchable: { terms: { field: "person_appearance.birthyear_searchable" } } },
-        { birthyear_display: { terms: { field: "person_appearance.birthyear_display" } } },
-      ],
-      deathYear: [
-        { deathyear_searchable: { terms: { field: "person_appearance.deathyear_searchable" } } },
-        { deathyear_display: { terms: { field: "person_appearance.deathyear_display" } } },
-      ],
+      eventYear: {
+        type: "histogram",
+        field: "event_year_sortable",
+      },
+      sourceYear: {
+        type: "histogram",
+        field: "sourceyear_sortable",
+      },
+      birthYear: {
+        type: "histogram",
+        field: "birthyear_sortable",
+      },
+      deathYear: {
+        type: "histogram",
+        field: "deathyear_sortable",
+      },
     };
 
     const filterBody = {
@@ -391,9 +368,19 @@ export class ElasticsearchService {
     };
 
     Object.keys(filters).forEach((filterName) => {
+      const filter = filters[filterName];
+      if(filter.type === "histogram") {
+        filterBody.aggs[filterName] = {
+          histogram: {
+            field: filter.field,
+            interval: 10,
+          },
+        };
+        return;
+      }
       filterBody.aggs[filterName] = {
         composite: {
-          sources: filters[filterName],
+          sources: filter,
           size: 10000,
         },
       };
@@ -402,8 +389,32 @@ export class ElasticsearchService {
     return this.search(indices, body, filterBody);
   }
 
-  createQueries(query: AdvancedSearchQuery, sourceFilter: FilterIdentifier[], mode: string) {
+  createQueries(query: AdvancedSearchQuery, sourceFilter: FilterIdentifier[], mode: string, excludeDubiousLinks: boolean, excludeUndoubtedLinks: boolean) {
+    const queryIncludingNested = (key, fun) => [ fun(key), fun(`person_appearance.${key}`) ];
+    const matchQ = (key, val) => queryIncludingNested(key, (key) => {
+      return { match: { [key]: val } };
+    });
+    const mustQ = (arr) => {
+      return { bool: { must: arr } };
+    };
+    const shouldQ = (arr) => {
+      return { bool: { should: arr } };
+    };
+
     const must = [];
+
+    if(excludeDubiousLinks || excludeUndoubtedLinks) {
+      const excludedRanges = [];
+      if(excludeDubiousLinks) {
+        excludedRanges.push({ range: { "links.duplicates": { gt: 1 } } });
+      }
+      if(excludeUndoubtedLinks) {
+        excludedRanges.push({ match: { "links.duplicates": 1 } });
+      }
+
+      must.push({ bool: { must_not: excludedRanges } });
+    }
+
     let sourceLookupFilter = must;
 
     const addFreeTextQuery = (must, value) => {
@@ -416,6 +427,8 @@ export class ElasticsearchService {
         "*sourceplace_searchable",
         "*gender_searchable",
         "*birthname_searchable",
+        "*occupation_searchable",
+        "*role_searchable",
       ];
 
       if(mode === "fuzzy") {
@@ -425,6 +438,8 @@ export class ElasticsearchService {
           "*firstnames_searchable_fz",
           "*birthplace_searchable_fz",
           "*birthname_searchable_fz",
+          "*occupation_searchable",
+          "*role_searchable",
         ];
         fields = fields.concat(fuzzyStringFields);
       }
@@ -460,9 +475,9 @@ export class ElasticsearchService {
       }
 
       if(searchKeyConfig.exact) {
-        must.push({
-          term: { [`person_appearance.${searchKeyConfig.exact}`]: value }
-        });
+        must.push(shouldQ(queryIncludingNested(searchKeyConfig.exact, (key) => {
+          return { term: { [key]: value } };
+        })));
         return;
       }
 
@@ -484,13 +499,9 @@ export class ElasticsearchService {
             const unquoted = parts.filter((_, i) => i % 2 == 0);
 
             quoted.forEach((quotedValue) => {
-              searchKeySubQuery.push({
-                match_phrase: {
-                  [`person_appearance.${searchKey}`]: {
-                    query: quotedValue,
-                  },
-                },
-              });
+              searchKeySubQuery.push(shouldQ(queryIncludingNested(searchKey, (key) => {
+                return { match_phrase: { [key]: { query: quotedValue } } };
+              })));
             });
 
             // We send the unquoted parts back to normal value handling.
@@ -513,31 +524,27 @@ export class ElasticsearchService {
         const nonWildcardTerms = terms.filter((value) => !/[\?\*]/.test(value));
 
         wildcardTerms.forEach((value) => {
-          searchKeySubQuery.push({
-            wildcard: {
-              [`person_appearance.${searchKey}`]: {
-                value,
-              }
-            }
-          });
+          searchKeySubQuery.push(shouldQ(queryIncludingNested(searchKey, (key) => {
+            return { wildcard: { [key]: { value } } };
+          })));
         });
 
         if(nonWildcardTerms.length) {
-          searchKeySubQuery.push({
-            match: {
-              [`person_appearance.${searchKey}`]: {
-                // Match query splits into terms on space, so we can simplify the query here
-                query: nonWildcardTerms.join(" "),
-                //max_expansions: 250,
-
-                operator: "AND"
+          searchKeySubQuery.push(shouldQ(queryIncludingNested(searchKey, (key) => {
+            return {
+              match: {
+                [key]: {
+                  // Match query splits into terms on space, so we can simplify the query here
+                  query: nonWildcardTerms.join(" "),
+                  operator: "AND",
+                }
               }
-            }
-          });
+            };
+          })));
         }
 
         if(searchKeySubQuery.length > 1) {
-          return { bool: { must: searchKeySubQuery } };
+          return mustQ(searchKeySubQuery);
         }
 
         return searchKeySubQuery[0];
@@ -555,130 +562,49 @@ export class ElasticsearchService {
 
       const eventTypeFilters = (filtersGroupedByFilterType) => {
         return filtersGroupedByFilterType.eventType.map(({ event_type, event_type_display }) => {
-          return {
-            bool: {
-              must: [
-                { match: { [`person_appearance.event_type`]: event_type } },
-                { match: { [`person_appearance.event_type_display`]: event_type_display } },
-              ]
-            }
-          };
-        });
-      }
-
-      const sourceTypeFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType.source.map(({ source_type_wp4, source_type_display }) => {
-          return {
-            bool: {
-              must: [
-                { match: { [`person_appearance.source_type_wp4`]: source_type_wp4 } },
-                { match: { [`person_appearance.source_type_display`]: source_type_display } },
-              ]
-            }
-          };
-        });
-      }
-
-      const eventYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType.eventYear.map(({ event_year, event_year_display }) => {
-          return {
-            bool: {
-              must: [
-                //{ match: { [`person_appearance.event_year`]: event_year } },
-                { match: { [`person_appearance.event_year_display`]: event_year_display } },
-              ]
-            }
-          };
-        });
-      }
-
-      const sourceYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType.sourceYear.map(({ source_year_searchable, source_year_display }) => {
-          return {
-            bool: {
-              must: [
-                { match: { [`person_appearance.source_year_searchable`]: source_year_searchable } },
-                { match: { [`person_appearance.source_year_display`]: source_year_display } },
-              ]
-            }
-          };
-        });
-      }
-
-      const birthYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType.birthYear.map(({ birthyear_searchable, birthyear_display }) => {
-          return {
-            bool: {
-              must: [
-                { match: { [`person_appearance.birthyear_searchable`]: birthyear_searchable } },
-                { match: { [`person_appearance.birthyear_display`]: birthyear_display } },
-              ]
-            }
-          };
-        });
-      }
-
-      const deathYearFilters = (filtersGroupedByFilterType) => {
-        return filtersGroupedByFilterType.deathYear.map(({ deathyear_searchable, deathyear_display }) => {
-          return {
-            bool: {
-              must: [
-                { match: { [`person_appearance.deathyear_searchable`]: deathyear_searchable } },
-                { match: { [`person_appearance.deathyear_display`]: deathyear_display } },
-              ]
-            }
-          };
+          return mustQ([
+            shouldQ(matchQ("standard.event_type", event_type)),
+            shouldQ(matchQ("event_type_display", event_type_display)),
+          ]);
         });
       }
 
       // Add source filter to only the must filter (but not the source lookup filter)
       if(filtersGroupedByFilterType.eventType && filtersGroupedByFilterType.eventType.length) {
-        must.push({
-          bool: {
-            should: eventTypeFilters(filtersGroupedByFilterType),
-          },
+        must.push(shouldQ(eventTypeFilters(filtersGroupedByFilterType)));
+      }
+
+      const sourceTypeFilters = (filtersGroupedByFilterType) => {
+        return filtersGroupedByFilterType.source.map(({ source_type_wp4, source_type_display }) => {
+          return mustQ([
+            shouldQ(matchQ("source_type_wp4", source_type_wp4)),
+            shouldQ(matchQ("source_type_display", source_type_display)),
+          ]);
         });
       }
 
       if(filtersGroupedByFilterType.source && filtersGroupedByFilterType.source.length) {
-        must.push({
-          bool: {
-            should: sourceTypeFilters(filtersGroupedByFilterType),
-          },
+        must.push(shouldQ(sourceTypeFilters(filtersGroupedByFilterType)));
+      }
+
+      const histogramFilters = (filterValues, key) => {
+        return filterValues.map(({ value }) => {
+          return shouldQ(queryIncludingNested(key, (key) => {
+            return { range: { [key]: { gte: value, lt: value + 10 } } };
+          }));
         });
       }
 
-      if(filtersGroupedByFilterType.eventYear && filtersGroupedByFilterType.eventYear.length) {
-        must.push({
-          bool: {
-            should: eventYearFilters(filtersGroupedByFilterType),
-          },
-        });
-      }
-
-      if(filtersGroupedByFilterType.sourceYear && filtersGroupedByFilterType.sourceYear.length) {
-        must.push({
-          bool: {
-            should: sourceYearFilters(filtersGroupedByFilterType),
-          },
-        });
-      }
-
-      if(filtersGroupedByFilterType.birthYear && filtersGroupedByFilterType.birthYear.length) {
-        must.push({
-          bool: {
-            should: birthYearFilters(filtersGroupedByFilterType),
-          },
-        });
-      }
-
-      if(filtersGroupedByFilterType.deathYear && filtersGroupedByFilterType.deathYear.length) {
-        must.push({
-          bool: {
-            should: deathYearFilters(filtersGroupedByFilterType),
-          },
-        });
-      }
+      Object.entries({
+        eventYear: "event_year_sortable",
+        sourceYear: "sourceyear_sortable",
+        birthYear: "birthyear_sortable",
+        deathYear: "deathyear_sortable",
+      }).forEach(([ filterType, filterKey ]) => {
+        if(filtersGroupedByFilterType[filterType] && filtersGroupedByFilterType[filterType].length) {
+          must.push(shouldQ(histogramFilters(filtersGroupedByFilterType[filterType], filterKey)));
+        }
+      });
     }
 
     const simplifiedQueryFromMust = (must) => {
@@ -709,11 +635,11 @@ export class ElasticsearchService {
           should: [
             query,
             {
-        nested: {
-          path: "person_appearance",
-          query,
-          score_mode: "max",
-        },
+              nested: {
+                path: "person_appearance",
+                query,
+                score_mode: "max",
+              },
             },
           ],
         }
@@ -728,18 +654,53 @@ export class ElasticsearchService {
     }
 
     // Special case: life_course_id
-    const includeLifeCouseInQuery = (oldQuery) => ({
-      bool: {
-        must: [
-          { term: { life_course_id: query.lifeCourseId } },
-          oldQuery,
-        ]
+    const includeLifeCourseInQuery = (oldQuery) => {
+      const lifeCourseIdTerm = { term: { life_course_id: query.lifeCourseId } };
+      if(!oldQuery) {
+        return lifeCourseIdTerm;
       }
-    });
-    return {
-      resultLookupQuery: includeLifeCouseInQuery(resultLookupQuery),
-      sourceLookupQuery: includeLifeCouseInQuery(sourceLookupQuery),
+
+      return mustQ([
+        lifeCourseIdTerm,
+        oldQuery,
+      ]);
     };
+    return {
+      resultLookupQuery: includeLifeCourseInQuery(resultLookupQuery),
+      sourceLookupQuery: includeLifeCourseInQuery(sourceLookupQuery),
+    };
+  }
+
+  getEntryCounts(): Observable<EntryCounts> {
+    const body = {
+      aggs: {
+        count: {
+          terms: {
+            field: "_index"
+          }
+        },
+      },
+    };
+
+    return this.http.post<EntryCountsEsResult>(`${environment.esUrl}/pas,lifecourses/_search`, body)
+      .pipe(map((esResult): EntryCounts => {
+        const result: EntryCounts = {
+          totalHits: 0,
+          indexHits: {},
+        };
+
+        esResult.aggregations.count.buckets.forEach((value) => {
+          result.totalHits += value.doc_count;
+          if (value.key.includes("pas")) {
+            result.indexHits.pas = value.doc_count;
+          }
+          if (value.key.includes("lifecourses")) {
+            result.indexHits.lifeCourses = value.doc_count;
+          }
+        });
+
+        return result;
+      }));
   }
 
   getLifecourse(key: string): Observable<Lifecourse> {
@@ -776,60 +737,5 @@ export class ElasticsearchService {
         )
       }
     );
-  }
-
-  getRatedLifecourses(): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/user/ratings/lifecourses`);
-  }
-
-  getLinkRatingOptions(): Observable<LinkRatingOptions> {
-    return new Observable<LinkRatingOptions>(    
-      observer => {
-        this.http.get<LinkRatingOptionsResult>(`${environment.apiUrl}/ratingOptions`)
-        .subscribe(responseBody => {
-          try {
-            const linkRatingOptions = [];
-
-            for (const optionFromResult of responseBody as any) {
-              const category = optionFromResult.heading;
-
-              let index = linkRatingOptions.findIndex((option) => option.category == category);
-
-              if(index == -1) {
-                const ratingCateogory = {
-                  category: optionFromResult.heading,
-                  chosen: false,
-                  options: []
-                }
-                linkRatingOptions.push(ratingCateogory);
-                index = linkRatingOptions.length -1;
-              }
-
-              const option = {
-                label: optionFromResult.text,
-                value: optionFromResult.id
-              }
-              linkRatingOptions[index].options.push(option);
-            }
-
-            observer.next(linkRatingOptions);
-          } catch (error) {
-            observer.error(error);
-          }
-        }, error => {
-          observer.error(error);
-        }, () => {
-          observer.complete();
-        });
-      }
-    )
-  }
-
-  sendLinkRating(linkRating: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/LinkRating`, linkRating);
-  }
-
-  getLinkRatingStats(key: string): Observable<any> {
-    return this.http.get<any>(`${environment.apiUrl}/Link/${key}/ratings/stats`);
   }
 };

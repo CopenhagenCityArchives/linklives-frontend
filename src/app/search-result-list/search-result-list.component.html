@@ -113,6 +113,24 @@
                         >
                         <span>Inkluder stavevariationer</span>
                     </label>
+                    <label class="lls-results-header__checkbox-container">
+                        <input
+                            [(ngModel)]="includeDubiousLinks"
+                            type="checkbox"
+                            class="lls-results-header__checkbox"
+                            name="includeDubiousLinks"
+                        >
+                        <span>Inkluder usikre links</span>
+                    </label>
+                    <label class="lls-results-header__checkbox-container">
+                        <input
+                            [(ngModel)]="includeUndoubtedLinks"
+                            type="checkbox"
+                            class="lls-results-header__checkbox"
+                            name="includeUndoubtedLinks"
+                        >
+                        <span>Inkluder sikre links</span>
+                    </label>
                 </div>
             </div>
             <div class="lls-results-header__right-section lls-columns-12 lls-columns-3--md lls-columns-2--lg lls-columns-1--xl">

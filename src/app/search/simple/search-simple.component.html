@@ -182,15 +182,35 @@
         </div>
 
         <div class="u-flex u-space-between u-align-items u-mt-2">
-          <label class="lls-search-options__checkbox-container">
-            <input
-              [(ngModel)]="modeFuzzy"
-              type="checkbox"
-              class="lls-search-options__checkbox"
-              name="modeFuzzy"
-            >
-            <span>Inkluder stavevariationer i søgning</span>
-          </label>
+          <div>
+            <label class="lls-search-options__checkbox-container">
+              <input
+                [(ngModel)]="modeFuzzy"
+                type="checkbox"
+                class="lls-search-options__checkbox"
+                name="modeFuzzy"
+              >
+              <span>Inkluder stavevariationer i søgning</span>
+            </label>
+            <label class="lls-search-options__checkbox-container">
+              <input
+                [(ngModel)]="includeDubiousLinks"
+                type="checkbox"
+                class="lls-search-options__checkbox"
+                name="includeDubiousLinks"
+              >
+              <span>Inkluder livsforløb, der indeholder usikre links</span>
+            </label>
+            <label class="lls-search-options__checkbox-container">
+              <input
+                [(ngModel)]="includeUndoubtedLinks"
+                type="checkbox"
+                class="lls-search-options__checkbox"
+                name="includeUndoubtedLinks"
+              >
+              <span>Inkluder livsforløb, der indeholder sikre links</span>
+            </label>
+          </div>
 
           <button
             type="submit"

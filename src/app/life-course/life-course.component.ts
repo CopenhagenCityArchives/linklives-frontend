@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Link } from '../elasticsearch/elasticsearch.service';
-import { prettyDate } from '../util/display-helpers';
+import { Link } from '../data/data.service';
 import { PersonAppearance } from '../search/search.service';
 import { getLatestSearchQuery } from '../search-history';
-import { ElasticsearchService } from '../elasticsearch/elasticsearch.service';
+import { RatingService } from '../data/rating.service';
 
 @Component({
   selector: 'app-life-course',
@@ -23,10 +22,12 @@ export class LifeCourseComponent implements OnInit {
 
   featherSpriteUrl = this.config.featherIconPath;
   openSearchHistory: boolean = false;
-  currentLinkKey: string = "";
+  currentLinkId: string = "";
   chosenRatingId;
   totalRatings;
   ratingCountByCategory;
+  ratedBy;
+  data_version: string;
 
   get aboutLifeCourseText() {
     return this.config.aboutLifeCourseText;
@@ -54,30 +55,23 @@ export class LifeCourseComponent implements OnInit {
     return this.latestPersonAppearance.deathyear_display || "";
   }
 
-  get lastUpdated() {
-    const dates = this.pas
-      .map((pa) => pa.last_updated_wp4)
-      .sort();
-    const date = dates[dates.length - 1];
-
-    return prettyDate(date);
-  }
-
-  openLinkRating(linkKey, chosenRatingId="") {
-    this.currentLinkKey = linkKey;
+  openLinkRating(linkId, chosenRatingId="") {
+    this.currentLinkId = linkId;
     this.chosenRatingId = chosenRatingId;
-    this.elasticsearch.getLinkRatingStats(linkKey).subscribe(linkRatingData => {
-      this.totalRatings = linkRatingData.totalRatings
-      this.ratingCountByCategory = linkRatingData.headingRatings;
+
+    this.ratingService.getLinkRatingStats(linkId).subscribe(({ totalRatings, headingRatings, ratedBy }) => {
+      this.totalRatings = totalRatings;
+      this.ratingCountByCategory = headingRatings;
+      this.ratedBy = ratedBy;
     });
   }
 
-  constructor(private route: ActivatedRoute, private elasticsearch: ElasticsearchService) { }
+  constructor(private route: ActivatedRoute, private ratingService: RatingService) { }
 
   ngOnInit(): void {
-    this.route.data.subscribe(next => {
+    this.route.data.subscribe(({ lifecourse }) => {
       // Sort person appearances by event year
-      this.pas = next.lifecourse.personAppearances.sort(function(a, b) {
+      this.pas = lifecourse.personAppearances.sort(function(a, b) {
         if (a.event_year_display > b.event_year_display) {
           return 1;
         }
@@ -87,12 +81,13 @@ export class LifeCourseComponent implements OnInit {
         return 0;
       }) as PersonAppearance[];
 
-      this.lifecourseKey = next.lifecourse.lifecourseKey;
-      this.lifecourseId = next.lifecourse.lifecourseId;
-      this.links = next.lifecourse.links;
+      this.lifecourseKey = lifecourse.lifecourseKey;
+      this.lifecourseId = lifecourse.lifecourseId;
+      this.links = lifecourse.links;
+      this.data_version = lifecourse.data_version;
 
-      if(next.lifecourse.currentLinkKey) {
-        this.openLinkRating(next.lifecourse.currentLinkKey, next.lifecourse.chosenRatingId);
+      if(lifecourse.currentLinkId) {
+        this.openLinkRating(lifecourse.currentLinkId, lifecourse.chosenRatingId);
       }
     });
   }

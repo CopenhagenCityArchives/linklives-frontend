@@ -2,8 +2,6 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { SearchComponent } from './search.component';
 import { SimpleSearchComponent } from './simple/search-simple.component';
-import { AdvancedSearchComponent } from './advanced/search-advanced.component';
-import { SearchSimpleResolverService } from './simple/search-simple-resolver.service';
 
 const routes: Routes = [
   {
@@ -12,9 +10,6 @@ const routes: Routes = [
     children: [
       { path: '', component: SimpleSearchComponent }
     ],
-    resolve: {
-      sourceCounts: SearchSimpleResolverService,
-    }
   }
 ];
 

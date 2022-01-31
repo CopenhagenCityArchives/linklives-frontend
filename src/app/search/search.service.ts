@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { ElasticsearchService, Link } from '../elasticsearch/elasticsearch.service';
+import { DataService, EventType, Link } from '../data/data.service';
 
 export type SearchHit = PersonAppearanceHit | LinkHit | LifecourseHit;
 
@@ -24,23 +24,26 @@ export interface LifecourseHit {
   pas: PersonAppearance[]
 }
 
-export interface SearchResult {
-  took: number,
+export interface EntryCounts {
   totalHits: number,
   indexHits: {
     lifeCourses?: number,
     pas?: number,
     links?: number
   },
+}
+
+export type SearchResult = EntryCounts & {
+  took: number,
   hits: SearchHit[],
   meta: {
     possibleFilters: {
-      eventType: Array<{ event_type: string, event_type_display: string, count: number }>,
+      eventType: Array<{ event_type: EventType, event_type_display: string, count: number }>,
       source: Array<{ source_type_wp4: string, source_type_display: string, count: number }>
-      eventYear: Array<{ event_year_display: string, count: number }>,
-      sourceYear: Array<{ source_year_searchable: string, source_year_display: string, count: number }>,
-      birthYear: Array<{ birthyear_searchable: string, birthyear_display: string, count: number }>,
-      deathYear: Array<{ deathyear_searchable: string, deathyear_display: string, count: number }>,
+      eventYear: Array<{ key: number, count: number }>,
+      sourceYear: Array<{ key: number, count: number }>,
+      birthYear: Array<{ key: number, count: number }>,
+      deathYear: Array<{ key: number, count: number }>,
     },
   }
 }
@@ -85,7 +88,6 @@ export interface PersonAppearance {
   gender: string,
   gender_clean: string,
   gender_std: string,
-  hh_id: number,
   household_family_no: string,
   household_position: string,
   household_position_std: string,
@@ -105,8 +107,11 @@ export interface PersonAppearance {
   name_std: string,
   occupation: string,
   occupation_display: string,
+  occupation_searchable: string,
   pa_id: number,
   pa_entry_permalink_wp4: string,
+  pa_grouping_id_wp4: string,
+  pa_grouping_id_wp4_sortable: string,
   parish: string,
   parish_type: string,
   patronyms: string[],
@@ -114,14 +119,15 @@ export interface PersonAppearance {
   positions: string,
   role: string,
   role_display: string,
+  role_searchable: string,
   source_archive_display: string,
   source_id: number,
   source_reference: string,
   source_type_display: string,
   source_type_wp4: string,
-  source_year: number,
-  source_year_display: string,
-  source_year_searchable: string,
+  sourceyear: number,
+  sourceyear_display: string,
+  sourceyear_searchable: string,
   sourceplace_display: string,
   state_region: string,
   transcriber_comments: string,
@@ -130,17 +136,21 @@ export interface PersonAppearance {
   uncat_names: string,
   source: Source,
   standard: {
-    event_type: string,
+    event_type: EventType,
+    household_id: string,
     //TODO: add more
   },
-  transcribed?: Object,
+  transcribed: {
+    transcription: Object,
+  },
 }
 
 export interface Lifecourse {
   key: string, // actual identifier
   life_course_id: number,
   personAppearances: PersonAppearance[]
-  links: Link[]
+  links: Link[],
+  data_version: string,
 }
 
 export interface Source {
@@ -154,7 +164,7 @@ export interface Source {
 };
 export interface EventTypeFilterIdentifier {
   filter_type: string,
-  event_type: string,
+  event_type: EventType,
   event_type_display: string,
 };
 
@@ -164,31 +174,12 @@ export interface SourceFilterIdentifier {
   source_type_display: string,
 };
 
-export interface EventYearFilterIdentifier {
+export interface HistogramFilterIdentifier {
   filter_type: string,
-  //event_year: string,
-  event_year_display: string,
+  value: number,
 };
 
-export interface SourceYearFilterIdentifier {
-  filter_type: string,
-  source_year_searchable: string,
-  source_year_display: string,
-};
-
-export interface BirthYearFilterIdentifier {
-  filter_type: string,
-  birthyear_searchable: string,
-  birthyear_display: string,
-};
-
-export interface DeathYearFilterIdentifier {
-  filter_type: string,
-  deathyear_searchable: string,
-  deathyear_display: string,
-};
-
-export type FilterIdentifier = EventTypeFilterIdentifier | SourceFilterIdentifier | EventYearFilterIdentifier | SourceYearFilterIdentifier | BirthYearFilterIdentifier | DeathYearFilterIdentifier;
+export type FilterIdentifier = EventTypeFilterIdentifier | SourceFilterIdentifier | HistogramFilterIdentifier;
 export interface AdvancedSearchQuery {
   query?: string,
   name?: string,
@@ -210,9 +201,33 @@ export interface AdvancedSearchQuery {
 })
 export class SearchService {
 
-  constructor(private elasticsearch: ElasticsearchService) { }
+  constructor(private elasticsearch: DataService) { }
 
-  advancedSearch(query: AdvancedSearchQuery, indices: string[], from: number, size: number, sortBy: string, sortOrder: string, sourceFilter: FilterIdentifier[], mode: string = "default"): Observable<SearchResult> {
-    return this.elasticsearch.searchAdvanced(query, indices, from, size, sortBy, sortOrder, sourceFilter, mode);
+  advancedSearch(
+    query: AdvancedSearchQuery,
+    indices: string[],
+    from: number,
+    size: number,
+    sortBy: string,
+    sortOrder: string,
+    sourceFilter: FilterIdentifier[],
+    mode: string = "default",
+    excludeDubiousLinksString: string = "false",
+    excludeUndoubtedLinksString: string = "false",
+  ): Observable<SearchResult> {
+    const excludeDubiousLinks = excludeDubiousLinksString === "true";
+    const excludeUndoubtedLinks = excludeUndoubtedLinksString === "true";
+    return this.elasticsearch.searchAdvanced(
+      query,
+      indices,
+      from,
+      size,
+      sortBy,
+      sortOrder,
+      sourceFilter,
+      mode,
+      excludeDubiousLinks,
+      excludeUndoubtedLinks,
+    );
   }
 }

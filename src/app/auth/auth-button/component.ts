@@ -1,22 +1,29 @@
-import { Component, Inject } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, Inject, OnInit } from '@angular/core';
 import { AuthService } from '@auth0/auth0-angular';
-import { AuthUtil } from '../util';
+import { UserManagementService } from 'src/app/user-management/service';
 
 @Component({
   selector: 'lls-auth-button',
   templateUrl: './component.html',
 })
 
-export class AuthButtonComponent {
-  window = window;
-  constructor(@Inject(DOCUMENT) public document: Document, private authUtil: AuthUtil, public auth: AuthService) { }
+export class AuthButtonComponent implements OnInit {
+  isAuthenticated: boolean = false;  
+
+  constructor(private userManagement: UserManagementService, public auth: AuthService) { }
+
+  ngOnInit() {
+    this.auth.isAuthenticated$
+      .subscribe((isAuthenticated) => {
+        this.isAuthenticated = isAuthenticated;
+      });
+  }
 
   login() {
-    this.authUtil.handleLogin();
+    this.userManagement.handleLogin();
   }
 
   logout() {
-    this.authUtil.handleLogout();
+    this.userManagement.handleLogout();
   }
 }

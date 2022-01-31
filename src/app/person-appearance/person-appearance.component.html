@@ -28,7 +28,7 @@
             <div class="lls-data-page-header__source-type">Kilde</div>
             <h1 class="lls-data-page-header__title">{{ pa.event_type_display }} {{ pa.event_year_display }}</h1>
             <div class="lls-data-page-header__data-summary">
-                <span class="u-text-capitalize">{{ pa.source_type_display }}, {{ pa.sourceplace_display }}, {{ pa.source_year_display }}, {{ pa.source_archive_display }}</span>
+                <span class="u-text-capitalize">{{ pa.source_type_display }}, {{ pa.sourceplace_display }}, {{ pa.sourceyear_display }}, {{ pa.source_archive_display }}</span>
             </div>
         </div>
     </div>
@@ -50,11 +50,7 @@
         <div class="lls-source-info lls-columns-12 lls-columns-6--md">
             <div class="lls-source-info__entry">
                 <div class="lls-source-info__entry-label">Personregistrerings ID</div>
-                <span>{{ this.pa.pa_id }}</span>
-            </div>
-            <div class="lls-source-info__entry">
-                <div class="lls-source-info__entry-label">Senest opdateret</div>
-                <span>{{ prettyLastUpdatedDate }}</span>
+                <span>{{ this.pa.key }}</span>
             </div>
         </div>
     </div>

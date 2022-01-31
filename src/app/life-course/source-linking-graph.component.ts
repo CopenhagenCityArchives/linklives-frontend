@@ -1,6 +1,17 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ElasticsearchService, Link } from '../elasticsearch/elasticsearch.service';
+import { Link } from '../data/data.service';
 import { PersonAppearance } from '../search/search.service';
+
+interface DrawableLink {
+  offsetY: number,
+  pathTierX: number,
+  lineHeight: number,
+  confidencePct: number,
+  linkingMethod: { long: string, short: string },
+  totalRatings: number,
+  id: string,
+  duplicates: boolean,
+};
 
 @Component({
   selector: 'app-source-linking-graph',
@@ -14,15 +25,7 @@ export class SourceLinkingGraphComponent implements OnInit {
   @Output()
   openLinkRating: EventEmitter<string> = new EventEmitter<string>();
 
-  drawableLinks: {
-    offsetY: number,
-    pathTierX: number,
-    lineHeight: number,
-    confidencePct: number,
-    linkingMethod: { long: string, short: string },
-    totalRatings: number,
-    key: string,
-  }[] = [];
+  drawableLinks: DrawableLink[] = [];
 
   hoveredLink?: string = null;
   hoveredTooltip?: string = null;
@@ -35,7 +38,7 @@ export class SourceLinkingGraphComponent implements OnInit {
     return [ ...this.pas ].reverse();
   }
 
-  calculateDrawableLinks() {
+  calculateDrawableLinks(): DrawableLink[] {
     //These represent gaps, not PAs, so there is one less than there are PAs in order.
     const maxTiers = Array(this.pas.length - 1).fill(-1);
 
@@ -75,22 +78,22 @@ export class SourceLinkingGraphComponent implements OnInit {
         const tier = Math.max.apply(Math, maxTiersInRange) + 1;
         maxTiers.fill(tier, firstIndex, lastIndex);
 
-        const prettyLinkMethod = ({ method_type: method, method_subtype1: subtype }) => {
-          if(method === "Manual") {
+        const prettyLinkMethod = (methodId: "0"|"1"|"2") => {
+          if(methodId === "2") {
             return {
               short: "Manuelt",
-              long: "Manuelt skabt link af en peson i Link-Lives teamet.",
+              long: "Manuelt skabt link af en person i Link-Lives teamet.",
             };
           }
-          if(method === "Rule Based" && subtype === "household") {
+          if(methodId === "1") {
             return {
-              short: "Regel - husstandsinfo",
+              short: "Regel - husstand",
               long: "Regelbaseret link skabt ud fra sammenhængen mellem person og husstand.",
             };
           }
-          if(method === "Rule Based") {
+          if(methodId === "0") {
             return {
-              short: "Regel - personinfo",
+              short: "Regel - person",
               long: "Regelbaseret link skabt ud fra personinformationer som alder, køn, navn, og fødested.",
             };
           }
@@ -107,9 +110,10 @@ export class SourceLinkingGraphComponent implements OnInit {
           pathTierX: tier * 16 + 10,
           lineHeight,
           confidencePct: Math.round((1 - link.score) * 100),
-          linkingMethod: prettyLinkMethod(link),
+          linkingMethod: prettyLinkMethod(link.method_id),
           totalRatings: link.ratings ? link.ratings.length : 0, // TODO: Remove this guarding when the link.rating data is fixed. Right now it can be null.
-          key: link.key,
+          id: link.id,
+          duplicates: link.duplicates > 1,
         };
       })
       .sort((a, b) => {
@@ -128,22 +132,22 @@ export class SourceLinkingGraphComponent implements OnInit {
     this.drawableLinks = this.calculateDrawableLinks();
   }
 
-  onMouseEnterLink(key) {
-    this.hoveredLink = key;
+  onMouseEnterLink(id) {
+    this.hoveredLink = id;
   }
 
-  onMouseLeaveLink(key) {
-    if(this.hoveredLink === key) {
+  onMouseLeaveLink(id) {
+    if(this.hoveredLink === id) {
       this.hoveredLink = null;
     }
   }
 
-  onMouseEnterTooltip(key) {
-    this.hoveredTooltip = key;
+  onMouseEnterTooltip(id) {
+    this.hoveredTooltip = id;
   }
 
-  onMouseLeaveTooltip(key) {
-    if(this.hoveredTooltip === key) {
+  onMouseLeaveTooltip(id) {
+    if(this.hoveredTooltip === id) {
       this.hoveredTooltip = null;
     }
   }
