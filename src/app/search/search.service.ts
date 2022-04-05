@@ -151,6 +151,7 @@ export interface Lifecourse {
   personAppearances: PersonAppearance[]
   links: Link[],
   data_version: string,
+  is_historic: boolean,
 }
 
 export interface Source {
