@@ -35,6 +35,7 @@ export class LifeCourseResolverService implements Resolve<{lifecourseKey: string
           currentLinkId,
           chosenRatingId,
           data_version: lifecourse.data_version,
+          is_historic: lifecourse.is_historic,
         };
       }));
   }
