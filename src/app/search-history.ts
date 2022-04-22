@@ -149,7 +149,7 @@ export function getLatestSearchQuery() {
     if(entry.filters) {
       queryParams = {
         ...queryParams,
-        filters: entry.filters
+        sourceFilter: entry.filters
           .map((filter) => Object.values(filter).join('_'))
           .join(",")
       };
