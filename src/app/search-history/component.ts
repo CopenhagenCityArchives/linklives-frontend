@@ -48,10 +48,10 @@ export class SearchHistoryComponent implements OnInit {
       queryParams = { ...queryParams, ...entry.sort };
     }
 
-    if(entry.sourceFilter) {
+    if(entry.filters) {
       queryParams = {
         ...queryParams,
-        sourceFilter: entry.sourceFilter
+        sourceFilter: entry.filters
           .map((filter) => Object.values(filter).join('_'))
           .join(",")
       };
