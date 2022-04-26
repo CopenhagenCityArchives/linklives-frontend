@@ -15,8 +15,10 @@ interface DrawableLink {
   ratingScoreStatus: string,
 };
 
-const postitiveRatingKeyFromAPI: string = "Ja, det er troværdigt"
-const negativeRatingKeyFromAPI: string = "Nej, det er ikke troværdigt"
+enum LinkRating {
+  Positive = "Ja, det er troværdigt",
+  Negative = "Nej, det er ikke troværdigt",
+}
 
 @Component({
   selector: 'app-source-linking-graph',
@@ -139,12 +141,11 @@ export class SourceLinkingGraphComponent implements OnInit {
     this.drawableLinks = this.calculateDrawableLinks();
     this.drawableLinks.forEach((link) => {
       this.ratingService.getLinkRatingStats(link.id).subscribe(({ headingRatings }) => {
-        const postitiveRatings = headingRatings[postitiveRatingKeyFromAPI] || 0;
-        const negativeRatings = headingRatings[negativeRatingKeyFromAPI] || 0;
+        const postitiveRatings = headingRatings[LinkRating.Positive] || 0;
+        const negativeRatings = headingRatings[LinkRating.Negative] || 0;
         const ratingScore = postitiveRatings - negativeRatings;
         link.ratingScoreStatus = this.getRatingScoreText(ratingScore);
       });
-
     })
   }
 
