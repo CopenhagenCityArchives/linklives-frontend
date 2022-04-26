@@ -137,18 +137,18 @@ export class SourceLinkingGraphComponent implements OnInit {
 
   ngOnInit(): void {
     this.drawableLinks = this.calculateDrawableLinks();
-    this.drawableLinks.forEach(link => {
+    this.drawableLinks.forEach((link) => {
       this.ratingService.getLinkRatingStats(link.id).subscribe(({ headingRatings }) => {
-        const postitiveRatings = headingRatings[postitiveRatingKeyFromAPI] | 0
-        const negativeRatings = headingRatings[negativeRatingKeyFromAPI] | 0
+        const postitiveRatings = headingRatings[postitiveRatingKeyFromAPI] || 0;
+        const negativeRatings = headingRatings[negativeRatingKeyFromAPI] || 0;
         const ratingScore = postitiveRatings - negativeRatings;
-        link.ratingScoreStatus = this.ratingScoreText(ratingScore)
+        link.ratingScoreStatus = this.getRatingScoreText(ratingScore);
       });
 
     })
   }
 
-  ratingScoreText(ratingScore){
+  getRatingScoreText(ratingScore){
     if (ratingScore <= -5) {
       return "ikke troværdigt";
     }
