@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Link } from '../data/data.service';
+import { RatingService } from '../data/rating.service';
 import { PersonAppearance } from '../search/search.service';
 
 interface DrawableLink {
@@ -11,14 +12,19 @@ interface DrawableLink {
   totalRatings: number,
   id: string,
   duplicates: boolean,
+  ratingScoreStatus: string,
 };
+
+enum LinkRating {
+  Positive = "Ja, det er troværdigt",
+  Negative = "Nej, det er ikke troværdigt",
+}
 
 @Component({
   selector: 'app-source-linking-graph',
   templateUrl: './source-linking-graph.component.html',
 })
 export class SourceLinkingGraphComponent implements OnInit {
-
   @Input() pas: PersonAppearance[] = [];
   @Input() links: Link[] = [];
 
@@ -29,6 +35,8 @@ export class SourceLinkingGraphComponent implements OnInit {
 
   hoveredLink?: string = null;
   hoveredTooltip?: string = null;
+
+  constructor(private ratingService: RatingService){}
 
   get activeLink() {
     return this.hoveredLink || this.hoveredTooltip;
@@ -114,6 +122,7 @@ export class SourceLinkingGraphComponent implements OnInit {
           totalRatings: link.ratings ? link.ratings.length : 0, // TODO: Remove this guarding when the link.rating data is fixed. Right now it can be null.
           id: link.id,
           duplicates: link.duplicates > 1,
+          ratingScoreStatus: undefined,
         };
       })
       .sort((a, b) => {
@@ -130,6 +139,24 @@ export class SourceLinkingGraphComponent implements OnInit {
 
   ngOnInit(): void {
     this.drawableLinks = this.calculateDrawableLinks();
+    this.drawableLinks.forEach((link) => {
+      this.ratingService.getLinkRatingStats(link.id).subscribe(({ headingRatings }) => {
+        const postitiveRatings = headingRatings[LinkRating.Positive] || 0;
+        const negativeRatings = headingRatings[LinkRating.Negative] || 0;
+        const ratingScore = postitiveRatings - negativeRatings;
+        link.ratingScoreStatus = this.getRatingScoreText(ratingScore);
+      });
+    })
+  }
+
+  getRatingScoreText(ratingScore){
+    if (ratingScore <= -5) {
+      return "ikke troværdigt";
+    }
+    if (ratingScore >= 5) {
+      return "troværdigt";
+    }
+    return undefined;
   }
 
   onMouseEnterLink(id) {

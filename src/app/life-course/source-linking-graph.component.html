@@ -68,14 +68,20 @@
                 Læs mere om metoder til linkning
             </a>
         </div>
-        <div class="u-mt-2 mb-2 u-bold">
-            Er linket troværdigt?
+        <div *ngIf="!link.ratingScoreStatus">
+            <div class="u-mt-2 mb-2 u-bold">
+                Er linket troværdigt?
+            </div>
+            <button class="lls-btn lls-btn--small lls-btn--blue" (click)="openLinkRating.emit(link.id)">
+                Giv feedback
+            </button>
+            <div class="u-mt-2">
+                {{ link.totalRatings }} {{ link.totalRatings != 1 ? "personer" : "person" }} har givet feedback på dette link
+            </div>
         </div>
-        <button class="lls-btn lls-btn--small lls-btn--blue" (click)="openLinkRating.emit(link.id)">
-            Giv feedback
-        </button>
-        <div class="u-mt-2">
-            {{ link.totalRatings }} {{ link.totalRatings != 1 ? "personer" : "person" }} har givet feedback på dette link
-        </div>
+        <p *ngIf="link.ratingScoreStatus" class="u-mt-2">
+            Dette link har fået tilstrækkelig feedback og er dermed sandsynligvis {{ link.ratingScoreStatus }}.
+            Vi har ikke brug for yderligere feedback. Linket vil blive opdateret i næste version.
+        </p>
     </div>
 </div>
