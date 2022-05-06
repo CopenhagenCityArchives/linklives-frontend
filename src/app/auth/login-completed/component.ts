@@ -41,6 +41,17 @@ export class LoginCompletedComponent implements OnInit {
       this.router.navigate(['']);
       return;
     }
+
+    // Some special pages should never be shown, so we just redirect to home after login instead
+    const specialList = [
+      /^\/login(\/|$)/,
+      /^\/logout(\/|$)/,
+    ]
+    if(specialList.some((specialPath) => specialPath.test(path))) {
+      this.router.navigate(['']);
+      return;
+    }
+
     if(!query) {
       this.router.navigate([path]);
       return;
