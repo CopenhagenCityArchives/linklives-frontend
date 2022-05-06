@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { getObjectFromQueryString } from '../../util/util';
 
@@ -10,7 +9,7 @@ import { getObjectFromQueryString } from '../../util/util';
 })
 export class LoginCompletedComponent implements OnInit {
 
-  constructor(private router: Router, private route: ActivatedRoute, public auth: AuthService) { }
+  constructor(private router: Router, public auth: AuthService) { }
 
   ngOnInit(): void {
     const stateString = localStorage.getItem('onLoginCompleted');
@@ -29,6 +28,7 @@ export class LoginCompletedComponent implements OnInit {
     }
     catch(error) {
       console.warn('unparseable onLoginCompleted in localstorage after login completed; redirecting to /');
+      localStorage.removeItem('onLoginCompleted');
       this.router.navigate(['']);
       return;
     }
