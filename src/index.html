@@ -78,12 +78,18 @@ i søgningen og der kan komme flere detaljer på et livsforløb.
       <script>
         (function() {
           const nav = document.getElementById('menu-english-language-switcher');
-          const loginMenuLink = document.createElement('li');
-          loginMenuLink.id = 'menu-item-9999-da';
-          loginMenuLink.classList.add('menu-item', 'menu-item-type-custom', 'menu-item-object-custom', 'menu-item-9999-da');
-          loginMenuLink.innerHTML = `<a href="#" tabindex="0">Log ind</a>`;
-          nav.insertBefore(loginMenuLink, null);
-          console.log("inserted", loginMenuLink);
+
+          const addItem = (href, text) => {
+            const loginMenuLink = document.createElement('li');
+            loginMenuLink.id = 'menu-item-9999-da';
+            loginMenuLink.classList.add('menu-item', 'menu-item-type-custom', 'menu-item-object-custom', 'menu-item-9999-da');
+            loginMenuLink.innerHTML = `<a href="${href}" tabindex="0">${text}</a>`;
+            nav.insertBefore(loginMenuLink, null);
+            console.log("inserted", loginMenuLink);
+          };
+
+          addItem('/login', 'Log ind')
+          addItem('/logout', 'Log ud')
         })();
       </script>
     </main>
