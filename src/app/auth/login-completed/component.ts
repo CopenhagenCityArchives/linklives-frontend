@@ -13,6 +13,10 @@ export class LoginCompletedComponent implements OnInit {
 
   ngOnInit(): void {
     const stateString = localStorage.getItem('onLoginCompleted');
+    const onLoginChanged = (window as any).lls__onLoginChanged;
+    if(onLoginChanged) {
+      onLoginChanged(true);
+    }
 
     if(!stateString) {
       console.warn('missing onLoginCompleted in localstorage after login completed; redirecting to /');
