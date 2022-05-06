@@ -1,3 +1,18 @@
+<div
+    [class]="is_historic ? 'lls-overlay' : ''"
+></div>
+<div [class]="is_historic ? 'lls-modal' : 'u-hide'">
+    <h2>Udgået livsforløb</h2>
+    <p>
+        Dette livsforløb er ikke med i den nyeste version af data.<br>
+        Dette betyder at Link-Lives ikke længere mener at det er et troværdigt livsforløb.
+    </p>
+    <p>
+        <a routerLink="/" class="lls-link lls-link--underline">
+            Tilbage til forsiden
+        </a>
+    </p>
+</div>
 <div class="lls-container lls-data-view-container">
     <section class="lls-data-page-header u-mb-4">
         <div class="lls-data-page-header__utility-links">

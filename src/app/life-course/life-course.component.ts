@@ -28,6 +28,7 @@ export class LifeCourseComponent implements OnInit {
   ratingCountByCategory;
   ratedBy;
   data_version: string;
+  is_historic: boolean;
 
   get aboutLifeCourseText() {
     return this.config.aboutLifeCourseText;
@@ -85,6 +86,7 @@ export class LifeCourseComponent implements OnInit {
       this.lifecourseId = lifecourse.lifecourseId;
       this.links = lifecourse.links;
       this.data_version = lifecourse.data_version;
+      this.is_historic = lifecourse.is_historic;
 
       if(lifecourse.currentLinkId) {
         this.openLinkRating(lifecourse.currentLinkId, lifecourse.chosenRatingId);
