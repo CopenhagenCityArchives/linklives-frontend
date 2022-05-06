@@ -12,6 +12,7 @@ export class LoginCompletedComponent implements OnInit {
   constructor(private router: Router, public auth: AuthService) { }
 
   ngOnInit(): void {
+    console.log("on login completed");
     const stateString = localStorage.getItem('onLoginCompleted');
     const onLoginChanged = (window as any).lls__onLoginChanged;
     if(onLoginChanged) {
