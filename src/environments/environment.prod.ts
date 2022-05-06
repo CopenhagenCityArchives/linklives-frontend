@@ -3,5 +3,5 @@ export const environment = {
   apiUrl: "https://api.link-lives.dk",
   esUrl: "https://data.link-lives.dk",
   pathPrefix: "/soeg-i-livsforloeb-og-kilder",
-  auth0ClientId: 'VcfBpIZSSgUK5r4zOTfwPMm1dHYtPT62',
+  auth0ClientId: '7lYbAwzUER3epciKfadgIoO8LUmhIk5x',
 };
