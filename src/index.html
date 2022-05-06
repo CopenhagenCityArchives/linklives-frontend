@@ -75,6 +75,17 @@ i søgningen og der kan komme flere detaljer på et livsforløb.
         };
       </script>
       <app-root></app-root>
+      <script>
+        (function() {
+          const nav = document.getElementById('menu-english-language-switcher');
+          const loginMenuLink = document.createElement('li');
+          loginMenuLink.id = 'menu-item-9999-da';
+          loginMenuLink.classList.add('menu-item', 'menu-item-type-custom', 'menu-item-object-custom', 'menu-item-9999-da');
+          loginMenuLink.innerHTML = `<a href="#" tabindex="0">Log ind</a>`;
+          nav.insertBefore(loginMenuLink, null);
+          console.log("inserted", loginMenuLink);
+        })();
+      </script>
     </main>
   </div>
   <footer class="module full-width" style="background-image: url(https://link-lives.dk/wp-content/themes/linklives/dist/images/keyvisual-footer_2e322084.svg)">
