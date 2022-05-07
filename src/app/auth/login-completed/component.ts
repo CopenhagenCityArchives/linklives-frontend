@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { map } from 'rxjs/operators';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { AuthService } from '@auth0/auth0-angular';
 import { getObjectFromQueryString } from '../../util/util';
 
@@ -10,10 +9,15 @@ import { getObjectFromQueryString } from '../../util/util';
 })
 export class LoginCompletedComponent implements OnInit {
 
-  constructor(private router: Router, private route: ActivatedRoute, public auth: AuthService) { }
+  constructor(private router: Router, public auth: AuthService) { }
 
   ngOnInit(): void {
+    console.log("on login completed");
     const stateString = localStorage.getItem('onLoginCompleted');
+    const onLoginChanged = (window as any).lls__onLoginChanged;
+    if(onLoginChanged) {
+      onLoginChanged(true);
+    }
 
     if(!stateString) {
       console.warn('missing onLoginCompleted in localstorage after login completed; redirecting to /');
@@ -29,6 +33,7 @@ export class LoginCompletedComponent implements OnInit {
     }
     catch(error) {
       console.warn('unparseable onLoginCompleted in localstorage after login completed; redirecting to /');
+      localStorage.removeItem('onLoginCompleted');
       this.router.navigate(['']);
       return;
     }
@@ -41,6 +46,17 @@ export class LoginCompletedComponent implements OnInit {
       this.router.navigate(['']);
       return;
     }
+
+    // Some special pages should never be shown, so we just redirect to home after login instead
+    const specialList = [
+      /^\/login(\/|$)/,
+      /^\/logout(\/|$)/,
+    ]
+    if(specialList.some((specialPath) => specialPath.test(path))) {
+      this.router.navigate(['']);
+      return;
+    }
+
     if(!query) {
       this.router.navigate([path]);
       return;

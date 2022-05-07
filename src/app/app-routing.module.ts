@@ -13,6 +13,8 @@ import { SourceDataComponent } from './person-appearance/source-data.component';
 import { UserProfilePage } from './user-profile/user-profile.component';
 import { LoginCompletedComponent } from './auth/login-completed/component';
 import { AuthGuard } from '@auth0/auth0-angular';
+import { LoginComponent } from './auth/login/component';
+import { LogoutComponent } from './auth/logout/component';
 
 
 const routes: Routes = [
@@ -50,6 +52,8 @@ const routes: Routes = [
     canActivate: [AuthGuard],
   },
   { path: 'login-completed', component: LoginCompletedComponent },
+  { path: 'login', component: LoginComponent },
+  { path: 'logout', component: LogoutComponent },
   { path: '', redirectTo: 'search', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponent },
 ];
