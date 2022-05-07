@@ -1,7 +1,8 @@
 (function() {
   const loggedIn = localStorage.getItem("lls__isLoggedIn");
 
-  const nav = document.getElementById('menu-english-language-switcher');
+  const nav = document.getElementById('menu-dansk-language-switcher');
+  const languageMenuItem = document.getElementById('menu-item-74-en');
 
   let addedMenuItems = [];
   const addItem = (href, text) => {
@@ -10,7 +11,7 @@
     loginMenuLink.classList.add('menu-item', 'menu-item-type-custom', 'menu-item-object-custom', 'menu-item-9999-da');
     loginMenuLink.innerHTML = `<a href="${href}" tabindex="0">${text}</a>`;
 
-    nav.insertBefore(loginMenuLink, null);
+    nav.insertBefore(loginMenuLink, languageMenuItem);
 
     addedMenuItems.push(loginMenuLink);
   };
