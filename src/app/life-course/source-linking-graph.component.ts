@@ -16,8 +16,8 @@ interface DrawableLink {
 };
 
 enum LinkRating {
-  Positive = "Ja, det er troværdigt",
-  Negative = "Nej, det er ikke troværdigt",
+  Positive = "positive",
+  Negative = "negative",
 }
 
 @Component({
@@ -140,9 +140,9 @@ export class SourceLinkingGraphComponent implements OnInit {
   ngOnInit(): void {
     this.drawableLinks = this.calculateDrawableLinks();
     this.drawableLinks.forEach((link) => {
-      this.ratingService.getLinkRatingStats(link.id).subscribe(({ headingRatings }) => {
-        const postitiveRatings = headingRatings[LinkRating.Positive] || 0;
-        const negativeRatings = headingRatings[LinkRating.Negative] || 0;
+      this.ratingService.getLinkRatingStats(link.id).subscribe(({ categoryRatings }) => {
+        const postitiveRatings = categoryRatings[LinkRating.Positive] || 0;
+        const negativeRatings = categoryRatings[LinkRating.Negative] || 0;
         const ratingScore = postitiveRatings - negativeRatings;
         link.ratingScoreStatus = this.getRatingScoreText(ratingScore);
       });
