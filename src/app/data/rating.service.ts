@@ -88,7 +88,7 @@ export class RatingService {
     return this.http.get<any>(`${environment.apiUrl}/Link/${id}/ratings`)
       .pipe(map(((ratings) => {
         const headingRatings = {};
-        const categoryRatings = {}
+        const categoryRatings = {};
 
         ratings.forEach((entry) => {
           if(!headingRatings[entry.rating.heading]) {
