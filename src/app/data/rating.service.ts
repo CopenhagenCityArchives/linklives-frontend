@@ -84,20 +84,26 @@ export class RatingService {
     return this.http.post<any>(`${environment.apiUrl}/LinkRating`, linkRating);
   }
 
-  getLinkRatingStats(id: string): Observable<{ headingRatings: any, totalRatings: number, ratedBy: string[] }> {
+  getLinkRatingStats(id: string): Observable<{ headingRatings: any, categoryRatings: object, totalRatings: number, ratedBy: string[] }> {
     return this.http.get<any>(`${environment.apiUrl}/Link/${id}/ratings`)
       .pipe(map(((ratings) => {
         const headingRatings = {};
+        const categoryRatings = {}
 
         ratings.forEach((entry) => {
           if(!headingRatings[entry.rating.heading]) {
             headingRatings[entry.rating.heading] = 0;
           }
+          if(!categoryRatings[entry.rating.category]) {
+            categoryRatings[entry.rating.category] = 0;
+          }
           headingRatings[entry.rating.heading]++;
+          categoryRatings[entry.rating.category]++;
         });
 
         return {
           headingRatings,
+          categoryRatings,
           totalRatings: ratings.length,
           ratedBy: ratings.map((entry) => entry.user),
         }
