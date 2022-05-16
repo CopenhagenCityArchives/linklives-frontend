@@ -46,7 +46,7 @@
         class="lls-source-graph__tooltip"
         [class]="(activeLink === link.id ? 'lls-source-graph__tooltip--active' : '') + (link.duplicates ? ' lls-source-graph__tooltip--link-with-duplicates' : '')"
         *ngFor="let link of drawableLinks; index as i;"
-        [style]="'top: ' + (link.offsetY + (link.lineHeight / 2) - (link.duplicates ? 326 : 271)) + 'px; left: ' + (link.pathTierX + 30) + 'px;'"
+        [style]="'top: ' + (link.offsetY + (link.lineHeight / 2) - (link.duplicates ? 341 : 271)) + 'px; left: ' + (link.pathTierX + 30) + 'px;'"
         (mouseenter)="onMouseEnterTooltip(link.id)"
         (mouseleave)="onMouseLeaveTooltip(link.id)"
     >
@@ -61,7 +61,7 @@
             {{ link.linkingMethod.short }}
         </div>
         <div *ngIf="link.duplicates">
-            Dette link optræder i flere livsforløb og er dermed usikkert.
+            Personregistreringer i dette link indgår i flere livsforløb og linket er derfor usikkert.
         </div>
         <div class="u-mt-2">
             <a class="lls-link lls-link--underline lls-link--white" href="https://link-lives.dk/saadan-skabes-livsforloeb/">
