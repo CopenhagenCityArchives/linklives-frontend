@@ -1,8 +1,15 @@
-if(process.env.TRAVIS_BRANCH !== 'staging') {
-    module.exports = {
-        targets: '> 0.25%, not dead',
-    };
+const branch = process.env.TRAVIS_BRANCH;
+process.env.PATH_PREFIX = {
+    'staging': '/find-livsforloeb-testversion',
+    'master': '/soeg-i-livsforloeb-og-kilder',
+}[branch] || '';
+
+const config = {
+    plugins: ['transform-inline-environment-variables'],
+};
+
+if(branch === 'master') {
+    config.targets = '> 0.25%, not dead';
 }
-else {
-    module.exports = {};
-}
+
+module.exports = config;
