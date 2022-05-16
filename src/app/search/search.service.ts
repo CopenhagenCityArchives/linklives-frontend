@@ -41,7 +41,6 @@ export type SearchResult = EntryCounts & {
       eventType: Array<{ event_type: EventType, event_type_display: string, count: number }>,
       source: Array<{ source_type_wp4: string, source_type_display: string, count: number }>
       eventYear: Array<{ key: number, count: number }>,
-      sourceYear: Array<{ key: number, count: number }>,
       birthYear: Array<{ key: number, count: number }>,
       deathYear: Array<{ key: number, count: number }>,
     },
