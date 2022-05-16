@@ -1,4 +1,14 @@
 (function() {
+  let pathPrefix = '';
+  try {
+    pathPrefix = process.env.PATH_PREFIX;
+  }
+  catch(error) {
+    // No path prefix
+  }
+
+  console.log("pref", pathPrefix);
+
   const loggedIn = localStorage.getItem("lls__isLoggedIn");
 
   const nav = document.getElementById('menu-dansk-language-switcher');
