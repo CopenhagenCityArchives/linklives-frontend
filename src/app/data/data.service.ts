@@ -89,7 +89,6 @@ export interface ElasticLookupResult {
     eventType: { buckets: AggregationBucket<EventLookupKeys>[] },
     source: { buckets: AggregationBucket<SourceLookupKeys>[] },
     eventYear: { buckets: AggregationBucket<number>[] },
-    sourceYear: { buckets: AggregationBucket<number>[] },
     birthYear: { buckets: AggregationBucket<number>[] },
     deathYear: { buckets: AggregationBucket<number>[] },
   },
@@ -174,7 +173,6 @@ export class DataService {
       eventType: filterLookupResult?.aggregations?.eventType?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
       source: filterLookupResult?.aggregations?.source?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
       eventYear: filterLookupResult?.aggregations?.eventYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
-      sourceYear: filterLookupResult?.aggregations?.sourceYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
       birthYear: filterLookupResult?.aggregations?.birthYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
       deathYear: filterLookupResult?.aggregations?.deathYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
     }
@@ -290,7 +288,6 @@ export class DataService {
               eventType: [],
               source: [],
               eventYear: [],
-              sourceYear: [],
               birthYear: [],
               deathYear: [],
             }

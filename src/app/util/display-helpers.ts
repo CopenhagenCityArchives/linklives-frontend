@@ -15,15 +15,14 @@ export function eventIcon(eventType: EventType) {
   }[eventType] || "circle";
 };
 
-export const filterTypes = ['eventType', 'source', 'eventYear', 'sourceYear', 'birthYear', 'deathYear'];
-export const yearFilterTypes = ['eventYear', 'sourceYear', 'birthYear', 'deathYear'];
+export const filterTypes = ['eventType', 'source', 'eventYear', 'birthYear', 'deathYear'];
+export const yearFilterTypes = ['eventYear', 'birthYear', 'deathYear'];
 
 export function filterTitle(filterType: string) {
   return {
     'eventType': "Hændelser",
     'source': "Kilder",
     'eventYear': "Hændelses år",
-    'sourceYear': "Kildeår",
     'birthYear': "Fødeår",
     'deathYear': 'Dødsår',
   }[filterType];
