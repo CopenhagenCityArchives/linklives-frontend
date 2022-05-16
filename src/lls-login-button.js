@@ -7,8 +7,6 @@
     // No path prefix
   }
 
-  console.log("pref", pathPrefix);
-
   const loggedIn = localStorage.getItem("lls__isLoggedIn");
 
   const nav = document.getElementById('menu-dansk-language-switcher');
