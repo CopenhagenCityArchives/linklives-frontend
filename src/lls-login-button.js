@@ -17,7 +17,7 @@
     const loginMenuLink = document.createElement('li');
     loginMenuLink.id = 'menu-item-9999-da';
     loginMenuLink.classList.add('menu-item', 'menu-item-type-custom', 'menu-item-object-custom', 'menu-item-9999-da');
-    loginMenuLink.innerHTML = `<a href="${href}" tabindex="0">${text}</a>`;
+    loginMenuLink.innerHTML = `<a href="${pathPrefix + href}" tabindex="0">${text}</a>`;
 
     nav.insertBefore(loginMenuLink, languageMenuItem);
 
