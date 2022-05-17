@@ -1,7 +1,7 @@
 const branch = process.env.TRAVIS_BRANCH;
 process.env.PATH_PREFIX = {
     'staging': '/find-livsforloeb-testversion',
-    'master': '/soeg-i-livsforloeb-og-kilder',
+    'master': '/soeg',
 }[branch] || '';
 
 const config = {
