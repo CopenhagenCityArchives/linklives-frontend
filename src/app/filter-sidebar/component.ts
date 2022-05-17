@@ -30,7 +30,6 @@ export class FilterSidebar implements OnInit {
     eventType: Array<EventTypeFilterIdentifier & { count: number }>,
     source: Array<SourceFilterIdentifier & { count: number }>,
     eventYear: Array<{ key: number, count: number }>,
-    sourceYear: Array<{ key: number, count: number }>,
     birthYear: Array<{ key: number, count: number }>,
     deathYear: Array<{ key: number, count: number }>,
   };

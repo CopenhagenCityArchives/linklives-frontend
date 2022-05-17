@@ -68,6 +68,10 @@ export class UserManagementService {
   }
 
   handleLogout() {
+    const onLoginChanged = (window as any).lls__onLoginChanged;
+    if(onLoginChanged) {
+      onLoginChanged(false);
+    }
     this.auth.logout({ returnTo: UserManagementService.baseUrl() });
   }
 

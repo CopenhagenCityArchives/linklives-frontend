@@ -131,11 +131,11 @@ export class SearchResultListComponent implements OnInit {
       return 0;
     }));
 
-    const { eventType, source, eventYear, sourceYear, birthYear, deathYear } = this.searchResult.meta.possibleFilters;
+    const { eventType, source, eventYear, birthYear, deathYear } = this.searchResult.meta.possibleFilters;
     return {
       eventType: sortedEventTypeFilter(eventType),
       source: sortedSourceFilter(source),
-      eventYear, sourceYear, birthYear, deathYear, // TODO sort these!
+      eventYear, birthYear, deathYear, // TODO sort these!
     }
   }
 

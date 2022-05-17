@@ -33,8 +33,8 @@ export const mapSearchKeys = {
     fuzzy: "birthyear_searchable_fz",
   },
   sourceYear: {
-    default: "source_year_searchable",
-    fuzzy: "source_year_searchable_fz",
+    default: "sourceyear_searchable",
+    fuzzy: "sourceyear_searchable_fz",
   },
   deathYear: {
     default: "deathyear_searchable",
