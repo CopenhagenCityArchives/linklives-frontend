@@ -22,7 +22,7 @@ export const mapSearchKeys = {
   },
   birthPlace: {
     default: "birthplace_searchable",
-    fuzzy: "birthplace_searchable_fz",
+    fuzzy: "birthplace_searchable",
   },
   sourcePlace: {
     default: "sourceplace_searchable",
