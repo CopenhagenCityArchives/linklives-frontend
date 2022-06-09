@@ -19,7 +19,7 @@
             <div class="lls-columns-12 lls-columns-6--md lls-columns-8--lg lls-columns-9--xl">
                 <div class="lls-row lls-row--align-bottom">
                     <div class="lls-results-header__field-label lls-columns-12 lls-columns-6--md lls-columns-4--lg lls-columns-2--xl" *ngFor="let searchTerm of searchTerms; index as i;">
-                        <span class="lls-results-header__field-label-text">{{ searchFieldLabels[searchTerm.field] }}</span>
+                        <span [id]="'search-' + searchTerm.field" class="lls-results-header__field-label-text">{{ searchFieldLabels[searchTerm.field] }}</span>
                         <div class="lls-input-group" *ngIf="searchTerm.field !== 'gender'">
                             <input
                                 [(ngModel)]="searchTerm.value"
@@ -28,6 +28,7 @@
                                 class="lls-input-field"
                                 [name]="'searchterm-value-' + i"
                                 [attr.data-search-term]="searchTerm.field"
+                                [attr.aria-labelledby]="'search-' + searchTerm.field"
                             />
                             <button
                                 type="button"
@@ -50,6 +51,7 @@
                                 [name]="'searchterm-value-' + i"
                                 [attr.data-search-term]="searchTerm.field"
                                 [(ngModel)]="searchTerm.value"
+                                [attr.aria-labelledby]="'search-' + searchTerm.field"
                             ></lls-dropdown>
                             <button
                                 type="button"
