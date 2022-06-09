@@ -69,7 +69,7 @@
         <div class="lls-row">
         <div *ngFor="let searchTerm of hardcodedSearchTerms; index as i;" class="lls-columns-12 lls-columns-6--md">
           <div class="lls-input-entry">
-            <span class="lls-input-label">{{ searchFieldLabels[searchTerm.field] }}</span>
+            <span [id]="'search-' + searchTerm.field" class="lls-input-label">{{ searchFieldLabels[searchTerm.field] }}</span>
             <div class="lls-input-group" *ngIf="searchTerm.field !== 'gender'">
               <input
                 type="text"
@@ -78,6 +78,7 @@
                 [(ngModel)]="searchTerm.value"
                 [name]="'searchterm-value-' + i"
                 [attr.data-search-term]="searchTerm.field"
+                [attr.aria-labelledby]="'search-' + searchTerm.field"
               />
               <button
                 type="button"
@@ -94,7 +95,7 @@
           </div>
         </div>
         <div *ngFor="let searchTerm of addedSearchTerms; index as i;" class="lls-input-entry lls-columns-12">
-          <span class="lls-input-label">{{ searchFieldLabels[searchTerm.field] }}</span>
+          <span [id]="'search-' + searchTerm.field" class="lls-input-label">{{ searchFieldLabels[searchTerm.field] }}</span>
           <div class="lls-input-group" *ngIf="searchTerm.field !== 'gender'">
             <input
               type="text"
@@ -103,6 +104,7 @@
               [(ngModel)]="searchTerm.value"
               [name]="'searchterm-value-' + i"
               [attr.data-search-term]="searchTerm.field"
+              [attr.aria-labelledby]="'search-' + searchTerm.field"
             />
             <button
               type="button"
@@ -125,6 +127,7 @@
               [name]="'searchterm-value-' + i"
               [attr.data-search-term]="searchTerm.field"
               [(ngModel)]="searchTerm.value"
+              [attr.aria-labelledby]="'search-' + searchTerm.field"
             ></lls-dropdown>
             <button
               type="button"
