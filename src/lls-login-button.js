@@ -15,7 +15,6 @@
   let addedMenuItems = [];
   const addItem = (href, text) => {
     const loginMenuLink = document.createElement('li');
-    loginMenuLink.id = `menu-item-9999-da-${href}`;
     loginMenuLink.classList.add('menu-item', 'menu-item-type-custom', 'menu-item-object-custom', 'menu-item-9999-da');
     loginMenuLink.innerHTML = `<a href="${pathPrefix + href}" tabindex="0">${text}</a>`;
 
