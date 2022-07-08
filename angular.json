@@ -178,7 +178,6 @@
       }
     }
   },
-  "defaultProject": "linklives",
   "cli": {
     "analytics": false
   }
