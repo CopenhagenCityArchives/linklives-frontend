@@ -1,10 +1,16 @@
 (function() {
   let pathPrefix = '';
+  let excludePaths = [];
   try {
     pathPrefix = process.env.PATH_PREFIX;
+    excludePaths = process.env.EXCLUDE_PATHS;
   }
   catch(error) {
-    // No path prefix
+    // Failed to load env vars, that's ok.
+  }
+
+  if(excludePaths.some((regex) => regex.test(window.location.pathname))) {
+    return;
   }
 
   const loggedIn = localStorage.getItem("lls__isLoggedIn");
