@@ -82,7 +82,8 @@
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.dev-remote-api.ts"
                 }
-              ]
+              ],
+              "optimization": false
             },
             "dev-staging-api": {
               "fileReplacements": [
@@ -178,7 +179,6 @@
       }
     }
   },
-  "defaultProject": "linklives",
   "cli": {
     "analytics": false
   }
