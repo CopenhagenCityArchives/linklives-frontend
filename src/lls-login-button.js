@@ -1,6 +1,6 @@
 (function() {
   let pathPrefix = '';
-  let excludePaths = [];
+  let excludePaths = '';
   try {
     pathPrefix = process.env.PATH_PREFIX;
     excludePaths = process.env.EXCLUDE_PATHS;
@@ -9,7 +9,7 @@
     // Failed to load env vars, that's ok.
   }
 
-  if(excludePaths.some((regex) => regex.test(window.location.pathname))) {
+  if(excludePaths && new RexExp(excludePaths).test(window.location.pathname)) {
     return;
   }
 
