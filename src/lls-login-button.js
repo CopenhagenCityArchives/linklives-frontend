@@ -9,7 +9,7 @@
     // Failed to load env vars, that's ok.
   }
 
-  if(excludePaths && new RexExp(excludePaths).test(window.location.pathname)) {
+  if(excludePaths && new RegExp(excludePaths).test(window.location.pathname)) {
     return;
   }
 
