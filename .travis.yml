@@ -9,10 +9,6 @@ only:
 addons:
   chrome: stable
 
-cache:
-  - directories:
-    - ./node_modules
-
 install:
   - pip install --user awscli
   - npm install
