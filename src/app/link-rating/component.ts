@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RatingService } from '../data/rating.service';
 import { UserManagementService } from '../user-management/service';
@@ -60,8 +60,8 @@ export class LinkRatingComponent implements OnInit {
     return Math.round(parseInt(ratingCount) / this.totalRatings * 100);
   }
 
-  linkRatingForm = new FormGroup({
-    option: new FormControl(''),
+  linkRatingForm = new UntypedFormGroup({
+    option: new UntypedFormControl(''),
   });
 
   onSubmit() {

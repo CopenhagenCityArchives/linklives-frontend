@@ -43,13 +43,11 @@ export class LifeCourseComponent implements OnInit {
   }
 
   get birthPlace() {
-    const firstPaWithBirthPlace = this.pas.find((pa) => pa.birthplace_display);
-    return firstPaWithBirthPlace ? firstPaWithBirthPlace.birthplace_display : "";
+    return this.latestPersonAppearance.birthplace_display || "";
   }
 
   get birthYear() {
-    const firstPaWithBirthYear = this.pas.find((pa) => pa.birthyear_display);
-    return firstPaWithBirthYear ? firstPaWithBirthYear.birthyear_display : "";
+    return this.latestPersonAppearance.birthyear_display || "";
   }
 
   get deathYear() {
