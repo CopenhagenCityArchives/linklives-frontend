@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Link } from '../data/data.service';
-import { PersonAppearance } from '../search/search.service';
+import { PersonAppearance } from '../data/data.service';
 import { getLatestSearchQuery } from '../search-history';
 import { RatingService } from '../data/rating.service';
 

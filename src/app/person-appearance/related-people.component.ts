@@ -1,6 +1,6 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PersonAppearance } from '../search/search.service';
+import { PersonAppearance } from '../data/data.service';
 
 @Component({
   selector: 'app-related-people',

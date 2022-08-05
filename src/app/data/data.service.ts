@@ -1,5 +1,4 @@
 import { Injectable, EventEmitter } from '@angular/core';
-import { PersonAppearance, Lifecourse, SearchResult, SearchHit, AdvancedSearchQuery, Source, FilterIdentifier, EntryCounts } from '../search/search.service';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin, Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
@@ -7,30 +6,15 @@ import { mapSearchKeys, sortValues } from 'src/app/search-term-values';
 import { map, share } from 'rxjs/operators';
 import groupBy from 'lodash.groupby';
 
-export interface ElasticDocResult {
-  _index: "lifecourses" | "pas" | "links",
-  _type: string,
-  _id: number|string,
-  _version: number,
-  _seq_no: number,
-  found: boolean,
-  _source: {
-    life_course_id?: number,
-    life_course_key?: string,
-    source?: Source,
-    person_appearance?: PersonAppearance | PersonAppearance[]
-  }
-}
-
-export interface LifecourseSource {
+interface LifecourseSource {
   key: string,
   life_course_ids?: number[],
   person_appearance: PersonAppearance | PersonAppearance[]
 }
 
-export type PersonAppearanceSource = PersonAppearance & { key: string };
+type PersonAppearanceSource = PersonAppearance & { key: string };
 
-export interface ElasticSearchHit {
+interface ElasticSearchHit {
   _index: "lifecourses" | "pas" | "links",
   _type: string,
   _id: number,
@@ -38,7 +22,8 @@ export interface ElasticSearchHit {
   _source: PersonAppearanceSource | LifecourseSource,
 }
 
-export interface ElasticSearchResult {
+//TODO: split into two different results depending on request tbh
+interface ElasticSearchResult {
   took: number,
   timed_out: boolean,
   _shards: {
@@ -68,7 +53,7 @@ export interface ElasticSearchResult {
 }
 
 interface SourceLookupKeys {
-  source_type_wp4: string
+  source_type_wp4: string,
   source_type_display: string // only used for displaying
 }
 
@@ -84,7 +69,15 @@ interface AggregationBucket<T> {
   doc_count: number,
 }
 
-export interface ElasticLookupResult {
+interface HasCount {
+  count: number
+}
+
+export type EventTypeBucket = EventLookupKeys & HasCount;
+export type SourceBucket = SourceLookupKeys & HasCount;
+export type SimpleBucket = { key: number } & HasCount;
+
+interface ElasticLookupResult {
   aggregations?: {
     eventType: { buckets: AggregationBucket<EventLookupKeys>[] },
     source: { buckets: AggregationBucket<SourceLookupKeys>[] },
@@ -107,14 +100,6 @@ export interface Link {
   duplicates: number,
 }
 
-export interface LinksSearchResult {
-  hits: {
-    hits: [
-      { _source: { link: Link } },
-    ]
-  }
-}
-
 interface EntryCountsEsResult {
   aggregations: {
     count: {
@@ -124,6 +109,116 @@ interface EntryCountsEsResult {
       }[],
     },
   },
+}
+
+type SearchHit = PersonAppearanceHit | LinkHit | LifecourseHit;
+
+export interface PersonAppearanceHit {
+  type: "pas",
+  pa: PersonAppearance
+}
+
+//TODO: Invesitgate: is there any use for this interface?
+interface LinkHit {
+  type: "links",
+  link_id: number,
+  life_course_ids: number[],
+  pas: [PersonAppearance, PersonAppearance]
+}
+
+//TODO: Invesitgate: is there any use for this interface?
+interface LifecourseHit {
+  type: "lifecourses",
+  life_course_id: number,
+  life_course_key: string,
+  pas: PersonAppearance[]
+}
+
+export interface EntryCounts {
+  totalHits: number,
+  indexHits: {
+    lifeCourses?: number,
+    pas?: number,
+    links?: number
+  },
+}
+
+export type SearchResult = EntryCounts & {
+  took: number,
+  hits: SearchHit[],
+  meta: {
+    possibleFilters: {
+      eventType: Array<EventTypeBucket>,
+      source: Array<SourceBucket>
+      eventYear: Array<SimpleBucket>,
+      birthYear: Array<SimpleBucket>,
+      deathYear: Array<SimpleBucket>,
+    },
+  }
+}
+
+export interface PersonAppearance {
+  birthplace_display: string,
+  birthyear_display: string,
+  deathyear_display: string,
+  event_type_display: string,
+  event_year_display: string,
+  key: string,
+  last_updated_wp4: string,
+  name_display: string,
+  occupation_display: string,
+  occupation_searchable: string,
+  pa_entry_permalink_wp4: string,
+  pa_grouping_id_wp4: string,
+  pa_grouping_id_wp4_sortable: string,
+  role_display: string,
+  role_searchable: string,
+  source_archive_display: string,
+  source_id: number,
+  source_type_display: string,
+  source_type_wp4: string,
+  sourceyear_display: string,
+  sourceyear_searchable: string,
+  sourceplace_display: string,
+  standard: {
+    event_type: EventType,
+  },
+  transcribed: {
+    transcription: Object,
+  },
+}
+
+export interface Lifecourse {
+  key: string, // actual identifier
+  life_course_id: number,
+  personAppearances: PersonAppearance[]
+  links: Link[],
+  data_version: string,
+  is_historic: boolean,
+}
+
+interface HasFilterType {
+  filter_type: string,
+}
+
+type EventTypeFilterIdentifier = EventLookupKeys & HasFilterType;
+type SourceFilterIdentifier = SourceLookupKeys & HasFilterType;
+type HistogramFilterIdentifier = { value: number } & HasFilterType;
+
+export type FilterIdentifier = EventTypeFilterIdentifier | SourceFilterIdentifier | HistogramFilterIdentifier;
+export interface AdvancedSearchQuery {
+  query?: string,
+  name?: string,
+  firstName?: string,
+  lastName?: string,
+  birthName?: string,
+  birthPlace?: string,
+  sourcePlace?: string,
+  sourceYear?: string,
+  deathYear?: string,
+  id?: string,
+  gender?: string,
+  lifeCourseId?: string,
 }
 
 @Injectable({
@@ -168,21 +263,48 @@ export class DataService {
     };
   }
 
-  private handleResult(searchResult: ElasticSearchResult, filterLookupResult?: ElasticLookupResult): SearchResult {
-    const possibleFilters = {
-      eventType: filterLookupResult?.aggregations?.eventType?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      source: filterLookupResult?.aggregations?.source?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      eventYear: filterLookupResult?.aggregations?.eventYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
-      birthYear: filterLookupResult?.aggregations?.birthYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
-      deathYear: filterLookupResult?.aggregations?.deathYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
+  private getPossibleFilters(filterLookupResult?: ElasticLookupResult) {
+    const aggregations = filterLookupResult?.aggregations;
+
+    if(!aggregations) {
+      return {
+        eventType: [],
+        source: [],
+        eventYear: [],
+        birthYear: [],
+        deathYear: [],
+      };
     }
+
+    const getAggregation = <T>(name) => aggregations[name] as { buckets: AggregationBucket<T>[] };
+
+    const getComplexKeyFilter = <T>(name): (T & HasCount)[] => {
+      const aggregation = getAggregation<T>(name);
+      return aggregation?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [];
+    };
+
+    const getSimpleKeyFilter = (name): SimpleBucket[] => {
+      const aggregation = getAggregation<number>(name);
+      return aggregation?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [];
+    };
+
+    return {
+      eventType: getComplexKeyFilter<EventLookupKeys>('eventType'),
+      source: getComplexKeyFilter<SourceLookupKeys>('source'),
+      eventYear: getSimpleKeyFilter('eventYear'),
+      birthYear: getSimpleKeyFilter('birthYear'),
+      deathYear: getSimpleKeyFilter('deathYear'),
+    };
+  }
+
+  private handleResult(searchResult: ElasticSearchResult, filterLookupResult?: ElasticLookupResult): SearchResult {
     const result: SearchResult = {
       took: searchResult.took,
       totalHits: 0,
       indexHits: {},
       hits: [],
       meta: {
-        possibleFilters,
+        possibleFilters: this.getPossibleFilters(filterLookupResult),
       },
     };
 
@@ -434,7 +556,6 @@ export class DataService {
           "*lastname_searchable_fz",
           "*firstnames_searchable_fz",
           "*birthplace_searchable_fz",
-          "*birthname_searchable_fz",
           "*occupation_searchable",
           "*role_searchable",
         ];

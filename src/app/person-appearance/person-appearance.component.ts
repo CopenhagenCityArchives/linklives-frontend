@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PersonAppearance } from '../search/search.service';
+import { PersonAppearance } from '../data/data.service';
 import { getLatestSearchQuery, getSearchHistory, SearchHistoryEntryType } from '../search-history';
 
 @Component({

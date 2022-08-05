@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Link } from '../data/data.service';
 import { RatingService } from '../data/rating.service';
-import { PersonAppearance } from '../search/search.service';
+import { PersonAppearance } from '../data/data.service';
 
 interface DrawableLink {
   offsetY: number,

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Lifecourse, PersonAppearance } from '../search/search.service';
+import { Lifecourse, PersonAppearance } from '../data/data.service';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map, mergeMap } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { DataService, Link } from '../data/data.service';
 import { addSearchHistoryEntry, SearchHistoryEntryType } from '../search-history';
 
