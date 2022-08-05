@@ -18,7 +18,7 @@ export const mapSearchKeys = {
   },
   birthName: {
     default: "birthname_searchable",
-    fuzzy: "birthname_searchable_fz",
+    fuzzy: "birthname_searchable",
   },
   birthPlace: {
     default: "birthplace_searchable",
@@ -42,7 +42,7 @@ export const mapSearchKeys = {
   },
   deathPlace: {
     default: "deathplace_searchable",
-    fuzzy: "deathplace_searchable_fz",
+    fuzzy: "deathplace_searchable",
   },
   gender: {
     default: "gender_searchable",

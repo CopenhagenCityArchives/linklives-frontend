@@ -454,7 +454,6 @@ export class DataService {
           "*lastname_searchable_fz",
           "*firstnames_searchable_fz",
           "*birthplace_searchable_fz",
-          "*birthname_searchable_fz",
           "*occupation_searchable",
           "*role_searchable",
         ];
