@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AdvancedSearchQuery, SearchResult, SearchService, FilterIdentifier } from '../search/search.service';
+import { AdvancedSearchQuery, SearchResult, DataService, FilterIdentifier } from '../data/data.service';
 import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { Observable, EMPTY } from 'rxjs';
 import { addSearchHistoryEntry, SearchHistoryEntryType } from '../search-history';
@@ -10,7 +10,7 @@ import { EventType } from '../data/data.service';
 })
 export class SearchResultResolverService implements Resolve<SearchResult> {
 
-  constructor(private service: SearchService) { }
+  constructor(private service: DataService) { }
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -118,6 +118,17 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       excludeUndoubtedLinks,
     });
 
-    return this.service.advancedSearch(actualSearchTerms, index, (page - 1) * size, size, sortBy, sortOrder, sourceFilter, mode, excludeDubiousLinks, excludeUndoubtedLinks);
+    return this.service.searchAdvanced(
+      actualSearchTerms,
+      index,
+      (page - 1) * size,
+      size,
+      sortBy,
+      sortOrder,
+      sourceFilter,
+      mode,
+      excludeDubiousLinks === "true",
+      excludeUndoubtedLinks === "true",
+    );
   }
 }

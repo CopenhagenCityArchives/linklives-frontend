@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { eventIcon } from '../util/display-helpers';
-import { PersonAppearance } from '../search/search.service';
+import { PersonAppearance } from '../data/data.service';
 
 @Component({
   selector: 'app-person-appearance-item',

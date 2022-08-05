@@ -1,5 +1,5 @@
 import isEqual from 'lodash.isequal';
-import { AdvancedSearchQuery, PersonAppearance, FilterIdentifier } from './search/search.service';
+import { AdvancedSearchQuery, PersonAppearance, FilterIdentifier } from './data/data.service';
 
 const LOCAL_STORAGE_KEY = "lls_search_history";
 

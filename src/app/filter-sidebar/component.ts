@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { EventTypeFilterIdentifier, SourceFilterIdentifier } from '../search/search.service';
+import { EventTypeFilterIdentifier, SourceFilterIdentifier } from '../data/data.service';
 import { prettyNumbers, filterTitle, filterTypes, yearFilterTypes } from '../util/display-helpers';
 
 export interface Option {

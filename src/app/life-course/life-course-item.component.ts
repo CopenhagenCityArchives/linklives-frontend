@@ -1,6 +1,6 @@
 import { Component, Input, OnChanges } from '@angular/core';
 import { prettyYearRange } from '../util/display-helpers';
-import { PersonAppearance } from '../search/search.service';
+import { PersonAppearance } from '../data/data.service';
 
 @Component({
   selector: 'app-life-course-item',
