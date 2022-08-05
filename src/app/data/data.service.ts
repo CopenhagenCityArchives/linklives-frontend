@@ -52,14 +52,14 @@ export interface ElasticSearchResult {
   }
 }
 
-interface SourceLookupKeys {
-  source_type_wp4: string
+export interface SourceLookupKeys {
+  source_type_wp4: string,
   source_type_display: string // only used for displaying
 }
 
 export type EventType = "arrival" | "babtism" | "baptism" | "burial" | "burial_protocol" | "census" | "confirmation" | "departure" | "marriage" | "spouse";
 
-interface EventLookupKeys {
+export interface EventLookupKeys {
   event_type: EventType
   event_type_display: string // only used for displaying
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { DataService, EventType, EventTypeBucket, Link, SimpleBucket, SourceBucket } from '../data/data.service';
+import { DataService, EventLookupKeys, EventType, EventTypeBucket, Link, SimpleBucket, SourceBucket, SourceLookupKeys } from '../data/data.service';
 
 export type SearchHit = PersonAppearanceHit | LinkHit | LifecourseHit;
 
@@ -153,22 +153,13 @@ export interface Lifecourse {
   is_historic: boolean,
 }
 
-export interface EventTypeFilterIdentifier {
+interface HasFilterType {
   filter_type: string,
-  event_type: EventType,
-  event_type_display: string,
-};
+}
 
-export interface SourceFilterIdentifier {
-  filter_type: string,
-  source_type_wp4: string,
-  source_type_display: string,
-};
-
-export interface HistogramFilterIdentifier {
-  filter_type: string,
-  value: number,
-};
+export type EventTypeFilterIdentifier = EventLookupKeys & HasFilterType;
+export type SourceFilterIdentifier = SourceLookupKeys & HasFilterType;
+export type HistogramFilterIdentifier = { value: number } & HasFilterType;
 
 export type FilterIdentifier = EventTypeFilterIdentifier | SourceFilterIdentifier | HistogramFilterIdentifier;
 export interface AdvancedSearchQuery {
