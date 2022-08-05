@@ -6,15 +6,15 @@ import { mapSearchKeys, sortValues } from 'src/app/search-term-values';
 import { map, share } from 'rxjs/operators';
 import groupBy from 'lodash.groupby';
 
-export interface LifecourseSource {
+interface LifecourseSource {
   key: string,
   life_course_ids?: number[],
   person_appearance: PersonAppearance | PersonAppearance[]
 }
 
-export type PersonAppearanceSource = PersonAppearance & { key: string };
+type PersonAppearanceSource = PersonAppearance & { key: string };
 
-export interface ElasticSearchHit {
+interface ElasticSearchHit {
   _index: "lifecourses" | "pas" | "links",
   _type: string,
   _id: number,
@@ -22,7 +22,8 @@ export interface ElasticSearchHit {
   _source: PersonAppearanceSource | LifecourseSource,
 }
 
-export interface ElasticSearchResult {
+//TODO: split into two different results depending on request tbh
+interface ElasticSearchResult {
   took: number,
   timed_out: boolean,
   _shards: {
@@ -51,14 +52,14 @@ export interface ElasticSearchResult {
   }
 }
 
-export interface SourceLookupKeys {
+interface SourceLookupKeys {
   source_type_wp4: string,
   source_type_display: string // only used for displaying
 }
 
 export type EventType = "arrival" | "babtism" | "baptism" | "burial" | "burial_protocol" | "census" | "confirmation" | "departure" | "marriage" | "spouse";
 
-export interface EventLookupKeys {
+interface EventLookupKeys {
   event_type: EventType
   event_type_display: string // only used for displaying
 }
@@ -76,7 +77,7 @@ export type EventTypeBucket = EventLookupKeys & HasCount;
 export type SourceBucket = SourceLookupKeys & HasCount;
 export type SimpleBucket = { key: number } & HasCount;
 
-export interface ElasticLookupResult {
+interface ElasticLookupResult {
   aggregations?: {
     eventType: { buckets: AggregationBucket<EventLookupKeys>[] },
     source: { buckets: AggregationBucket<SourceLookupKeys>[] },
@@ -99,14 +100,6 @@ export interface Link {
   duplicates: number,
 }
 
-export interface LinksSearchResult {
-  hits: {
-    hits: [
-      { _source: { link: Link } },
-    ]
-  }
-}
-
 interface EntryCountsEsResult {
   aggregations: {
     count: {
@@ -118,21 +111,23 @@ interface EntryCountsEsResult {
   },
 }
 
-export type SearchHit = PersonAppearanceHit | LinkHit | LifecourseHit;
+type SearchHit = PersonAppearanceHit | LinkHit | LifecourseHit;
 
 export interface PersonAppearanceHit {
   type: "pas",
   pa: PersonAppearance
 }
 
-export interface LinkHit {
+//TODO: Invesitgate: is there any use for this interface?
+interface LinkHit {
   type: "links",
   link_id: number,
   life_course_ids: number[],
   pas: [PersonAppearance, PersonAppearance]
 }
 
-export interface LifecourseHit {
+//TODO: Invesitgate: is there any use for this interface?
+interface LifecourseHit {
   type: "lifecourses",
   life_course_id: number,
   life_course_key: string,
@@ -206,9 +201,9 @@ interface HasFilterType {
   filter_type: string,
 }
 
-export type EventTypeFilterIdentifier = EventLookupKeys & HasFilterType;
-export type SourceFilterIdentifier = SourceLookupKeys & HasFilterType;
-export type HistogramFilterIdentifier = { value: number } & HasFilterType;
+type EventTypeFilterIdentifier = EventLookupKeys & HasFilterType;
+type SourceFilterIdentifier = SourceLookupKeys & HasFilterType;
+type HistogramFilterIdentifier = { value: number } & HasFilterType;
 
 export type FilterIdentifier = EventTypeFilterIdentifier | SourceFilterIdentifier | HistogramFilterIdentifier;
 export interface AdvancedSearchQuery {

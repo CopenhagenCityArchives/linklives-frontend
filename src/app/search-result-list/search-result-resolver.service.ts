@@ -92,7 +92,6 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
       "gender",
       "occupation",
       "role",
-      //"maritalStatus",
     ];
 
     const actualSearchTerms: AdvancedSearchQuery = {};

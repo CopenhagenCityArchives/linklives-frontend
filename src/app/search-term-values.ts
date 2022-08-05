@@ -66,6 +66,7 @@ export const sortValues = {
 };
 
 // Advanced search
+//TODO: refactor search field info into singular data representation with others derived
 export const searchFieldPlaceholders = {
   query: "Indtast fritekstsøgning",
   name: "Indtast navn",

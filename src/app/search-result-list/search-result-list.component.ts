@@ -5,6 +5,7 @@ import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, possibleSear
 import { eventIcon, filterTitle } from '../util/display-helpers';
 import { EventType } from '../data/data.service';
 
+//TODO: commented out some things- good or bad?
 interface SearchQueryParams {
   query?: string,
   firstName?: string,
