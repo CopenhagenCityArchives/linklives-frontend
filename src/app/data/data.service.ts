@@ -7,21 +7,6 @@ import { mapSearchKeys, sortValues } from 'src/app/search-term-values';
 import { map, share } from 'rxjs/operators';
 import groupBy from 'lodash.groupby';
 
-export interface ElasticDocResult {
-  _index: "lifecourses" | "pas" | "links",
-  _type: string,
-  _id: number|string,
-  _version: number,
-  _seq_no: number,
-  found: boolean,
-  _source: {
-    life_course_id?: number,
-    life_course_key?: string,
-    source?: Source,
-    person_appearance?: PersonAppearance | PersonAppearance[]
-  }
-}
-
 export interface LifecourseSource {
   key: string,
   life_course_ids?: number[],
