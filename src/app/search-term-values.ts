@@ -152,17 +152,6 @@ export const allOtherFields: Array<Option | Category> = [
   "lifeCourseId",
 ].map((f) => toFieldOption(f));
 
-export const fieldOptions = [
-  { category: "Navn" },
-  ...allNameFields,
-  { category: "Sted" },
-  ...allPlaceFields,
-  { category: "År" },
-  ...allYearFields,
-  { category: "Andet" },
-  ...allOtherFields,
-];
-
 export function getFieldOptions(filter) {
   const notUsedNameFields = allNameFields.filter(filter);
   let nameOptions = [];
