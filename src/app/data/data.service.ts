@@ -84,6 +84,14 @@ interface AggregationBucket<T> {
   doc_count: number,
 }
 
+interface HasCount {
+  count: number
+}
+
+export type EventTypeBucket = EventLookupKeys & HasCount;
+export type SourceBucket = SourceLookupKeys & HasCount;
+export type SimpleBucket = { key: number } & HasCount;
+
 export interface ElasticLookupResult {
   aggregations?: {
     eventType: { buckets: AggregationBucket<EventLookupKeys>[] },
@@ -168,21 +176,48 @@ export class DataService {
     };
   }
 
-  private handleResult(searchResult: ElasticSearchResult, filterLookupResult?: ElasticLookupResult): SearchResult {
-    const possibleFilters = {
-      eventType: filterLookupResult?.aggregations?.eventType?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      source: filterLookupResult?.aggregations?.source?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [],
-      eventYear: filterLookupResult?.aggregations?.eventYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
-      birthYear: filterLookupResult?.aggregations?.birthYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
-      deathYear: filterLookupResult?.aggregations?.deathYear?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [],
+  private getPossibleFilters(filterLookupResult?: ElasticLookupResult) {
+    const aggregations = filterLookupResult?.aggregations;
+
+    if(!aggregations) {
+      return {
+        eventType: [],
+        source: [],
+        eventYear: [],
+        birthYear: [],
+        deathYear: [],
+      };
     }
+
+    const getAggregation = <T>(name) => aggregations[name] as { buckets: AggregationBucket<T>[] };
+
+    const getComplexKeyFilter = <T>(name): (T & HasCount)[] => {
+      const aggregation = getAggregation<T>(name);
+      return aggregation?.buckets.map((bucket) => ({ ...bucket.key, count: bucket.doc_count })) ?? [];
+    };
+
+    const getSimpleKeyFilter = (name): SimpleBucket[] => {
+      const aggregation = getAggregation<number>(name);
+      return aggregation?.buckets.map((bucket) => ({ key: bucket.key, count: bucket.doc_count })) ?? [];
+    };
+
+    return {
+      eventType: getComplexKeyFilter<EventLookupKeys>('eventType'),
+      source: getComplexKeyFilter<SourceLookupKeys>('source'),
+      eventYear: getSimpleKeyFilter('eventYear'),
+      birthYear: getSimpleKeyFilter('birthYear'),
+      deathYear: getSimpleKeyFilter('deathYear'),
+    };
+  }
+
+  private handleResult(searchResult: ElasticSearchResult, filterLookupResult?: ElasticLookupResult): SearchResult {
     const result: SearchResult = {
       took: searchResult.took,
       totalHits: 0,
       indexHits: {},
       hits: [],
       meta: {
-        possibleFilters,
+        possibleFilters: this.getPossibleFilters(filterLookupResult),
       },
     };
 

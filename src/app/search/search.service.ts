@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 
-import { DataService, EventType, Link } from '../data/data.service';
+import { DataService, EventType, EventTypeBucket, Link, SimpleBucket, SourceBucket } from '../data/data.service';
 
 export type SearchHit = PersonAppearanceHit | LinkHit | LifecourseHit;
 
@@ -38,11 +38,11 @@ export type SearchResult = EntryCounts & {
   hits: SearchHit[],
   meta: {
     possibleFilters: {
-      eventType: Array<{ event_type: EventType, event_type_display: string, count: number }>,
-      source: Array<{ source_type_wp4: string, source_type_display: string, count: number }>
-      eventYear: Array<{ key: number, count: number }>,
-      birthYear: Array<{ key: number, count: number }>,
-      deathYear: Array<{ key: number, count: number }>,
+      eventType: Array<EventTypeBucket>,
+      source: Array<SourceBucket>
+      eventYear: Array<SimpleBucket>,
+      birthYear: Array<SimpleBucket>,
+      deathYear: Array<SimpleBucket>,
     },
   }
 }
