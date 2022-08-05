@@ -83,7 +83,6 @@ export const searchFieldPlaceholders = {
   gender: "Vælg køn",
   occupation: "Indtast Erhverv",
   role: "Indtast Rolle",
-  //maritalStatus: "Indtast civilstand",
 };
 
 export const possibleSearchQueryParams = Object.keys(searchFieldPlaceholders);
@@ -112,8 +111,6 @@ export const searchFieldLabels = {
   gender: "Køn",
   occupation: "Erhverv",
   role: "Rolle",
-  // index: "Resultattype",
-  // maritalStatus: "Civilstand",
 };
 
 export function toFieldOption(key) {

@@ -175,7 +175,6 @@ export interface AdvancedSearchQuery {
   id?: string,
   gender?: string,
   lifeCourseId?: string,
-  // maritalStatus?: string,
 }
 
 @Injectable({
