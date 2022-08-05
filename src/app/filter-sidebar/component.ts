@@ -1,6 +1,6 @@
 import { Component, OnInit, EventEmitter, forwardRef, Input, Output } from '@angular/core';
 import { NG_VALUE_ACCESSOR } from '@angular/forms';
-import { EventTypeFilterIdentifier, SourceFilterIdentifier } from '../data/data.service';
+import { EventTypeBucket, SimpleBucket, SourceBucket } from '../data/data.service';
 import { prettyNumbers, filterTitle, filterTypes, yearFilterTypes } from '../util/display-helpers';
 
 export interface Option {
@@ -27,11 +27,11 @@ export interface Option {
 export class FilterSidebar implements OnInit {
   @Input() featherIconPath: string;
   @Input() possibleFilters: {
-    eventType: Array<EventTypeFilterIdentifier & { count: number }>,
-    source: Array<SourceFilterIdentifier & { count: number }>,
-    eventYear: Array<{ key: number, count: number }>,
-    birthYear: Array<{ key: number, count: number }>,
-    deathYear: Array<{ key: number, count: number }>,
+    eventType: Array<EventTypeBucket>,
+    source: Array<SourceBucket>,
+    eventYear: Array<SimpleBucket>,
+    birthYear: Array<SimpleBucket>,
+    deathYear: Array<SimpleBucket>,
   };
   @Input() openSidebar: boolean;
   @Input()
