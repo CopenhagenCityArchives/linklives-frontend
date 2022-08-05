@@ -153,15 +153,6 @@ export interface Lifecourse {
   is_historic: boolean,
 }
 
-export interface Source {
-  id: string,
-  source_id: number,
-  year: number,
-  type: string,
-  description: string,
-  link: string,
-  institution: string,
-};
 export interface EventTypeFilterIdentifier {
   filter_type: string,
   event_type: EventType,
