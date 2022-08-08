@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { PersonAppearance, Source } from '../search/search.service';
+import { PersonAppearance } from '../data/data.service';
 
 @Component({
   selector: 'app-source-data',
@@ -12,7 +12,6 @@ export class SourceDataComponent implements OnInit {
   constructor(private route: ActivatedRoute) { }
 
   pa: PersonAppearance;
-  source: Source;
 
   get standardizedDataLines() {
     return Object.keys(this.pa.standard)
@@ -47,8 +46,7 @@ export class SourceDataComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.parent.data.subscribe((resolve) => {
-      this.pa = resolve.item.pa as PersonAppearance;
-      this.source = resolve.item.pa.source || {}; //TODO: remove this || guarding that only exists because of broken staging data
+      this.pa = resolve.item.pa;
     });
   }
 

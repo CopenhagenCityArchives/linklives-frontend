@@ -18,7 +18,7 @@ export const mapSearchKeys = {
   },
   birthName: {
     default: "birthname_searchable",
-    fuzzy: "birthname_searchable_fz",
+    fuzzy: "birthname_searchable",
   },
   birthPlace: {
     default: "birthplace_searchable",
@@ -42,7 +42,7 @@ export const mapSearchKeys = {
   },
   deathPlace: {
     default: "deathplace_searchable",
-    fuzzy: "deathplace_searchable_fz",
+    fuzzy: "deathplace_searchable",
   },
   gender: {
     default: "gender_searchable",
@@ -66,6 +66,7 @@ export const sortValues = {
 };
 
 // Advanced search
+//TODO: refactor search field info into singular data representation with others derived
 export const searchFieldPlaceholders = {
   query: "Indtast fritekstsøgning",
   name: "Indtast navn",
@@ -83,7 +84,6 @@ export const searchFieldPlaceholders = {
   gender: "Vælg køn",
   occupation: "Indtast Erhverv",
   role: "Indtast Rolle",
-  //maritalStatus: "Indtast civilstand",
 };
 
 export const possibleSearchQueryParams = Object.keys(searchFieldPlaceholders);
@@ -112,8 +112,6 @@ export const searchFieldLabels = {
   gender: "Køn",
   occupation: "Erhverv",
   role: "Rolle",
-  // index: "Resultattype",
-  // maritalStatus: "Civilstand",
 };
 
 export function toFieldOption(key) {
@@ -151,17 +149,6 @@ export const allOtherFields: Array<Option | Category> = [
   "id",
   "lifeCourseId",
 ].map((f) => toFieldOption(f));
-
-export const fieldOptions = [
-  { category: "Navn" },
-  ...allNameFields,
-  { category: "Sted" },
-  ...allPlaceFields,
-  { category: "År" },
-  ...allYearFields,
-  { category: "Andet" },
-  ...allOtherFields,
-];
 
 export function getFieldOptions(filter) {
   const notUsedNameFields = allNameFields.filter(filter);

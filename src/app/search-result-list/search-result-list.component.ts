@@ -1,10 +1,11 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router, ActivatedRoute  } from '@angular/router';
-import { AdvancedSearchQuery, SearchResult } from '../search/search.service';
+import { AdvancedSearchQuery, SearchResult } from '../data/data.service';
 import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, possibleSearchQueryParams, getFieldOptions, genderOptions } from 'src/app/search-term-values';
 import { eventIcon, filterTitle } from '../util/display-helpers';
 import { EventType } from '../data/data.service';
 
+//TODO: commented out some things- good or bad?
 interface SearchQueryParams {
   query?: string,
   firstName?: string,

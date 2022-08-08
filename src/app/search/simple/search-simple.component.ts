@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AdvancedSearchQuery, EntryCounts } from '../search.service';
+import { AdvancedSearchQuery, EntryCounts } from '../../data/data.service';
 import { searchFieldPlaceholders, searchFieldLabels, getFieldOptions, genderOptions } from 'src/app/search-term-values';
 import { prettyNumbers } from 'src/app/util/display-helpers';
 import { DataService } from 'src/app/data/data.service';
