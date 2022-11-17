@@ -1,6 +1,10 @@
 <section class="lls-results-header">
     <div class="lls-container">
         <div class="lls-results-header__link-section">
+            <lls-download-link
+                [featherIconPath]="config.featherIconPath"
+                cssClass="lls-results-header__link lls-results-header__history-link u-mr-4"
+            ></lls-download-link>
             <a
                 (click)="openSearchHistory = true"
                 (keyup.enter)="openSearchHistory = true"
@@ -284,7 +288,7 @@
                     <use [attr.href]="featherSpriteUrl + '#chevron-left'"></use>
                 </svg>
             </a>
-            
+
             <a class="lls-pagination__item"
                 *ngFor="let page of pagination.navigationPages"
                 [ngClass]="{ 'lls-pagination__item--selected': pagination.current === page }"

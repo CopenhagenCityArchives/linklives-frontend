@@ -29,6 +29,7 @@ import { ModalComponent } from './modal/component';
 import { environment } from 'src/environments/environment';
 import { AnalyticsModule } from './analytics.module';
 import { UserManagementService } from './user-management/service';
+import { DownloadDataLink } from './download-data-link/component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { UserManagementService } from './user-management/service';
     FilterSidebar,
     UserProfilePage,
     ModalComponent,
+    DownloadDataLink,
   ],
   imports: [
     BrowserModule,

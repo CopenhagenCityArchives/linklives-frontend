@@ -1,0 +1,76 @@
+<app-loading-overlay
+  [class]="openModal ? '' : 'u-hide'"
+></app-loading-overlay>
+<div>
+  <ng-container>
+    <a
+      tabindex="0"
+      [class]="cssClass ? cssClass : 'lls-link'"
+      (click)="toggleModal(true, $event)"
+      (keyup.enter)="toggleModal(true, $event)"
+    >
+       Hent
+    </a>
+    <app-modal
+      [show]="openModal"
+      title="Downloade data fra link-lives.dk"
+      [featherIconPath]="featherIconPath"
+      (close)="openModal = false"
+    >
+      <div>
+        <ng-container *ngIf="allowedDownloadData; else notAllowedBlock">
+          <p>
+            Du vil gerne dowloade data fra link-lives.dk.
+          </p>
+          <p>
+            Bemærk at hvis dit søgeresultat er større en {{ sourceDownloadLimit }} resultater hentes kun de første {{ sourceDownloadLimit }}.
+          </p>
+          <div>
+            <div>
+              <label class="u-text-small u-flex u-align-items u-direction-row">
+                Jeg bekræfter at data er til privat brug, forskning eller studieopgave
+                <input
+                  type="checkbox"
+                  class="u-ml-2"
+                >
+              </label>
+            </div>
+            <div>
+              <label class="u-text-small u-flex u-align-items u-direction-row">
+                Jeg vil ikke publicere data i sin helhed eller anvende det i kommerciel øjemed.
+                <input
+                  type="checkbox"
+                  class="u-ml-2"
+                >
+              </label>
+            </div>
+          </div>
+          <p>Download som:</p>
+          <div class="u-flex u-justify-center">
+            <button
+              class="lls-btn u-mx-2"
+            >
+              CSV
+            </button>
+            <button
+              class="lls-btn u-mx-2"
+            >
+              Excel (.xlxs)
+            </button>
+          </div>
+        </ng-container>
+        <ng-template #notAllowedBlock>
+          <p>
+            Du vil gerne dowloade data fra link-lives.dk.
+          </p>
+          <p>
+            Den datamængder du forsøger at downloade overskrider kriterierne fra download.
+            Begræns dit søgeresultat ved at opsætte minumum X kriterier og bemærk at hvis dit
+            søgeresultat er større en {{ sourceDownloadLimit }} resultater hentes kun de første {{ sourceDownloadLimit }}.
+          </p>
+        </ng-template>
+
+      </div>
+    </app-modal>
+  </ng-container>
+</div>
