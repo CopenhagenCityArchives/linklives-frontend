@@ -8,7 +8,11 @@ import { getLatestSearchQuery, getSearchHistory, SearchHistoryEntryType } from '
   templateUrl: './person-appearance.component.html',
 })
 export class PersonAppearanceComponent implements OnInit {
-  featherSpriteUrl = window["lls"].featherIconPath;
+  get config() {
+    return window["lls"];
+  }
+
+  featherSpriteUrl = this.config.featherIconPath;
   openSearchHistory: boolean = false;
   getLatestSearchQuery = getLatestSearchQuery;
 
