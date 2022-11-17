@@ -25,8 +25,8 @@ export class DownloadDataLink implements OnInit {
   prettyNumbers = prettyNumbers;
 
   openModal: boolean = false;
-  allowedDownloadData: boolean = false;
   sourceDownloadLimit: number = 10000; // placeholder number
+  sourceCount: number = 0; // PLACEHOLDER. Should get from length of data-list.
   user;
   downloadFormats: Array<object> = [
     {
@@ -41,6 +41,13 @@ export class DownloadDataLink implements OnInit {
   chosenDownloadFormat: string = "";
   consent1: boolean = false;
   consent2: boolean = false;
+
+  get compliantDownloadData() {
+    if (this.user && this.sourceCount <= this.sourceDownloadLimit) {
+      return true;
+    }
+    return false;
+  }
 
   get downloadActive() {
     if(this.user && this.chosenDownloadFormat && this.consent1 && this.consent2) {
@@ -63,9 +70,6 @@ export class DownloadDataLink implements OnInit {
 
   async ngOnInit(): Promise<void> {
     this.user = await this.userManagement.getUser();
-    if (this.user) {
-      this.allowedDownloadData = true;
-    }
   }
 
   constructor(

@@ -17,7 +17,7 @@
     (close)="openModal = false"
   >
     <div class="u-text-left">
-      <ng-container *ngIf="allowedDownloadData; else notAllowedBlock">
+      <ng-container *ngIf="compliantDownloadData; else notAllowedBlock">
         <p>
           Du vil gerne dowloade data fra link-lives.dk.
         </p>
