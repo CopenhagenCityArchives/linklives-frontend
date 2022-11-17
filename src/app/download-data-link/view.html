@@ -81,7 +81,7 @@
         </p>
         <p>
           Den datamængder du forsøger at downloade overskrider kriterierne fra download.
-          Begræns dit søgeresultat ved at opsætte minumum X kriterier og bemærk at hvis dit
+          Begræns dit søgeresultat ved at opsætte minumum {{ prettyNumbers(minimumSearchQueryFields) }} kriterier og bemærk at hvis dit
           søgeresultat er større en {{ prettyNumbers(sourceDownloadLimit) }} resultater hentes kun de første {{ prettyNumbers(sourceDownloadLimit) }}.
         </p>
       </ng-template>

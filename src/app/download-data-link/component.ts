@@ -25,8 +25,10 @@ export class DownloadDataLink implements OnInit {
   prettyNumbers = prettyNumbers;
 
   openModal: boolean = false;
-  sourceDownloadLimit: number = 10000; // placeholder number
-  sourceCount: number = 0; // PLACEHOLDER. Should get from length of data-list.
+  sourceDownloadLimit: number = 500;
+  minimumSearchQueryFields: number = 2;
+  searchQueryFields: number = 2; // PLACEHOLDER. TODO: Should get from search data.
+  sourceCount: number = 0; // PLACEHOLDER. TODO: Should get from length of data-list.
   user;
   downloadFormats: Array<object> = [
     {
@@ -43,7 +45,11 @@ export class DownloadDataLink implements OnInit {
   consent2: boolean = false;
 
   get compliantDownloadData() {
-    if (this.user && this.sourceCount <= this.sourceDownloadLimit) {
+    if(
+      this.user &&
+      this.sourceCount <= this.sourceDownloadLimit &&
+      this.searchQueryFields >= this.minimumSearchQueryFields
+    ) {
       return true;
     }
     return false;
