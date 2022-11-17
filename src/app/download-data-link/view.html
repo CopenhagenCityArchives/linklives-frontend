@@ -23,42 +23,59 @@
             Du vil gerne dowloade data fra link-lives.dk.
           </p>
           <p>
-            Bemærk at hvis dit søgeresultat er større en {{ sourceDownloadLimit }} resultater hentes kun de første {{ sourceDownloadLimit }}.
+            Bemærk at hvis dit søgeresultat er større en {{ prettyNumbers(sourceDownloadLimit) }} resultater hentes
+            kun de første {{ prettyNumbers(sourceDownloadLimit) }}.
           </p>
-          <div>
+
+          <section class="u-mt-4">
             <div>
-              <label class="u-text-small u-flex u-align-items u-direction-row">
-                Jeg bekræfter at data er til privat brug, forskning eller studieopgave
-                <input
-                  type="checkbox"
-                  class="u-ml-2"
-                >
-              </label>
+              <h4>Vælg format</h4>
+              <div *ngFor="let option of downloadFormats">
+                <label class="u-text-small u-flex u-align-items u-direction-row">
+                  <input type="radio"
+                    [(ngModel)]="chosenDownloadFormat"
+                    [value]="option.value"
+                    name="downloadFormat"
+                    class="u-mr-2"
+                  >
+                  {{ option.label }}
+                </label>
+              </div>
             </div>
-            <div>
-              <label class="u-text-small u-flex u-align-items u-direction-row">
-                Jeg vil ikke publicere data i sin helhed eller anvende det i kommerciel øjemed.
-                <input
-                  type="checkbox"
-                  class="u-ml-2"
-                >
-              </label>
+            <div class="u-mt-4">
+              <h4>Accepter kriterier</h4>
+              <div>
+                <label class="u-text-small u-flex u-align-items u-direction-row">
+                  Jeg bekræfter at data er til privat brug, forskning eller studieopgave
+                  <input
+                    [(ngModel)]="consent1"
+                    type="checkbox"
+                    class="u-ml-2"
+                  >
+                </label>
+              </div>
+              <div>
+                <label class="u-text-small u-flex u-align-items u-direction-row">
+                  Jeg vil ikke publicere data i sin helhed eller anvende det i kommerciel øjemed.
+                  <input
+                    [(ngModel)]="consent2"
+                    type="checkbox"
+                    class="u-ml-2"
+                  >
+                </label>
+              </div>
             </div>
-          </div>
-          <p>Download som:</p>
-          <div class="u-flex u-justify-center">
-            <button
-              class="lls-btn u-mx-2"
-            >
-              CSV
-            </button>
-            <button
-              class="lls-btn u-mx-2"
-            >
-              Excel (.xlxs)
-            </button>
-          </div>
+            <div class="u-flex u-justify-center u-mt-4">
+              <button
+                [disabled]="!downloadActive"
+                class="lls-btn"
+              >
+                Download data
+              </button>
+            </div>
+          </section>
         </ng-container>
+
         <ng-template #notAllowedBlock>
           <p>
             Du vil gerne dowloade data fra link-lives.dk.
@@ -66,10 +83,9 @@
           <p>
             Den datamængder du forsøger at downloade overskrider kriterierne fra download.
             Begræns dit søgeresultat ved at opsætte minumum X kriterier og bemærk at hvis dit
-            søgeresultat er større en {{ sourceDownloadLimit }} resultater hentes kun de første {{ sourceDownloadLimit }}.
+            søgeresultat er større en {{ prettyNumbers(sourceDownloadLimit) }} resultater hentes kun de første {{ prettyNumbers(sourceDownloadLimit) }}.
           </p>
         </ng-template>
-
       </div>
     </app-modal>
   </ng-container>

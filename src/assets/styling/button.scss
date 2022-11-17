@@ -41,7 +41,8 @@
   font-size: 0.7rem;
 }
 
-.lls-btn--disabled {
+.lls-btn--disabled,
+.lls-btn:disabled {
   cursor: default;
   color: rgb(200, 200, 200);
   background-color: rgb(55, 55, 55);
