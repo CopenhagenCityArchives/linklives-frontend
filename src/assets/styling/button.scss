@@ -73,6 +73,12 @@
   }
 }
 
+.lls-btn--white {
+  color: $off-black;
+  background-color: white;
+  border-color: white;
+}
+
 .lls-btn--grey {
   color: white;
   background-color: $grey;
@@ -96,6 +102,16 @@
   &:hover {
     background-color: transparent;
     color: $off-black;
+  }
+
+  &.lls-btn--white {
+    border-color: white;
+    color: white;
+
+    &:hover {
+      color: white;
+      border-color: rgba(255, 255, 255, 0.75);
+    }
   }
 }
 
