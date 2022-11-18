@@ -1,7 +1,7 @@
-import { Component, OnInit, EventEmitter, forwardRef, Input, Output } from '@angular/core';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
+import { Component, OnInit, Input } from '@angular/core';
 import { prettyNumbers } from '../util/display-helpers';
 import { UserManagementService } from '../user-management/service';
+import { DownloadService } from '../data/download.service';
 
 @Component({
   selector: 'lls-download-link',
@@ -22,6 +22,7 @@ export class DownloadDataLink implements OnInit {
   minimumSearchQueryFields: number = 2;
   searchQueryFields: number = 2; // PLACEHOLDER. TODO: Should get from search data.
   sourceCount: number = 0; // PLACEHOLDER. TODO: Should get from length of data-list.
+  data;
   user;
   downloadFormats: Array<object> = [
     {
@@ -67,11 +68,17 @@ export class DownloadDataLink implements OnInit {
     }
   }
 
+  downloadData() {
+    console.warn("download data")
+    this.downloadService.sendDownloadRequest(this.chosenDownloadFormat, this.data);
+  }
+
   async ngOnInit(): Promise<void> {
     this.user = await this.userManagement.getUser();
   }
 
   constructor(
     public userManagement: UserManagementService,
+    private downloadService: DownloadService,
   ) {}
 }
