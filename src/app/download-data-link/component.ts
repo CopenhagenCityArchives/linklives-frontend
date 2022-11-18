@@ -13,7 +13,8 @@ import { DownloadService } from '../data/download.service';
 
 export class DownloadDataLink implements OnInit {
   @Input() featherIconPath: string;
-  @Input() cssClass: string
+  @Input() cssClass: string;
+  @Input() paKey?: string;
 
   prettyNumbers = prettyNumbers;
 
@@ -22,7 +23,7 @@ export class DownloadDataLink implements OnInit {
   minimumSearchQueryFields: number = 2;
   searchQueryFields: number = 2; // PLACEHOLDER. TODO: Should get from search data.
   sourceCount: number = 0; // PLACEHOLDER. TODO: Should get from length of data-list.
-  data;
+  sourceData: object = { "k": 9 };
   user;
   downloadFormats: Array<object> = [
     {
@@ -30,8 +31,8 @@ export class DownloadDataLink implements OnInit {
       value: "csv",
     },
     {
-      label: "Excel (xsxl)",
-      value: "xsxl",
+      label: "Excel (xlxs)",
+      value: "xlxs",
     }
   ]
   chosenDownloadFormat: string = "";
@@ -69,8 +70,18 @@ export class DownloadDataLink implements OnInit {
   }
 
   downloadData() {
-    console.warn("download data")
-    this.downloadService.sendDownloadRequest(this.chosenDownloadFormat, this.data);
+    this.downloadService.sendDownloadRequest(this.chosenDownloadFormat, this.sourceData, this.paKey).subscribe({
+      error: (e) => {
+        if(e.message.match(/Login required/i)) {
+          this.userManagement.handleLogin();
+          return;
+        }
+        throw e;
+      },
+      complete: () => {
+        console.log("SUCCESS")
+      }
+    });
   }
 
   async ngOnInit(): Promise<void> {

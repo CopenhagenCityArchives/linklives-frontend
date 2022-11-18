@@ -10,7 +10,7 @@ import { environment } from "src/environments/environment";
 export class DownloadService {
   constructor(private http: HttpClient) {}
 
-  sendDownloadRequest(fileType: any, data: any): Observable<any> {
-    return this.http.post<any>(`${environment.apiUrl}/download.${fileType}`, data);
+  sendDownloadRequest(fileType: any, data: any, sourceId: string): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/personappearance/${sourceId}/download.${fileType}`, data);
   }
 }
