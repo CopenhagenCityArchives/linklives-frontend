@@ -6,13 +6,6 @@ import { UserManagementService } from '../user-management/service';
 @Component({
   selector: 'lls-download-link',
   templateUrl: './view.html',
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => DownloadDataLink),
-      multi: true
-    },
-  ],
   host: {
     '(document:keyup.escape)': 'closeOnEsc()'
   }

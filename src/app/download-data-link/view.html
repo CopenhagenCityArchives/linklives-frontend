@@ -12,7 +12,7 @@
   </a>
   <app-modal
     [show]="openModal"
-    title="Downloade data fra link-lives.dk"
+    title="Download data fra link-lives.dk"
     [featherIconPath]="featherIconPath"
     (close)="openModal = false"
   >
@@ -22,7 +22,7 @@
           Du vil gerne dowloade data fra link-lives.dk.
         </p>
         <p>
-          Bemærk at hvis dit søgeresultat er større en {{ prettyNumbers(sourceDownloadLimit) }} resultater hentes
+          Bemærk at hvis dit søgeresultat er større end {{ prettyNumbers(sourceDownloadLimit) }} resultater hentes
           kun de første {{ prettyNumbers(sourceDownloadLimit) }}.
         </p>
 
@@ -42,7 +42,7 @@
             </div>
           </div>
           <div class="u-mt-4">
-            <h4>Accepter kriterier</h4>
+            <h4>Acceptér kriterier</h4>
             <div>
               <label class="u-text-small u-flex u-align-items u-direction-row">
                 Jeg bekræfter at data er til privat brug, forskning eller studieopgave
@@ -80,9 +80,9 @@
           Du vil gerne dowloade data fra link-lives.dk.
         </p>
         <p>
-          Den datamængder du forsøger at downloade overskrider kriterierne fra download.
+          Den datamængder du forsøger at downloade overskrider kriterierne for download.
           Begræns dit søgeresultat ved at opsætte minumum {{ prettyNumbers(minimumSearchQueryFields) }} kriterier og bemærk at hvis dit
-          søgeresultat er større en {{ prettyNumbers(sourceDownloadLimit) }} resultater hentes kun de første {{ prettyNumbers(sourceDownloadLimit) }}.
+          søgeresultat er større end {{ prettyNumbers(sourceDownloadLimit) }} resultater hentes kun de første {{ prettyNumbers(sourceDownloadLimit) }}.
         </p>
       </ng-template>
     </div>
