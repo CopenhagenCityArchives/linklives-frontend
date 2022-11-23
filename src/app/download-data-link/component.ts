@@ -70,22 +70,16 @@ export class DownloadDataLink implements OnInit {
   }
 
   saveFile(data, format) {
+    const formatUrl = {
+      csv: `data:text/csv;charset=utf-8,${encodeURI(data)}`,
+      xlsx: `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8,${encodeURI(data)}`,
+    }
+
     const hiddenElement = document.createElement('a');
     hiddenElement.target = '_blank';
-
-    if (format === "csv") {
-      const csv = data;
-      hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-      hiddenElement.download = `${this.paKey}.csv`;
-    }
-
-    if (format === "xlsx") {
-      // TODO: Fix xlsx data
-      hiddenElement.href = "url";
-      hiddenElement.download = `${this.paKey}.xlsx`;
-    }
-
+    hiddenElement.href = formatUrl[format];
     //provide the name for the CSV file to be downloaded
+    hiddenElement.download = `${this.paKey}.${format}`;
     hiddenElement.click();
   }
 
