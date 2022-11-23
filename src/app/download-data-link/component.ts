@@ -31,8 +31,8 @@ export class DownloadDataLink implements OnInit {
       value: "csv",
     },
     {
-      label: "Excel (xlxs)",
-      value: "xlxs",
+      label: "Excel (xlsx)",
+      value: "xlsx",
     }
   ]
   chosenDownloadFormat: string = "";
@@ -69,19 +69,22 @@ export class DownloadDataLink implements OnInit {
     }
   }
 
+  downloadCsvFile(data) {
+    console.log("data", data)
+    const csv = data;
+    document.write(csv);
+    const hiddenElement = document.createElement('a');
+    hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+    hiddenElement.target = '_blank';
+
+    //provide the name for the CSV file to be downloaded
+    hiddenElement.download = `${this.paKey}.csv`;
+    hiddenElement.click();
+  }
+
   downloadData() {
-    this.downloadService.sendDownloadRequest(this.chosenDownloadFormat, this.sourceData, this.paKey).subscribe({
-      error: (e) => {
-        if(e.message.match(/Login required/i)) {
-          this.userManagement.handleLogin();
-          return;
-        }
-        throw e;
-      },
-      complete: () => {
-        console.log("SUCCESS")
-      }
-    });
+    this.downloadService.getDownloadData(this.chosenDownloadFormat, this.paKey)
+      .subscribe(results => this.downloadCsvFile(results));
   }
 
   async ngOnInit(): Promise<void> {
