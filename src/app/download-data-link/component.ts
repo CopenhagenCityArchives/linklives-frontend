@@ -3,6 +3,13 @@ import { prettyNumbers } from '../util/display-helpers';
 import { UserManagementService } from '../user-management/service';
 import { DownloadService } from '../data/download.service';
 
+interface inputData {
+  type: string,
+  id?: string,
+  query?: string,
+  estimated_results: number
+}
+
 @Component({
   selector: 'lls-download-link',
   templateUrl: './view.html',
@@ -11,10 +18,11 @@ import { DownloadService } from '../data/download.service';
   }
 })
 
+
 export class DownloadDataLink implements OnInit {
   @Input() featherIconPath: string;
   @Input() cssClass: string;
-  @Input() paKey?: string;
+  @Input() data: inputData;
 
   prettyNumbers = prettyNumbers;
 
@@ -23,7 +31,6 @@ export class DownloadDataLink implements OnInit {
   minimumSearchQueryFields: number = 2;
   searchQueryFields: number = 2; // PLACEHOLDER. TODO: Should get from search data.
   sourceCount: number = 0; // PLACEHOLDER. TODO: Should get from length of data-list.
-  sourceData: object = { "k": 9 };
   user;
   downloadFormats: Array<object> = [
     {
@@ -42,7 +49,7 @@ export class DownloadDataLink implements OnInit {
   get compliantDownloadData() {
     if(
       this.user &&
-      this.sourceCount <= this.sourceDownloadLimit &&
+      this.data.estimated_results <= this.sourceDownloadLimit &&
       this.searchQueryFields >= this.minimumSearchQueryFields
     ) {
       return true;
@@ -79,12 +86,12 @@ export class DownloadDataLink implements OnInit {
     hiddenElement.target = '_blank';
     hiddenElement.href = formatUrl[format];
     //provide the name for the CSV file to be downloaded
-    hiddenElement.download = `${this.paKey}.${format}`;
+    hiddenElement.download = `${this.data.id}.${format}`;
     hiddenElement.click();
   }
 
   downloadData() {
-    this.downloadService.sendDownloadRequest(this.chosenDownloadFormat, this.paKey)
+    this.downloadService.sendDownloadRequest(this.chosenDownloadFormat, this.data.type, this.data.id, this.data.query)
       .subscribe(results => this.saveFile(results, this.chosenDownloadFormat));
   }
 

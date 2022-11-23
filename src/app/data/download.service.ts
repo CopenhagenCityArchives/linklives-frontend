@@ -11,8 +11,14 @@ import { environment } from "src/environments/environment";
 export class DownloadService {
   constructor(private http: HttpClient) {}
 
-  sendDownloadRequest(fileType: any, sourceId: string) {
-    const url = `${environment.apiUrl}/PersonAppearance/${sourceId}/download.${fileType}`
+  sendDownloadRequest(fileType: any, sourceType: string, sourceId?: string, query?: string) {
+    const sourceTypeApiMap = {
+      person_registration: "PersonAppearance",
+      life_course: "LifeCourse",
+      search_data: "SearchQuery",
+    }
+
+    const url = `${environment.apiUrl}/${sourceTypeApiMap[sourceType]}/${sourceId}/download.${fileType}`
     const options = { responseType: 'text' as const };
     return this.http.post(url, "", options);
   }
