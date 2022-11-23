@@ -69,10 +69,8 @@ export class DownloadDataLink implements OnInit {
     }
   }
 
-  downloadCsvFile(data) {
-    console.log("data", data)
+  saveCsvFile(data) {
     const csv = data;
-    document.write(csv);
     const hiddenElement = document.createElement('a');
     hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
     hiddenElement.target = '_blank';
@@ -83,8 +81,8 @@ export class DownloadDataLink implements OnInit {
   }
 
   downloadData() {
-    this.downloadService.getDownloadData(this.chosenDownloadFormat, this.paKey)
-      .subscribe(results => this.downloadCsvFile(results));
+    this.downloadService.sendDownloadRequest(this.chosenDownloadFormat, this.paKey)
+      .subscribe(results => this.saveCsvFile(results));
   }
 
   async ngOnInit(): Promise<void> {

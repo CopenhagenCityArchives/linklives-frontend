@@ -11,21 +11,16 @@ import { environment } from "src/environments/environment";
 export class DownloadService {
   constructor(private http: HttpClient) {}
 
-  sendDownloadRequest(fileType: any, data: any, sourceId: string): Observable<any> {
-    return this.http.post<any>(
-      `${environment.apiUrl}/PersonAppearance/${sourceId}/download.${fileType}`,
-      { responseType: 'text' },
-      data
-    );
+  sendDownloadRequest(fileType: any, sourceId: string) {
+    const url = `${environment.apiUrl}/PersonAppearance/${sourceId}/download.${fileType}`
+    const options = { responseType: 'text' as const };
+    return this.http.post(url, "", options);
   }
 
-  getDownloadData(fileType: any, sourceId: string): Observable<string> {
-    // The Observable returned by get() is of type Observable<string>
-    // because a text response was specified.
-    // There's no need to pass a <string> type parameter to get().
-    return this.http.post<string>(`${environment.apiUrl}/PersonAppearance/${sourceId}/download.${fileType}`, {responseType: 'text'})
+  getDownloadData(fileType: any, sourceId: string) {
+    return this.http.post(`${environment.apiUrl}/PersonAppearance/${sourceId}/download.${fileType}`,"", {responseType: 'text'})
       .pipe(
-        tap( // Log the result or error
+        tap(
         {
           next: (data) => console.log(sourceId, data),
           error: (error) => console.error(sourceId, error)
