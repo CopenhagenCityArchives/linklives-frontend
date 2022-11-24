@@ -30,7 +30,6 @@ export class DownloadDataLink implements OnInit {
   sourceDownloadLimit: number = 500;
   minimumSearchQueryFields: number = 2;
   searchQueryFields: number = 2; // PLACEHOLDER. TODO: Should get from search data.
-  sourceCount: number = 0; // PLACEHOLDER. TODO: Should get from length of data-list.
   user;
   downloadFormats: Array<object> = [
     {
@@ -47,26 +46,32 @@ export class DownloadDataLink implements OnInit {
   consent2: boolean = false;
 
   get compliantDownloadData() {
-    if(
-      this.user &&
-      this.data.estimated_results <= this.sourceDownloadLimit &&
-      this.searchQueryFields >= this.minimumSearchQueryFields
-    ) {
-      return true;
+    if (!this.user) {
+      return false;
     }
-    return false;
+    if (this.data.estimated_results > this.sourceDownloadLimit) {
+      return false;
+    }
+    if (this.searchQueryFields < this.minimumSearchQueryFields) {
+      return false
+    }
+    return true;
   }
 
   get downloadActive() {
-    if(this.user && this.chosenDownloadFormat && this.consent1 && this.consent2) {
-      return true;
+    if (!this.user) {
+      return false;
     }
-    return false;
-  }
-
-  toggleModal(showModal: boolean, $event) {
-    $event.preventDefault();
-    this.openModal = true;
+    if (!this.chosenDownloadFormat) {
+      return false;
+    }
+    if (!this.consent1) {
+      return false;
+    }
+    if (!this.consent2) {
+      return false;
+    }
+    return true;
   }
 
   closeOnEsc() {

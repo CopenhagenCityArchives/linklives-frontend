@@ -5,8 +5,8 @@
   <a
     tabindex="0"
     [class]="cssClass ? cssClass : 'lls-link'"
-    (click)="toggleModal(true, $event)"
-    (keyup.enter)="toggleModal(true, $event)"
+    (click)="openModal = true"
+    (keyup.enter)="openModal = true"
   >
       Hent
   </a>
