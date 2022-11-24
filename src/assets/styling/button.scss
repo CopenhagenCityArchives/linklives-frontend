@@ -13,6 +13,7 @@
   letter-spacing: 1.2px;
   line-height: 1.5rem;
   transition: background-color 0.2s;
+  cursor: pointer;
 
   &:hover {
     background-color: lighten(#000, 5%);
@@ -41,7 +42,8 @@
   font-size: 0.7rem;
 }
 
-.lls-btn--disabled {
+.lls-btn--disabled,
+.lls-btn:disabled {
   cursor: default;
   color: rgb(200, 200, 200);
   background-color: rgb(55, 55, 55);
@@ -71,6 +73,12 @@
   }
 }
 
+.lls-btn--white {
+  color: $off-black;
+  background-color: white;
+  border-color: white;
+}
+
 .lls-btn--grey {
   color: white;
   background-color: $grey;
@@ -94,6 +102,16 @@
   &:hover {
     background-color: transparent;
     color: $off-black;
+  }
+
+  &.lls-btn--white {
+    border-color: white;
+    color: white;
+
+    &:hover {
+      color: white;
+      border-color: rgba(255, 255, 255, 0.75);
+    }
   }
 }
 

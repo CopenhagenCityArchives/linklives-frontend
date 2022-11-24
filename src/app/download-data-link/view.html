@@ -1,0 +1,91 @@
+<app-loading-overlay
+  [class]="openModal ? '' : 'u-hide'"
+></app-loading-overlay>
+<ng-container>
+  <a
+    tabindex="0"
+    [class]="cssClass ? cssClass : 'lls-link'"
+    (click)="openModal = true"
+    (keyup.enter)="openModal = true"
+  >
+      Hent
+  </a>
+  <app-modal
+    [show]="openModal"
+    title="Download data fra link-lives.dk"
+    [featherIconPath]="featherIconPath"
+    (close)="openModal = false"
+  >
+    <div class="u-text-left">
+      <ng-container *ngIf="compliantDownloadData; else notAllowedBlock">
+        <p>
+          Du vil gerne dowloade data fra link-lives.dk.
+        </p>
+        <p>
+          Bemærk at hvis dit søgeresultat er større end {{ prettyNumbers(sourceDownloadLimit) }} resultater hentes
+          kun de første {{ prettyNumbers(sourceDownloadLimit) }}.
+        </p>
+
+        <section class="u-mt-4">
+          <div>
+            <h4>Vælg format</h4>
+            <div *ngFor="let option of downloadFormats">
+              <label class="u-text-small u-flex u-align-items u-direction-row">
+                <input type="radio"
+                  [(ngModel)]="chosenDownloadFormat"
+                  [value]="option.value"
+                  name="downloadFormat"
+                  class="u-mr-2"
+                >
+                {{ option.label }}
+              </label>
+            </div>
+          </div>
+          <div class="u-mt-4">
+            <h4>Acceptér kriterier</h4>
+            <div>
+              <label class="u-text-small u-flex u-align-items u-direction-row">
+                Jeg bekræfter at data er til privat brug, forskning eller studieopgave
+                <input
+                  [(ngModel)]="consent1"
+                  type="checkbox"
+                  class="u-ml-2"
+                >
+              </label>
+            </div>
+            <div>
+              <label class="u-text-small u-flex u-align-items u-direction-row">
+                Jeg vil ikke publicere data i sin helhed eller anvende det i kommerciel øjemed.
+                <input
+                  [(ngModel)]="consent2"
+                  type="checkbox"
+                  class="u-ml-2"
+                >
+              </label>
+            </div>
+          </div>
+          <div class="u-flex u-justify-center u-mt-4">
+            <button
+              [disabled]="!downloadActive"
+              (click)="downloadData()"
+              class="lls-btn"
+            >
+              Download data
+            </button>
+          </div>
+        </section>
+      </ng-container>
+
+      <ng-template #notAllowedBlock>
+        <p>
+          Du vil gerne dowloade data fra link-lives.dk.
+        </p>
+        <p>
+          Den datamængder du forsøger at downloade overskrider kriterierne for download.
+          Begræns dit søgeresultat ved at opsætte minumum {{ prettyNumbers(minimumSearchQueryFields) }} kriterier og bemærk at hvis dit
+          søgeresultat er større end {{ prettyNumbers(sourceDownloadLimit) }} resultater hentes kun de første {{ prettyNumbers(sourceDownloadLimit) }}.
+        </p>
+      </ng-template>
+    </div>
+  </app-modal>
+</ng-container>
