@@ -31,7 +31,7 @@ export class DownloadDataLink implements OnInit {
   user;
   downloadFormats: Array<object> = [
     {
-      label: "csv",
+      label: "CSV",
       value: "csv",
     },
     {
