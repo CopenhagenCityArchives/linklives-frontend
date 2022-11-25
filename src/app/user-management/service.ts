@@ -35,7 +35,10 @@ export class UserManagementService {
   }
 
   getUser(): Promise<User> {
-    return new Promise((resolve) => this.auth.user$.subscribe(resolve));
+    return new Promise((resolve, reject) => this.auth.user$.subscribe({
+      next: resolve,
+      error: reject,
+    }));
   }
 
   async getProfile() {

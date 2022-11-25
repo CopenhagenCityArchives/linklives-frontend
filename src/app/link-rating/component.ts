@@ -142,6 +142,6 @@ export class LinkRatingComponent implements OnInit {
   constructor(
     private router: Router,
     private ratingService: RatingService,
-    public userManagement: UserManagementService,
+    private userManagement: UserManagementService,
   ) {}
 }

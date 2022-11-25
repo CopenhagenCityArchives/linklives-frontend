@@ -51,7 +51,7 @@ export class DownloadDataLink implements OnInit {
       return false;
     }
     if (this.searchQueryFields < this.minimumSearchQueryFields) {
-      return false
+      return false;
     }
     return true;
   }
@@ -103,7 +103,7 @@ export class DownloadDataLink implements OnInit {
   }
 
   constructor(
-    public userManagement: UserManagementService,
+    private userManagement: UserManagementService,
     private downloadService: DownloadService,
   ) {}
 }
