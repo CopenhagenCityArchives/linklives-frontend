@@ -3,6 +3,7 @@
 ></app-loading-overlay>
 <ng-container>
   <a
+    *ngIf="user"
     tabindex="0"
     [class]="cssClass ? cssClass : 'lls-link'"
     (click)="openModal = true"
