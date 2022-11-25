@@ -13,7 +13,7 @@ export class DownloadService {
 
   sendDownloadRequest(fileType: any, sourceType: string, sourceId?: string, query?: string) {
     const sourceTypeApiMap = {
-      person_registration: "PersonAppearance",
+      person_appearance: "PersonAppearance",
       life_course: "LifeCourse",
       search_data: "SearchQuery",
     }
