@@ -80,17 +80,25 @@ export class DownloadDataLink implements OnInit {
     }
   }
 
-  saveFile(data, format) {
-    const prefix = {
-      csv: `data:text/csv;base64,`,
-      xlsx: `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,`,
-    }[format];
+  saveFile(response, format) {
+    const contentType = response.headers.get("Content-Type");
+    const data = Buffer.from(response.body).toString("base64");
+
+    let filename = `${this.data.type}.${this.chosenDownloadFormat}`;
+
+    // Attempt to parse suggested filename from Content-Disposition header
+    const contentDisposition = response.headers.get("Content-Disposition");
+    if(contentDisposition) {
+      const contentDispositionMatch = /filename=([^;]+);/;
+      if(contentDispositionMatch) {
+        filename = contentDispositionMatch[1];
+      }
+    }
 
     const hiddenElement = document.createElement('a');
     hiddenElement.target = '_blank';
-    hiddenElement.href = `${prefix}${Buffer.from(data).toString("base64")}`;
-    //provide the name for the CSV file to be downloaded
-    hiddenElement.download = `${this.data.type}.${format}`;
+    hiddenElement.href = `data:${contentType};base64,${data}`;
+    hiddenElement.download = filename;
     hiddenElement.click();
 
     this.openModal = false;

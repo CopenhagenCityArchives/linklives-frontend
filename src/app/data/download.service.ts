@@ -17,6 +17,9 @@ export class DownloadService {
 
   sendDownloadRequest(fileType: any, sourceType: string, sourceId?: string, query?: string) {
     const url = `${environment.apiUrl}/${sourceTypeApiMap[sourceType]}/${sourceId}/download.${fileType}`
-    return this.http.post(url, "", { responseType: 'arraybuffer' });
+    return this.http.post(url, "", {
+      observe: "response",
+      responseType: 'arraybuffer',
+    });
   }
 }
