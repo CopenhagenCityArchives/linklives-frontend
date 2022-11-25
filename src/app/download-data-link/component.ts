@@ -17,8 +17,6 @@ interface inputData {
     '(document:keyup.escape)': 'closeOnEsc()'
   }
 })
-
-
 export class DownloadDataLink implements OnInit {
   @Input() featherIconPath: string;
   @Input() cssClass: string;
