@@ -80,33 +80,31 @@ export class DownloadDataLink implements OnInit {
     }
   }
 
-  saveFile(response, format) {
-    const contentType = response.headers.get("Content-Type");
-    const data = Buffer.from(response.body).toString("base64");
-
-    let filename = `${this.data.type}.${this.chosenDownloadFormat}`;
-
-    // Attempt to parse suggested filename from Content-Disposition header
-    const contentDisposition = response.headers.get("Content-Disposition");
-    if(contentDisposition) {
-      const contentDispositionMatch = /filename=([^;]+);/;
-      if(contentDispositionMatch) {
-        filename = contentDispositionMatch[1];
-      }
-    }
-
-    const hiddenElement = document.createElement('a');
-    hiddenElement.target = '_blank';
-    hiddenElement.href = `data:${contentType};base64,${data}`;
-    hiddenElement.download = filename;
-    hiddenElement.click();
-
-    this.openModal = false;
-  }
-
   downloadData() {
     this.downloadService.sendDownloadRequest(this.chosenDownloadFormat, this.data.type, this.data.id, this.data.query)
-      .subscribe(result => this.saveFile(result, this.chosenDownloadFormat));
+      .subscribe(response => {
+        const contentType = response.headers.get("Content-Type");
+        const data = Buffer.from(response.body).toString("base64");
+
+        let filename = `${this.data.type}.${this.chosenDownloadFormat}`;
+
+        // Attempt to parse suggested filename from Content-Disposition header
+        const contentDisposition = response.headers.get("Content-Disposition");
+        if(contentDisposition) {
+          const contentDispositionMatch = /filename=([^;]+);/;
+          if(contentDispositionMatch) {
+            filename = contentDispositionMatch[1];
+          }
+        }
+
+        const hiddenElement = document.createElement('a');
+        hiddenElement.target = '_blank';
+        hiddenElement.href = `data:${contentType};base64,${data}`;
+        hiddenElement.download = filename;
+        hiddenElement.click();
+
+        this.openModal = false;
+      });
   }
 
   async ngOnInit(): Promise<void> {
