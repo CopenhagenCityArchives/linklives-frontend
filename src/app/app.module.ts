@@ -64,7 +64,7 @@ import { DownloadDataLink } from './download-data-link/component';
       domain: 'linklives.eu.auth0.com',
       clientId: environment.auth0ClientId,
       audience: 'https://api.linklives.dk',
-      redirectUri: UserManagementService.baseUrl(),
+      redirectUri: UserManagementService.baseUrl,
       httpInterceptor: {
         allowedList: [
 
