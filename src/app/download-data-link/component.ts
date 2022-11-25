@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { prettyNumbers } from '../util/display-helpers';
 import { UserManagementService } from '../user-management/service';
 import { DownloadService } from '../data/download.service';
+import { Buffer } from 'buffer';
 
 interface inputData {
   type: string,
@@ -17,8 +18,6 @@ interface inputData {
     '(document:keyup.escape)': 'closeOnEsc()'
   }
 })
-
-
 export class DownloadDataLink implements OnInit {
   @Input() featherIconPath: string;
   @Input() cssClass: string;
@@ -33,7 +32,7 @@ export class DownloadDataLink implements OnInit {
   user;
   downloadFormats: Array<object> = [
     {
-      label: "csv",
+      label: "CSV",
       value: "csv",
     },
     {
@@ -53,7 +52,7 @@ export class DownloadDataLink implements OnInit {
       return false;
     }
     if (this.searchQueryFields < this.minimumSearchQueryFields) {
-      return false
+      return false;
     }
     return true;
   }
@@ -81,23 +80,31 @@ export class DownloadDataLink implements OnInit {
     }
   }
 
-  saveFile(data, format) {
-    const formatUrl = {
-      csv: `data:text/csv;charset=utf-8,${encodeURI(data)}`,
-      xlsx: `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8,${encodeURI(data)}`,
-    }
-
-    const hiddenElement = document.createElement('a');
-    hiddenElement.target = '_blank';
-    hiddenElement.href = formatUrl[format];
-    //provide the name for the CSV file to be downloaded
-    hiddenElement.download = `${this.data.id}.${format}`;
-    hiddenElement.click();
-  }
-
   downloadData() {
     this.downloadService.sendDownloadRequest(this.chosenDownloadFormat, this.data.type, this.data.id, this.data.query)
-      .subscribe(results => this.saveFile(results, this.chosenDownloadFormat));
+      .subscribe(response => {
+        const contentType = response.headers.get("Content-Type");
+        const data = Buffer.from(response.body).toString("base64");
+
+        let filename = `${this.data.type}.${this.chosenDownloadFormat}`;
+
+        // Attempt to parse suggested filename from Content-Disposition header
+        const contentDisposition = response.headers.get("Content-Disposition");
+        if(contentDisposition) {
+          const contentDispositionMatch = /filename=([^;]+);/;
+          if(contentDispositionMatch) {
+            filename = contentDispositionMatch[1];
+          }
+        }
+
+        const hiddenElement = document.createElement('a');
+        hiddenElement.target = '_blank';
+        hiddenElement.href = `data:${contentType};base64,${data}`;
+        hiddenElement.download = filename;
+        hiddenElement.click();
+
+        this.openModal = false;
+      });
   }
 
   async ngOnInit(): Promise<void> {
@@ -105,7 +112,7 @@ export class DownloadDataLink implements OnInit {
   }
 
   constructor(
-    public userManagement: UserManagementService,
+    private userManagement: UserManagementService,
     private downloadService: DownloadService,
   ) {}
 }

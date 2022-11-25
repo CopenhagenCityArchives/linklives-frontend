@@ -25,6 +25,7 @@
     "@angular/router": "^14.0.5",
     "@auth0/auth0-angular": "^1.10.0",
     "bootstrap": "^4.4.1",
+    "buffer": "^6.0.3",
     "font-awesome": "^4.7.0",
     "lodash.groupby": "^4.6.0",
     "lodash.isequal": "^4.5.0",
