@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { prettyNumbers } from '../util/display-helpers';
 import { UserManagementService } from '../user-management/service';
 import { DownloadService } from '../data/download.service';
+import { Buffer } from 'buffer';
 
 interface inputData {
   type: string,
@@ -80,22 +81,24 @@ export class DownloadDataLink implements OnInit {
   }
 
   saveFile(data, format) {
-    const formatUrl = {
-      csv: `data:text/csv;charset=utf-8,${encodeURI(data)}`,
-      xlsx: `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=utf-8,${encodeURI(data)}`,
-    }
+    const prefix = {
+      csv: `data:text/csv;base64,`,
+      xlsx: `data:application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;base64,`,
+    }[format];
 
     const hiddenElement = document.createElement('a');
     hiddenElement.target = '_blank';
-    hiddenElement.href = formatUrl[format];
+    hiddenElement.href = `${prefix}${Buffer.from(data).toString("base64")}`;
     //provide the name for the CSV file to be downloaded
-    hiddenElement.download = `${this.data.id}.${format}`;
+    hiddenElement.download = `${this.data.type}.${format}`;
     hiddenElement.click();
+
+    this.openModal = false;
   }
 
   downloadData() {
     this.downloadService.sendDownloadRequest(this.chosenDownloadFormat, this.data.type, this.data.id, this.data.query)
-      .subscribe(results => this.saveFile(results, this.chosenDownloadFormat));
+      .subscribe(result => this.saveFile(result, this.chosenDownloadFormat));
   }
 
   async ngOnInit(): Promise<void> {
