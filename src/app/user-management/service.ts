@@ -36,7 +36,13 @@ export class UserManagementService {
 
   getUser(): Promise<User> {
     return new Promise((resolve, reject) => this.auth.user$.subscribe({
-      next: resolve,
+      next: (user) => {
+        if(!user && localStorage.getItem('lls__isLoggedIn')) {
+          this.handleLogin();
+          return;
+        }
+        resolve(user);
+      },
       error: reject,
     }));
   }
