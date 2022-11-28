@@ -91,7 +91,7 @@ export class DownloadDataLink implements OnInit {
         // Attempt to parse suggested filename from Content-Disposition header
         const contentDisposition = response.headers.get("Content-Disposition");
         if(contentDisposition) {
-          const contentDispositionMatch = /filename=([^;]+);/;
+          const contentDispositionMatch = /filename=([^;]+);/.exec(contentDisposition);
           if(contentDispositionMatch) {
             filename = contentDispositionMatch[1];
           }
