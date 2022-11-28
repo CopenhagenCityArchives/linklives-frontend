@@ -13,7 +13,15 @@
     return;
   }
 
-  const loggedIn = localStorage.getItem("lls__isLoggedIn");
+  let loggedIn = localStorage.getItem("lls__isLoggedIn");
+  if(loggedIn) {
+    // Check expiry
+    const now = (new Date()).toISOString();
+    if(now >= loggedIn) {
+      localStorage.removeItem("lls__isLoggedIn");
+      loggedIn = null;
+    }
+  }
 
   const nav = document.getElementById('menu-dansk-language-switcher');
   const languageMenuItem = document.getElementById('menu-item-74-en');
@@ -31,7 +39,11 @@
 
   window.lls__onLoginChanged = (loggedIn) => {
     if(loggedIn) {
-      localStorage.setItem('lls__isLoggedIn', 'true');
+      const in24Hours = new Date();
+      in24Hours.setHours(in24Hours.getHours() + 24);
+      in24Hours.setMinutes(in24Hours.getMinutes() - 10);
+
+      localStorage.setItem('lls__isLoggedIn', in24Hours.toISOString());
     }
     else {
       localStorage.removeItem('lls__isLoggedIn');

@@ -75,6 +75,9 @@ export class UserManagementService {
     if(onLoginChanged) {
       onLoginChanged(false);
     }
+    else {
+      console.warn("No `onLoginChanged` listener present on `window` while logging out.");
+    }
     this.auth.logout({ returnTo: UserManagementService.baseUrl });
   }
 
