@@ -35,22 +35,19 @@
   font-size: 1rem;
   font-weight: 400;
   text-align: right;
-  white-space: nowrap;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: end;
+  flex-shrink: 0;
+  gap: 1.125rem;
 
   @media(max-width: $breakpointSm) {
     margin-bottom: 1rem;
-    white-space: normal;
   }
 }
 
 .lls-data-page-header__utility-link {
   white-space: nowrap;
   display: inline-block;
-  margin-right: 1.125rem;
-
-  @media(min-width: $breakpointSm) {
-    &:last-child {
-      margin-right: 0;
-    }
-  }
 }
