@@ -1,7 +1,7 @@
 <app-loading-overlay
   [class]="openModal ? '' : 'u-hide'"
 ></app-loading-overlay>
-<ng-container>
+<ng-container *ngIf="user">
   <a
     *ngIf="user"
     tabindex="0"
