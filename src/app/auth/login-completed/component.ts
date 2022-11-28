@@ -38,9 +38,17 @@ export class LoginCompletedComponent implements OnInit {
       return;
     }
 
+    let queryParams;
+    if(query) {
+      queryParams = getObjectFromQueryString(query);
+
+      // Overwrite path with redirect URI if any, remove from query params set
+      path = queryParams.redirect_uri || path;
+      delete queryParams.redirect_uri;
+    }
+
     localStorage.removeItem('onLoginCompleted');
 
-    let queryParams;
     if(!path) {
       console.warn('missing path on onLoginCompleted');
       this.router.navigate(['']);
@@ -57,14 +65,6 @@ export class LoginCompletedComponent implements OnInit {
       return;
     }
 
-    if(!query) {
-      this.router.navigate([path]);
-      return;
-    }
-
-    queryParams = getObjectFromQueryString(query)
-    this.router.navigate([path], {
-      queryParams,
-    });
+    this.router.navigate([path], { queryParams });
   }
 }
