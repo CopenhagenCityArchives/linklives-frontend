@@ -7,7 +7,7 @@ import { Buffer } from 'buffer';
 interface inputData {
   type: string,
   id?: string,
-  query?: string,
+  query?: object,
   estimated_results: number
 }
 
@@ -28,7 +28,6 @@ export class DownloadDataLink implements OnInit {
   openModal: boolean = false;
   sourceDownloadLimit: number = 500;
   minimumSearchQueryFields: number = 2;
-  searchQueryFields: number = 2; // PLACEHOLDER. TODO: Should get from search data.
   user;
   downloadFormats: Array<object> = [
     {
@@ -51,8 +50,10 @@ export class DownloadDataLink implements OnInit {
     if (this.data.estimated_results > this.sourceDownloadLimit) {
       return false;
     }
-    if (this.searchQueryFields < this.minimumSearchQueryFields) {
-      return false;
+    if (this.data.query) {
+      if (this.queryParamLength(this.data.query) < this.minimumSearchQueryFields) {
+        return false;
+      }
     }
     return true;
   }
@@ -71,6 +72,16 @@ export class DownloadDataLink implements OnInit {
       return false;
     }
     return true;
+  }
+
+  queryParamLength(queryParams) {
+    let filteredObj = queryParams
+    Object.keys(filteredObj).forEach(key => {
+      if (!filteredObj[key]) {
+        delete filteredObj[key];
+      }
+    });
+    return Object.keys(filteredObj).length;
   }
 
   closeOnEsc() {
