@@ -15,7 +15,7 @@ const sourceTypeApiMap = {
 export class DownloadService {
   constructor(private http: HttpClient) {}
 
-  sendDownloadRequest(fileType: any, sourceType: string, sourceId?: string, query?: string) {
+  sendDownloadRequest(fileType: any, sourceType: string, sourceId?: string, query?: object) {
     const url = `${environment.apiUrl}/${sourceTypeApiMap[sourceType]}/${sourceId}/download.${fileType}`
     return this.http.post(url, "", {
       observe: "response",
