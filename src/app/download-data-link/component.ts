@@ -75,13 +75,7 @@ export class DownloadDataLink implements OnInit {
   }
 
   queryParamLength(queryParams) {
-    let filteredObj = queryParams
-    Object.keys(filteredObj).forEach(key => {
-      if (!filteredObj[key]) {
-        delete filteredObj[key];
-      }
-    });
-    return Object.keys(filteredObj).length;
+    return Object.values(queryParams).filter((val) => val).length;
   }
 
   closeOnEsc() {
