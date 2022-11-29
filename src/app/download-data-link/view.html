@@ -86,6 +86,9 @@
           Begræns dit søgeresultat ved at opsætte minumum {{ prettyNumbers(minimumSearchQueryFields) }} kriterier og bemærk at hvis dit
           søgeresultat er større end {{ prettyNumbers(sourceDownloadLimit) }} resultater hentes kun de første {{ prettyNumbers(sourceDownloadLimit) }}.
         </p>
+        <p>
+          Din nuværende søgning har <span *ngIf="data.query">{{ queryParamLength(data.query) }} kriterie(r) og der er</span> {{ prettyNumbers(data.estimated_results) }} resultater.
+        </p>
       </ng-template>
     </div>
   </app-modal>
