@@ -325,6 +325,49 @@ export class DataService {
 
   loading = new EventEmitter<boolean>();
 
+  buildEsQuery(
+    query: AdvancedSearchQuery,
+    indices: string[],
+    from: number,
+    size: number,
+    sortBy: string,
+    sortOrder: string,
+    sourceFilter: FilterIdentifier[],
+    mode: string = "default",
+    excludeDubiousLinks: boolean = false,
+    excludeUndoubtedLinks: boolean = false,
+  ) {
+    if(indices.length < 1) {
+      indices = ["pas", "lifecourses"];
+    }
+
+    const sort = this.createSortClause(sortBy, sortOrder);
+
+    const { resultLookupQuery } = this.createQueries(query, sourceFilter, mode, excludeDubiousLinks, excludeUndoubtedLinks);
+
+    return {
+      from,
+      size,
+      indices_boost: [
+        { 'lifecourses': 1.05 },
+      ],
+      query: resultLookupQuery,
+      post_filter: {
+        terms: {
+          _index: indices
+        }
+      },
+      aggs: {
+        count: {
+          terms: {
+            field: "_index"
+          }
+        },
+      },
+      sort,
+    };
+  }
+
   search(indices: string[], body: any, filterBody?: any): Observable<SearchResult> {
     const loadingEmitter = this.loading;
     loadingEmitter.emit(true);
