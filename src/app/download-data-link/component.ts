@@ -1,13 +1,13 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { prettyNumbers } from '../util/display-helpers';
 import { UserManagementService } from '../user-management/service';
-import { DownloadService } from '../data/download.service';
+import { DownloadService, SearchQuery } from '../data/download.service';
 import { Buffer } from 'buffer';
 
-interface inputData {
+interface InputData {
   type: string,
   id?: string,
-  query?: object,
+  query?: SearchQuery,
   estimated_results: number
 }
 
@@ -21,7 +21,7 @@ interface inputData {
 export class DownloadDataLink implements OnInit {
   @Input() featherIconPath: string;
   @Input() cssClass: string;
-  @Input() data: inputData;
+  @Input() data: InputData;
 
   prettyNumbers = prettyNumbers;
 
@@ -75,7 +75,17 @@ export class DownloadDataLink implements OnInit {
   }
 
   queryParamLength(queryParams) {
-    return Object.values(queryParams).filter((val) => val).length;
+    return Object.values(queryParams)
+      .map((val) => {
+        if(val && Array.isArray(val)) {
+          return val.length;
+        }
+        if(val) {
+          return 1;
+        }
+        return 0;
+      })
+      .reduce((a, b) => a + b, 0);
   }
 
   closeOnEsc() {
