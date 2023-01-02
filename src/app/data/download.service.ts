@@ -39,7 +39,7 @@ export class DownloadService {
         query.excludeDubiousLinks,
         query.excludeUndoubtedLinks,
       );
-      return this.http.post(`${environment.apiUrl}/${sourceTypeApiMap[sourceType]}/${query.indexKeys.join(",")}/download.${fileType}`, queryBody, {
+      return this.http.post(`${environment.apiUrl}/search/${query.indexKeys.join(",")}/download.${fileType}`, queryBody, {
         observe: "response",
         responseType: 'arraybuffer',
       });
