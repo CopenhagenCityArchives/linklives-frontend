@@ -107,7 +107,7 @@ export class SearchResultListComponent implements OnInit {
       ...this.searchQueryParams,
       index: this.computedIndex,
       sortBy: this.sortBy,
-      sortOrder: sortOrder,
+      sortOrder,
       sourceFilter: this.sourceFilter.join(",") || undefined,
     };
   }
@@ -178,13 +178,18 @@ export class SearchResultListComponent implements OnInit {
       }
     });
 
+    let sortOrder = this.sortAscending ? "asc" : "desc";
+    if(this.sortBy === "relevance") {
+      sortOrder = this.sortAscending ? "desc" : "asc";
+    }
+
     return {
       sourceFilter: this.sourceFilter,
       indexKeys: this.indexKeys,
       excludeDubiousLinks: !this.includeDubiousLinks,
       excludeUndoubtedLinks: !this.includeUndoubtedLinks,
       sortBy: this.sortBy,
-      sortOrder: this.sortAscending ? "asc" : "desc",
+      sortOrder,
       query: actualSearchTerms,
       mode: this.modeFuzzy ? "fussy" : "default",
     };
