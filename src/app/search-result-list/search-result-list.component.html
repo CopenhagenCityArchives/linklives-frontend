@@ -3,7 +3,7 @@
         <div class="lls-results-header__link-section">
             <lls-download-link
                 [featherIconPath]="config.featherIconPath"
-                [data]='{ type: "search_data", query: searchQueryParams, estimated_results: searchResult.indexHits.pas + searchResult.indexHits.lifeCourses }'
+                [data]='{ type: "search_data", query: searchQueryForDownload, estimated_results: searchResult.totalHits }'
                 cssClass="lls-btn lls-btn--outline lls-btn--outline-thin lls-btn--white u-mr-4"
             ></lls-download-link>
             <a

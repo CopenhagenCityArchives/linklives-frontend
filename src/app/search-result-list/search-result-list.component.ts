@@ -4,9 +4,10 @@ import { AdvancedSearchQuery, SearchResult } from '../data/data.service';
 import { sortByOptions, searchFieldPlaceholders, searchFieldLabels, possibleSearchQueryParams, getFieldOptions, genderOptions } from 'src/app/search-term-values';
 import { eventIcon, filterTitle } from '../util/display-helpers';
 import { EventType } from '../data/data.service';
+import { SearchQuery } from '../data/download.service';
 
 //TODO: commented out some things- good or bad?
-interface SearchQueryParams {
+export interface SearchQueryParams {
   query?: string,
   firstName?: string,
   lastName?: string,
@@ -106,7 +107,7 @@ export class SearchResultListComponent implements OnInit {
       ...this.searchQueryParams,
       index: this.computedIndex,
       sortBy: this.sortBy,
-      sortOrder: sortOrder,
+      sortOrder,
       sourceFilter: this.sourceFilter.join(",") || undefined,
     };
   }
@@ -164,6 +165,34 @@ export class SearchResultListComponent implements OnInit {
     const prettyLast = this.prettyPaginationNumber(lastResult);
 
     return `Viser ${prettyFirst}&ndash;${prettyLast} af ${countText}`;
+  }
+
+  get searchQueryForDownload(): SearchQuery {
+    const actualSearchTerms: AdvancedSearchQuery = {};
+
+    Object.keys(this.searchQueryParams).forEach((param) => {
+      const value = this.searchQueryParams[param];
+
+      if(value) {
+        actualSearchTerms[param] = value;
+      }
+    });
+
+    let sortOrder = this.sortAscending ? "asc" : "desc";
+    if(this.sortBy === "relevance") {
+      sortOrder = this.sortAscending ? "desc" : "asc";
+    }
+
+    return {
+      sourceFilter: this.sourceFilter,
+      indexKeys: this.indexKeys,
+      excludeDubiousLinks: !this.includeDubiousLinks,
+      excludeUndoubtedLinks: !this.includeUndoubtedLinks,
+      sortBy: this.sortBy,
+      sortOrder,
+      query: actualSearchTerms,
+      mode: this.modeFuzzy ? "fussy" : "default",
+    };
   }
 
   prettyPaginationNumber(num: number) {
