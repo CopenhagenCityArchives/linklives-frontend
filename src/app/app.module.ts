@@ -80,6 +80,9 @@ import { DownloadDataLink } from './download-data-link/component';
             "/user/ratings/lifecourses",
             "/manage/User/*",
             "/manage/User",
+            "/search/*",
+            "/PersonAppearance/*",
+            "/LifeCourse/*",
           ].map((path) => {
             return {
               uri: `${environment.apiUrl}${path}`,
