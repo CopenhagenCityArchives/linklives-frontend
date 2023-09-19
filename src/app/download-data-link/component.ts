@@ -42,6 +42,7 @@ export class DownloadDataLink implements OnInit {
   chosenDownloadFormat: string = "";
   consent1: boolean = false;
   consent2: boolean = false;
+  consent3: boolean = false;
 
   get compliantDownloadData() {
     if (!this.user) {
@@ -69,6 +70,9 @@ export class DownloadDataLink implements OnInit {
       return false;
     }
     if (!this.consent2) {
+      return false;
+    }
+    if (!this.consent3) {
       return false;
     }
     return true;
