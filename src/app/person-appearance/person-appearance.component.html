@@ -49,7 +49,7 @@
             <a href routerLink="source-data" [routerLinkActive]="'lls-tabs__item--active'" class="lls-tabs__item">
                 <span class="lls-tabs__item-text">Personregistrering</span>
             </a>
-            <a href routerLink="related-people" [routerLinkActive]="'lls-tabs__item--active'" class="lls-tabs__item" *ngIf="this.hh">
+            <a href routerLink="related-people" [routerLinkActive]="'lls-tabs__item--active'" class="lls-tabs__item" *ngIf="this.hh?.length">
                 <span class="lls-tabs__item-text">{{ relatedPersonsTitle }}</span>
             </a>
         </div>

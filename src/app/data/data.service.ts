@@ -188,6 +188,11 @@ export interface PersonAppearance {
   },
 }
 
+export interface PersonAppearanceResponse {
+  personAppearance: PersonAppearance,
+  relatedPersonAppearances: PersonAppearance[],
+}
+
 export interface Lifecourse {
   key: string, // actual identifier
   life_course_id: number,
@@ -880,13 +885,13 @@ export class DataService {
     );
   }
 
-  getPersonAppearance(id: string|number): Observable<PersonAppearance> {
+  getPersonAppearance(id: string|number): Observable<PersonAppearanceResponse> {
     return new Observable(
       observer => {
-        this.http.get<PersonAppearance>(`${environment.apiUrl}/PersonAppearance/${id}`)
+        this.http.get<PersonAppearanceResponse>(`${environment.apiUrl}/PersonAppearance/v2/${id}`)
         .subscribe(next => {
             try {
-              observer.next(next as PersonAppearance);
+              observer.next(next as PersonAppearanceResponse);
             } catch (error) {
               observer.error(error);
             }

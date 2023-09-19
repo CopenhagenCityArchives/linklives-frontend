@@ -20,49 +20,19 @@ export class PersonAppearanceResolverService implements Resolve<PersonAppearance
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<PersonAppearanceResolverResult> {
     return this.elasticsearch.getPersonAppearance(route.params.id)
-    .pipe(map(pa => pa as PersonAppearance))
-    .pipe(
-      mergeMap((pa, index) => {
-        addSearchHistoryEntry({
-          type: SearchHistoryEntryType.Census,
-          personAppearance: pa,
-        });
+    .pipe(map((result) => {
+      const pa = result.personAppearance as PersonAppearance;
 
-        if(!pa.pa_grouping_id_wp4) {
-          return new Observable<PersonAppearanceResolverResult>(observer => {
-            observer.next({
-              pa,
-              hh: null
-            });
-            observer.complete();
-          });
-        }
+      addSearchHistoryEntry({
+        type: SearchHistoryEntryType.Census,
+        personAppearance: pa,
+      });
 
-        const matchList: Object[] = [
-          { "match": { "source_id": pa.source_id } },
-          { "match": { "pa_grouping_id_wp4": pa.pa_grouping_id_wp4 } },
-        ];
-
-        let body = {
-          "from": 0,
-          "size": 100,
-          "query": {
-            "bool" : {
-              "must": matchList,
-            },
-          },
-        };
-
-        return this.elasticsearch.search(['pas'], body).pipe(
-          map((searchResult, index) => {
-            return {
-              pa,
-              hh: (searchResult.hits as PersonAppearanceHit[]).map(paHit => paHit.pa)
-            };
-          })
-        );
-      })
-    );
+      return {
+        pa: pa,
+        hh: result.relatedPersonAppearances as PersonAppearance[],
+      };
+    }));
   }
   
 }
