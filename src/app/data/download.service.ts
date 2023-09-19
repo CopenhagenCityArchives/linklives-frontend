@@ -4,7 +4,7 @@ import { environment } from "src/environments/environment";
 import { AdvancedSearchQuery, DataService, FilterIdentifier } from "./data.service";
 
 const sourceTypeApiMap = {
-  person_appearance: "PersonAppearance",
+  person_appearance: "PersonAppearance/v2",
   life_course: "LifeCourse",
 }
 
