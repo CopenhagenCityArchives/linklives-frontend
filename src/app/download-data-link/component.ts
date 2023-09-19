@@ -26,7 +26,7 @@ export class DownloadDataLink implements OnInit {
   prettyNumbers = prettyNumbers;
 
   openModal: boolean = false;
-  sourceDownloadLimit: number = 500;
+  sourceDownloadLimit: number = 1000;
   minimumSearchQueryFields: number = 2;
   user;
   downloadFormats: Array<object> = [
