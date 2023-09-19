@@ -44,8 +44,8 @@ export class SourceDataComponent implements OnInit {
     return i < list.length / 2 ? 'data-section__row--column-1' : 'data-section__row--column-2';
   }
 
-  notBurialProtocol() {
-    return this.pa.standard.event_type !== "burial_protocol";
+  isBurialProtocol() {
+    return this.pa.standard.event_type === "burial_protocol";
   }
 
   ngOnInit(): void {

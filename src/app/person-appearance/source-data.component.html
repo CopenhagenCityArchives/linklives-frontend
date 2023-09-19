@@ -6,7 +6,7 @@
     ></app-person-appearance-item>
 </section>
 <div class="lls-card lls-card--source-data">
-    <div class="data-section" *ngIf="notBurialProtocol()">
+    <div class="data-section" *ngIf="!isBurialProtocol()">
         <h2 class="data-section__header">
             Original indtastning
         </h2>
@@ -24,7 +24,7 @@
 
     <div
         class="lls-card__actions"
-        [class]="!notBurialProtocol() && 'lls-card__actions--first-element'"
+        [class]="isBurialProtocol() && 'lls-card__actions--first-element'"
     >
         <a
             class="lls-btn"
@@ -35,12 +35,7 @@
             rel="noopener"
         >
             <span>
-                <ng-container *ngIf="notBurialProtocol(); else burialProtocolText">
-                    Se original kilde
-                </ng-container>
-                <ng-template #burialProtocolText>
-                    Kilde og fulde data
-                </ng-template>
+                {{ isBurialProtocol() ? "Kilde og fulde data" : "Se original kilde" }}
             </span>
             <svg class="lls-icon lls-icon--right">
                 <use [attr.href]="featherSpriteUrl + '#arrow-right'"></use>
