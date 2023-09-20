@@ -48,9 +48,6 @@ export class DownloadDataLink implements OnInit {
     if (!this.user) {
       return false;
     }
-    if (this.data.estimated_results > this.sourceDownloadLimit) {
-      return false;
-    }
     if (this.data.query) {
       if (this.queryParamLength(this.data.query) < this.minimumSearchQueryFields) {
         return false;
