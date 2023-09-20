@@ -84,6 +84,20 @@ import { UserManagementService } from './user-management/service';
               tokenOptions: { audience: 'https://api.linklives.dk' },
             };
           }),
+
+          // Download links are POST methods, so match on that here
+          // This avoids matching GET endpoints for getting info on the items
+          ...[
+            "/search/*",
+            "/PersonAppearance/*",
+            "/LifeCourse/*",
+          ].map((path) => {
+            return {
+              uri: `${environment.apiUrl}${path}`,
+              tokenOptions: { audience: 'https://api.linklives.dk' },
+              httpMethod: 'post',
+            };
+          }),
         ]
       }
     }),
