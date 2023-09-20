@@ -25,13 +25,13 @@ export interface SearchQuery {
 export class DownloadService {
   constructor(private http: HttpClient, private dataService: DataService) {}
 
-  sendDownloadRequest(fileType: any, sourceType: string, sourceId?: string, query?: SearchQuery) {
+  sendDownloadRequest(fileType: any, sourceType: string, sourceId?: string, query?: SearchQuery, sourceDownloadLimit?: number) {
     if(sourceType == "search_data") {
       const queryBody = this.dataService.buildEsQuery(
         query.query,
         query.indexKeys,
         0,
-        500,
+        sourceDownloadLimit,
         query.sortBy,
         query.sortOrder,
         query.sourceFilter,

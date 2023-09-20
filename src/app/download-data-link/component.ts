@@ -97,7 +97,7 @@ export class DownloadDataLink implements OnInit {
   }
 
   downloadData() {
-    this.downloadService.sendDownloadRequest(this.chosenDownloadFormat, this.data.type, this.data.id, this.data.query)
+    this.downloadService.sendDownloadRequest(this.chosenDownloadFormat, this.data.type, this.data.id, this.data.query, this.sourceDownloadLimit)
       .subscribe(response => {
         const contentType = response.headers.get("Content-Type");
         const data = Buffer.from(response.body).toString("base64");
