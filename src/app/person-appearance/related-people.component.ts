@@ -16,7 +16,7 @@ export class RelatedPeopleComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.parent.data.subscribe((resolve) => {
-      if(!resolve.item.hh) {
+      if(!resolve.item.hh || !resolve.item.hh.length) {
         this.router.navigate([ "pa", resolve.item.pa.key, "source-data" ]);
         return;
       }
