@@ -76,17 +76,14 @@ export class DownloadDataLink implements OnInit {
   }
 
   queryParamLength(queryParams) {
-    return Object.values(queryParams)
-      .map((val) => {
-        if(val && Array.isArray(val)) {
-          return val.length;
-        }
-        if(val) {
-          return 1;
-        }
-        return 0;
-      })
-      .reduce((a, b) => a + b, 0);
+    let downloadCriteriaCount = 0;
+    if(queryParams.query) {
+      downloadCriteriaCount += Object.keys(queryParams.query).length;
+    }
+    if(queryParams.sourceFilter) {
+      downloadCriteriaCount += queryParams.sourceFilter.length;
+    }
+    return downloadCriteriaCount;
   }
 
   closeOnEsc() {
