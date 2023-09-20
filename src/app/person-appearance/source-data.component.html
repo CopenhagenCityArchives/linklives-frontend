@@ -24,7 +24,7 @@
 
     <div
         class="lls-card__actions"
-        [class]="isBurialProtocol() && 'lls-card__actions--first-element'"
+        [class]="isBurialProtocol() ? 'lls-card__actions--first-element' : ''"
     >
         <a
             class="lls-btn"
