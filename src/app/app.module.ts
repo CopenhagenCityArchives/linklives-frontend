@@ -80,6 +80,16 @@ import { DownloadDataLink } from './download-data-link/component';
             "/user/ratings/lifecourses",
             "/manage/User/*",
             "/manage/User",
+          ].map((path) => {
+            return {
+              uri: `${environment.apiUrl}${path}`,
+              tokenOptions: { audience: 'https://api.linklives.dk' },
+            };
+          }),
+
+          // Download links are POST methods, so match on that here
+          // This avoids matching GET endpoints for getting info on the items
+          ...[
             "/search/*",
             "/PersonAppearance/*",
             "/LifeCourse/*",
@@ -87,6 +97,7 @@ import { DownloadDataLink } from './download-data-link/component';
             return {
               uri: `${environment.apiUrl}${path}`,
               tokenOptions: { audience: 'https://api.linklives.dk' },
+              httpMethod: 'post',
             };
           }),
         ]
