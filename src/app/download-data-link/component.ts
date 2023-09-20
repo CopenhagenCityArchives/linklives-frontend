@@ -48,9 +48,6 @@ export class DownloadDataLink implements OnInit {
     if (!this.user) {
       return false;
     }
-    if (this.data.estimated_results > this.sourceDownloadLimit) {
-      return false;
-    }
     if (this.data.query) {
       if (this.queryParamLength(this.data.query) < this.minimumSearchQueryFields) {
         return false;
@@ -100,7 +97,7 @@ export class DownloadDataLink implements OnInit {
   }
 
   downloadData() {
-    this.downloadService.sendDownloadRequest(this.chosenDownloadFormat, this.data.type, this.data.id, this.data.query)
+    this.downloadService.sendDownloadRequest(this.chosenDownloadFormat, this.data.type, this.data.id, this.data.query, this.sourceDownloadLimit)
       .subscribe(response => {
         const contentType = response.headers.get("Content-Type");
         const data = Buffer.from(response.body).toString("base64");
