@@ -27,7 +27,7 @@ export class DownloadDataLink implements OnInit {
 
   openModal: boolean = false;
   sourceDownloadLimit: number = 1000;
-  minimumSearchQueryFields: number = 2;
+  minimumSearchFields: number = 2;
   user;
   downloadFormats: Array<object> = [
     {
@@ -49,7 +49,7 @@ export class DownloadDataLink implements OnInit {
       return false;
     }
     if (this.data.query) {
-      if (this.queryParamLength(this.data.query) < this.minimumSearchQueryFields) {
+      if (this.searchFieldsLength(this.data.query) < this.minimumSearchFields) {
         return false;
       }
     }
@@ -75,15 +75,16 @@ export class DownloadDataLink implements OnInit {
     return true;
   }
 
-  queryParamLength(queryParams) {
-    let downloadCriteriaCount = 0;
+  searchFieldsLength(queryParams) {
+    // Search fields that counts are the search queries and Source Filters
+    let searchFieldsCount = 0;
     if(queryParams.query) {
-      downloadCriteriaCount += Object.keys(queryParams.query).length;
+      searchFieldsCount += Object.keys(queryParams.query).length;
     }
     if(queryParams.sourceFilter) {
-      downloadCriteriaCount += queryParams.sourceFilter.length;
+      searchFieldsCount += queryParams.sourceFilter.length;
     }
-    return downloadCriteriaCount;
+    return searchFieldsCount;
   }
 
   closeOnEsc() {

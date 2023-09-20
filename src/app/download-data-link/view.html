@@ -93,11 +93,11 @@
         </p>
         <p>
           Den datamængder du forsøger at downloade overskrider kriterierne for download.
-          Begræns dit søgeresultat ved at opsætte minumum {{ prettyNumbers(minimumSearchQueryFields) }} kriterier og bemærk at hvis dit
+          Begræns dit søgeresultat ved at opsætte minumum {{ prettyNumbers(minimumSearchFields) }} kriterier og bemærk at hvis dit
           søgeresultat er større end {{ prettyNumbers(sourceDownloadLimit) }} resultater hentes kun de første {{ prettyNumbers(sourceDownloadLimit) }}.
         </p>
         <p>
-          Din nuværende søgning har <span *ngIf="data.query">{{ queryParamLength(data.query) }} kriterie(r) og der er</span> {{ prettyNumbers(data.estimated_results) }} resultater.
+          Din nuværende søgning har <span *ngIf="data.query">{{ searchFieldsLength(data.query) }} kriterie(r) og der er</span> {{ prettyNumbers(data.estimated_results) }} resultater.
         </p>
       </ng-template>
     </div>
