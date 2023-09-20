@@ -97,7 +97,7 @@ import { DownloadDataLink } from './download-data-link/component';
             return {
               uri: `${environment.apiUrl}${path}`,
               tokenOptions: { audience: 'https://api.linklives.dk' },
-              httpMethod: 'post',
+              httpMethod: 'POST',
             };
           }),
         ]
