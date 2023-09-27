@@ -15,6 +15,10 @@
   flex-direction: column;
 }
 
+.lls-loading-overlay--layer-2 {
+  z-index: 990;
+}
+
 .lls-loading-overlay__spinner-container {
   display: inline-block;
   position: relative;
