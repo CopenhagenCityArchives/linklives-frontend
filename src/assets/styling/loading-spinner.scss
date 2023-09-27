@@ -9,10 +9,14 @@
   padding: 20px 40px;
   background-color: white;
   color: $off-black;
-  z-index: 500;
+  z-index: 490;
   justify-content: center;
   border-radius: 2px;
   flex-direction: column;
+}
+
+.lls-loading-overlay--layer-2 {
+  z-index: 990;
 }
 
 .lls-loading-overlay__spinner-container {

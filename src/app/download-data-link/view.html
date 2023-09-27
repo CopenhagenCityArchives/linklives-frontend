@@ -1,6 +1,6 @@
-<app-loading-overlay
-  [class]="openModal ? '' : 'u-hide'"
-></app-loading-overlay>
+<div
+  [class]="openModal ? 'lls-overlay' : 'u-hide'"
+></div>
 <ng-container>
   <a
     *ngIf="user"
