@@ -91,12 +91,14 @@ export class SearchResultListComponent implements OnInit {
     return Object.keys(this.indices);
   }
 
-  get computedIndex() {
-    return this.indexKeys
-      .filter((key) => this.indices[key].value)
-      .join(",") || null;
+  get activeIndexKeys() {
+    return this.indexKeys.filter((key) => this.indices[key].value);
   }
-  
+
+  get computedIndex() {
+    return this.activeIndexKeys.join(",") || null;
+  }
+
   get queryParams() {
     let sortOrder = this.sortAscending ? "asc" : "desc";
     if(this.sortBy === "relevance") {
@@ -185,7 +187,7 @@ export class SearchResultListComponent implements OnInit {
 
     return {
       sourceFilter: this.sourceFilter,
-      indexKeys: this.indexKeys,
+      indexKeys: this.activeIndexKeys,
       excludeDubiousLinks: !this.includeDubiousLinks,
       excludeUndoubtedLinks: !this.includeUndoubtedLinks,
       sortBy: this.sortBy,
