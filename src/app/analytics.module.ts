@@ -18,9 +18,11 @@ export class AnalyticsModule {
           // so we need to guard it and make sure it exists before we send off
           // a pageview to Google Analytics
           const gtag = (window as WindowWithGoogleAnalytics).gtag;
+          console.debug("page event", gtag, `${location.pathname}${location.search}${location.hash}`);
           if(gtag) {
-            gtag('set', { page: `${location.pathname}${location.search}${location.hash}` });
-            gtag('event', 'page_view');
+            gtag('event', 'page_view', {
+              page_location: `${location.pathname}${location.search}${location.hash}`
+            });
           }
         },
       });
