@@ -29,6 +29,7 @@ import { ModalComponent } from './modal/component';
 import { environment } from 'src/environments/environment';
 import { AnalyticsModule } from './analytics.module';
 import { UserManagementService } from './user-management/service';
+import { DownloadDataLink } from './download-data-link/component';
 
 @NgModule({
   declarations: [
@@ -48,6 +49,7 @@ import { UserManagementService } from './user-management/service';
     FilterSidebar,
     UserProfilePage,
     ModalComponent,
+    DownloadDataLink,
   ],
   imports: [
     BrowserModule,
@@ -62,7 +64,7 @@ import { UserManagementService } from './user-management/service';
       domain: 'linklives.eu.auth0.com',
       clientId: environment.auth0ClientId,
       audience: 'https://api.linklives.dk',
-      redirectUri: UserManagementService.baseUrl(),
+      redirectUri: UserManagementService.baseUrl,
       httpInterceptor: {
         allowedList: [
 
@@ -82,6 +84,20 @@ import { UserManagementService } from './user-management/service';
             return {
               uri: `${environment.apiUrl}${path}`,
               tokenOptions: { audience: 'https://api.linklives.dk' },
+            };
+          }),
+
+          // Download links are POST methods, so match on that here
+          // This avoids matching GET endpoints for getting info on the items
+          ...[
+            "/search/*",
+            "/PersonAppearance/*",
+            "/LifeCourse/*",
+          ].map((path) => {
+            return {
+              uri: `${environment.apiUrl}${path}`,
+              tokenOptions: { audience: 'https://api.linklives.dk' },
+              httpMethod: 'POST',
             };
           }),
         ]

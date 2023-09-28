@@ -5,9 +5,8 @@
         [selected]="true"
     ></app-person-appearance-item>
 </section>
-
 <div class="lls-card lls-card--source-data">
-    <div class="data-section">
+    <div class="data-section" *ngIf="!isBurialProtocol()">
         <h2 class="data-section__header">
             Original indtastning
         </h2>
@@ -23,7 +22,10 @@
         </table>
     </div>
 
-    <div class="lls-card__actions">
+    <div
+        class="lls-card__actions"
+        [class]="isBurialProtocol() ? 'lls-card__actions--first-element' : ''"
+    >
         <a
             class="lls-btn"
             [class]="pa.pa_entry_permalink_wp4 ? '' : 'lls-btn--disabled'"
@@ -32,7 +34,9 @@
             target="_blank"
             rel="noopener"
         >
-            <span>Se original kilde</span>
+            <span>
+                {{ isBurialProtocol() ? "Kilde og fulde data" : "Se original kilde" }}
+            </span>
             <svg class="lls-icon lls-icon--right">
                 <use [attr.href]="featherSpriteUrl + '#arrow-right'"></use>
             </svg>

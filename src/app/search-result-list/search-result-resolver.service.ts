@@ -16,12 +16,12 @@ export class SearchResultResolverService implements Resolve<SearchResult> {
   ) : Observable<SearchResult> | Observable<never> {
 
     let page: number = Number(route.queryParamMap.get('pg'))
-    if (page < 1 || page == NaN) {
+    if (page < 1 || Number.isNaN(page)) {
       page = 1;
     }
 
     let size: number = Number(route.queryParamMap.get('size'));
-    if (size < 1 || page == NaN) {
+    if (size < 1 || Number.isNaN(page)) {
       size = 10;
     }
 

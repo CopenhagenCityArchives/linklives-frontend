@@ -1,10 +1,15 @@
 <section class="lls-results-header">
     <div class="lls-container">
         <div class="lls-results-header__link-section">
+            <lls-download-link
+                [featherIconPath]="config.featherIconPath"
+                [data]='{ type: "search_data", query: searchQueryForDownload, estimated_results: searchResult.totalHits }'
+                cssClass="lls-btn lls-btn--outline lls-btn--outline-thin lls-btn--white u-mr-4"
+            ></lls-download-link>
             <a
                 (click)="openSearchHistory = true"
                 (keyup.enter)="openSearchHistory = true"
-                class="lls-results-header__link lls-results-header__history-link"
+                class="lls-btn lls-btn--outline lls-btn--outline-thin lls-btn--white"
                 tabindex="0"
             >
                 Min søgehistorik
@@ -284,7 +289,7 @@
                     <use [attr.href]="featherSpriteUrl + '#chevron-left'"></use>
                 </svg>
             </a>
-            
+
             <a class="lls-pagination__item"
                 *ngFor="let page of pagination.navigationPages"
                 [ngClass]="{ 'lls-pagination__item--selected': pagination.current === page }"
